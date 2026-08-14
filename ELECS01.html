@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam — High-Density Visual Reviewer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155',
+                            accent: '#06b6d4',
+                            magenta: '#ec4899',
+                            amber: '#f59e0b',
+                            red: '#ef4444',
+                            green: '#10b981',
+                            purple: '#8b5cf6'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax CDN for LaTeX rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="mathjax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom scrollbar for high-density view */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        .formula-card { background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(30,41,59,0.9) 100%); }
+        .badge-must { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .badge-yield { background-color: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge-important { background-color: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .badge-concept { background-color: rgba(139, 92, 246, 0.2); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.4); }
+        .badge-trap { background-color: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.4); }
+        
+        .tag-notes { color: #38bdf8; font-weight: 600; font-size: 0.75rem; }
+        .tag-clarification { color: #a78bfa; font-weight: 600; font-size: 0.75rem; }
+        .tag-supplemental { color: #4ade80; font-weight: 600; font-size: 0.75rem; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Top Command Center Header -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 px-4 py-2 flex flex-wrap items-center justify-between gap-2 shadow-xl">
+        <div class="flex items-center gap-3">
+            <div class="bg-cyan-500/10 p-2 rounded border border-cyan-500/30 text-cyan-400">
+                <i class="fa-solid fa-microchip text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg text-slate-100 tracking-wide flex items-center gap-2">
+                    ECE BOARD EXAM <span class="bg-cyan-500 text-slate-950 text-xs px-2 py-0.5 rounded font-mono font-black">COMMAND CENTER</span>
+                </h1>
+                <p class="text-xs text-slate-400 font-mono">Dense Visual Reviewer & Formula Sheet • Circuits & Electronics</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs font-mono overflow-x-auto max-w-full">
+            <button onclick="switchTab('page1')" id="btn-page1" class="tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 bg-cyan-500 text-slate-950 font-bold">
+                <i class="fa-solid fa-border-all"></i> P1: Overview
+            </button>
+            <button onclick="switchTab('page2')" id="btn-page2" class="tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-diagram-project"></i> P2: Network Theorems
+            </button>
+            <button onclick="switchTab('page3')" id="btn-page3" class="tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-bolt"></i> P3: Transients & Instruments
+            </button>
+            <button onclick="switchTab('page4')" id="btn-page4" class="tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-wave-square"></i> P4: AC & Resonance
+            </button>
+            <button onclick="switchTab('page5')" id="btn-page5" class="tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> P5: Traps & Formula Bank
+            </button>
+        </nav>
+
+        <!-- Quick Filter / Legend -->
+        <div class="hidden lg:flex items-center gap-2 text-[10px] font-mono">
+            <span class="badge-must px-1.5 py-0.5 rounded">🔴 MUST</span>
+            <span class="badge-yield px-1.5 py-0.5 rounded">🟠 HIGH-YIELD</span>
+            <span class="badge-important px-1.5 py-0.5 rounded">🟡 IMPORTANT</span>
+            <span class="badge-concept px-1.5 py-0.5 rounded">🔵 CONCEPT</span>
+            <span class="badge-trap px-1.5 py-0.5 rounded">⚠️ TRAP</span>
+        </div>
+    </header>
+
+    <!-- Source Legend & Alert Bar -->
+    <div class="bg-slate-900/80 border-b border-slate-800/80 px-4 py-1.5 text-xs flex flex-wrap justify-between items-center gap-2 font-mono text-slate-400">
+        <div class="flex items-center gap-4">
+            <span><strong class="tag-notes">[NOTES]</strong> = Direct PDF Extract</span>
+            <span><strong class="tag-clarification">[CLARIFICATION]</strong> = Board Exam Explanation</span>
+            <span><strong class="tag-supplemental">[SUPPLEMENTAL]</strong> = Key Formula Extension</span>
+        </div>
+        <div class="text-amber-400/90 text-[11px] flex items-center gap-1">
+            <i class="fa-solid fa-shield-halved"></i> Calibrated against PEC, DC/AC Circuit Laws & Instrument Standards
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="flex-1 p-3 lg:p-4 max-w-[1920px] mx-auto w-full">
+
+        <!-- ========================================== -->
+        <!-- PAGE 1: MASTER OVERVIEW & TOPIC MAP -->
+        <!-- ========================================== -->
+        <div id="page1" class="tab-content space-y-4">
+            
+            <!-- Hero Grid Map -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 hover:border-cyan-500/50 transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xs font-mono text-cyan-400 font-bold">MODULE 01</span>
+                        <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">MUST MEMORIZE</span>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">DC Circuits & PEC Safety</h3>
+                    <p class="text-xs text-slate-400 mt-1">Ohm's law, PEC resistance standard ($1\text{ M}\Omega$ vs $1.5\text{ k}\Omega$), current interrupters, power formulas.</p>
+                </div>
+
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 hover:border-purple-500/50 transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xs font-mono text-purple-400 font-bold">MODULE 02</span>
+                        <span class="badge-yield text-[10px] px-1.5 py-0.5 rounded">HIGH YIELD</span>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">Network Theorems</h3>
+                    <p class="text-xs text-slate-400 mt-1">Thevenin, Norton, Max Power Transfer, Millman, Superposition, Reciprocity, Compensation, Tellegen.</p>
+                </div>
+
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 hover:border-emerald-500/50 transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xs font-mono text-emerald-400 font-bold">MODULE 03</span>
+                        <span class="badge-yield text-[10px] px-1.5 py-0.5 rounded">HIGH YIELD</span>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">Transients & Switching</h3>
+                    <p class="text-xs text-slate-400 mt-1">First-order RC & RL time constants ($\tau = RC, L/R$), $t=0^+$ short/open rules, $5\tau$ steady state ($>99\%$).</p>
+                </div>
+
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 hover:border-pink-500/50 transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xs font-mono text-pink-400 font-bold">MODULE 04</span>
+                        <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">MUST MEMORIZE</span>
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">AC Power & Resonance</h3>
+                    <p class="text-xs text-slate-400 mt-1">Form factor, peak factor, complex power ($P, Q, S$), series vs parallel RLC resonance, admittance signs.</p>
+                </div>
+            </div>
+
+            <!-- Master Visual Concept Map & Key Equation Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+                <!-- Left Column: Key Principles & Safety -->
+                <div class="space-y-4">
+                    <!-- PEC Safety Standards Card -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h2 class="font-bold text-cyan-400 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-user-shield"></i> PEC Human Body & Safety Rules
+                            </h2>
+                            <span class="tag-notes">[NOTES]</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-slate-400 text-[10px]">DRY ADULT SKIN</div>
+                                <div class="text-cyan-300 font-bold text-sm">$1,000,000\ \Omega$</div>
+                                <div class="text-[10px] text-slate-500">$1\text{ M}\Omega$ standard</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-amber-500/30">
+                                <div class="text-amber-400 text-[10px]">WET / DAMAGED SKIN</div>
+                                <div class="text-amber-300 font-bold text-sm">$1,500\ \Omega$</div>
+                                <div class="text-[10px] text-slate-400">Conservative safety threshold</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs">
+                            <div class="font-bold text-slate-300 mb-1 flex items-center justify-between">
+                                <span>CURRENT INTERRUPTION DEVICES</span>
+                                <span class="badge-must text-[9px] px-1 py-0.2">BOARD EXAM</span>
+                            </div>
+                            <ul class="text-slate-400 text-[11px] space-y-1 list-disc list-inside">
+                                /><strong class="text-slate-200">Employed by:</strong> Fuses, Circuit Breakers, Ground Fault Circuit Interrupters (GFCI/RCD).</span>
+                                /><strong class="text-pink-400">EXCEPT:</strong> Standard Switches or manual disconnects (do NOT provide automatic fault current interruption).</span>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Temperature Coefficient of Resistance -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h2 class="font-bold text-emerald-400 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-temperature-high"></i> Temperature Coefficient ($\alpha$)
+                            </h2>
+                            <span class="tag-notes">[NOTES]</span>
+                        </div>
+
+                        <div class="bg-slate-950 p-3 rounded border border-slate-800 font-mono text-center">
+                            <div class="text-sm text-cyan-300 font-bold mb-1">$$R_2 = R_1 \left[ 1 + \alpha_1 (T_2 - T_1) \right]$$</div>
+                            <div class="text-[11px] text-slate-400 mt-2">
+                                Alternative Ratio Formula: $\frac{R_2}{R_1} = \frac{|T_0| + T_2}{|T_0| + T_1}$
+                            </div>
+                        </div>
+
+                        <!-- Mini Solved Box -->
+                        <div class="bg-slate-950/70 p-2.5 rounded border border-slate-800/80 text-xs space-y-1 font-mono">
+                            <div class="text-amber-400 font-bold text-[11px]"><i class="fa-solid fa-calculator"></i> HIGH-YIELD NUMERICAL PROBLEM (p.2)</div>
+                            <p class="text-[10px] text-slate-300">Heater wire: $R_{room} = 85\ \Omega$ at $T_1 = 20^\circ\text{C}$. Connected to $220\text{V}$, steady $I = 2.0\text{A}$. $\alpha = 1.7 \times 10^{-4}\ /^\circ\text{C}$.</p>
+                            <div class="text-[11px] text-emerald-400 font-bold pt-1 border-t border-slate-800">
+                                1. $R_2 = \frac{V}{I} = \frac{220}{2.0} = 110\ \Omega$<br>
+                                2. $110 = 85 [1 + 1.7 \times 10^{-4} (T_2 - 20)] \implies T_2 \approx 1750.6^\circ\text{C}$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Column: Master Formulas & Waveform Factors -->
+                <div class="space-y-4">
+                    <!-- Waveform Characteristics Table -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h2 class="font-bold text-amber-400 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-wave-square"></i> Waveform Factors & Value Ratios
+                            </h2>
+                            <span class="tag-notes">[NOTES]</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs font-mono">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 bg-slate-950">
+                                        <th class="p-1.5">Waveform</th>
+                                        <th class="p-1.5">Form Factor ($k_f$)</th>
+                                        <th class="p-1.5">Peak/Crest ($k_p$)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-cyan-400">Sinusoidal</td>
+                                        <td class="p-1.5">$\frac{\pi}{2\sqrt{2}} \approx \mathbf{1.11}$</td>
+                                        <td class="p-1.5">$\sqrt{2} \approx \mathbf{1.414}$</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-amber-400">Triangular / Sawtooth</td>
+                                        <td class="p-1.5">$\frac{2}{\sqrt{3}} \approx \mathbf{1.155}$</td>
+                                        <td class="p-1.5">$\sqrt{3} \approx \mathbf{1.732}$</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-emerald-400">Square Wave</td>
+                                        <td class="p-1.5">$\mathbf{1.00}$</td>
+                                        <td class="p-1.5">$\mathbf{1.00}$</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-pink-400">Half-Wave Rectified Sine</td>
+                                        <td class="p-1.5">$\frac{\pi}{2} \approx \mathbf{1.57}$</td>
+                                        <td class="p-1.5 font-bold">$\mathbf{2.00}$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-slate-950 p-2 rounded border border-slate-800 text-[11px] font-mono flex justify-between">
+                            <div><strong class="text-cyan-400">Form Factor:</strong> $k_f = \frac{V_{rms}}{V_{avg}}$</div>
+                            <div><strong class="text-amber-400">Crest Factor:</strong> $k_p = \frac{V_{peak}}{V_{rms}}$</div>
+                        </div>
+                    </div>
+
+                    <!-- Complex Power & Admittance Summary -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h2 class="font-bold text-pink-400 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-bolt-lightning"></i> Power Triangle & Admittance
+                            </h2>
+                            <span class="tag-yield text-[10px] px-1.5 py-0.5 rounded">HIGH YIELD</span>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 text-center font-mono">
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-[10px] text-slate-400">REAL POWER ($P$)</div>
+                                <div class="text-xs font-bold text-cyan-400">$VI \cos\theta$</div>
+                                <div class="text-[9px] text-slate-500">Watts [W]</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-[10px] text-slate-400">REACTIVE ($Q$)</div>
+                                <div class="text-xs font-bold text-pink-400">$VI \sin\theta$</div>
+                                <div class="text-[9px] text-slate-500">VAR [VAR]</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-[10px] text-slate-400">APPARENT ($S$)</div>
+                                <div class="text-xs font-bold text-amber-400">$VI = \sqrt{P^2+Q^2}$</div>
+                                <div class="text-[9px] text-slate-500">VA [VA]</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-2.5 rounded border border-pink-500/30 text-xs font-mono space-y-1">
+                            <div class="text-pink-400 font-bold flex justify-between">
+                                <span>CRITICAL SIGN TRAP: REACTANCE vs SUSCEPTANCE</span>
+                                <span class="badge-trap text-[9px] px-1">MUST KNOW</span>
+                            </div>
+                            <div class="text-[11px] text-slate-300">
+                                Impedance: $Z = R + jX$ &nbsp;|&nbsp; Admittance: $Y = \frac{1}{Z} = G + jB$<br>
+                                • <strong class="text-cyan-300">Capacitive Branch:</strong> $X_C < 0$ (Negative), but $B_C > 0$ (<strong class="text-emerald-400">POSITIVE Susceptance</strong>)!<br>
+                                • <strong class="text-amber-300">Inductive Branch:</strong> $X_L > 0$ (Positive), but $B_L < 0$ (<strong class="text-pink-400">NEGATIVE Susceptance</strong>)!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Key Constants, Decision Flow & Units -->
+                <div class="space-y-4">
+                    <!-- Essential Board Exam Constants -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h2 class="font-bold text-purple-400 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-calculator"></i> Board Exam Constants & Conversions
+                            </h2>
+                            <span class="tag-notes">[NOTES]</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-slate-400 text-[10px]">1 HORSEPOWER (HP)</div>
+                                <div class="text-purple-300 font-bold">746 Watts</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-slate-400 text-[10px]">STANDARD CELL EMF</div>
+                                <div class="text-purple-300 font-bold">1.0185 Volts</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-slate-400 text-[10px]">1 TIME CONSTANT ($\tau$)</div>
+                                <div class="text-purple-300 font-bold">63.2% Change</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-slate-400 text-[10px]">STEADY STATE ($5\tau$)</div>
+                                <div class="text-purple-300 font-bold">&gt; 99.3% Final</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono space-y-1">
+                            <div class="text-slate-300 font-bold">HVAC Chiller COP Equation:</div>
+                            <div class="text-cyan-400 font-bold">$$\text{COP} = \frac{\text{Cooling Capacity (kW)}}{\text{Electrical Power Input (kW)}}$$</div>
+                            <div class="text-[10px] text-slate-400">Problem (p.5): $320\text{ kW cooling}, \text{COP}=4.57 \implies P_{elec} = \frac{320}{4.57} = \mathbf{70.02\text{ kW}}$</div>
+                        </div>
+                    </div>
+
+                    <!-- Rapid Problem-Solving Decision Tree -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h2 class="font-bold text-cyan-400 flex items-center gap-2 text-sm">
+                                <i class="fa-solid fa-sitemap"></i> Network Theorem Selection Tree
+                            </h2>
+                            <span class="tag-yield text-[10px] px-1.5 py-0.5 rounded">DECISION GUIDE</span>
+                        </div>
+
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div class="bg-slate-950 p-2 rounded border-l-2 border-cyan-500 text-slate-300">
+                                <strong class="text-cyan-400">Multiple parallel voltage branches meeting at 1 node?</strong><br>
+                                $\rightarrow$ Use <strong class="text-emerald-400">MILLMAN'S THEOREM</strong> (Most efficient!)
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border-l-2 border-purple-500 text-slate-300">
+                                <strong class="text-purple-400">Resistance changes from $R$ to $R + \Delta R$?</strong><br>
+                                $\rightarrow$ Use <strong class="text-emerald-400">COMPENSATION THEOREM</strong> ($V_c = -I \Delta R$)
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border-l-2 border-amber-500 text-slate-300">
+                                <strong class="text-amber-400">Swapping source $V$ and response $I$ between branches?</strong><br>
+                                $\rightarrow$ Use <strong class="text-emerald-400">RECIPROCITY THEOREM</strong>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border-l-2 border-pink-500 text-slate-300">
+                                <strong class="text-pink-400">Calculating Power with Superposition?</strong><br>
+                                $\rightarrow$ <strong class="text-pink-500">NEVER!</strong> Power is non-linear ($P \propto I^2$). Calculate total $V$ or $I$ first!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PAGE 2: NETWORK THEOREMS & DC ANALYSIS -->
+        <!-- ========================================== -->
+        <div id="page2" class="tab-content hidden space-y-4">
+            
+            <!-- Section Title Header -->
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold text-purple-400 flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-diagram-project"></i> SUBJECT REVIEW: DC CIRCUITS & NETWORK THEOREMS
+                    </h2>
+                    <p class="text-xs text-slate-400 font-mono">Complete theorem definitions, mathematical proofs, and mesh/node topological rules</p>
+                </div>
+                <span class="badge-must text-xs px-2 py-1 rounded font-mono">10+ BOARD QUESTIONS</span>
+            </div>
+
+            <!-- Grid of Theorems -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <!-- Thevenin's Theorem -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-800 pb-2 mb-2">
+                            <h3 class="font-bold text-cyan-400 font-mono text-sm">THEVENIN'S THEOREM</h3>
+                            <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">🔴 MEMORIZE</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                            Any linear, active, bilateral 2-terminal network can be replaced by an equivalent circuit containing a single voltage source $V_{th}$ in series with $R_{th}$.
+                        </p>
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 font-mono text-xs space-y-1">
+                            <div><strong class="text-cyan-400">$V_{th}$:</strong> Open-circuit voltage across load terminals.</div>
+                            <div><strong class="text-cyan-400">$R_{th}$:</strong> Resistance looking back into terminals with all independent sources killed (Voltage $\rightarrow$ Short, Current $\rightarrow$ Open).</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950/80 p-2 rounded border border-amber-500/30 text-[11px] font-mono text-amber-300">
+                        <strong>USE WHEN:</strong> Finding load current for variable load resistor $R_L$. $I_L = \frac{V_{th}}{R_{th} + R_L}$.
+                    </div>
+                </div>
+
+                <!-- Maximum Power Transfer Theorem -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-800 pb-2 mb-2">
+                            <h3 class="font-bold text-amber-400 font-mono text-sm">MAX POWER TRANSFER</h3>
+                            <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">🔴 MEMORIZE</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                            Maximum power is transferred from source to load when load resistance equals source Thevenin resistance ($R_L = R_{th}$).
+                        </p>
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 font-mono text-xs text-center">
+                            <div class="text-amber-300 font-bold mb-1">$$P_{max} = \frac{V_{th}^2}{4 R_{th}}$$</div>
+                            <div class="text-[10px] text-slate-400">At Max Power: Efficiency $\mathbf{\eta = 50\%}$</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950/80 p-2 rounded border border-pink-500/30 text-[11px] font-mono text-pink-300">
+                        <strong>BOARD QUESTION (p.2):</strong> Why match $R_L$ to $R_{th}$? To achieve maximum power delivery to load (despite 50% efficiency loss in internal resistance).
+                    </div>
+                </div>
+
+                <!-- Millman's Theorem -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-800 pb-2 mb-2">
+                            <h3 class="font-bold text-emerald-400 font-mono text-sm">MILLMAN'S THEOREM</h3>
+                            <span class="badge-yield text-[10px] px-1.5 py-0.5 rounded">🟠 HIGH YIELD</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                            Converts multiple parallel voltage sources with internal series resistances into a single equivalent voltage source $V_m$ and series resistance $R_m$.
+                        </p>
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 font-mono text-xs text-center space-y-1">
+                            <div class="text-emerald-300 font-bold">$$V_m = \frac{\sum_{i=1}^n \frac{V_i}{R_i}}{\sum_{i=1}^n \frac{1}{R_i}}$$</div>
+                            <div class="text-[10px] text-slate-400">$R_m = \frac{1}{\sum (1/R_i)}$</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950/80 p-2 rounded border border-emerald-500/30 text-[11px] font-mono text-emerald-300">
+                        <strong>BOARD QUESTION (p.2):</strong> Finding voltage at single node where 4 branches (each with voltage source & series resistor) meet $\rightarrow$ Millman's is MOST EFFICIENT!
+                    </div>
+                </div>
+
+                <!-- Superposition Theorem -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-800 pb-2 mb-2">
+                            <h3 class="font-bold text-purple-400 font-mono text-sm">SUPERPOSITION THEOREM</h3>
+                            <span class="badge-important text-[10px] px-1.5 py-0.5 rounded">🟡 IMPORTANT</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                            In a bilateral linear network, total response (current or voltage) is the algebraic sum of responses caused by each independent source acting alone.
+                        </p>
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 font-mono text-[11px] space-y-1">
+                            <div class="text-purple-300 font-bold">• Voltage Sources: Replace with SHORT CIRCUIT (0V)</div>
+                            <div class="text-purple-300 font-bold">• Current Sources: Replace with OPEN CIRCUIT (0A)</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950/80 p-2 rounded border border-pink-500/30 text-[11px] font-mono text-pink-300">
+                        <strong>TRAP (p.2):</strong> Fails if circuit contains NON-LINEAR elements (e.g. diode, varistor) or when directly calculating power ($P = I^2 R$).
+                    </div>
+                </div>
+
+                <!-- Reciprocity & Compensation Theorems -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-800 pb-2 mb-2">
+                            <h3 class="font-bold text-pink-400 font-mono text-sm">RECIPROCITY & COMPENSATION</h3>
+                            <span class="badge-concept text-[10px] px-1.5 py-0.5 rounded">🔵 CONCEPT</span>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <strong class="text-pink-400 font-mono">Reciprocity:</strong> Single voltage source $V$ in branch A produces current $I$ in branch B. Moving $V$ to branch B produces SAME current $I$ in branch A ($V/I = \text{Transfer Impedance}$).
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <strong class="text-pink-400 font-mono">Compensation:</strong> If branch resistance changes from $R$ to $R + \Delta R$, current change in network equals inserting a compensating voltage source $V_c = -I \Delta R$ in series with that branch.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950/80 p-2 rounded border border-slate-800 text-[11px] font-mono text-slate-300">
+                        <strong>Tellegen's Theorem:</strong> Power conservation law $\sum_{k=1}^b v_k i_k = 0$ applies to ANY network regardless of linearity or components.
+                    </div>
+                </div>
+
+                <!-- Mesh & Nodal Topological Equations -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b border-slate-800 pb-2 mb-2">
+                            <h3 class="font-bold text-cyan-400 font-mono text-sm">TOPOLOGY: MESH & NODE</h3>
+                            <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">🔴 MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 font-mono text-xs text-center space-y-1">
+                            <div class="text-slate-400 text-[10px]">INDEPENDENT MESH EQUATIONS REQUIRED</div>
+                            <div class="text-cyan-300 font-bold text-base">$$l = b - n + 1$$</div>
+                            <div class="text-[10px] text-slate-400">$b = \text{branches}$, $n = \text{nodes}$, $l = \text{independent loops/meshes}$</div>
+                        </div>
+                        <div class="space-y-1 mt-2 text-[11px] font-mono">
+                            <div class="text-slate-300"><strong class="text-cyan-400">Supermesh:</strong> Created when a current source is shared between two meshes. Omit current source, apply KVL to outer loop.</div>
+                            <div class="text-slate-300"><strong class="text-cyan-400">Supernode:</strong> Created when an ideal voltage source is connected between two non-reference nodes. Enclose source in boundary, apply KCL.</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950/80 p-2 rounded border border-cyan-500/30 text-[11px] font-mono text-cyan-300">
+                        <strong>BOARD QUESTION (p.2):</strong> How to find exact current through ideal voltage source in supernode? Use KCL at one of the connected original nodes!
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Resistor Networks & Matrix Shortcuts Box -->
+            <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                <h3 class="font-bold text-amber-400 font-mono text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-cubes"></i> SPECIAL RESISTOR CONFIGURATIONS & MATRIX SHORTCUTS
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-1">
+                        <div class="text-amber-300 font-bold">3×3 Series-Parallel Matrix (p.2)</div>
+                        <p class="text-slate-400 text-[11px]">3 parallel branches, each containing 3 series resistors of equal value $R$.</p>
+                        <div class="text-cyan-300 font-bold pt-1 border-t border-slate-800">
+                            $R_{branch} = 3R \implies R_{net} = \frac{3R}{3} = \mathbf{R}$
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-1">
+                        <div class="text-amber-300 font-bold">Infinite Resistor Ladder (p.3)</div>
+                        <p class="text-slate-400 text-[11px]">Repeating sections with series $1\ \Omega$ and shunt $2\ \Omega$ resistors.</p>
+                        <div class="text-cyan-300 font-bold pt-1 border-t border-slate-800">
+                            $R_{in} = 1 + (2 \parallel R_{in}) \implies R_{in}^2 - R_{in} - 2 = 0 \implies \mathbf{R_{in} = 2\ \Omega}$
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-1">
+                        <div class="text-amber-300 font-bold">Parallel Resistor Addition (p.2)</div>
+                        <p class="text-slate-400 text-[11px]">Adding an additional resistor in parallel to any resistive network.</p>
+                        <div class="text-cyan-300 font-bold pt-1 border-t border-slate-800">
+                            $\mathbf{R_{total}\ \text{DECREASES}} \implies \mathbf{I_{total}\ \text{INCREASES}}$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PAGE 3: TRANSIENTS & MEASURING INSTRUMENTS -->
+        <!-- ========================================== -->
+        <div id="page3" class="tab-content hidden space-y-4">
+            
+            <!-- Section Title Header -->
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold text-emerald-400 flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-bolt"></i> SUBJECT REVIEW: TRANSIENT ANALYSIS & MEASURING INSTRUMENTS
+                    </h2>
+                    <p class="text-xs text-slate-400 font-mono">First-order RC/RL circuits, switching initial/steady rules, PMMC & Moving Iron meters, Potentiometer null methods</p>
+                </div>
+                <span class="badge-yield text-xs px-2 py-1 rounded font-mono">12+ BOARD QUESTIONS</span>
+            </div>
+
+            <!-- Main Split Grid: Left Transients, Right Instruments -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+                <!-- LEFT: TRANSIENT ANALYSIS COMMAND CENTER -->
+                <div class="space-y-4">
+                    
+                    <!-- Time Constants & Switch Rules Card -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <h3 class="font-bold text-emerald-400 font-mono text-sm">FIRST-ORDER TRANSIENT LAWS</h3>
+                            <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">🔴 MUST MEMORIZE</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+                                <div class="text-slate-400 text-[10px]">RC TIME CONSTANT</div>
+                                <div class="text-cyan-300 font-bold text-sm">$$\tau = R C$$</div>
+                                <div class="text-[9px] text-slate-500">Unit: Seconds [s]</div>
+                            </div>
+                            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+                                <div class="text-slate-400 text-[10px]">RL TIME CONSTANT</div>
+                                <div class="text-cyan-300 font-bold text-sm">$$\tau = \frac{L}{R}$$</div>
+                                <div class="text-[9px] text-slate-500">Unit: Seconds [s]</div>
+                            </div>
+                        </div>
+
+                        <!-- Switching Instantaneous Rules Matrix -->
+                        <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-2">
+                            <div class="text-xs font-bold text-amber-400 font-mono flex justify-between">
+                                <span>COMPONENT BEHAVIOR DURING SWITCHING</span>
+                                <span class="tag-notes">[NOTES]</span>
+                            </div>
+
+                            <table class="w-full text-left text-xs font-mono border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400">
+                                        <th class="p-1">Component</th>
+                                        <th class="p-1">Immediate ($t = 0^+$)</th>
+                                        <th class="p-1">Steady State ($t \rightarrow \infty$)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                    <tr>
+                                        <td class="p-1 font-bold text-cyan-400">Capacitor ($C$)</td>
+                                        <td class="p-1 text-emerald-400 font-bold">SHORT CIRCUIT ($V_c=0$)</td>
+                                        <td class="p-1 text-pink-400 font-bold">OPEN CIRCUIT ($I_c=0$)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-1 font-bold text-amber-400">Inductor ($L$)</td>
+                                        <td class="p-1 text-pink-400 font-bold">OPEN CIRCUIT ($I_L=0$)</td>
+                                        <td class="p-1 text-emerald-400 font-bold">SHORT CIRCUIT ($V_L=0$)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Growth & Decay Formulas -->
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-emerald-400 font-bold text-[11px]">GROWTH FORMULA</div>
+                                <div class="text-slate-200">$x(t) = X_{final} (1 - e^{-t/\tau})$</div>
+                                <div class="text-[10px] text-slate-400 mt-1">• At $t = 1\tau \rightarrow \mathbf{63.2\%}$<br>• At $t = 2\tau \rightarrow \mathbf{86.5\%}$<br>• At $t = 5\tau \rightarrow \mathbf{> 99.3\%}$</div>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <div class="text-pink-400 font-bold text-[11px]">DECAY FORMULA</div>
+                                <div class="text-slate-200">$x(t) = X_{initial} \cdot e^{-t/\tau}$</div>
+                                <div class="text-[10px] text-slate-400 mt-1">• At $t = 1\tau \rightarrow \mathbf{36.8\%}$ remaining<br>• Doubling $R$ doubles $\tau \rightarrow$ <strong class="text-amber-300">slower discharge</strong> (p.3)</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Solved Numerical Transient Problem -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-2 font-mono text-xs">
+                        <div class="text-amber-400 font-bold flex justify-between border-b border-slate-800 pb-1">
+                            <span><i class="fa-solid fa-calculator"></i> SOLVED RL TRANSIENT PROBLEM (p.3, Q33)</span>
+                            <span class="tag-notes">[NOTES]</span>
+                        </div>
+                        <p class="text-slate-300 text-[11px]">
+                            Series RL circuit: $V = 20\text{ V}$, $R = 220\ \Omega$, $L = 60\text{ mH}$. Find current $2\tau$ after switch closes.
+                        </p>
+                        <div class="bg-slate-950 p-2 rounded border border-slate-800 text-emerald-400 space-y-1">
+                            <div>1. $I_{max} = \frac{V}{R} = \frac{20}{220} = 0.0909\text{ A} = 90.9\text{ mA}$</div>
+                            <div>2. $i(2\tau) = I_{max}(1 - e^{-2}) = 90.91 \times (1 - 0.1353) = \mathbf{78.6\text{ mA}}$</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: MEASURING INSTRUMENTS & VOM SHUNTS -->
+                <div class="space-y-4">
+                    
+                    <!-- Instrument Types Comparison Table -->
+                    <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <h3 class="font-bold text-cyan-400 font-mono text-sm">MEASURING INSTRUMENTS</h3>
+                            <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">🔴 MUST MEMORIZE</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs font-mono border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 bg-slate-950">
+                                        <th class="p-1.5">Meter Type</th>
+                                        <th class="p-1.5">Measures</th>
+                                        <th class="p-1.5">Scale / Response</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-cyan-400">PMMC (Moving Coil)</td>
+                                        <td class="p-1.5">DC Average ($V_{avg}, I_{avg}$)</td>
+                                        <td class="p-1.5">Linear scale. Reads 0 on pure AC.</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-amber-400">Moving Iron</td>
+                                        <td class="p-1.5">True RMS ($V_{rms}, I_{rms}$)</td>
+                                        <td class="p-1.5">Non-linear square law ($\theta \propto I^2$). Works on AC & DC.</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="p-1.5 font-bold text-purple-400">Slide Potentiometer</td>
+                                        <td class="p-1.5">Unknown EMF ($E_x$)</td>
+                                        <td class="p-1.5 font-bold text-emerald-400">Null Method ($I=0$). Zero loading effect!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Ammeter Shunt & Voltmeter Multiplier Formula Cards -->
+                        <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                            <!-- Shunt Box -->
+                            <div class="bg-slate-950 p-2.5 rounded border border-cyan-500/30 space-y-1">
+                                <div class="text-cyan-400 font-bold text-[11px]">AMMETER SHUNT ($R_{sh}$)</div>
+                                <div class="text-center font-bold text-slate-200">$$R_{sh} = \frac{I_{fs} R_m}{I - I_{fs}}$$</div>
+                                <div class="text-[10px] text-slate-400">Connected in <strong class="text-cyan-300">PARALLEL</strong> with meter coil.</div>
+                                <div class="text-[9px] text-emerald-400 pt-1 border-t border-slate-800">
+                                    Ex (p.1): $R_m=0.6\ \Omega, I_{fs}=0.1\text{A}$, Range $10\text{A}$ $\rightarrow R_{sh} = \frac{0.06}{9.9} = \mathbf{6.06\text{ m}\Omega}$
+                                </div>
+                            </div>
+
+                            <!-- Multiplier Box -->
+                            <div class="bg-slate-950 p-2.5 rounded border border-amber-500/30 space-y-1">
+                                <div class="text-amber-400 font-bold text-[11px]">VOLTMETER MULTIPLIER ($R_s$)</div>
+                                <div class="text-center font-bold text-slate-200">$$R_s = S \cdot V_{range} - R_m$$</div>
+                                <div class="text-[10px] text-slate-400">Sensitivity $S = \frac{1}{I_{fs}}\ [\Omega/\text{V}]$. Connected in <strong class="text-amber-300">SERIES</strong>.</div>
+                                <div class="text-[9px] text-emerald-400 pt-1 border-t border-slate-800">
+                                    Ex (p.1): $S=10\text{ k}\Omega/\text{V}, V=25\text{V} \rightarrow R_v = 10\text{k} \times 25 = \mathbf{250\text{ k}\Omega}$
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide Wire Potentiometer & Ohmmeter Capacitor Testing -->
+                        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1.5 font-mono text-xs">
+                            <div class="text-purple-400 font-bold text-[11px] flex justify-between">
+                                <span>SLIDE WIRE POTENTIOMETER EQUATION</span>
+                                <span class="tag-notes">[NOTES]</span>
+                            </div>
+                            <div class="text-slate-300">
+                                Balance relation: $\frac{E_x}{E_{std}} = \frac{L_x}{L_{std}} \implies E_x = E_{std} \left( \frac{L_x}{L_{std}} \right)$
+                            </div>
+                            <div class="text-[10px] text-emerald-400">
+                                Ex (p.1): $E_{std} = 1.0185\text{V}$ at $50\text{ cm}$. Unknown balances at $62\text{ cm} \rightarrow E_x = 1.0185 \times \frac{62}{50} = \mathbf{1.263\text{ V}}$.
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-2.5 rounded border border-pink-500/30 text-xs font-mono space-y-1">
+                            <div class="text-pink-400 font-bold flex justify-between">
+                                <span>OHMMETER CAPACITOR TEST & METER SWAP TRAP</span>
+                                <span class="badge-trap text-[9px] px-1">TRAP</span>
+                            </div>
+                            <div class="text-[11px] text-slate-300">
+                                • <strong class="text-cyan-300">Capacitor Test (p.1):</strong> Pointer indicates LOW resistance initially, then rises to INFINITY $\rightarrow$ Capacitor is <strong class="text-emerald-400">GOOD / NORMAL</strong> charging behavior!<br>
+                                • <strong class="text-pink-400">Swapping Voltmeter & Ammeter (p.1):</strong> Ammeter in parallel across source creates a dead short $\rightarrow$ <strong class="text-pink-500">DAMAGES AMMETER</strong> immediately!
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PAGE 4: AC CIRCUITS, RESONANCE & POWER -->
+        <!-- ========================================== -->
+        <div id="page4" class="tab-content hidden space-y-4">
+            
+            <!-- Section Title Header -->
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold text-pink-400 flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-wave-square"></i> SUBJECT REVIEW: AC CIRCUITS, RESONANCE & COMPLEX POWER
+                    </h2>
+                    <p class="text-xs text-slate-400 font-mono">Sinusoidal wave equations, Series vs Parallel RLC resonance, Power factor correction, Admittance vectors</p>
+                </div>
+                <span class="badge-must text-xs px-2 py-1 rounded font-mono">15+ BOARD QUESTIONS</span>
+            </div>
+
+            <!-- Resonance Deep Dive Comparison Box -->
+            <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-amber-400 font-mono text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye"></i> RESONANCE COMPARISON: SERIES vs PARALLEL RLC
+                    </h3>
+                    <span class="badge-must text-[10px] px-1.5 py-0.5 rounded">🔴 CRITICAL BOARD TOPIC</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-xs">
+                    
+                    <!-- Series RLC Card -->
+                    <div class="bg-slate-950 p-3 rounded border border-cyan-500/30 space-y-2">
+                        <div class="text-cyan-400 font-bold text-sm flex justify-between">
+                            <span>SERIES RLC RESONANCE</span>
+                            <span class="text-slate-400 text-xs">Acceptor Circuit</span>
+                        </div>
+                        <ul class="text-slate-300 space-y-1 list-disc list-inside text-[11px]">
+                            <li>Resonant Frequency: $f_r = \frac{1}{2\pi\sqrt{LC}}$</li>
+                            <li>Reactance Condition: $X_L = X_C \implies Z = R$</li>
+                            <li>Impedance $Z$: <strong class="text-emerald-400">MINIMUM</strong> ($Z_{min} = R$)</li>
+                            <li>Line Current $I$: <strong class="text-emerald-400">MAXIMUM</strong> ($I_{max} = \frac{V}{R}$)</li>
+                            <li>Power Factor: <strong class="text-cyan-300">UNITY ($\mathbf{PF = 1.0}$)</strong></li>
+                            <li>Phase Angle: $\theta = 0^\circ$ ($V$ and $I$ are <strong class="text-emerald-400">IN PHASE</strong>)</li>
+                            <li>Quality Factor: $Q = \frac{\omega_r L}{R} = \frac{1}{\omega_r C R} = \frac{f_r}{\text{BW}}$</li>
+                        </ul>
+                    </div>
+
+                    <!-- Parallel RLC Card -->
+                    <div class="bg-slate-950 p-3 rounded border border-amber-500/30 space-y-2">
+                        <div class="text-amber-400 font-bold text-sm flex justify-between">
+                            <span>PARALLEL RLC RESONANCE</span>
+                            <span class="text-slate-400 text-xs">Rejector / Tank Circuit</span>
+                        </div>
+                        <ul class="text-slate-300 space-y-1 list-disc list-inside text-[11px]">
+                            <li>Resonant Frequency: $f_r = \frac{1}{2\pi\sqrt{LC}}$</li>
+                            <li>Susceptance Condition: $B_L = B_C \implies Y = G$</li>
+                            <li>Impedance $Z$: <strong class="text-amber-300">MAXIMUM</strong> ($Z_{max} = R_p = \frac{L}{C R}$)</li>
+                            <li>Line Current $I$: <strong class="text-pink-400">MINIMUM</strong></li>
+                            <li>Power Factor: <strong class="text-cyan-300">UNITY ($\mathbf{PF = 1.0}$)</strong></li>
+                            <li>Phase Angle: $\theta = 0^\circ$ ($V$ and $I$ are <strong class="text-emerald-400">IN PHASE</strong>)</li>
+                            <li>Energy Behavior: Oscillates between $L$ & $C$ (<strong class="text-amber-400">Tank Circuit</strong>)</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Frequency Behavior Decision Box (Parallel Resonance) -->
+                <div class="bg-slate-950 p-3 rounded border border-pink-500/40 font-mono text-xs space-y-1.5">
+                    <div class="text-pink-400 font-bold flex justify-between">
+                        <span>⚠️ PARALLEL RESONANT CIRCUIT FREQUENCY TRAP (p.4, Q39)</span>
+                        <span class="badge-trap text-[9px] px-1">BOARD TRAP</span>
+                    </div>
+                    <p class="text-slate-300 text-[11px]">
+                        A parallel resonant circuit is <strong class="text-cyan-300">CAPACITIVE</strong> at $f = 100\text{ Hz}$. At what frequency range will it be <strong class="text-amber-300">INDUCTIVE</strong>?
+                    </p>
+                    <div class="text-emerald-400 font-bold text-[11px] bg-slate-900 p-2 rounded border border-slate-800">
+                        • Below Resonance ($f < f_r$): Inductive reactance is smaller ($X_L < X_C$), so current flows through $L \rightarrow$ Circuit is <strong class="text-amber-300">INDUCTIVE</strong>.<br>
+                        • Above Resonance ($f > f_r$): Capacitive reactance is smaller ($X_C < X_L$) $\rightarrow$ Circuit is <strong class="text-cyan-300">CAPACITIVE</strong>.<br>
+                        $\implies$ If it is capacitive at $100\text{ Hz}$, it must be inductive at frequencies <strong class="text-emerald-300">SOMEWHERE BELOW 100 Hz</strong>!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sinusoidal Equations & Complex Power Calculations -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+                <!-- Sinusoidal Wave Equation Analysis -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3 font-mono text-xs">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <h3 class="font-bold text-cyan-400 text-sm">SINUSOIDAL EQUATION DECODER</h3>
+                        <span class="tag-notes">[NOTES]</span>
+                    </div>
+
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+                        <div class="text-slate-400 text-[10px]">GENERAL WAVEFORM</div>
+                        <div class="text-cyan-300 font-bold text-sm">$$v(t) = V_m \sin(\omega t + \phi)$$</div>
+                        <div class="text-[10px] text-slate-400 mt-1">Given in notes (p.5): $v(t) = 311 \sin(100\pi t)$</div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                            <span class="text-slate-400">Peak Voltage ($V_m$):</span> <strong class="text-cyan-300">311 V</strong><br>
+                            <span class="text-slate-400">RMS Voltage ($V_{rms}$):</span> <strong class="text-emerald-300 font-bold">220 V</strong> ($\frac{311}{\sqrt{2}}$)
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                            <span class="text-slate-400">Angular Freq ($\omega$):</span> <strong class="text-purple-300">$100\pi$ rad/s</strong><br>
+                            <span class="text-slate-400">Frequency ($f$):</span> <strong class="text-amber-300 font-bold">50 Hz</strong> ($\frac{100\pi}{2\pi}$)
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800 text-[11px] text-slate-300">
+                        <strong class="text-emerald-400">Instantaneous Voltage at $t = 5\text{ ms}$ (p.5):</strong><br>
+                        $v(5\text{ms}) = 311 \sin\left(100\pi \times 0.005\right) = 311 \sin\left(0.5\pi\right) = 311 \sin(90^\circ) = \mathbf{311\text{ V}}$
+                    </div>
+                </div>
+
+                <!-- Multi-Load Complex Power Summation -->
+                <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3 font-mono text-xs">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <h3 class="font-bold text-purple-400 text-sm">PARALLEL LOAD POWER SUMMATION</h3>
+                        <span class="tag-notes">[NOTES]</span>
+                    </div>
+
+                    <p class="text-slate-300 text-[11px]">
+                        Three parallel loads connected across source (p.4, Q44):<br>
+                        • Load 1 (Capacitive): $P_1 = 10\text{ kW}, Q_1 = -40\text{ kVAR}$<br>
+                        • Load 2 (Inductive): $P_2 = 20\text{ kW}, Q_2 = +120\text{ kVAR}$<br>
+                        • Load 3 (Resistive): $P_3 = 18\text{ kW}, Q_3 = 0\text{ kVAR}$
+                    </p>
+
+                    <div class="bg-slate-950 p-2.5 rounded border border-purple-500/30 text-emerald-400 space-y-1">
+                        <div>1. Total Real Power: $P_{total} = 10 + 20 + 18 = \mathbf{48\text{ kW}}$</div>
+                        <div>2. Total Reactive Power: $Q_{total} = -40 + 120 + 0 = \mathbf{+80\text{ kVAR}}$</div>
+                        <div>3. Total Apparent Power: $S_{total} = \sqrt{48^2 + 80^2} = \mathbf{93.3\text{ kVA}}$</div>
+                    </div>
+
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800 text-[10px] text-slate-400">
+                        <strong class="text-amber-300">Residential Billing Rule (p.4):</strong> Utility companies bill standard residential households based strictly on <strong class="text-emerald-400">REAL POWER CONSUMPTION (kWh)</strong>.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PAGE 5: ULTIMATE RAPID REVIEW & TRAP BANK -->
+        <!-- ========================================== -->
+        <div id="page5" class="tab-content hidden space-y-4">
+            
+            <!-- Section Title Header -->
+            <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold text-amber-400 flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-triangle-exclamation"></i> ULTIMATE RAPID REVIEW & BOARD EXAM TRAP BANK
+                    </h2>
+                    <p class="text-xs text-slate-400 font-mono">High-speed review table, commonly confused pairs, and board exam trap callouts</p>
+                </div>
+                <span class="badge-trap text-xs px-2 py-1 rounded font-mono">FINAL DRILL</span>
+            </div>
+
+            <!-- DON'T CONFUSE THESE — Compact Comparison Cards -->
+            <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                <h3 class="font-bold text-pink-400 font-mono text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced"></i> DON'T CONFUSE THESE (BOARD EXAM COMPARISONS)
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                    
+                    <!-- Pair 1 -->
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-2">
+                        <div class="text-cyan-400 font-bold text-xs border-b border-slate-800 pb-1">
+                            PMMC vs MOVING IRON
+                        </div>
+                        <div class="text-[11px] text-slate-300 space-y-1">
+                            <div><strong class="text-slate-400">PMMC:</strong> DC only, measures average value, linear scale ($\theta \propto I$).</div>
+                            <div><strong class="text-slate-400">Moving Iron:</strong> AC & DC, measures RMS value, non-linear square scale ($\theta \propto I^2$).</div>
+                            <div class="text-pink-400 text-[10px] pt-1 border-t border-slate-800">
+                                ⚠️ Trap: Half-wave rectified signal on PMMC ammeter reads $I_{avg} = I_m / \pi$.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pair 2 -->
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-2">
+                        <div class="text-amber-400 font-bold text-xs border-b border-slate-800 pb-1">
+                            REACTANCE ($X$) vs SUSCEPTANCE ($B$)
+                        </div>
+                        <div class="text-[11px] text-slate-300 space-y-1">
+                            <div><strong class="text-slate-400">Capacitive:</strong> $X_C$ is negative ($-j$), but $B_C$ is <strong class="text-emerald-400">POSITIVE ($+j$)</strong>!</div>
+                            <div><strong class="text-slate-400">Inductive:</strong> $X_L$ is positive ($+j$), but $B_L$ is <strong class="text-pink-400">NEGATIVE ($-j$)</strong>!</div>
+                            <div class="text-pink-400 text-[10px] pt-1 border-t border-slate-800">
+                                ⚠️ Trap: Reactance and Susceptance have OPPOSITE SIGNS for the same reactive element.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pair 3 -->
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 space-y-2">
+                        <div class="text-emerald-400 font-bold text-xs border-b border-slate-800 pb-1">
+                            SERIES vs PARALLEL RESONANCE
+                        </div>
+                        <div class="text-[11px] text-slate-300 space-y-1">
+                            <div><strong class="text-slate-400">Series:</strong> $Z$ is MINIMUM ($Z=R$), Line Current $I$ is MAXIMUM.</div>
+                            <div><strong class="text-slate-400">Parallel:</strong> $Z$ is MAXIMUM ($Z=R_p$), Line Current $I$ is MINIMUM.</div>
+                            <div class="text-pink-400 text-[10px] pt-1 border-t border-slate-800">
+                                ⚠️ Both have Unity Power Factor ($PF=1.0$) and $\theta = 0^\circ$ at resonance!
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Ultimate Rapid Formula Bank Table -->
+            <div class="bg-slate-900 rounded-lg border border-slate-800 p-3.5 space-y-3">
+                <h3 class="font-bold text-cyan-400 font-mono text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> ULTIMATE RAPID RECALL FORMULA BANK
+                </h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 bg-slate-950">
+                                <th class="p-2">Quantity / Topic</th>
+                                <th class="p-2">Formula</th>
+                                <th class="p-2">Units</th>
+                                <th class="p-2">Key Condition / Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                            <tr class="hover:bg-slate-800/40">
+                                <td class="p-2 font-bold text-cyan-400">Ammeter Shunt Resistance</td>
+                                <td class="p-2">$R_{sh} = \frac{I_{fs} R_m}{I - I_{fs}}$</td>
+                                <td class="p-2">Ohms [$\Omega$]</td>
+                                <td class="p-2"><span class="badge-must px-1 text-[10px]">🔴 Parallel</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/40">
+                                <td class="p-2 font-bold text-amber-400">Voltmeter Sensitivity</td>
+                                <td class="p-2">$S = \frac{1}{I_{fs}}$</td>
+                                <td class="p-2">$\Omega/\text{V}$</td>
+                                <td class="p-2">$R_v = S \times V_{range}$</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/40">
+                                <td class="p-2 font-bold text-emerald-400">Max Power (DC)</td>
+                                <td class="p-2">$P_{max} = \frac{V_{th}^2}{4 R_{th}}$</td>
+                                <td class="p-2">Watts [W]</td>
+                                <td class="p-2">When $R_L = R_{th}$ ($\eta = 50\%$)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/40">
+                                <td class="p-2 font-bold text-purple-400">RC / RL Time Constants</td>
+                                <td class="p-2">$\tau_{RC} = RC \quad | \quad \tau_{RL} = \frac{L}{R}$</td>
+                                <td class="p-2">Seconds [s]</td>
+                                <td class="p-2">Steady state at $5\tau$ ($>99\%$)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/40">
+                                <td class="p-2 font-bold text-pink-400">Resonant Frequency</td>
+                                <td class="p-2">$f_r = \frac{1}{2\pi\sqrt{LC}}$</td>
+                                <td class="p-2">Hertz [Hz]</td>
+                                <td class="p-2">At resonance $X_L = X_C, PF=1.0$</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/40">
+                                <td class="p-2 font-bold text-cyan-400">Sinusoidal Form Factor</td>
+                                <td class="p-2 font-bold">$k_f = \frac{V_{rms}}{V_{avg}} = 1.11$</td>
+                                <td class="p-2">Dimensionless</td>
+                                <td class="p-2">Triangular wave $= 1.155$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer Command Bar -->
+    <footer class="bg-slate-900 border-t border-slate-800 px-4 py-2 text-center text-xs font-mono text-slate-500">
+        ECE Board Exam Visual Reviewer • Generated for High-Density Rapid Review • Master Command Sheet
+    </footer>
+
+    <!-- Interactive Tab Switching Script -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show target tab content
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Reset all button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800';
+            });
+
+            // Highlight active button
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.className = 'tab-btn px-3 py-1.5 rounded transition flex items-center gap-1.5 bg-cyan-500 text-slate-950 font-bold';
+            }
+
+            // Re-render LaTeX math formulas if needed
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+    </script>
+</body>
+</html>
