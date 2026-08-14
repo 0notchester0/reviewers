@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam — Rapid Review Infographic Command Center</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0b132b',
+                            800: '#1c2541',
+                            700: '#3a506b',
+                        },
+                        accent: {
+                            red: '#ff2a6d',
+                            orange: '#ff7700',
+                            yellow: '#ffcc00',
+                            green: '#05ffa1',
+                            cyan: '#00f5d4',
+                            blue: '#00bbf9'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="triggerKaTeXRender()"></script>
+    <script>
+        function triggerKaTeXRender() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(triggerKaTeXRender, 200);
+        });
+    </script>
+    <style>
+        .grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .card-glow {
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.15);
+            border-color: rgba(0, 245, 212, 0.4);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b132b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a506b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f5d4;
+        }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-200 font-sans min-h-screen grid-pattern antialiased selection:bg-accent-cyan selection:text-navy-900">
+
+    <!-- TOP COMMAND HEADER -->
+    <header class="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-slate-700/80 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <span class="inline-block w-3 h-3 rounded-full bg-accent-cyan animate-pulse"></span>
+                <div>
+                    <h1 class="text-xl font-bold font-mono tracking-tight text-white flex items-center gap-2">
+                        <span>ECE BOARD EXAM</span>
+                        <span class="text-xs px-2 py-0.5 rounded bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/40">COMMAND CENTER</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Electronic Devices & Circuits — High-Density Visual Reviewer</p>
+                </div>
+            </div>
+
+            <!-- Global Search & Tag Filters -->
+            <div class="flex items-center gap-2 w-full md:w-auto">
+                <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="🔍 Quick search topic, equation, diode..." 
+                       class="w-full md:w-64 bg-navy-800 border border-slate-700 rounded px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-accent-cyan font-mono">
+                <select id="priorityFilter" onchange="filterCards()" class="bg-navy-800 border border-slate-700 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-accent-cyan font-mono">
+                    <option value="ALL">ALL PRIORITIES</option>
+                    <option value="MUST_MEMORIZE">🔴 MUST MEMORIZE</option>
+                    <option value="HIGH_YIELD">🟠 HIGH YIELD</option>
+                    <option value="IMPORTANT">🟡 IMPORTANT</option>
+                    <option value="COMMON_TRAP">⚠️ COMMON TRAP</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- PAGE / TAB NAVIGATION -->
+        <nav class="max-w-7xl mx-auto mt-3 flex items-center gap-1 overflow-x-auto pb-1 text-xs font-mono">
+            <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn px-3 py-1.5 rounded bg-accent-cyan text-navy-900 font-bold border border-accent-cyan transition-all">
+                🗺️ 1. MASTER OVERVIEW
+            </button>
+            <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn px-3 py-1.5 rounded bg-navy-800 text-slate-300 hover:text-white border border-slate-700 transition-all">
+                ⚡ 2. DIODES & SPECIAL DEVICES
+            </button>
+            <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn px-3 py-1.5 rounded bg-navy-800 text-slate-300 hover:text-white border border-slate-700 transition-all">
+                🔋 3. RECTIFIERS, CLIPPERS & POWER
+            </button>
+            <button onclick="switchTab('tab4')" id="btn-tab4" class="tab-btn px-3 py-1.5 rounded bg-navy-800 text-slate-300 hover:text-white border border-slate-700 transition-all">
+                🔀 4. BJT BIASING & AMPLIFIERS
+            </button>
+            <button onclick="switchTab('tab5')" id="btn-tab5" class="tab-btn px-3 py-1.5 rounded bg-navy-800 text-slate-300 hover:text-white border border-slate-700 transition-all">
+                🔌 5. FETs, MOSFETs & SMALL-SIGNAL
+            </button>
+            <button onclick="switchTab('tab6')" id="btn-tab6" class="tab-btn px-3 py-1.5 rounded bg-navy-800 text-slate-300 hover:text-white border border-slate-700 transition-all">
+                🎯 6. TRAPS & RAPID CHEAT SHEET
+            </button>
+        </nav>
+    </header>
+
+    <!-- MAIN INFOGRAPHIC CONTAINER -->
+    <main class="max-w-7xl mx-auto p-4 space-y-6">
+
+        <!-- LEGEND & SOURCE ACCURACY BAR -->
+        <div class="bg-navy-800/80 border border-slate-700 rounded-lg p-3 flex flex-wrap items-center justify-between text-xs font-mono gap-3">
+            <div class="flex items-center gap-3 flex-wrap">
+                <span class="text-slate-400 font-bold">PRIORITY:</span>
+                <span class="px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-700 font-bold">🔴 MUST MEMORIZE</span>
+                <span class="px-2 py-0.5 rounded bg-orange-950 text-orange-400 border border-orange-700 font-bold">🟠 HIGH YIELD</span>
+                <span class="px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-700 font-bold">🟡 IMPORTANT</span>
+                <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-600 font-bold">⚠️ COMMON TRAP</span>
+            </div>
+            <div class="flex items-center gap-3 text-slate-400">
+                <span>[NOTES] Direct Source</span>
+                <span>[CLARIFICATION] Explanation</span>
+                <span>[SUPPLEMENTAL] Board Context</span>
+            </div>
+        </div>
+
+        <!-- ==================================================================================== -->
+        <!-- TAB 1: MASTER OVERVIEW -->
+        <!-- ==================================================================================== -->
+        <div id="tab1" class="tab-content space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- TOPIC MAP & HIERARCHY -->
+                <div class="bg-navy-800 rounded-lg p-4 card-glow md:col-span-2 space-y-3">
+                    <h2 class="text-sm font-bold font-mono text-accent-cyan flex items-center justify-between border-b border-slate-700 pb-2">
+                        <span>🗺️ ECE BOARD EXAM TOPIC MAP & WEIGHT DISTRIBUTION</span>
+                        <span class="text-xs bg-navy-900 px-2 py-0.5 rounded text-slate-400">[NOTES SUMMARY]</span>
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="bg-navy-900/80 p-3 rounded border border-slate-700 space-y-1">
+                            <span class="text-accent-yellow font-bold font-mono">1. SPECIAL DIODES (Q1-Q12, Q14-Q19)</span>
+                            <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                                <li>Zener Regulators & Power Dissipation</li>
+                                <li>Schottky (Metal-Semi, No Storage Time)</li>
+                                <li>Varactor ($C_J \propto 1/\sqrt{V_R}$)</li>
+                                <li>PIN Diode (Variable RF Resistance)</li>
+                                <li>Tunnel Diode (Negative Resistance)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-navy-900/80 p-3 rounded border border-slate-700 space-y-1">
+                            <span class="text-accent-yellow font-bold font-mono">2. RECTIFIERS & WAVESHAPING (Q23-Q33)</span>
+                            <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                                <li>Half-Wave vs Full-Wave (CT vs Bridge)</li>
+                                <li>Clippers ($V_F + V_B$ conduction thresholds)</li>
+                                <li>Clampers (DC Shift, $V_{p-p}$ preserved)</li>
+                                <li>Voltage Multipliers ($N \times V_m$)</li>
+                                <li>Dropout Voltage in Regulators</li>
+                            </ul>
+                        </div>
+                        <div class="bg-navy-900/80 p-3 rounded border border-slate-700 space-y-1">
+                            <span class="text-accent-yellow font-bold font-mono">3. BJT ANALYSIS & BIASING (Q34-Q50)</span>
+                            <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                                <li>Junction Biasing vs Operating Modes</li>
+                                <li>Fixed Bias vs Collector Feedback vs Divider</li>
+                                <li>Amplifier Configurations (CE, CC, CB)</li>
+                                <li>Amplifier Classes (A, B, AB, C)</li>
+                                <li>Emitter Degeneration & Bypass ($C_E$)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-navy-900/80 p-3 rounded border border-slate-700 space-y-1">
+                            <span class="text-accent-yellow font-bold font-mono">4. FETs & SMALL-SIGNAL AC (Q51-Q64)</span>
+                            <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                                <li>JFET vs D-MOSFET vs E-MOSFET</li>
+                                <li>Transconductance $g_m$ & Shockley's Eq</li>
+                                <li>Miller Capacitance & Input Loading</li>
+                                <li>Ohmic vs Saturation vs Cutoff</li>
+                                <li>Source Follower ($A_V \approx 1$)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEDICATED CONSTANTS & UNITS CARD -->
+                <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                    <h2 class="text-sm font-bold font-mono text-accent-cyan border-b border-slate-700 pb-2">
+                        📐 CONSTANTS, UNITS & MAGIC NUMBERS
+                    </h2>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-orange font-bold">Thermal Voltage ($V_T$):</span>
+                            <p class="text-slate-300">$V_T = \frac{kT}{q} \approx 26\text{ mV}$ at $T = 300\text{ K}$ ($27^\circ\text{C}$)</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-orange font-bold">Diode Forward Drops ($V_F$):</span>
+                            <p class="text-slate-300">Silicon (Si): $0.7\text{ V}$ | Germanium (Ge): $0.3\text{ V}$</p>
+                            <p class="text-slate-300">Schottky: $0.2\text{ V} - 0.3\text{ V}$</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-orange font-bold">Si Temp Coefficients:</span>
+                            <p class="text-slate-300">$\frac{dV_{BE}}{dT} \approx -2.1\text{ mV/}^\circ\text{C}$ (or $-2\text{ mV/}^\circ\text{C}$)</p>
+                            <p class="text-slate-300">$I_{CO}$ doubles every $10^\circ\text{C}$ rise</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-orange font-bold">AC Dynamic Resistance ($r_d$):</span>
+                            <p class="text-slate-300">$r_d = \frac{\eta V_T}{I_D} = \frac{26\text{ mV}}{I_D}$ (at $300\text{ K}$)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MASTER PROBLEM-SOLVING DECISION TREE -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-accent-yellow flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>🌳 BOARD EXAM PROBLEM-SOLVING DECISION TREE</span>
+                    <span class="text-xs text-slate-400 font-sans">"Which equation do I use?"</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs font-mono">
+                    <div class="bg-navy-900 p-3 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-cyan font-bold block">1. ZENER REGULATOR</span>
+                        <p class="text-slate-400">Given $V_{in}, R_S, V_Z, R_L$:</p>
+                        <ol class="list-decimal list-inside text-slate-300 space-y-1">
+                            <li>Check $V_{open} = V_{in} \frac{R_L}{R_S + R_L}$</li>
+                            <li>If $V_{open} \ge V_Z \implies$ Zener ON ($V_O = V_Z$)</li>
+                            <li>$I_S = \frac{V_{in} - V_Z}{R_S}$</li>
+                            <li>$I_Z = I_S - I_L$</li>
+                            <li>If $R_L$ removed ($I_L=0) \implies I_Z = I_S$ (MAX)</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-navy-900 p-3 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-cyan font-bold block">2. BJT DC BIASING</span>
+                        <p class="text-slate-400">Given circuit diagram & $\beta$:</p>
+                        <ol class="list-decimal list-inside text-slate-300 space-y-1">
+                            <li>KVL in Base-Emitter loop $\implies I_B$</li>
+                            <li>$I_C = \beta I_B$, $I_E = (\beta+1)I_B$</li>
+                            <li>$V_C = V_{CC} - I_C R_C$</li>
+                            <li>Check mode: $V_{BC} < 0.4\text{V} \implies$ Active</li>
+                            <li>If $V_{CE} \le 0.2\text{V} \implies$ Saturation</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-navy-900 p-3 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-cyan font-bold block">3. FET / MOSFET DC</span>
+                        <p class="text-slate-400">Identify FET Type first:</p>
+                        <ol class="list-decimal list-inside text-slate-300 space-y-1">
+                            <li><strong>JFET / D-MOS:</strong> $I_D = I_{DSS}(1 - V_{GS}/V_P)^2$</li>
+                            <li><strong>E-MOSFET:</strong> $I_D = k(V_{GS} - V_{th})^2$</li>
+                            <li>If $V_{GS} < V_P$ or $< V_{th} \implies I_D = 0$ (Cutoff)</li>
+                            <li>$V_{DS} = V_{DD} - I_D(R_D + R_S)$</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-navy-900 p-3 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-cyan font-bold block">4. SMALL SIGNAL & MILLER</span>
+                        <p class="text-slate-400">Given $A_V$ & internal $C$:</p>
+                        <ol class="list-decimal list-inside text-slate-300 space-y-1">
+                            <li>$C_{in(Miller)} = C_{gd}(1 - A_V)$</li>
+                            <li>$C_{in(total)} = C_{gs} + C_{in(Miller)}$</li>
+                            <li>$g_{m0} = \frac{2I_{DSS}}{|V_P|}$</li>
+                            <li>$g_m = g_{m0}\sqrt{I_D / I_{DSS}}$</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================================================================================== -->
+        <!-- TAB 2: DIODES & SPECIAL DEVICES -->
+        <!-- ==================================================================================== -->
+        <div id="tab2" class="tab-content space-y-6 hidden">
+            
+            <!-- SPECIAL DIODES MASTER COMPARISON MATRIX -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-accent-cyan flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>⚡ SPECIAL PURPOSE DIODES COMPARISON MATRIX [NOTES Q1-Q12]</span>
+                    <span class="px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-700 font-bold text-xs">🔴 MUST MEMORIZE</span>
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono border-collapse">
+                        <thead>
+                            <tr class="bg-navy-900 text-accent-cyan border-b border-slate-700">
+                                <th class="p-2 border-r border-slate-700">Diode Type</th>
+                                <th class="p-2 border-r border-slate-700">Symbol / Construction</th>
+                                <th class="p-2 border-r border-slate-700">Biasing Mode</th>
+                                <th class="p-2 border-r border-slate-700">Key Mechanism / Property</th>
+                                <th class="p-2">Primary Board Application</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700 text-slate-300">
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Zener Diode</td>
+                                <td class="p-2 border-r border-slate-700">PN Junction (Heavily Doped)</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-orange">Reverse Bias (Breakdown)</td>
+                                <td class="p-2 border-r border-slate-700">Constant terminal voltage across wide $I_Z$ range</td>
+                                <td class="p-2 text-accent-cyan">Voltage Regulator / Reference</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Schottky Diode</td>
+                                <td class="p-2 border-r border-slate-700">Metal-Semiconductor Junction</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green">Forward Bias</td>
+                                <td class="p-2 border-r border-slate-700">Low $V_F (0.2-0.3\text{V})$, ZERO minority carrier storage time</td>
+                                <td class="p-2 text-accent-cyan">Ultra-Fast Switching / High Freq Power</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Varactor Diode</td>
+                                <td class="p-2 border-r border-slate-700">Variable Depletion Layer</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-orange">Reverse Bias</td>
+                                <td class="p-2 border-r border-slate-700">Capacitance varies inversely with voltage: $C \propto 1/\sqrt{V_R}$</td>
+                                <td class="p-2 text-accent-cyan">Electronic Tuning, VCOs, FM Receivers</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">PIN Diode</td>
+                                <td class="p-2 border-r border-slate-700">P - Intrinsic - N Layers</td>
+                                <td class="p-2 border-r border-slate-700">Forward / Reverse RF</td>
+                                <td class="p-2 border-r border-slate-700">Variable RF resistor; low capacitance & low RF leakage</td>
+                                <td class="p-2 text-accent-cyan">RF Attenuators, Switches, High Freq</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Tunnel Diode</td>
+                                <td class="p-2 border-r border-slate-700">Ultra-Heavily Doped PN</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green">Forward Bias (V<sub>peak</sub> to V<sub>valley</sub>)</td>
+                                <td class="p-2 border-r border-slate-700">Quantum Tunneling; Negative Differential Resistance ($-\Delta R$)</td>
+                                <td class="p-2 text-accent-cyan">Microwave Oscillators (GHz range)</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Photodiode / APD</td>
+                                <td class="p-2 border-r border-slate-700">Photosensitive PN / Avalanche</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-orange">Reverse Bias</td>
+                                <td class="p-2 border-r border-slate-700">Photons generate electron-hole pairs $\implies$ Reverse current</td>
+                                <td class="p-2 text-accent-cyan">Optical Fiber Receivers / Light Sensor</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">LED</td>
+                                <td class="p-2 border-r border-slate-700">Direct Bandgap Semi (GaAs/GaN)</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green">Forward Bias</td>
+                                <td class="p-2 border-r border-slate-700">Electroluminescence (Recombination emits photons)</td>
+                                <td class="p-2 text-accent-cyan">Displays, Optical Transmitters</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FORMULA CARDS GRID FOR DIODES -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- ZENER POWER FORMULA CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-red-500 space-y-2">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono font-bold text-red-400">🔴 FORMULA CARD</span>
+                        <span class="text-xs font-mono px-1.5 py-0.5 rounded bg-red-950 text-red-300">ZENER MAX CURRENT</span>
+                    </div>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-lg text-accent-cyan font-bold border border-slate-700">
+                        $$I_{ZM} = \frac{P_{D(\max)}}{V_Z}$$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-yellow">VARIABLES:</strong> $P_{D(\max)}$ [W] = Max Power, $V_Z$ [V] = Zener Voltage</p>
+                        <p><strong class="text-accent-green">USE WHEN:</strong> Finding max safe Zener current before thermal damage.</p>
+                        <p><strong class="text-accent-orange">EXAMPLE [Q4]:</strong> $V_Z = 6.8\text{V}, P_D = 500\text{mW} \implies I_{ZM} = \frac{500\text{mW}}{6.8\text{V}} = \mathbf{73.5\text{ mA}}$</p>
+                        <p class="text-rose-400"><strong class="text-rose-300">⚠️ TRAP:</strong> Always express power in Watts and current in Amperes!</p>
+                    </div>
+                </div>
+
+                <!-- VARACTOR CAPACITANCE FORMULA CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-orange-500 space-y-2">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono font-bold text-orange-400">🟠 FORMULA CARD</span>
+                        <span class="text-xs font-mono px-1.5 py-0.5 rounded bg-orange-950 text-orange-300">VARACTOR JUNCTION</span>
+                    </div>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-sm text-accent-cyan font-bold border border-slate-700">
+                        $$C_J = \frac{C(0)}{\left(1 + \frac{V_R}{V_T}\right)^n} \quad \text{or} \quad \frac{C_1}{C_2} = \sqrt{\frac{V_{R2}}{V_{R1}}}$$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-yellow">VARIABLES:</strong> $C(0)$ = zero-bias capacitance, $V_R$ = reverse bias, $n = 1/2$ (alloy junction)</p>
+                        <p><strong class="text-accent-green">USE WHEN:</strong> Calculating tuning capacitance vs tuning voltage.</p>
+                        <p><strong class="text-accent-orange">EXAMPLE [Q15]:</strong> $C_1 = 36\text{pF}$ at $V_1 = 4\text{V}$. At $V_2 = 16\text{V} \implies C_2 = 36 \times \sqrt{4/16} = \mathbf{18\text{ pF}}$</p>
+                        <p class="text-rose-400"><strong class="text-rose-300">⚠️ TRAP:</strong> $V_R \uparrow \implies C_J \downarrow$ (Inversely proportional!)</p>
+                    </div>
+                </div>
+
+                <!-- DIODE MODELS COMPARISON CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-yellow-500 space-y-2">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono font-bold text-yellow-400">🟡 CONCEPT CARD</span>
+                        <span class="text-xs font-mono px-1.5 py-0.5 rounded bg-yellow-950 text-yellow-300">DIODE MODELS</span>
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-cyan font-bold">1. IDEAL MODEL:</span>
+                            <p>Closed Switch ($V_D = 0\text{V}$, $r_d = 0$). Gives <strong class="text-accent-yellow">HIGHEST $I_{DQ}$ [Q21]</strong>!</p>
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-cyan font-bold">2. PRACTICAL MODEL [Q24]:</span>
+                            <p>Constant $V_D = 0.7\text{V}$ source in series with closed switch.</p>
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <span class="text-accent-cyan font-bold">3. PIECEWISE LINEAR [Q23]:</span>
+                            <p>$V_D = V_K + I_D r_d = 0.7\text{V} + I_D(10\Omega) = \mathbf{0.922\text{ V}}$</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================================================================================== -->
+        <!-- TAB 3: RECTIFIERS, CLIPPERS & POWER -->
+        <!-- ==================================================================================== -->
+        <div id="tab3" class="tab-content space-y-6 hidden">
+            
+            <!-- RECTIFIERS COMPARISON MATRIX -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-accent-cyan flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>🔋 POWER SUPPLY RECTIFIERS COMPARISON MATRIX [NOTES Q23-Q33]</span>
+                    <span class="px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-700 font-bold text-xs">🔴 MUST MEMORIZE</span>
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono border-collapse">
+                        <thead>
+                            <tr class="bg-navy-900 text-accent-cyan border-b border-slate-700">
+                                <th class="p-2 border-r border-slate-700">Parameter</th>
+                                <th class="p-2 border-r border-slate-700">Half-Wave Rectifier</th>
+                                <th class="p-2 border-r border-slate-700">Full-Wave Center-Tapped</th>
+                                <th class="p-2">Full-Wave Bridge Rectifier</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700 text-slate-300">
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Number of Diodes</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-yellow">1 Diode</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-yellow">2 Diodes</td>
+                                <td class="p-2 text-accent-yellow font-bold">4 Diodes</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">DC Voltage ($V_{dc}$)</td>
+                                <td class="p-2 border-r border-slate-700">$V_{dc} = \frac{V_m}{\pi} = 0.318 V_m$</td>
+                                <td class="p-2 border-r border-slate-700">$V_{dc} = \frac{2V_m}{\pi} = 0.636 V_m$</td>
+                                <td class="p-2">$V_{dc} = \frac{2V_m}{\pi} = 0.636 V_m$</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Ripple Frequency ($f_{out}$) [Q27]</td>
+                                <td class="p-2 border-r border-slate-700 text-orange-400">$f_{out} = f_{in}$ ($60\text{ Hz} \to 60\text{ Hz}$)</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">$f_{out} = 2 f_{in}$ ($60\text{ Hz} \to 120\text{ Hz}$)</td>
+                                <td class="p-2 text-accent-green font-bold">$f_{out} = 2 f_{in}$ ($60\text{ Hz} \to 120\text{ Hz}$)</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Peak Inverse Voltage (PIV) [Q32]</td>
+                                <td class="p-2 border-r border-slate-700">$PIV = V_m$</td>
+                                <td class="p-2 border-r border-slate-700 text-rose-400 font-bold">$PIV = 2 V_m$ (TRAP!)</td>
+                                <td class="p-2 text-accent-cyan font-bold">$PIV = V_m = V_{rms}\sqrt{2}$</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Transformer Secondary Drop [Q26]</td>
+                                <td class="p-2 border-r border-slate-700">High $R_{int} \implies V_{dc} \downarrow$</td>
+                                <td class="p-2 border-r border-slate-700 font-bold text-rose-300">High internal resistance reduces output under load!</td>
+                                <td class="p-2">Requires no center tap transformer</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- WAVESHAPING & MULTIPLIER CARDS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- CLIPPERS VS CLAMPERS CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-accent-cyan space-y-2">
+                    <span class="text-xs font-mono font-bold text-accent-cyan">🎯 WAVESHAPING DEFINITIONS</span>
+                    <div class="text-xs space-y-2 font-mono text-slate-300">
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-yellow">CLIPPER (Limiter) [Q29]:</strong>
+                            <p>Cuts off portion of waveform. Diode conducts when $V_{in} \ge V_B + V_D = 2\text{V} + 0.7\text{V} = \mathbf{2.7\text{ V}}$.</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-yellow">CLAMPER (DC Restorer) [Q30, Q31]:</strong>
+                            <p>Shifts DC level. Uses $D + C + R$. $V_{p-p}$ remains unchanged! Positive peak at $0\text{V} \implies$ <strong class="text-accent-cyan">Negative Clamper</strong>.</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-yellow">PEAK DETECTOR [Q25]:</strong>
+                            <p>Consists of <strong>Diode + Capacitor</strong>. Captures peak AC voltage.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VOLTAGE MULTIPLIERS CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-orange-500 space-y-2">
+                    <span class="text-xs font-mono font-bold text-orange-400">⚡ VOLTAGE QUADRUPLER [Q28]</span>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-sm text-accent-cyan font-bold border border-slate-700">
+                        $$V_{dc(peak)} = 4 \times V_m = 4 \times (V_{rms} \sqrt{2})$$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-yellow">GIVEN:</strong> $V_{rms} = 30\text{ V}$</p>
+                        <p><strong class="text-accent-green">STEP 1:</strong> $V_m = 30 \times \sqrt{2} = 42.426\text{ V}$</p>
+                        <p><strong class="text-accent-green">STEP 2:</strong> $V_{out} = 4 \times 42.426\text{ V} = \mathbf{169.7\text{ V} \approx 170\text{ V}}$</p>
+                        <p class="text-rose-400"><strong class="text-rose-300">⚠️ TRAP:</strong> Always convert $V_{rms}$ to peak $V_m$ first by multiplying by $\sqrt{2}$!</p>
+                    </div>
+                </div>
+
+                <!-- DROPOUT VOLTAGE CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-red-500 space-y-2">
+                    <span class="text-xs font-mono font-bold text-red-400">🔴 REGULATOR DEFINITION [Q33]</span>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-xs text-accent-yellow font-bold border border-slate-700">
+                        DROPOUT VOLTAGE = $V_{in(\min)} - V_{out}$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-cyan">DEFINITION:</strong> Minimum input-to-output differential voltage required by a linear regulator to maintain regulation.</p>
+                        <p><strong class="text-accent-orange">CAUSE OF REGULATION LOSS [Q10]:</strong> If input voltage drops below breakdown threshold, output drops below nominal $V_Z$.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================================================================================== -->
+        <!-- TAB 4: BJT BIASING & AMPLIFIERS -->
+        <!-- ==================================================================================== -->
+        <div id="tab4" class="tab-content space-y-6 hidden">
+            
+            <!-- BJT MODES OF OPERATION MATRIX -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-accent-cyan flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>🔀 BJT OPERATING MODES & JUNCTION BIAS MATRIX [NOTES Q34-Q38, Q47]</span>
+                    <span class="px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-700 font-bold text-xs">🔴 MUST MEMORIZE</span>
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono border-collapse">
+                        <thead>
+                            <tr class="bg-navy-900 text-accent-cyan border-b border-slate-700">
+                                <th class="p-2 border-r border-slate-700">Operating Region</th>
+                                <th class="p-2 border-r border-slate-700">Base-Emitter (BE) Junction</th>
+                                <th class="p-2 border-r border-slate-700">Collector-Base (CB) Junction</th>
+                                <th class="p-2 border-r border-slate-700">Circuit Application</th>
+                                <th class="p-2">Key Board Exam Identification Rule</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700 text-slate-300">
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Cutoff Region</td>
+                                <td class="p-2 border-r border-slate-700 text-rose-400">Reverse Biased</td>
+                                <td class="p-2 border-r border-slate-700 text-rose-400">Reverse Biased</td>
+                                <td class="p-2 border-r border-slate-700">Switch OFF</td>
+                                <td class="p-2 text-slate-400">$I_B = 0, I_C \approx 0, V_{CE} = V_{CC}$</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700 bg-navy-900">Active Region</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">Forward Biased</td>
+                                <td class="p-2 border-r border-slate-700 text-rose-400">Reverse Biased</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-cyan font-bold">Linear Amplifier</td>
+                                <td class="p-2 text-accent-yellow font-bold">$I_C = \beta I_B$, $V_{BE} = 0.7\text{V}$, $V_{CB} > 0$</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Saturation Region [Q38, Q47]</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">Forward Biased</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">Forward Biased</td>
+                                <td class="p-2 border-r border-slate-700">Switch ON</td>
+                                <td class="p-2 text-accent-green font-bold">$V_B > V_E$ AND $V_B > V_C$ ($V_{BE}=0.7\text{V}, V_{BC} > 0$)</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">Inverted / Reverse Active [Q35]</td>
+                                <td class="p-2 border-r border-slate-700 text-rose-400">Reverse Biased</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">Forward Biased</td>
+                                <td class="p-2 border-r border-slate-700 text-slate-400">Specialized Switches</td>
+                                <td class="p-2 text-rose-300">BE Reverse, CB Forward (Emitter acts as Collector)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- BJT BIAS CIRCUITS & FORMULAS GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- BJT COLLECTOR VOLTAGE FORMULA CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-accent-cyan space-y-2">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono font-bold text-accent-cyan">🔴 FORMULA CARD</span>
+                        <span class="text-xs font-mono px-1.5 py-0.5 rounded bg-navy-900 text-slate-300">BJT COLLECTOR VOLTAGE</span>
+                    </div>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-sm text-accent-cyan font-bold border border-slate-700">
+                        $$I_C = \frac{\beta}{\beta + 1} I_E \quad \implies \quad V_C = V_{CC} - I_C R_C$$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-yellow">EXAMPLE [Q43]:</strong> Given $I_E = 1\text{ mA}, R_C = 4.7\text{ k}\Omega, \beta = 100, V_{CC} = 10\text{ V}$</p>
+                        <p><strong class="text-accent-green">STEP 1:</strong> $I_C = \frac{100}{101} (1\text{ mA}) = 0.9901\text{ mA}$</p>
+                        <p><strong class="text-accent-green">STEP 2:</strong> $V_C = 10 - (0.9901\text{mA} \times 4.7\text{k}\Omega) = \mathbf{5.35\text{ V}}$</p>
+                        <p class="text-rose-400"><strong class="text-rose-300">⚠️ TRAP [CLARIFICATION]:</strong> Do not assume $I_C = I_E$ if exact $\beta$ is given! Use $\frac{\beta}{\beta+1}$.</p>
+                    </div>
+                </div>
+
+                <!-- BIAS STABILITY & FEEDBACK CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-yellow-500 space-y-2">
+                    <span class="text-xs font-mono font-bold text-yellow-400">🟡 BIAS CIRCUITS STABILITY</span>
+                    <div class="text-xs space-y-2 font-mono text-slate-300">
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-rose-400">FIXED BIAS [Q39, Q49]:</strong>
+                            <p>Poor stability! Temp $\uparrow \implies I_C \uparrow \implies$ Q-point shifts toward saturation (Thermal Runaway risk).</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-green">COLLECTOR FEEDBACK [Q50]:</strong>
+                            <p>Negative Feedback: $I_C \uparrow \implies V_C \downarrow \implies I_B \downarrow \implies I_C \downarrow$ (Stabilizes Q-point).</p>
+                        </div>
+                        <div class="p-2 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-cyan">EMITTER DEGENERATION / BYPASS [Q41, Q42]:</strong>
+                            <p>Increasing $R_E$ stabilizes Q-point but reduces gain. $C_E$ bypasses $R_E$ for AC to restore high gain.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AMPLIFIER CLASSES CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-orange-500 space-y-2">
+                    <span class="text-xs font-mono font-bold text-orange-400">🟠 POWER AMPLIFIER CLASSES</span>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong>Class A:</strong> $360^\circ$ conduction (High linearity, low efficiency)
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-yellow">Class B [Q36]:</strong> $180^\circ$ conduction (Pushed-pull)
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong>Class AB:</strong> $>180^\circ, <360^\circ$ (Eliminates crossover)
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-cyan">Class C [Q48]:</strong> $<180^\circ$ conduction. <span class="text-accent-green">Made linear by adding LC tuned tank!</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================================================================================== -->
+        <!-- TAB 5: FETs, MOSFETs & SMALL-SIGNAL -->
+        <!-- ==================================================================================== -->
+        <div id="tab5" class="tab-content space-y-6 hidden">
+            
+            <!-- FET DEVICES COMPARISON MATRIX -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-accent-cyan flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>🔌 FET & MOSFET FAMILY COMPARISON MATRIX [NOTES Q51-Q64]</span>
+                    <span class="px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-700 font-bold text-xs">🔴 MUST MEMORIZE</span>
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono border-collapse">
+                        <thead>
+                            <tr class="bg-navy-900 text-accent-cyan border-b border-slate-700">
+                                <th class="p-2 border-r border-slate-700">FET Type</th>
+                                <th class="p-2 border-r border-slate-700">Physical Channel Built-In?</th>
+                                <th class="p-2 border-r border-slate-700">Operating Modes</th>
+                                <th class="p-2 border-r border-slate-700">Drain Current Equation ($I_D$)</th>
+                                <th class="p-2">Gate Biasing Condition</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700 text-slate-300">
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">JFET</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green">YES</td>
+                                <td class="p-2 border-r border-slate-700 font-bold text-accent-orange">Depletion Mode Only</td>
+                                <td class="p-2 border-r border-slate-700">$I_D = I_{DSS} \left(1 - \frac{V_{GS}}{V_P}\right)^2$</td>
+                                <td class="p-2 text-rose-400">Reverse Biased Gate-Source</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">D-MOSFET [Q59]</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">YES (Physical Channel)</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-cyan font-bold">Both Depletion & Enhancement</td>
+                                <td class="p-2 border-r border-slate-700">$I_D = I_{DSS} \left(1 - \frac{V_{GS}}{V_P}\right)^2$</td>
+                                <td class="p-2 text-slate-300">Can be positive or negative $V_{GS}$</td>
+                            </tr>
+                            <tr class="hover:bg-navy-900/50">
+                                <td class="p-2 font-bold text-white border-r border-slate-700">E-MOSFET [Q52, Q55]</td>
+                                <td class="p-2 border-r border-slate-700 text-rose-400 font-bold">NO (Induced Channel)</td>
+                                <td class="p-2 border-r border-slate-700 text-accent-green font-bold">Enhancement Mode Only</td>
+                                <td class="p-2 border-r border-slate-700 font-bold text-accent-cyan">$I_D = k (V_{GS} - V_{GS(th)})^2$</td>
+                                <td class="p-2 text-accent-yellow">$V_{GS} > V_{GS(th)}$ required for ON</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FET FORMULA CARDS GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- TRANSCONDUCTANCE FORMULA CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-accent-cyan space-y-2">
+                    <span class="text-xs font-mono font-bold text-accent-cyan">🔴 TRANSCONDUCTANCE ($g_m$) [Q53, Q57]</span>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-xs text-accent-cyan font-bold border border-slate-700">
+                        $$g_m = \frac{\Delta I_D}{\Delta V_{GS}} = g_{m0} \sqrt{\frac{I_D}{I_{DSS}}} \quad \text{where } g_{m0} = \frac{2I_{DSS}}{|V_P|}$$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-yellow">EXAMPLE [Q57]:</strong> $I_{DSS} = 10\text{mA}, g_{m0} = 4\text{mS}$. Find $I_D$ for $g_m = 0.6 g_{m0}$.</p>
+                        <p><strong class="text-accent-green">CALCULATION:</strong> $0.6 = \sqrt{\frac{I_D}{10\text{mA}}} \implies 0.36 = \frac{I_D}{10} \implies \mathbf{I_D = 3.6\text{ mA}}$</p>
+                    </div>
+                </div>
+
+                <!-- MILLER EFFECT FORMULA CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-orange-500 space-y-2">
+                    <span class="text-xs font-mono font-bold text-orange-400">🟠 MILLER CAPACITANCE [Q56]</span>
+                    <div class="p-3 bg-navy-900 rounded font-mono text-center text-xs text-accent-cyan font-bold border border-slate-700">
+                        $$C_{in(Miller)} = C_{gd}(1 - A_V) \quad \implies \quad C_{in(total)} = C_{gs} + C_{in(Miller)}$$
+                    </div>
+                    <div class="text-xs space-y-1 font-mono text-slate-300">
+                        <p><strong class="text-accent-yellow">EXAMPLE [Q56]:</strong> $A_V = -10, C_{gs} = 5\text{pF}, C_{gd} = 2\text{pF}$</p>
+                        <p><strong class="text-accent-green">STEP 1:</strong> $C_{in(Miller)} = 2\text{pF}(1 - (-10)) = 2(11) = 22\text{ pF}$</p>
+                        <p><strong class="text-accent-green">STEP 2:</strong> $C_{in(total)} = 5\text{pF} + 22\text{pF} = \mathbf{27\text{ pF}}$</p>
+                    </div>
+                </div>
+
+                <!-- FET OPERATING REGIONS CARD -->
+                <div class="bg-navy-800 p-4 rounded-lg card-glow border-t-4 border-yellow-500 space-y-2">
+                    <span class="text-xs font-mono font-bold text-yellow-400">🟡 FET OPERATING REGIONS</span>
+                    <div class="text-xs space-y-2 font-mono text-slate-300">
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-yellow">OHMIC / TRIODE REGION [Q34, Q54]:</strong>
+                            <p>$V_{DS} < V_{GS} - V_{th}$. MOSFET behaves like a <strong class="text-accent-cyan">voltage-controlled resistor</strong>.</p>
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-green">SATURATION REGION:</strong>
+                            <p>$V_{DS} \ge V_{GS} - V_{th}$. Drain current is constant (Voltage-controlled current source).</p>
+                        </div>
+                        <div class="p-1.5 rounded bg-navy-900 border border-slate-700">
+                            <strong class="text-accent-orange">SOURCE FOLLOWER (Common Drain) [Q51]:</strong>
+                            <p>$A_V \approx 1$ due to strong negative feedback from source resistor $R_S$.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================================================================================== -->
+        <!-- TAB 6: TRAPS & RAPID CHEAT SHEET -->
+        <!-- ==================================================================================== -->
+        <div id="tab6" class="tab-content space-y-6 hidden">
+            
+            <!-- DON'T CONFUSE THESE SECTION -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-rose-400 flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>⚠️ DON'T CONFUSE THESE — COMMON BOARD EXAM MULTIPLE CHOICE TRAPS</span>
+                    <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-600 font-bold text-xs">⚠️ HIGH ERROR RATE</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                    
+                    <div class="p-3 bg-navy-900 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-yellow font-bold text-sm block border-b border-slate-800 pb-1">TRAP 1: PIV of Center-Tapped vs Bridge Rectifier</span>
+                        <div class="grid grid-cols-2 gap-2 text-slate-300">
+                            <div class="p-2 rounded bg-navy-800">
+                                <strong class="text-rose-400">Center-Tapped FW:</strong>
+                                <p>$PIV = 2 V_m$</p>
+                                <p class="text-slate-400">Diode must withstand twice the peak secondary voltage!</p>
+                            </div>
+                            <div class="p-2 rounded bg-navy-800">
+                                <strong class="text-accent-green">Bridge FW [Q32]:</strong>
+                                <p>$PIV = V_m$</p>
+                                <p class="text-slate-400">For $24\text{V}_{rms} \implies PIV = 24\sqrt{2} = \mathbf{34\text{ V}}$</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-navy-900 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-yellow font-bold text-sm block border-b border-slate-800 pb-1">TRAP 2: D-MOSFET vs E-MOSFET Channel</span>
+                        <div class="grid grid-cols-2 gap-2 text-slate-300">
+                            <div class="p-2 rounded bg-navy-800">
+                                <strong class="text-accent-cyan">D-MOSFET [Q59]:</strong>
+                                <p>Has physical channel constructed during manufacturing.</p>
+                                <p class="text-slate-400">Operates in D-mode & E-mode.</p>
+                            </div>
+                            <div class="p-2 rounded bg-navy-800">
+                                <strong class="text-accent-orange">E-MOSFET [Q52]:</strong>
+                                <p>NO physical channel until $V_{GS} > V_{GS(th)}$.</p>
+                                <p class="text-slate-400">Cutoff when $V_{GS} < V_{GS(th)}$.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-navy-900 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-yellow font-bold text-sm block border-b border-slate-800 pb-1">TRAP 3: Diode Dynamic Resistance vs DC Current</span>
+                        <div class="grid grid-cols-2 gap-2 text-slate-300">
+                            <div class="p-2 rounded bg-navy-800">
+                                <strong class="text-accent-green">Dynamic $r_d$ [Q20]:</strong>
+                                <p>$r_d = \frac{26\text{mV}}{I_D}$</p>
+                                <p class="text-slate-400">As current $I_D \uparrow \implies$ resistance $r_d \mathbf{\downarrow}$</p>
+                            </div>
+                            <div class="p-2 rounded bg-navy-800">
+                                <strong class="text-rose-400">Transistor $r_o$ [Q40]:</strong>
+                                <p>Internal output resistance decreases as current increases significantly!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-navy-900 rounded border border-slate-700 space-y-2">
+                        <span class="text-accent-yellow font-bold text-sm block border-b border-slate-800 pb-1">TRAP 4: Silicon Forward Voltage Temp Coefficient</span>
+                        <div class="p-2 rounded bg-navy-800 text-slate-300 space-y-1">
+                            <p><strong class="text-accent-orange">RULE [Q22]:</strong> Forward voltage drop of a silicon diode <strong class="text-rose-300">DECREASES</strong> with temperature under constant current bias!</p>
+                            <p class="text-slate-400">Rate: approx $-2.1\text{ mV/}^\circ\text{C}$. Higher temp $\implies$ lower forward turn-on voltage!</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ULTIMATE RAPID REVIEW FORMULA CHEAT SHEET -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-accent-cyan flex items-center justify-between border-b border-slate-700 pb-2">
+                    <span>⚡ ULTIMATE ECE BOARD RAPID FORMULA CHEAT SHEET</span>
+                    <span class="text-xs text-slate-400 font-sans">Final Exam Desk Reference</span>
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs font-mono">
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">1. Zener Power Limit</span>
+                        <p class="text-slate-300">$I_{ZM} = \frac{P_{D(\max)}}{V_Z}$</p>
+                        <p class="text-slate-400">$I_S = \frac{V_{in} - V_Z}{R_S}$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">2. Varactor Tuning</span>
+                        <p class="text-slate-300">$C_2 = C_1 \sqrt{\frac{V_{R1}}{V_{R2}}}$</p>
+                        <p class="text-slate-400">$C_J \propto \frac{1}{\sqrt{V_R}}$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">3. FW Rectifier DC</span>
+                        <p class="text-slate-300">$V_{dc} = 0.636 V_m$</p>
+                        <p class="text-slate-400">$f_{ripple} = 2 f_{in}$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">4. Quadrupler Voltage</span>
+                        <p class="text-slate-300">$V_{out} = 4 \times (V_{rms}\sqrt{2})$</p>
+                        <p class="text-slate-400">$30\text{V}_{rms} \implies 170\text{V}$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">5. BJT Currents</span>
+                        <p class="text-slate-300">$I_E = I_C + I_B$</p>
+                        <p class="text-slate-400">$I_C = \frac{\beta}{\beta+1} I_E$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">6. Dynamic Resistance</span>
+                        <p class="text-slate-300">$r_d = \frac{26\text{mV}}{I_D}$</p>
+                        <p class="text-slate-400">At $T = 300\text{ K}$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">7. E-MOSFET Current</span>
+                        <p class="text-slate-300">$I_D = k (V_{GS} - V_{th})^2$</p>
+                        <p class="text-slate-400">$k = \frac{I_{D(on)}}{(V_{GS(on)} - V_{th})^2}$</p>
+                    </div>
+                    <div class="p-2.5 rounded bg-navy-900 border border-slate-700 space-y-1">
+                        <span class="text-accent-yellow font-bold">8. Miller Input Cap</span>
+                        <p class="text-slate-300">$C_{M} = C_{gd}(1 - A_V)$</p>
+                        <p class="text-slate-400">$C_{in} = C_{gs} + C_M$</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOURCE ACCURACY & AMBIGUITY FLAG LOG -->
+            <div class="bg-navy-800 rounded-lg p-4 card-glow space-y-3">
+                <h2 class="text-sm font-bold font-mono text-slate-300 border-b border-slate-700 pb-2">
+                    📋 SOURCE MATERIAL ACCURACY & AMBIGUITY AUDIT LOG
+                </h2>
+                <div class="space-y-1.5 text-xs font-mono text-slate-400">
+                    <p><strong class="text-accent-cyan">[NOTES]</strong> Extracted directly from 64 board exam practice items across 6 pages of <code class="text-slate-200">Aug 13 (Elecs).pdf</code>.</p>
+                    <p><strong class="text-accent-yellow">[CLARIFICATION]</strong> Clarified Q43 approximation where some board keys approximate $I_C \approx I_E = 1\text{mA}$ giving $V_C = 5.30\text{V}$, whereas exact $\beta/(\beta+1)$ gives $I_C = 0.99\text{mA} \implies V_C = 5.35\text{V}$.</p>
+                    <p><strong class="text-accent-orange">[SUPPLEMENTAL]</strong> Added standard ECE formulas for $g_{m0}$ transconductance and $V_T = 26\text{mV}$ thermal voltage at room temperature ($300\text{K}$) to complete computational steps.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT FOR TABS AND FILTERING -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+
+            // Reset tab button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-accent-cyan', 'text-navy-900', 'font-bold');
+                btn.classList.add('bg-navy-800', 'text-slate-300');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Highlight active button
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('bg-navy-800', 'text-slate-300');
+            activeBtn.classList.add('bg-accent-cyan', 'text-navy-900', 'font-bold');
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const priority = document.getElementById('priorityFilter').value;
+
+            // Search through text nodes and cards
+            const cards = document.querySelectorAll('.card-glow, tr');
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                const matchesSearch = text.includes(query);
+                
+                let matchesPriority = true;
+                if (priority === 'MUST_MEMORIZE' && !text.includes('must memorize') && !text.includes('🔴')) matchesPriority = false;
+                if (priority === 'HIGH_YIELD' && !text.includes('high yield') && !text.includes('🟠')) matchesPriority = false;
+                if (priority === 'IMPORTANT' && !text.includes('important') && !text.includes('🟡')) matchesPriority = false;
+                if (priority === 'COMMON_TRAP' && !text.includes('trap') && !text.includes('⚠️')) matchesPriority = false;
+
+                if (matchesSearch && matchesPriority) {
+                    card.style.display = '';
+                } else if (query !== '' || priority !== 'ALL') {
+                    card.style.display = 'none';
+                } else {
+                    card.style.display = '';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
