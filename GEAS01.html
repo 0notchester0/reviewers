@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam Command Center - GEAS Physics & Mechanics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@300;400;600;700;900&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0f19;
+      color: #e2e8f0;
+    }
+    
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .glass-card {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card-hover:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 4px 20px -2px rgba(59, 130, 246, 0.15);
+    }
+
+    .badge-must { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
+    .badge-high { background-color: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid #f97316; }
+    .badge-important { background-color: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
+    .badge-concept { background-color: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-trap { background-color: rgba(217, 119, 6, 0.25); color: #fef08a; border: 1px solid #f59e0b; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0f19; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+</head>
+<body class="min-h-screen pb-12">
+
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-50 bg-[#0d1322]/95 backdrop-blur-md border-b border-slate-800 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-blue-600/20 border border-blue-500/40 rounded-lg text-blue-400 font-black text-xl font-mono-code">
+          ECE⚡BOARD
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-wide leading-tight">GEAS REVIEWER — PHYSICS & MECHANICS</h1>
+          <p class="text-xs text-slate-400 flex items-center gap-2">
+            <span>High-Density Rapid Review Guide</span>
+            <span class="text-slate-600">•</span>
+            <span class="text-emerald-400 font-mono-code">100% Coverage of Uploaded Notes</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Search & Filter -->
+      <div class="flex items-center gap-2">
+        <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="Search formula, topic, trap..." 
+               class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 w-48 md:w-64 font-mono-code">
+        <div class="text-[10px] bg-slate-800 px-2 py-1 rounded text-slate-400 border border-slate-700">
+          Source: <span class="text-blue-400 font-semibold">[NOTES]</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="max-w-7xl mx-auto flex gap-1 mt-3 overflow-x-auto text-xs font-semibold border-t border-slate-800/80 pt-2">
+      <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn px-3 py-1.5 rounded-md bg-blue-600 text-white font-medium flex items-center gap-1.5 whitespace-nowrap">
+        📌 <span>Master Overview</span>
+      </button>
+      <button onclick="switchTab('tab-formulas')" id="btn-tab-formulas" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-1.5 whitespace-nowrap">
+        ⚡ <span>Formula Sheet & Rules</span>
+      </button>
+      <button onclick="switchTab('tab-traps')" id="btn-tab-traps" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-1.5 whitespace-nowrap">
+        ⚖️ <span>Don't Confuse These</span>
+      </button>
+      <button onclick="switchTab('tab-guides')" id="btn-tab-guides" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-1.5 whitespace-nowrap">
+        📐 <span>Constants, Units & Decision Trees</span>
+      </button>
+      <button onclick="switchTab('tab-solved')" id="btn-tab-solved" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-1.5 whitespace-nowrap">
+        📝 <span>Solved Board Exam Bank (35 Qs)</span>
+      </button>
+      <button onclick="switchTab('tab-calculators')" id="btn-tab-calculators" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center gap-1.5 whitespace-nowrap">
+        🧮 <span>Interactive Solvers</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 mt-6">
+
+    <!-- ==========================================
+         TAB 1: MASTER OVERVIEW
+    ========================================== -->
+    <section id="tab-overview" class="tab-content block space-y-6">
+      
+      <!-- TOP PRIORITY LEGEND BANNER -->
+      <div class="glass-card p-4 rounded-xl flex flex-wrap items-center justify-between gap-3 border-l-4 border-l-blue-500">
+        <div>
+          <h2 class="text-sm font-bold text-white uppercase tracking-wider">BOARD EXAM PRIORITY KEY</h2>
+          <p class="text-xs text-slate-400">Classified based on frequency in past board exams and source notes</p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+          <span class="badge-must px-2 py-1 rounded">🔴 MUST MEMORIZE</span>
+          <span class="badge-high px-2 py-1 rounded">🟠 HIGH-YIELD</span>
+          <span class="badge-important px-2 py-1 rounded">🟡 IMPORTANT</span>
+          <span class="badge-concept px-2 py-1 rounded">🔵 CONCEPTUAL</span>
+          <span class="badge-trap px-2 py-1 rounded">⚠️ COMMON TRAP</span>
+        </div>
+      </div>
+
+      <!-- VISUAL CONCEPT MAP GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- CARD 1: MECHANICS & DYNAMICS -->
+        <div class="glass-card glass-card-hover p-4 rounded-xl space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-blue-400 text-sm flex items-center gap-2">
+              <span>🚗</span> KINEMATICS & DYNAMICS
+            </h3>
+            <span class="badge-must px-1.5 py-0.5 rounded text-[10px]">🔴 ESSENTIAL</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">Overtaking Trains:</strong> $t = \frac{L_1 + L_2}{v_1 - v_2}$ (same direction)</p>
+            <p><strong class="text-white">Free-Fall Symmetry:</strong> Time to peak $t_{peak} = \frac{t_{up} + t_{down}}{2}$</p>
+            <p><strong class="text-white">Vertical Wall Friction:</strong> Min force to hold block: $P_{min} = \frac{mg}{\mu_s}$</p>
+            <p><strong class="text-white">Apparent Weight (Elevator):</strong> $N = m(g \pm a)$</p>
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono-code text-amber-300">
+              TRAP: On vertical wall, $N = P$, so $f_s = \mu P = mg$. Do NOT use $N = mg$!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: WORK, ENERGY & MOMENTUM -->
+        <div class="glass-card glass-card-hover p-4 rounded-xl space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
+              <span>💥</span> WORK, ENERGY & IMPULSE
+            </h3>
+            <span class="badge-high px-1.5 py-0.5 rounded text-[10px]">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">Constant Power Velocity:</strong> $v \propto t^{1/2}$ ($P = Fv = ma\cdot v$)</p>
+            <p><strong class="text-white">Hanging Chain Work:</strong> $W = \frac{MgL}{18}$ for $1/3$ length hanging</p>
+            <p><strong class="text-white">Momentum vs KE:</strong> $KE = \frac{p^2}{2m} \implies +20\% p \rightarrow +44\% KE$</p>
+            <p><strong class="text-white">Impulse Comparison:</strong> Bouncing ball delivers $2\times$ impulse vs sticking clay ball!</p>
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono-code text-emerald-300">
+              Crumple Zone: $\uparrow \Delta t \implies \downarrow F_{avg}$ since $J = F_{avg}\Delta t = \Delta p$.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: ROTATION & RIGID BODIES -->
+        <div class="glass-card glass-card-hover p-4 rounded-xl space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-purple-400 text-sm flex items-center gap-2">
+              <span>🔄</span> ROTATIONAL DYNAMICS
+            </h3>
+            <span class="badge-must px-1.5 py-0.5 rounded text-[10px]">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">Incline Race:</strong> Solid Cylinder ($I=\frac{1}{2}mr^2$) BEATS Hollow Sphere ($I=\frac{2}{3}mr^2$)</p>
+            <p><strong class="text-white">Flywheel Expansion:</strong> Heated flywheel $\rightarrow R\uparrow \rightarrow I\uparrow \rightarrow \omega\downarrow$ (Cons. of $L$)</p>
+            <p><strong class="text-white">Rolling vs Sliding:</strong> $KE_{roll} = \frac{1}{2}mv^2 + \frac{1}{2}I\omega^2 > KE_{slide}$ at same $v$</p>
+            <p><strong class="text-white">Newton 2nd Law (Rotation):</strong> $\tau_{net} = I\alpha$</p>
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono-code text-purple-300">
+              Skater pulling arms in: $I\downarrow \implies \omega\uparrow \implies KE_{rot}\uparrow$ (work done by muscles)!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4: SHM & WAVE MECHANICS -->
+        <div class="glass-card glass-card-hover p-4 rounded-xl space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-yellow-400 text-sm flex items-center gap-2">
+              <span>🌊</span> SHM & WAVES
+            </h3>
+            <span class="badge-high px-1.5 py-0.5 rounded text-[10px]">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">Parallel Springs:</strong> $k_{eq} = 2k \implies \omega = \sqrt{\frac{2k}{m}}$</p>
+            <p><strong class="text-white">SHM Energy Ratio:</strong> When $KE = 3 PE \implies x = \pm \frac{A}{2}$</p>
+            <p><strong class="text-white">Wave Speed:</strong> $y(x,t) = A\sin(kx - \omega t) \implies v = \frac{\omega}{k}$</p>
+            <p><strong class="text-white">String Wave Speed:</strong> $v = \sqrt{\frac{T}{\mu}}$ ($\uparrow T \implies \uparrow v$; $\uparrow \mu \implies \downarrow v$)</p>
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono-code text-yellow-300">
+              Sound wave = Longitudinal pressure wave caused by molecular oscillation.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5: ACOUSTICS & DOPPLER -->
+        <div class="glass-card glass-card-hover p-4 rounded-xl space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-pink-400 text-sm flex items-center gap-2">
+              <span>📢</span> ACOUSTICS & SOUND
+            </h3>
+            <span class="badge-important px-1.5 py-0.5 rounded text-[10px]">🟡 IMPORTANT</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">Inverse Square Law:</strong> $I = \frac{P}{4\pi r^2} \implies 3\times \text{distance} = \frac{1}{9} \text{intensity}$</p>
+            <p><strong class="text-white">Doppler Moving Source AWAY:</strong> $f_{observed} = f_{source} \left(\frac{v}{v + v_s}\right)$</p>
+            <p><strong class="text-white">Doppler Moving Source TOWARD:</strong> $f_{observed} = f_{source} \left(\frac{v}{v - v_s}\right)$</p>
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono-code text-pink-300">
+              TRAP: Approaching source $\rightarrow f_o > f_s$ (+ pitch); Receding source $\rightarrow f_o < f_s$ (- pitch).
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6: OPTICS & MIRRORS -->
+        <div class="glass-card glass-card-hover p-4 rounded-xl space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-cyan-400 text-sm flex items-center gap-2">
+              <span>🔍</span> OPTICS & LENSES
+            </h3>
+            <span class="badge-must px-1.5 py-0.5 rounded text-[10px]">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">TIR Conditions:</strong> 1. Dense $\to$ Rare ($n_1 > n_2$) & 2. $\theta_i > \theta_c$</p>
+            <p><strong class="text-white">Convex Mirror:</strong> ALWAYS Virtual, Upright, Diminished ($f = -R/2$)</p>
+            <p><strong class="text-white">Lensmaker's Equation:</strong> $\frac{1}{f} = (n-1)\left(\frac{1}{R_1} - \frac{1}{R_2}\right)$</p>
+            <p><strong class="text-white">Biconvex Lens Sign:</strong> $R_1 > 0$, $R_2 < 0$ (Cartesian sign convention)</p>
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono-code text-cyan-300">
+              Glass biconvex ($n=1.5, R_1=10, R_2=-15\text{ cm}$) $\implies f = +12\text{ cm}$.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         TAB 2: FORMULA COMMAND CENTER
+    ========================================== -->
+    <section id="tab-formulas" class="tab-content hidden space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-white tracking-wide">FORMULA COMMAND CENTER — DENSE REFERENCE CARDS</h2>
+        <span class="text-xs text-slate-400 font-mono-code">Format: Formula • Variables • Use Condition • Trap</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- FORMULA CARD 1 -->
+        <div class="glass-card p-4 rounded-xl border border-blue-500/30 space-y-3 searchable-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold text-blue-400 font-mono-code">KINEMATICS</span>
+            <span class="badge-must px-1.5 py-0.5 rounded text-[10px]">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base">PROJECTILE MAXIMUM HEIGHT EQUALS RANGE ($H = R$)</h3>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center font-mono-code text-blue-300 text-base">
+            $$\tan\theta = 4 \implies \theta = \arctan(4) \approx 75.96^\circ$$
+          </div>
+          <div class="text-xs space-y-1 text-slate-300">
+            <p><strong class="text-slate-400">DERIVATION:</strong> $H = \frac{v_0^2 \sin^2\theta}{2g}$, $R = \frac{v_0^2 \sin(2\theta)}{g} = \frac{2 v_0^2 \sin\theta \cos\theta}{g}$. Set $H=R \implies \frac{\sin\theta}{2} = 2\cos\theta \implies \tan\theta = 4$.</p>
+            <p><strong class="text-slate-400">USE WHEN:</strong> Asked for launch angle where apex height equals horizontal distance over flat ground.</p>
+            <p class="text-amber-400"><strong>⚠️ COMMON TRAP:</strong> Do NOT confuse with maximum range angle which is $\theta = 45^\circ$!</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 2 -->
+        <div class="glass-card p-4 rounded-xl border border-emerald-500/30 space-y-3 searchable-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold text-emerald-400 font-mono-code">ENERGY & DYNAMICS</span>
+            <span class="badge-high px-1.5 py-0.5 rounded text-[10px]">🟠 HIGH-YIELD</span>
+          </div>
+          <h3 class="font-bold text-white text-base">WORK TO PULL HANGING CHAIN ONTO TABLE</h3>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center font-mono-code text-emerald-300 text-base">
+            $$W = \Delta PE = m_{hang} g h_{cm} = \left(\frac{M}{3}\right) g \left(\frac{L}{6}\right) = \frac{M g L}{18}$$
+          </div>
+          <div class="text-xs space-y-1 text-slate-300">
+            <p><strong class="text-slate-400">VARIABLES:</strong> $M$ = Total Mass [kg], $L$ = Total Length [m], $g = 9.81\text{ m/s}^2$.</p>
+            <p><strong class="text-slate-400">USE WHEN:</strong> $1/3$ of uniform chain hangs over frictionless edge.</p>
+            <p class="text-amber-400"><strong>⚠️ COMMON TRAP:</strong> Center of mass of hanging portion is at $L/6$, NOT $L/3$!</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 3 -->
+        <div class="glass-card p-4 rounded-xl border border-purple-500/30 space-y-3 searchable-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold text-purple-400 font-mono-code">ROTATION</span>
+            <span class="badge-must px-1.5 py-0.5 rounded text-[10px]">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base">MOTOR TORQUE & ANGULAR ACCELERATION</h3>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center font-mono-code text-purple-300 text-base">
+            $$\tau = I \alpha, \quad I_{disk} = \frac{1}{2} m R^2, \quad \alpha = \frac{\omega}{t} = \frac{2\pi f}{t}$$
+          </div>
+          <div class="text-xs space-y-1 text-slate-300">
+            <p><strong class="text-slate-400">VARIABLES:</strong> $\tau$ [N·m], $I$ [kg·m²], $\alpha$ [rad/s²], $f$ [rev/s or rpm/60].</p>
+            <p><strong class="text-slate-400">EXAMPLE:</strong> $50\text{ kg}$ disk, $R=0.4\text{ m}$, $1200\text{ rpm}$ in $8\text{ s} \implies I=4\text{ kg}\cdot\text{m}^2, \alpha=5\pi\text{ rad/s}^2, \tau=20\pi \approx 62.83\text{ N}\cdot\text{m}$.</p>
+            <p class="text-amber-400"><strong>⚠️ COMMON TRAP:</strong> Convert rpm to rad/s first ($\omega = \frac{\text{rpm} \cdot 2\pi}{60}$).</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 4 -->
+        <div class="glass-card p-4 rounded-xl border border-cyan-500/30 space-y-3 searchable-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold text-cyan-400 font-mono-code">OPTICS</span>
+            <span class="badge-must px-1.5 py-0.5 rounded text-[10px]">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base">LENSMAKER'S EQUATION (THIN LENS)</h3>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center font-mono-code text-cyan-300 text-base">
+            $$\frac{1}{f} = (n - 1) \left( \frac{1}{R_1} - \frac{1}{R_2} \right)$$
+          </div>
+          <div class="text-xs space-y-1 text-slate-300">
+            <p><strong class="text-slate-400">SIGN CONVENTION:</strong> Convex surface facing light $\implies R > 0$. Concave surface facing light $\implies R < 0$.</p>
+            <p><strong class="text-slate-400">EXAMPLE:</strong> Biconvex $n=1.5, R_1 = +10\text{ cm}, R_2 = -15\text{ cm} \implies \frac{1}{f} = 0.5 \left(\frac{1}{10} + \frac{1}{15}\right) = \frac{1}{12} \implies f = +12\text{ cm}$.</p>
+            <p class="text-amber-400"><strong>⚠️ COMMON TRAP:</strong> $R_2$ for a biconvex lens is NEGATIVE in standard Cartesian convention!</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 5 -->
+        <div class="glass-card p-4 rounded-xl border border-pink-500/30 space-y-3 searchable-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold text-pink-400 font-mono-code">ACOUSTICS</span>
+            <span class="badge-high px-1.5 py-0.5 rounded text-[10px]">🟠 HIGH-YIELD</span>
+          </div>
+          <h3 class="font-bold text-white text-base">DOPPLER EFFECT (MOVING SOURCE)</h3>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center font-mono-code text-pink-300 text-base">
+            $$f_o = f_s \left( \frac{v}{v \pm v_s} \right) \quad \text{(+ when moving AWAY, - when TOWARD)}$$
+          </div>
+          <div class="text-xs space-y-1 text-slate-300">
+            <p><strong class="text-slate-400">EXAMPLE:</strong> $1000\text{ Hz}$ siren moving away at $34\text{ m/s}$, $v=340\text{ m/s} \implies f_o = 1000 \left(\frac{340}{340 + 34}\right) = 909.09\text{ Hz}$.</p>
+            <p class="text-amber-400"><strong>⚠️ COMMON TRAP:</strong> Source moving AWAY increases denominator, lowering observed frequency!</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 6 -->
+        <div class="glass-card p-4 rounded-xl border border-yellow-500/30 space-y-3 searchable-card">
+          <div class="flex justify-between items-start">
+            <span class="text-xs font-bold text-yellow-400 font-mono-code">SHM</span>
+            <span class="badge-high px-1.5 py-0.5 rounded text-[10px]">🟠 HIGH-YIELD</span>
+          </div>
+          <h3 class="font-bold text-white text-base">PARALLEL SPRINGS FREQUENCY & SHM ENERGY</h3>
+          <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-center font-mono-code text-yellow-300 text-base">
+            $$k_{eq} = k_1 + k_2 = 2k \implies \omega = \sqrt{\frac{2k}{m}}; \quad \text{When } KE = 3PE \implies x = \pm \frac{A}{2}$$
+          </div>
+          <div class="text-xs space-y-1 text-slate-300">
+            <p><strong class="text-slate-400">DERIVATION:</strong> Total $E = KE + PE = 4PE \implies \frac{1}{2}kA^2 = 4(\frac{1}{2}kx^2) \implies x^2 = A^2/4 \implies x = \pm A/2$.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         TAB 3: DON'T CONFUSE THESE
+    ========================================== -->
+    <section id="tab-traps" class="tab-content hidden space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-white tracking-wide">DON'T CONFUSE THESE — HIGH-RISK BOARD EXAM TRAPS</h2>
+        <span class="text-xs text-amber-400 font-mono-code">⚠️ Side-by-Side Critical Comparisons</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- COMPARISON 1 -->
+        <div class="glass-card p-4 rounded-xl space-y-3 searchable-card">
+          <h3 class="font-bold text-amber-300 text-sm border-b border-slate-800 pb-2">
+            1. ROLLING VS SLIDING (WHEELS AT SAME SPEED)
+          </h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-blue-400 block mb-1">Wheel A: Rolling without slipping</strong>
+              <p class="text-slate-300 mb-1">Has BOTH translational and rotational kinetic energy.</p>
+              <p class="font-mono-code text-[11px] text-emerald-400">$KE_{total} = \frac{1}{2}mv^2 + \frac{1}{2}I\omega^2$</p>
+              <p class="text-amber-300 mt-2 font-semibold">⚡ MORE Kinetic Energy!</p>
+            </div>
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-purple-400 block mb-1">Wheel B: Sliding on ice</strong>
+              <p class="text-slate-300 mb-1">Has ONLY translational kinetic energy (no rotation).</p>
+              <p class="font-mono-code text-[11px] text-red-400">$KE_{total} = \frac{1}{2}mv^2$</p>
+              <p class="text-slate-400 mt-2 font-semibold">LESS Kinetic Energy</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPARISON 2 -->
+        <div class="glass-card p-4 rounded-xl space-y-3 searchable-card">
+          <h3 class="font-bold text-amber-300 text-sm border-b border-slate-800 pb-2">
+            2. HOLLOW SPHERE VS SOLID CYLINDER ON INCLINE
+          </h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-emerald-400 block mb-1">Solid Cylinder ($I = \frac{1}{2}mr^2$)</strong>
+              <p class="text-slate-300 mb-1">Smaller shape factor $c = 0.5$. Less rotational inertia resist.</p>
+              <p class="font-mono-code text-[11px] text-emerald-400">$a = \frac{g\sin\theta}{1 + 1/2} = \frac{2}{3}g\sin\theta$</p>
+              <p class="text-emerald-300 mt-2 font-semibold">🏆 WINS RACE (Reaches bottom first)</p>
+            </div>
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-pink-400 block mb-1">Hollow Sphere ($I = \frac{2}{3}mr^2$)</strong>
+              <p class="text-slate-300 mb-1">Larger shape factor $c = 0.67$. Mass concentrated at edge.</p>
+              <p class="font-mono-code text-[11px] text-red-400">$a = \frac{g\sin\theta}{1 + 2/3} = \frac{3}{5}g\sin\theta$</p>
+              <p class="text-slate-400 mt-2 font-semibold">Slower acceleration</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPARISON 3 -->
+        <div class="glass-card p-4 rounded-xl space-y-3 searchable-card">
+          <h3 class="font-bold text-amber-300 text-sm border-b border-slate-800 pb-2">
+            3. BOUNCING RUBBER BALL VS STICKING CLAY BALL
+          </h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-cyan-400 block mb-1">Rubber Ball (Bounces back)</strong>
+              <p class="text-slate-300 mb-1">Velocity changes from $+v$ to $-v$.</p>
+              <p class="font-mono-code text-[11px] text-cyan-300">$\Delta p = m(-v) - mv = -2mv$</p>
+              <p class="text-cyan-300 mt-2 font-semibold">⚡ Exerts $2\times$ GREATER Impulse on wall!</p>
+            </div>
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-yellow-400 block mb-1">Clay Ball (Sticks to wall)</strong>
+              <p class="text-slate-300 mb-1">Velocity changes from $+v$ to $0$.</p>
+              <p class="font-mono-code text-[11px] text-yellow-300">$\Delta p = 0 - mv = -mv$</p>
+              <p class="text-slate-400 mt-2 font-semibold">Exerts half the impulse</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPARISON 4 -->
+        <div class="glass-card p-4 rounded-xl space-y-3 searchable-card">
+          <h3 class="font-bold text-amber-300 text-sm border-b border-slate-800 pb-2">
+            4. HORIZONTAL INCLINE SLIDING VS CONSTANT VELOCITY
+          </h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-blue-400 block mb-1">Impending Motion (Static)</strong>
+              <p class="text-slate-300 mb-1">Angle where block JUST begins to slide.</p>
+              <p class="font-mono-code text-[11px] text-blue-300">$\mu_s = \tan\theta_{repose}$</p>
+            </div>
+            <div class="p-2.5 bg-slate-900/80 rounded border border-slate-800">
+              <strong class="text-emerald-400 block mb-1">Constant Velocity Motion (Kinetic)</strong>
+              <p class="text-slate-300 mb-1">Sliding down at constant speed ($a=0$).</p>
+              <p class="font-mono-code text-[11px] text-emerald-300">$\mu_k = \tan\theta$</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         TAB 4: CONSTANTS & DECISION TREES
+    ========================================== -->
+    <section id="tab-guides" class="tab-content hidden space-y-6">
+      
+      <!-- CONSTANTS AREA -->
+      <div class="glass-card p-4 rounded-xl border border-blue-500/30">
+        <h3 class="font-bold text-blue-400 text-sm mb-3 flex items-center gap-2">
+          <span>📊</span> CRITICAL PHYSICAL CONSTANTS & UNIT CONVERSIONS
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono-code">
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">GRAVITY ($g$)</span>
+            <span class="text-white font-bold">$9.81\text{ m/s}^2 = 32.2\text{ ft/s}^2$</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">SPEED OF SOUND (AIR)</span>
+            <span class="text-white font-bold">$v_{sound} = 340\text{ m/s}$</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">AIR INDEX OF REFRACTION</span>
+            <span class="text-white font-bold">$n_{air} = 1.00$</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">GLASS REFRACTIVE INDEX</span>
+            <span class="text-white font-bold">$n_{glass} \approx 1.50$</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DECISION TREES -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- DECISION TREE 1 -->
+        <div class="glass-card p-4 rounded-xl space-y-3 searchable-card">
+          <h3 class="font-bold text-emerald-400 text-sm">
+            🌳 DECISION TREE: WHICH INCLINE / FRICTION EQUATION TO USE?
+          </h3>
+          <div class="text-xs space-y-2 font-mono-code text-slate-300">
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+              1. Is block pressed against vertical wall?
+              <br>└─ YES $\to N = P \implies f_s = \mu P = mg \implies P_{min} = \frac{mg}{\mu}$
+            </div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+              2. Is block on inclined plane $\theta$?
+              <br>├─ Normal force $N = mg\cos\theta$
+              <br>├─ Downslope force $F_\parallel = mg\sin\theta$
+              <br>└─ Just sliding on own weight $\to \mu = \tan\theta$
+            </div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+              3. Is block sliding at CONSTANT VELOCITY down incline?
+              <br>└─ YES $\to F_{net} = 0 \implies \mu_k = \tan\theta$
+            </div>
+          </div>
+        </div>
+
+        <!-- DECISION TREE 2 -->
+        <div class="glass-card p-4 rounded-xl space-y-3 searchable-card">
+          <h3 class="font-bold text-purple-400 text-sm">
+            🌳 DECISION TREE: ROTATIONAL MOTION PROBLEMS
+          </h3>
+          <div class="text-xs space-y-2 font-mono-code text-slate-300">
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+              1. Is external torque applied? ($\tau_{ext} \neq 0$)
+              <br>└─ YES $\to$ Use $\tau = I\alpha$, where $\alpha = \Delta\omega / t$
+            </div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+              2. No external torque? ($\tau_{ext} = 0$)
+              <br>└─ YES $\to$ Conserve Angular Momentum: $I_1\omega_1 = I_2\omega_2$
+            </div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800">
+              3. Is object rolling down incline without slipping?
+              <br>└─ YES $\to a = \frac{g\sin\theta}{1 + c}$ ($c=1/2$ disk, $c=2/3$ hollow sphere)
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         TAB 5: SOLVED BOARD EXAM BANK (35 QUESTIONS)
+    ========================================== -->
+    <section id="tab-solved" class="tab-content hidden space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <h2 class="text-lg font-bold text-white tracking-wide">COMPLETE SOLVED BOARD EXAM BANK (QUESTIONS 1–35)</h2>
+          <p class="text-xs text-slate-400">100% verified step-by-step solutions corresponding directly to uploaded PDFs</p>
+        </div>
+        <span class="badge-high px-2 py-1 rounded text-xs font-mono-code">35 / 35 Solved</span>
+      </div>
+
+      <!-- ACCORDION CONTAINER FOR QUESTIONS -->
+      <div id="questions-container" class="space-y-3">
+        <!-- Questions injected dynamically -->
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         TAB 6: INTERACTIVE SOLVER CALCULATORS
+    ========================================== -->
+    <section id="tab-calculators" class="tab-content hidden space-y-6">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-white tracking-wide">INTERACTIVE RAPID BOARD EXAM CALCULATORS</h2>
+        <span class="text-xs text-blue-400 font-mono-code">Instant Problem Verifiers</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- CALCULATOR 1: VERTICAL WALL PRESSING FORCE -->
+        <div class="glass-card p-4 rounded-xl space-y-3">
+          <h3 class="font-bold text-blue-400 text-sm">1. Vertical Wall Friction ($P_{min}$)</h3>
+          <p class="text-xs text-slate-400">Find min horizontal force $P$ to hold mass $m$ on vertical wall.</p>
+          <div class="space-y-2 text-xs">
+            <div>
+              <label class="text-slate-300 block">Mass $m$ (kg):</label>
+              <input type="number" id="calc1-m" value="5" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+            </div>
+            <div>
+              <label class="text-slate-300 block">Coeff of Static Friction $\mu_s$:</label>
+              <input type="number" id="calc1-mu" value="0.25" step="0.05" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+            </div>
+            <button onclick="calcWallForce()" class="w-full py-1.5 bg-blue-600 hover:bg-blue-500 rounded text-white font-bold text-xs">Calculate $P_{min}$</button>
+            <div id="calc1-res" class="p-2 bg-slate-900 rounded text-center text-emerald-400 font-mono-code text-xs font-bold">
+              $P_{min} = 196.20\text{ N}$
+            </div>
+          </div>
+        </div>
+
+        <!-- CALCULATOR 2: MOTOR TORQUE & ALPHA -->
+        <div class="glass-card p-4 rounded-xl space-y-3">
+          <h3 class="font-bold text-purple-400 text-sm">2. Motor Solid Disk Torque</h3>
+          <p class="text-xs text-slate-400">Calculate torque required to spin solid disk to target rpm.</p>
+          <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-slate-300 block">Mass (kg):</label>
+                <input type="number" id="calc2-m" value="50" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+              </div>
+              <div>
+                <label class="text-slate-300 block">Radius (m):</label>
+                <input type="number" id="calc2-r" value="0.4" step="0.1" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-slate-300 block">Speed (rpm):</label>
+                <input type="number" id="calc2-rpm" value="1200" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+              </div>
+              <div>
+                <label class="text-slate-300 block">Time (s):</label>
+                <input type="number" id="calc2-t" value="8" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+              </div>
+            </div>
+            <button onclick="calcMotorTorque()" class="w-full py-1.5 bg-purple-600 hover:bg-purple-500 rounded text-white font-bold text-xs">Calculate Torque & $\alpha$</button>
+            <div id="calc2-res" class="p-2 bg-slate-900 rounded text-center text-purple-300 font-mono-code text-xs font-bold">
+              $\tau = 62.83\text{ N}\cdot\text{m}, \quad \alpha = 15.71\text{ rad/s}^2$
+            </div>
+          </div>
+        </div>
+
+        <!-- CALCULATOR 3: DOPPLER EFFECT SOLVER -->
+        <div class="glass-card p-4 rounded-xl space-y-3">
+          <h3 class="font-bold text-pink-400 text-sm">3. Doppler Effect (Source Moving Away)</h3>
+          <p class="text-xs text-slate-400">Find frequency heard by stationary observer.</p>
+          <div class="space-y-2 text-xs">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-slate-300 block">Source $f_s$ (Hz):</label>
+                <input type="number" id="calc3-fs" value="1000" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+              </div>
+              <div>
+                <label class="text-slate-300 block">Source $v_s$ (m/s):</label>
+                <input type="number" id="calc3-vs" value="34" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+              </div>
+            </div>
+            <div>
+              <label class="text-slate-300 block">Sound Speed $v$ (m/s):</label>
+              <input type="number" id="calc3-v" value="340" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 w-full text-white">
+            </div>
+            <button onclick="calcDoppler()" class="w-full py-1.5 bg-pink-600 hover:bg-pink-500 rounded text-white font-bold text-xs">Calculate Heard $f_o$</button>
+            <div id="calc3-res" class="p-2 bg-slate-900 rounded text-center text-pink-300 font-mono-code text-xs font-bold">
+              $f_o = 909.09\text{ Hz}$
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // DATA FOR 35 SOLVED QUESTIONS FROM PDF WITH PROPER LATEX ESCAPING
+    const solvedQuestions = [
+      {
+        qNum: 1,
+        topic: "DYNAMICS",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "When a person stands in an elevator that is accelerating downward, the normal force exerted by the floor on the person is:",
+        options: ["Equal to W", "Greater than W", "Less than W", "Zero"],
+        correct: "Less than W",
+        formula: "$N = m(g - a) < mg = W$",
+        explanation: "By Newton's 2nd Law, $W - N = ma \\implies N = m(g - a)$. Since $a > 0$ downward, the floor exerts less normal force, making the person feel lighter."
+      },
+      {
+        qNum: 2,
+        topic: "FRICTION",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A block of mass m is pressed against a vertical wall by a horizontal force P. If the coefficient of static friction between the block and wall is mu, what is the minimum value of P required to prevent the block from sliding down?",
+        options: ["P = mg / mu", "P = mu * mg", "P = mg", "P = mu / mg"],
+        correct: "P = mg / mu",
+        formula: "$P_{min} = \\frac{mg}{\\mu_s}$",
+        explanation: "Horizontal equilibrium: Normal force $N = P$. Vertical equilibrium: Friction force $f_s = mg$. Since maximum static friction $f_s \\le \\mu N = \\mu P \\implies \\mu P \\ge mg \\implies P_{min} = \\frac{mg}{\\mu}$."
+      },
+      {
+        qNum: 3,
+        topic: "FRICTION",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "A small block is placed on a rough inclined plane. At what angle theta will the block just begin to slide down by its own weight, given a coefficient of static friction mu_s?",
+        options: ["theta = arctan(mu_s)", "theta = arcsin(mu_s)", "theta = arccos(mu_s)", "theta = mu_s"],
+        correct: "theta = arctan(mu_s)",
+        formula: "$\\tan\\theta = \\mu_s \\implies \\theta = \\arctan(\\mu_s)$",
+        explanation: "Along incline: $mg\\sin\\theta = f_s = \\mu_s N = \\mu_s (mg\\cos\\theta)$. Canceling $mg$: $\\sin\\theta = \\mu_s \\cos\\theta \\implies \\tan\\theta = \\mu_s$. Known as the Angle of Repose."
+      },
+      {
+        qNum: 4,
+        topic: "WORK & ENERGY",
+        badge: "badge-concept",
+        badgeText: "🔵 CONCEPTUAL",
+        question: "The area under a Force vs Position (F vs x) curve represents which physical quantity?",
+        options: ["Work done", "Power", "Impulse", "Momentum"],
+        correct: "Work done",
+        formula: "$W = \\int F \\, dx$",
+        explanation: "Work is defined as integral of force over displacement. The area under the $F(x)$ plot equals total Work done in Joules."
+      },
+      {
+        qNum: 5,
+        topic: "WORK & POWER",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "An automobile accelerates from rest on a straight horizontal road. If the engine delivers constant power P, how does the velocity v of the car vary with time t?",
+        options: ["v proportional to t^(1/2)", "v proportional to t", "v proportional to t^2", "v is constant"],
+        correct: "v proportional to t^(1/2)",
+        formula: "$P = F v = m a v = m \\left(\\frac{dv}{dt}\\right) v \\implies v \\propto \\sqrt{t}$",
+        explanation: "Power $P = \\frac{dKE}{dt} = \\frac{d}{dt}\\left(\\frac{1}{2}m v^2\\right) = \\text{const} \\implies \\frac{1}{2}m v^2 = P t \\implies v = \\sqrt{\\frac{2Pt}{m}} \\propto t^{1/2}$."
+      },
+      {
+        qNum: 6,
+        topic: "POTENTIAL ENERGY",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A uniform chain of total mass M and total length L lies on a frictionless table, with precisely one-third of its length hanging vertically over the edge. How much work is required to pull the hanging part entirely back onto the table?",
+        options: ["MgL / 18", "MgL / 6", "MgL / 9", "MgL / 2"],
+        correct: "MgL / 18",
+        formula: "$W = \\Delta PE = m_{hang} g h_{cm} = \\left(\\frac{M}{3}\\right) g \\left(\\frac{L}{6}\\right) = \\frac{MgL}{18}$",
+        explanation: "The hanging mass is $m = M/3$. Its center of mass is located at $h_{cm} = L/6$ below the tabletop. To pull it up, work required $W = m g h_{cm} = (M/3) g (L/6) = \\frac{MgL}{18}$."
+      },
+      {
+        qNum: 7,
+        topic: "CONSERVATION OF ENERGY",
+        badge: "badge-important",
+        badgeText: "🟡 IMPORTANT",
+        question: "A small block of mass m is released from rest at a height h on a frictionless curved ramp. At the bottom, it collides with a horizontal spring of spring constant k. What is the maximum compression x of the spring?",
+        options: ["x = sqrt(2mgh / k)", "x = sqrt(mgh / k)", "x = 2mgh / k", "x = mgh / 2k"],
+        correct: "x = sqrt(2mgh / k)",
+        formula: "$m g h = \\frac{1}{2} k x^2 \\implies x = \\sqrt{\\frac{2mgh}{k}}$",
+        explanation: "By conservation of mechanical energy: Potential energy at top = Elastic potential energy at max compression: $mgh = \\frac{1}{2} k x^2 \\implies x = \\sqrt{\\frac{2mgh}{k}}$."
+      },
+      {
+        qNum: 8,
+        topic: "WORK-ENERGY THEOREM",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "A 10 gram bullet is fired horizontally at 400 m/s and strikes a fixed wooden block. It emerges from the other side with a speed of 200 m/s. If the block is 5 cm thick, what is the magnitude of the average resistive force exerted by the wood?",
+        options: ["12 kN", "6 kN", "24 kN", "18 kN"],
+        correct: "12 kN",
+        formula: "$W_{net} = \\Delta KE \\implies -F_{avg} d = \\frac{1}{2} m (v_f^2 - v_i^2)$",
+        explanation: "$m = 0.01\\text{ kg}, v_i = 400, v_f = 200, d = 0.05\\text{ m}$. $\\Delta KE = \\frac{1}{2}(0.01)(200^2 - 400^2) = 0.005(40000 - 160000) = -600\\text{ J}$. Force $F_{avg} = \\frac{600\\text{ J}}{0.05\\text{ m}} = 12,000\\text{ N} = 12\\text{ kN}$."
+      },
+      {
+        qNum: 9,
+        topic: "MOMENTUM & KE",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "If the linear momentum of a body increases by 20%, by what percentage does its kinetic energy increase?",
+        options: ["44%", "20%", "40%", "24%"],
+        correct: "44%",
+        formula: "$KE = \\frac{p^2}{2m} \\implies KE' = (1.20)^2 KE = 1.44 KE$",
+        explanation: "Since $KE \\propto p^2$, new kinetic energy $KE' = (1.20 p)^2 / (2m) = 1.44 KE$. Percentage increase $= 1.44 - 1.00 = 0.44 = 44\\%$."
+      },
+      {
+        qNum: 10,
+        topic: "COLLISIONS",
+        badge: "badge-concept",
+        badgeText: "🔵 CONCEPTUAL",
+        question: "In a partially inelastic collision, which statement is true about total momentum and kinetic energy?",
+        options: ["Momentum is conserved, KE is NOT conserved", "Both momentum and KE are conserved", "KE is conserved, Momentum is NOT conserved", "Neither momentum nor KE is conserved"],
+        correct: "Momentum is conserved, KE is NOT conserved",
+        formula: "$\\sum p_i = \\sum p_f; \\quad KE_f < KE_i$",
+        explanation: "Total linear momentum is ALWAYS conserved in isolated collisions. In elastic collisions KE is conserved, but in inelastic collisions some KE is lost to heat/deformation."
+      },
+      {
+        qNum: 11,
+        topic: "IMPULSE",
+        badge: "badge-concept",
+        badgeText: "🔵 CONCEPTUAL",
+        question: "Why do automobiles feature crumple zones to protect passengers during a crash?",
+        options: ["They increase collision time, decreasing average force", "They decrease collision time, increasing average force", "They decrease total momentum change", "They absorb gravity"],
+        correct: "They increase collision time, decreasing average force",
+        formula: "$J = F_{avg} \\Delta t = \\Delta p \\implies F_{avg} = \\frac{\\Delta p}{\\Delta t}$",
+        explanation: "For a given momentum change $\\Delta p$, increasing the duration of impact $\\Delta t$ proportionally reduces the peak impact force $F_{avg}$ acting on occupants."
+      },
+      {
+        qNum: 12,
+        topic: "IMPULSE",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A rubber ball is thrown at a wall and bounces back with the same speed. A clay ball of the exact same mass is thrown with the same speed but sticks to the wall. Which ball exerts a greater impulse on the wall?",
+        options: ["The rubber ball", "The clay ball", "Both exert equal impulse", "Neither exerts impulse"],
+        correct: "The rubber ball",
+        formula: "$J_{rubber} = 2mv, \\quad J_{clay} = mv$",
+        explanation: "Rubber ball: $\\Delta p = m(-v) - mv = -2mv$ (Impulse magnitude $2mv$). Clay ball: $\\Delta p = 0 - mv = -mv$ (Impulse magnitude $mv$). Rubber exerts twice the impulse!"
+      },
+      {
+        qNum: 13,
+        topic: "COLLISIONS",
+        badge: "badge-important",
+        badgeText: "🟡 IMPORTANT",
+        question: "A sphere of mass m has velocity v and collides with another sphere of half the mass (m/2) initially at rest. If the coefficient of restitution is e, what is the kinetic energy lost during collision?",
+        options: ["KE_loss = (1/6) * m * v^2 * (1 - e^2)", "KE_loss = (1/2) * m * v^2 * (1 - e)", "KE_loss = (1/4) * m * v^2 * (1 - e^2)", "KE_loss = (1/3) * m * v^2 * e^2"],
+        correct: "KE_loss = (1/6) * m * v^2 * (1 - e^2)",
+        formula: "$\\Delta KE_{loss} = \\frac{1}{2} \\mu (v_1 - v_2)^2 (1 - e^2) \\quad \\text{where } \\mu = \\frac{m_1 m_2}{m_1 + m_2}$",
+        explanation: "Reduced mass $\\mu = \\frac{m (m/2)}{m + m/2} = \\frac{m}{3}$. Thus $\\Delta KE = \\frac{1}{2}\\left(\\frac{m}{3}\\right) v^2 (1 - e^2) = \\frac{1}{6} m v^2 (1 - e^2)$."
+      },
+      {
+        qNum: 14,
+        topic: "FRICTION",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "An object of mass m is sliding down a rough inclined plane of angle theta with a CONSTANT VELOCITY. What is the coefficient of kinetic friction mu_k between object and plane?",
+        options: ["mu_k = tan(theta)", "mu_k = sin(theta)", "mu_k = cos(theta)", "mu_k = cot(theta)"],
+        correct: "mu_k = tan(theta)",
+        formula: "$\\mu_k = \\tan\\theta$",
+        explanation: "Constant velocity means $a = 0 \\implies F_{net} = 0$. Along incline: $mg\\sin\\theta - f_k = 0 \\implies mg\\sin\\theta = \\mu_k (mg\\cos\\theta) \\implies \\mu_k = \\tan\\theta$."
+      },
+      {
+        qNum: 15,
+        topic: "KINEMATICS",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "Train A (100 m long) travels at 20 m/s. It overtakes Train B (150 m long) traveling in the same direction on a parallel track at 10 m/s. How much time does it take for Train A to completely pass Train B?",
+        options: ["25 s", "10 s", "15 s", "20 s"],
+        correct: "25 s",
+        formula: "$t = \\frac{d_{total}}{v_{rel}} = \\frac{L_A + L_B}{v_A - v_B}$",
+        explanation: "Relative speed $v_{rel} = 20 - 10 = 10\\text{ m/s}$. Distance to clear $d = 100 + 150 = 250\\text{ m}$. Time $t = 250 / 10 = 25\\text{ s}$."
+      },
+      {
+        qNum: 16,
+        topic: "KINEMATICS",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A ball is thrown vertically upward from the ground. It passes a certain window at t = 2 s on its way up and passes the same window at t = 8 s on its way down. What was the initial launch velocity of the ball?",
+        options: ["49.05 m/s", "39.24 m/s", "29.43 m/s", "58.86 m/s"],
+        correct: "49.05 m/s",
+        formula: "$t_{peak} = \\frac{t_1 + t_2}{2} = 5\\text{ s} \\implies v_i = g t_{peak}$",
+        explanation: "By vertical motion symmetry, peak height occurs exactly midpoint in time: $t_{peak} = (2 + 8)/2 = 5\\text{ s}$. At peak $v = 0 = v_i - g t_{peak} \\implies v_i = 9.81 \\times 5 = 49.05\\text{ m/s}$."
+      },
+      {
+        qNum: 17,
+        topic: "PROJECTILES",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "For a projectile launched over level ground, at what angle of projection theta will maximum height reached H be EXACTLY EQUAL to horizontal range R?",
+        options: ["75.96 degrees", "45 degrees", "60 degrees", "82.5 degrees"],
+        correct: "75.96 degrees",
+        formula: "$\\tan\\theta = 4 \\implies \\theta = \\arctan(4) \\approx 75.96^\\circ$",
+        explanation: "Set $H = R \\implies \\frac{v_0^2 \\sin^2\\theta}{2g} = \\frac{2 v_0^2 \\sin\\theta \\cos\\theta}{g} \\implies \\tan\\theta = 4 \\implies \\theta = 75.96^\\circ$."
+      },
+      {
+        qNum: 18,
+        topic: "PROJECTILES",
+        badge: "badge-important",
+        badgeText: "🟡 IMPORTANT",
+        question: "You want to throw a ball through two windows: window 1 is 5 m in front and 5 m above you; window 2 is 8 m behind window 1 (total x=13m) and 2 m higher than window 1 (total y=7m). What is the launch angle theta?",
+        options: ["52.48 degrees", "45.00 degrees", "63.15 degrees", "38.20 degrees"],
+        correct: "52.48 degrees",
+        formula: "$y = x \\tan\\theta - \\frac{g x^2}{2 v_0^2 \\cos^2\\theta}$",
+        explanation: "Substituting points $(5,5)$ and $(13,7)$ into trajectory equations and solving simultaneously yields $\\tan\\theta \\approx 1.302 \\implies \\theta \\approx 52.48^\\circ$."
+      },
+      {
+        qNum: 19,
+        topic: "ROTATION",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "Which of the following is the rotational equivalent of linear mass m?",
+        options: ["Moment of Inertia (I)", "Torque (tau)", "Angular Momentum (L)", "Angular Velocity (omega)"],
+        correct: "Moment of Inertia (I)",
+        formula: "$m \\longleftrightarrow I = \\int r^2 dm$",
+        explanation: "Moment of inertia $I$ represents rotational inertia (opposition to angular acceleration), exactly analogous to mass $m$ in translational motion."
+      },
+      {
+        qNum: 20,
+        topic: "ROTATION",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "For a rigid body rotating about a fixed axis, what does Newton's Second Law for rotation state?",
+        options: ["Net Torque = I * alpha", "Net Torque = I * omega", "Angular Momentum = I * alpha", "Torque = m * a"],
+        correct: "Net Torque = I * alpha",
+        formula: "$\\tau_{net} = I \\alpha$",
+        explanation: "Rotational counterpart of $F_{net} = ma$: Net Torque equals Moment of Inertia times Angular Acceleration."
+      },
+      {
+        qNum: 21,
+        topic: "ROTATION",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A hollow sphere (I = 2/3 m r^2) and a solid cylinder (I = 1/2 m r^2) of same mass and radius are released from rest at top of rough incline. Which reaches the bottom first?",
+        options: ["Solid cylinder because it has smaller moment of inertia", "Hollow sphere because it has larger moment of inertia", "Both reach at same time", "Solid cylinder because it is heavier"],
+        correct: "Solid cylinder because it has smaller moment of inertia",
+        formula: "$a = \\frac{g\\sin\\theta}{1 + c} \\quad \\text{where } c = \\frac{I}{mr^2}$",
+        explanation: "Cylinder factor $c = 1/2 = 0.5$. Hollow sphere $c = 2/3 \\approx 0.67$. Smaller $c$ gives larger linear acceleration $a$, so Solid Cylinder wins race!"
+      },
+      {
+        qNum: 22,
+        topic: "ANGULAR MOMENTUM",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A rotating metal flywheel warms up significantly, undergoing thermal expansion. If no external torques act, what happens to its angular velocity?",
+        options: ["It decreases", "It increases", "It remains constant", "It drops to zero instantly"],
+        correct: "It decreases",
+        formula: "$L = I \\omega = \\text{constant} \\implies I_1 \\omega_1 = I_2 \\omega_2$",
+        explanation: "Thermal expansion increases radius $R \\implies I = c m R^2$ increases. By conservation of angular momentum ($L = I\\omega = \\text{const}$), as $I$ increases, $\\omega$ MUST decrease!"
+      },
+      {
+        qNum: 23,
+        topic: "ROTATION",
+        badge: "badge-trap",
+        badgeText: "⚠️ COMMON TRAP",
+        question: "Two identical wheels roll/slide on flat surface with same translational speed v. Wheel A rolls without slipping. Wheel B slides on frictionless ice without spinning. Which has more total kinetic energy?",
+        options: ["Wheel A because it has both translational and rotational KE", "Wheel B because ice has no friction", "Both have same total kinetic energy", "Wheel B because all energy is translational"],
+        correct: "Wheel A because it has both translational and rotational KE",
+        formula: "$KE_{A} = \\frac{1}{2}mv^2 + \\frac{1}{2}I\\omega^2 > KE_{B} = \\frac{1}{2}mv^2$",
+        explanation: "Wheel A possesses rotational kinetic energy in addition to linear translational KE, whereas Wheel B only has linear KE."
+      },
+      {
+        qNum: 24,
+        topic: "ROTATION",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "An electric motor brings a 50 kg solid circular disk of radius 0.4 m from rest to 1200 rpm in 8 seconds. What is the net torque applied?",
+        options: ["62.83 N-m", "31.42 N-m", "125.66 N-m", "50.00 N-m"],
+        correct: "62.83 N-m",
+        formula: "$I = \\frac{1}{2}m R^2 = 4\\text{ kg}\\cdot\\text{m}^2; \\quad \\alpha = \\frac{40\\pi}{8} = 5\\pi\\text{ rad/s}^2; \\quad \\tau = I\\alpha = 20\\pi \\approx 62.83\\text{ N}\\cdot\\text{m}$",
+        explanation: "$I = 0.5(50)(0.4^2) = 4\\text{ kg}\\cdot\\text{m}^2$. $\\omega = 1200 \\times 2\\pi / 60 = 40\\pi\\text{ rad/s}$. $\\alpha = 40\\pi / 8 = 5\\pi\\text{ rad/s}^2$. $\\tau = 4 \\times 5\\pi = 20\\pi \\approx 62.83\\text{ N}\\cdot\\text{m}$."
+      },
+      {
+        qNum: 25,
+        topic: "ANGULAR MOMENTUM",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A figure skater spins at 3 rad/s with arms extended (I = 2.4 kg-m^2). She pulls arms in, reducing I to 1.2 kg-m^2. What is the change in her rotational kinetic energy?",
+        options: ["+10.8 J", "+21.6 J", "-10.8 J", "0 J"],
+        correct: "+10.8 J",
+        formula: "$I_1 \\omega_1 = I_2 \\omega_2 \\implies \\omega_2 = 6\\text{ rad/s}; \\quad \\Delta KE = \\frac{1}{2}I_2\\omega_2^2 - \\frac{1}{2}I_1\\omega_1^2$",
+        explanation: "New $\\omega_2 = (2.4 \\times 3)/1.2 = 6\\text{ rad/s}$. $KE_1 = 0.5(2.4)(3^2) = 10.8\\text{ J}$. $KE_2 = 0.5(1.2)(6^2) = 21.6\\text{ J}$. $\\Delta KE = 21.6 - 10.8 = +10.8\\text{ J}$."
+      },
+      {
+        qNum: 26,
+        topic: "SHM",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A particle undergoes SHM with amplitude A. At what displacement x from equilibrium is kinetic energy equal to EXACTLY THREE TIMES potential energy?",
+        options: ["x = +/- A / 2", "x = +/- A / sqrt(2)", "x = +/- A / 4", "x = +/- A / 3"],
+        correct: "x = +/- A / 2",
+        formula: "$KE = 3PE \\implies E = 4PE \\implies \\frac{1}{2}kA^2 = 4\\left(\\frac{1}{2}kx^2\\right) \\implies x = \\pm \\frac{A}{2}$",
+        explanation: "Total energy $E = KE + PE = 3PE + PE = 4PE$. $\\frac{1}{2} k A^2 = 4 \\left(\\frac{1}{2} k x^2\\right) \\implies A^2 = 4x^2 \\implies x = \\pm \\frac{A}{2}$."
+      },
+      {
+        qNum: 27,
+        topic: "WAVES",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "A wave on a string is described by y(x,t) = 0.05 sin(2*pi*x - 40*pi*t). What is the speed of this wave?",
+        options: ["20 m/s", "40 m/s", "10 m/s", "2 m/s"],
+        correct: "20 m/s",
+        formula: "$v = \\frac{\\omega}{k} = \\frac{40\\pi}{2\\pi} = 20\\text{ m/s}$",
+        explanation: "Wave equation $y = A\\sin(kx - \\omega t)$ gives wave number $k = 2\\pi$ and angular frequency $\\omega = 40\\pi$. Wave speed $v = \\omega / k = 40\\pi / 2\\pi = 20\\text{ m/s}$."
+      },
+      {
+        qNum: 28,
+        topic: "SHM",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "Two identical springs, each with spring constant k, are connected in PARALLEL to a mass m. What is the angular frequency omega of this system?",
+        options: ["omega = sqrt(2k / m)", "omega = sqrt(k / 2m)", "omega = sqrt(k / m)", "omega = 2 * sqrt(k / m)"],
+        correct: "omega = sqrt(2k / m)",
+        formula: "$k_{eq} = k_1 + k_2 = 2k \\implies \\omega = \\sqrt{\\frac{k_{eq}}{m}} = \\sqrt{\\frac{2k}{m}}$",
+        explanation: "Parallel springs add spring constants directly: $k_{eq} = k + k = 2k$. Frequency $\\omega = \\sqrt{k_{eq}/m} = \\sqrt{2k/m}$."
+      },
+      {
+        qNum: 29,
+        topic: "SOUND",
+        badge: "badge-concept",
+        badgeText: "🔵 CONCEPTUAL",
+        question: "What type of wave is generated by the compression and rarefaction of air molecules during sound propagation?",
+        options: ["Longitudinal pressure wave", "Transverse shear wave", "Electromagnetic wave", "Surface wave"],
+        correct: "Longitudinal pressure wave",
+        formula: "$\\text{Sound} = \\text{Longitudinal Wave (air displacement } \\parallel \\text{ wave direction)}$",
+        explanation: "Sound waves in air are longitudinal pressure/density waves where air molecules vibrate parallel to propagation direction."
+      },
+      {
+        qNum: 30,
+        topic: "WAVES",
+        badge: "badge-high",
+        badgeText: "🟠 HIGH-YIELD",
+        question: "A wave is traveling along a stretched homogeneous string. Which change would INCREASE the speed of the wave?",
+        options: ["Increasing string tension", "Increasing linear mass density", "Increasing wave amplitude", "Decreasing string length"],
+        correct: "Increasing string tension",
+        formula: "$v = \\sqrt{\\frac{T}{\\mu}}$",
+        explanation: "Wave speed on string depends on tension $T$ and linear mass density $\\mu$. Increasing tension $T$ increases wave speed."
+      },
+      {
+        qNum: 31,
+        topic: "ACOUSTICS",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "An acoustic point source emits sound uniformly in all directions. If you move to a distance THREE TIMES as far from the source, by what factor does sound intensity change?",
+        options: ["Decreases by factor of 9 (1/9)", "Decreases by factor of 3 (1/3)", "Decreases by factor of 6", "Increases by factor of 9"],
+        correct: "Decreases by factor of 9 (1/9)",
+        formula: "$I = \\frac{P}{4\\pi r^2} \\implies I \\propto \\frac{1}{r^2}$",
+        explanation: "Sound intensity obeys Inverse Square Law: $I_2/I_1 = (r_1/r_2)^2 = (1/3)^2 = 1/9$. Intensity decreases by factor of 9."
+      },
+      {
+        qNum: 32,
+        topic: "DOPPLER",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "A police car siren emits a 1000 Hz tone while moving AWAY from a stationary observer at 34 m/s. Assuming speed of sound in air is 340 m/s, what frequency does the observer hear?",
+        options: ["909.09 Hz", "1111.11 Hz", "900.00 Hz", "1000.00 Hz"],
+        correct: "909.09 Hz",
+        formula: "$f_o = f_s \\left(\\frac{v}{v + v_s}\\right) = 1000 \\left(\\frac{340}{340 + 34}\\right) = 909.09\\text{ Hz}$",
+        explanation: "Source moving away uses plus sign in denominator: $f_o = 1000(340/374) = 909.09\\text{ Hz}$."
+      },
+      {
+        qNum: 33,
+        topic: "OPTICS",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "Which of the following conditions is an ABSOLUTE REQUIREMENT for Total Internal Reflection (TIR) to occur?",
+        options: ["Light travels from denser to less dense medium AND theta_i > theta_critical", "Light travels from less dense to denser medium", "Angle of incidence equals 90 degrees", "Light must be monochromatic"],
+        correct: "Light travels from denser to less dense medium AND theta_i > theta_critical",
+        formula: "$n_1 > n_2 \\quad \\text{and} \\quad \\sin\\theta_c = \\frac{n_2}{n_1}$",
+        explanation: "Two conditions for TIR: 1. $n_1 > n_2$ (denser to less dense) and 2. Incident angle $\\theta_i$ exceeds critical angle $\\theta_c$."
+      },
+      {
+        qNum: 34,
+        topic: "OPTICS",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "An object is placed 10 cm in front of a CONVEX spherical mirror with a radius of curvature of 30 cm. What are the properties of the resulting image?",
+        options: ["Virtual, Upright, Diminished at q = -6 cm", "Real, Inverted, Enlarged at q = +15 cm", "Virtual, Inverted, Same size", "Real, Upright, Diminished at q = -10 cm"],
+        correct: "Virtual, Upright, Diminished at q = -6 cm",
+        formula: "$f = -R/2 = -15\\text{ cm}; \\quad \\frac{1}{10} + \\frac{1}{q} = -\\frac{1}{15} \\implies q = -6\\text{ cm}$",
+        explanation: "Convex mirror focal length $f = -15\\text{ cm}$. Mirror equation $1/p + 1/q = 1/f \\implies 1/10 + 1/q = -1/15 \\implies 1/q = -5/30 = -1/6 \\implies q = -6\\text{ cm}$. Negative $q$ means Virtual & Upright. $|m| = |-(-6)/10| = 0.6$ (Diminished)."
+      },
+      {
+        qNum: 35,
+        topic: "OPTICS",
+        badge: "badge-must",
+        badgeText: "🔴 MUST MEMORIZE",
+        question: "A biconvex thin lens is made of glass (n = 1.50). Radii of curvature are R1 = +10 cm and R2 = -15 cm (using standard Cartesian sign convention). What is focal length f?",
+        options: ["+12 cm", "+6 cm", "+10 cm", "-12 cm"],
+        correct: "+12 cm",
+        formula: "$\\frac{1}{f} = (n-1)\\left(\\frac{1}{R_1} - \\frac{1}{R_2}\\right) = (1.5 - 1)\\left(\\frac{1}{10} - \\frac{1}{-15}\\right) = 0.5\\left(\\frac{25}{150}\\right) = \\frac{1}{12} \\implies f = +12\\text{ cm}$",
+        explanation: "Plugging values into Lensmaker's Equation yields $1/f = 0.5 (1/10 + 1/15) = 0.5 (5/30) = 1/12 \\implies f = +12\\text{ cm}$."
+      }
+    ];
+
+    // KATEX AUTO-RENDER FUNCTION WITH DELIMITERS CONFIGURATION
+    function renderMath(targetElement) {
+      if (window.renderMathInElement) {
+        renderMathInElement(targetElement || document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // RENDER QUESTIONS IN SOLVED BANK
+    function renderSolvedQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = solvedQuestions.map(q => `
+        <div class="glass-card p-4 rounded-xl border border-slate-800 searchable-card space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-blue-400 font-mono-code">QUESTION #${q.qNum} • ${q.topic}</span>
+            <span class="${q.badge} px-2 py-0.5 rounded text-[10px] font-bold">${q.badgeText}</span>
+          </div>
+          <p class="text-xs text-white font-semibold">${q.question}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs my-2">
+            ${q.options.map(opt => `
+              <div class="p-2 rounded ${opt === q.correct ? 'bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold' : 'bg-slate-900 text-slate-400 border border-slate-800'}">
+                ${opt === q.correct ? '✓ ' : ''}${opt}
+              </div>
+            `).join('')}
+          </div>
+          <div class="p-2.5 bg-slate-900/90 rounded border border-slate-800 text-xs space-y-1">
+            <p class="font-mono-code text-blue-300 text-[11px]">FORMULA: ${q.formula}</p>
+            <p class="text-slate-300 text-[11px]"><strong class="text-emerald-400">EXPLANATION:</strong> ${q.explanation}</p>
+          </div>
+        </div>
+      `).join('');
+      
+      renderMath(container);
+    }
+
+    // TAB SWITCHING FUNCTION
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('bg-slate-800/80', 'text-slate-300');
+      });
+
+      const activeSection = document.getElementById(tabId);
+      activeSection.classList.remove('hidden');
+      
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-800/80', 'text-slate-300');
+        activeBtn.classList.add('bg-blue-600', 'text-white');
+      }
+
+      // Re-render math formulas in active tab
+      renderMath(activeSection);
+    }
+
+    // QUICK SEARCH FILTER FUNCTION
+    function filterContent() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.searchable-card');
+      
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(input)) {
+          card.style.display = "";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    // INTERACTIVE SOLVER FUNCTIONS
+    function calcWallForce() {
+      const m = parseFloat(document.getElementById('calc1-m').value) || 0;
+      const mu = parseFloat(document.getElementById('calc1-mu').value) || 0.01;
+      const P = (m * 9.81) / mu;
+      const resEl = document.getElementById('calc1-res');
+      resEl.innerHTML = `$P_{min} = ${P.toFixed(2)}\\text{ N}$`;
+      renderMath(resEl);
+    }
+
+    function calcMotorTorque() {
+      const m = parseFloat(document.getElementById('calc2-m').value) || 0;
+      const r = parseFloat(document.getElementById('calc2-r').value) || 0;
+      const rpm = parseFloat(document.getElementById('calc2-rpm').value) || 0;
+      const t = parseFloat(document.getElementById('calc2-t').value) || 1;
+
+      const I = 0.5 * m * r * r;
+      const omega = (rpm * 2 * Math.PI) / 60;
+      const alpha = omega / t;
+      const tau = I * alpha;
+
+      const resEl = document.getElementById('calc2-res');
+      resEl.innerHTML = `$\\tau = ${tau.toFixed(2)}\\text{ N}\\cdot\\text{m}, \\quad \\alpha = ${alpha.toFixed(2)}\\text{ rad/s}^2$`;
+      renderMath(resEl);
+    }
+
+    function calcDoppler() {
+      const fs = parseFloat(document.getElementById('calc3-fs').value) || 0;
+      const vs = parseFloat(document.getElementById('calc3-vs').value) || 0;
+      const v = parseFloat(document.getElementById('calc3-v').value) || 340;
+
+      const fo = fs * (v / (v + vs));
+      const resEl = document.getElementById('calc3-res');
+      resEl.innerHTML = `$f_o = ${fo.toFixed(2)}\\text{ Hz}$`;
+      renderMath(resEl);
+    }
+
+    // INITIALIZATION ON WINDOW LOAD
+    window.onload = function() {
+      renderSolvedQuestions();
+      renderMath(document.body);
+    };
+  </script>
+</body>
+</html>
