@@ -696,7 +696,77 @@
                 <p class="text-xs text-slate-400">Finite differences, root-finding algorithms, numerical integration error bounds</p>
             </div>
 
-            <!-- COMPARISON: NUMERICAL ROOT FINDING & INTEGRATION -->
+            <!-- FINITE DIFFERENCES & TRUNCATION ERROR -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">FINITE DIFFERENCE DERIVATIVE APPROXIMATIONS</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800">
+                        <span class="font-bold text-slate-200 block mb-1">Forward Difference $O(h)$</span>
+                        <div class="font-mono text-sky-300 text-[11px] mb-1">$$f'(x) \approx \frac{f(x+h) - f(x)}{h}$$</div>
+                        <span class="text-slate-400 text-[10px]">First-order accurate using current and forward point $x+h$.</span>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800">
+                        <span class="font-bold text-slate-200 block mb-1">Backward Difference $O(h)$</span>
+                        <div class="font-mono text-sky-300 text-[11px] mb-1">$$f'(x) \approx \frac{f(x) - f(x-h)}{h}$$</div>
+                        <span class="text-slate-400 text-[10px]">First-order accurate using current and backward point $x-h$.</span>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 border-sky-500/30">
+                        <span class="font-bold text-sky-300 block mb-1">Central Difference $O(h^2)$</span>
+                        <div class="font-mono text-sky-300 text-[11px] mb-1">$$f'(x) \approx \frac{f(x+h) - f(x-h)}{2h}$$</div>
+                        <span class="text-amber-300 text-[10px]">Second-order accurate! Halving step $h \to h/2$ reduces error by $1/4$.</span>
+                    </div>
+                </div>
+
+                <!-- Second Order Difference Operator -->
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs space-y-1">
+                    <span class="font-bold text-amber-300">Second-Order Difference Operator ($\Delta^2 V$):</span>
+                    <div class="font-mono text-slate-200 text-[11px]">$$\Delta^2 V(x) = V(x+2h) - 2V(x+h) + V(x)$$</div>
+                    <div class="text-slate-400 text-[11px]">
+                        <strong>Question 21 Example:</strong> $V(0)=10, V(2)=18, V(4)=30 \implies \Delta^2 V(0) = (30-18) - (18-10) = 12 - 8 = \mathbf{4}$.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROOT FINDING ALGORITHMS: BISECTION & NEWTON-RAPHSON -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Bisection Method -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-rose-300 text-xs">🔴 BISECTION METHOD & ITERATION COUNT</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Q26 & Q27 [NOTES]</span>
+                    </div>
+                    <p class="text-xs text-slate-300">Repeatedly halves an interval $[a,b]$ with opposite signs $f(a) \cdot f(b) < 0$.</p>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 font-mono text-sky-300 text-xs text-center">
+                        $$N \ge \frac{\ln\left(\frac{b-a}{\epsilon}\right)}{\ln 2} = \frac{\ln(1000)}{\ln 2} \approx 9.96 \implies \mathbf{10\text{ iterations}}$$
+                    </div>
+                    <div class="text-[11px] text-slate-300 bg-slate-900 p-2 rounded border border-slate-800 space-y-1">
+                        <strong>Q26 Midpoint Tracking ($f(x)=x^3-x-2$ on $[1,2]$):</strong>
+                        <div>• Iter 1: $[1, 2] \implies x_1 = 1.5 \implies f(1.5) = -0.125 < 0$</div>
+                        <div>• Iter 2: $[1.5, 2] \implies x_2 = 1.75 \implies f(1.75) = +1.609 > 0$</div>
+                        <div>• Iter 3: $[1.5, 1.75] \implies x_3 = \mathbf{1.625}$</div>
+                    </div>
+                </div>
+
+                <!-- Newton-Raphson Method -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-rose-300 text-xs">🔴 NEWTON-RAPHSON METHOD & BREAKDOWN</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Q39 & Q40 [NOTES]</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 font-mono text-sky-300 text-xs text-center">
+                        $$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+                    </div>
+                    <div class="text-[11px] bg-red-500/10 text-red-300 p-2 rounded border border-red-500/20">
+                        <strong>⚠️ GEOMETRIC BREAKDOWN CONDITION (Q39):</strong> Algorithm fails if $f'(x_n) = 0$ (horizontal tangent line causes division by zero).
+                    </div>
+                    <div class="text-[11px] text-slate-300 bg-slate-900 p-2 rounded border border-slate-800 font-mono">
+                        <strong>Q40 Iteration ($x^6-x-1=0, x_0=1.5$):</strong><br>
+                        $x_1 = 1.3004 \implies x_2 = 1.1814 \implies x_3 \approx \mathbf{1.1395}$.
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPARISON: NUMERICAL INTEGRATION ERROR BOUNDS -->
             <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
                 <h3 class="text-xs font-bold text-rose-400 uppercase tracking-wider">NUMERICAL INTEGRATION ERROR BOUNDS</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
@@ -717,6 +787,296 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- ================= PAGE 6: DIODE DYNAMICS & CONSTANTS ================= -->
+        <section id="page6" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-amber-400 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 6: DIODE DYNAMICS, CONSTANTS & UNITS</h2>
+                <p class="text-xs text-slate-400">Shockley diode derivatives, dynamic resistance calculations, and standard physical constants</p>
+            </div>
+
+            <!-- DIODE SHOCKLEY EQUATION & DYNAMIC RESISTANCE -->
+            <div class="review-card card-must glass-panel p-4 rounded-xl space-y-3" data-priority="must">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-amber-300 text-xs uppercase tracking-wider">🔴 SHOCKLEY DIODE DERIVATIVE & DYNAMIC RESISTANCE ($r_d$)</h3>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 20 [NOTES]</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-2">
+                        <span class="font-bold text-sky-300 block">Shockley Current Equation:</span>
+                        <div class="font-mono text-slate-200 text-[11px]">$$I_D = I_S \left(e^{V_D / V_T} - 1\right)$$</div>
+                        <p class="text-slate-400 text-[10px]">Where $I_S$ is saturation current, $V_D$ is diode voltage, and $V_T$ is thermal voltage ($25\text{ mV}$ at $300\text{ K}$).</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-300 block">Dynamic Conductance & Resistance Formulas:</span>
+                        <div class="font-mono text-slate-200 text-[11px]">
+                            $$g_m = \frac{dI_D}{dV_D} = \frac{I_S}{V_T} e^{V_D / V_T} \approx \frac{I_D}{V_T}$$
+                            $$r_d = \frac{dV_D}{dI_D} = \frac{1}{g_m} \approx \frac{V_T}{I_D}$$
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-sky-300 space-y-1">
+                    <strong>Worked Diode Calculation (Q20):</strong> Given $I_S = 4\text{ pA} = 4 \times 10^{-12}\text{ A}, V_T = 0.025\text{ V}, V_D = 0.65\text{ V}$.<br>
+                    1. $I_D = (4 \times 10^{-12}) e^{0.65/0.025} = (4 \times 10^{-12}) e^{26} = 0.783\text{ A}$<br>
+                    2. Dynamic Resistance: $r_d = \frac{V_T}{I_D} = \frac{0.025}{0.783} \approx \mathbf{0.0319\ \Omega \approx 0.031\ \Omega}$ (Option B).
+                </div>
+            </div>
+
+            <!-- PHYSICAL CONSTANTS & UNIT CONVERSIONS -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">PHYSICAL CONSTANTS & UNIT CONVERSIONS</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 bg-slate-900/50">
+                                <th class="p-2">Quantity / Constant</th>
+                                <th class="p-2">Symbol</th>
+                                <th class="p-2">Standard Value / Formula</th>
+                                <th class="p-2">ECE Application Context</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300 font-mono text-[11px]">
+                            <tr>
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Thermal Voltage</td>
+                                <td class="p-2">$V_T$</td>
+                                <td class="p-2">$25\text{ mV} = 0.025\text{ V}$ at $T=300\text{ K}$</td>
+                                <td class="p-2 text-slate-400 font-sans">Shockley diode equation & AC dynamic resistance.</td>
+                            </tr>
+                            <tr class="bg-slate-900/20">
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Pico-Ampere Prefix</td>
+                                <td class="p-2">$\text{pA}$</td>
+                                <td class="p-2">$1\text{ pA} = 10^{-12}\text{ A}$</td>
+                                <td class="p-2 text-slate-400 font-sans">Diode reverse saturation current $I_S$.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Volume Unit Conversion</td>
+                                <td class="p-2">$\text{cm}^3 \to \text{m}^3$</td>
+                                <td class="p-2">$1\text{ cm}^3 = 10^{-6}\text{ m}^3$</td>
+                                <td class="p-2 text-slate-400 font-sans">PCB enclosure optimization volume constraints.</td>
+                            </tr>
+                            <tr class="bg-slate-900/20">
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Angular Velocity</td>
+                                <td class="p-2">$\omega$</td>
+                                <td class="p-2">$1\text{ rad} = \frac{180^\circ}{\pi} \approx 57.3^\circ$</td>
+                                <td class="p-2 text-slate-400 font-sans">Tracking camera angular rate of change $d\theta/dt$.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 7: DON'T CONFUSE THESE ================= -->
+        <section id="page7" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-sky-400 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 7: DON'T CONFUSE THESE (SIDE-BY-SIDE COMPARISONS)</h2>
+                <p class="text-xs text-slate-400">Side-by-side breakdowns of commonly confused theorems, tests, and numerical formulas</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- MVT vs Rolle's Theorem -->
+                <div class="review-card card-trap glass-panel p-4 rounded-xl space-y-2" data-priority="trap">
+                    <span class="font-bold text-rose-300 text-xs uppercase tracking-wider block">1. MEAN VALUE THEOREM vs. ROLLE'S THEOREM</span>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-[11px]">
+                            <tr class="border-b border-slate-800 text-sky-300 font-semibold">
+                                <td class="p-1">Parameter</td>
+                                <td class="p-1">Mean Value Theorem</td>
+                                <td class="p-1">Rolle's Theorem</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Hypothesis</td>
+                                <td class="p-1">Continuous on $[a,b]$, Diff on $(a,b)$</td>
+                                <td class="p-1">Continuous on $[a,b]$, Diff on $(a,b)$, <strong class="text-amber-300">$f(a)=f(b)$</strong></td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Conclusion</td>
+                                <td class="p-1">$f'(c) = \frac{f(b)-f(a)}{b-a}$</td>
+                                <td class="p-1"><strong class="text-emerald-400">$f'(c) = 0$</strong></td>
+                            </tr>
+                            <tr class="text-slate-400">
+                                <td class="p-1 font-semibold">Geometry</td>
+                                <td class="p-1">Tangent parallel to secant</td>
+                                <td class="p-1">Tangent is horizontal</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Fermat's vs Second Derivative Test -->
+                <div class="review-card card-trap glass-panel p-4 rounded-xl space-y-2" data-priority="trap">
+                    <span class="font-bold text-rose-300 text-xs uppercase tracking-wider block">2. FERMAT'S THEOREM vs. 2ND DERIVATIVE TEST</span>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-[11px]">
+                            <tr class="border-b border-slate-800 text-sky-300 font-semibold">
+                                <td class="p-1">Parameter</td>
+                                <td class="p-1">Fermat's Theorem</td>
+                                <td class="p-1">Second Derivative Test</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Purpose</td>
+                                <td class="p-1">Identifies critical points</td>
+                                <td class="p-1">Classifies min vs max</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Statement</td>
+                                <td class="p-1">Local extremum at $c \implies f'(c)=0$</td>
+                                <td class="p-1">$f'(c)=0$ & $f''(c)>0 \implies$ Min ($f''<0 \implies$ Max)</td>
+                            </tr>
+                            <tr class="text-slate-400">
+                                <td class="p-1 font-semibold">Trap</td>
+                                <td class="p-1">Critical point does NOT guarantee extremum ($x^3$)</td>
+                                <td class="p-1">If $f''(c)=0$, test fails!</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- IVT vs Bisection Method -->
+                <div class="review-card card-trap glass-panel p-4 rounded-xl space-y-2" data-priority="trap">
+                    <span class="font-bold text-rose-300 text-xs uppercase tracking-wider block">3. INTERMEDIATE VALUE THEOREM vs. BISECTION METHOD</span>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-[11px]">
+                            <tr class="border-b border-slate-800 text-sky-300 font-semibold">
+                                <td class="p-1">Parameter</td>
+                                <td class="p-1">IVT (Theorem)</td>
+                                <td class="p-1">Bisection Method (Algorithm)</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Nature</td>
+                                <td class="p-1">Theoretical existence proof</td>
+                                <td class="p-1">Iterative numerical computation</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Condition</td>
+                                <td class="p-1">Continuous on $[a,b]$</td>
+                                <td class="p-1">Continuous with $f(a) \cdot f(b) < 0$</td>
+                            </tr>
+                            <tr class="text-slate-400">
+                                <td class="p-1 font-semibold">Failure</td>
+                                <td class="p-1">Discontinuity on interval (Q23)</td>
+                                <td class="p-1">Even multiplicity roots (no sign change)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Forward vs Central Difference -->
+                <div class="review-card card-trap glass-panel p-4 rounded-xl space-y-2" data-priority="trap">
+                    <span class="font-bold text-rose-300 text-xs uppercase tracking-wider block">4. FORWARD DIFFERENCE vs. CENTRAL DIFFERENCE</span>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-[11px]">
+                            <tr class="border-b border-slate-800 text-sky-300 font-semibold">
+                                <td class="p-1">Parameter</td>
+                                <td class="p-1">Forward Difference</td>
+                                <td class="p-1">Central Difference</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Formula</td>
+                                <td class="p-1">$\frac{f(x+h)-f(x)}{h}$</td>
+                                <td class="p-1">$\frac{f(x+h)-f(x-h)}{2h}$</td>
+                            </tr>
+                            <tr class="border-b border-slate-800/60 text-slate-300">
+                                <td class="p-1 font-semibold text-slate-400">Error Order</td>
+                                <td class="p-1">$O(h)$ (First-order)</td>
+                                <td class="p-1"><strong class="text-emerald-400">$O(h^2)$ (Second-order)</strong></td>
+                            </tr>
+                            <tr class="text-slate-400">
+                                <td class="p-1 font-semibold">Halving $h \to h/2$</td>
+                                <td class="p-1">Error reduced to $1/2$</td>
+                                <td class="p-1">Error reduced to <strong class="text-amber-300">$1/4$</strong> (Q22)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 8: RAPID TRAPS & REVIEW ================= -->
+        <section id="page8" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-red-500 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 8: RAPID TRAPS, DECISION TREES & CHECKLIST</h2>
+                <p class="text-xs text-slate-400">5 critical board exam landmines, algorithm selection decision trees, and final reviewer checklist</p>
+            </div>
+
+            <!-- 5 CRITICAL BOARD LANDMINES -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i> 5 CRITICAL BOARD EXAM LANDMINES
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-slate-900 p-3 rounded border border-red-500/30 space-y-1">
+                        <span class="font-bold text-rose-300 block">1. Inverse Derivative Swap</span>
+                        <p class="text-slate-400 text-[11px]">Do NOT compute $\frac{1}{f'(b)}$! Solve $f(a)=b$ first to find $a$, then compute $\frac{1}{f'(a)}$.</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-red-500/30 space-y-1">
+                        <span class="font-bold text-rose-300 block">2. Parametric 2nd Derivative</span>
+                        <p class="text-slate-400 text-[11px]">$\frac{d^2y}{dx^2} \ne \frac{y''(t)}{x''(t)}$! You MUST divide $\frac{d}{dt}\left(\frac{dy}{dx}\right)$ by $x'(t)$.</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-red-500/30 space-y-1">
+                        <span class="font-bold text-rose-300 block">3. Curvature Radius Inversion</span>
+                        <p class="text-slate-400 text-[11px]">Curvature $\kappa$ and radius $\rho$ are exact reciprocals: $\rho = 1/\kappa$.</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-red-500/30 space-y-1">
+                        <span class="font-bold text-rose-300 block">4. Newton-Raphson Breakdown</span>
+                        <p class="text-slate-400 text-[11px]">Geometrically breaks down if $f'(x_n) = 0$ (horizontal tangent line causing division by zero).</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-red-500/30 space-y-1">
+                        <span class="font-bold text-rose-300 block">5. Open-Top Surface Area</span>
+                        <p class="text-slate-400 text-[11px]">Open top enclosure has ONLY 1 base ($x^2$), not $2x^2$! Objective is $S(x) = x^2 + 4000/x$.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DECISION TREES -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Root Finding Selector -->
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-2">
+                    <span class="font-bold text-amber-300 text-xs uppercase tracking-wider block">ROOT-FINDING ALGORITHM SELECTOR</span>
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 text-xs text-slate-300 space-y-2">
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                            <strong class="text-sky-300 block">Is guaranteed convergence on $[a,b]$ needed?</strong>
+                            <span class="text-emerald-400 font-bold">➔ BISECTION METHOD</span> ($c = \frac{a+b}{2}$, requires $f(a)f(b)<0$).
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                            <strong class="text-sky-300 block">Is fast quadratic convergence from guess $x_0$ required?</strong>
+                            <span class="text-emerald-400 font-bold">➔ NEWTON-RAPHSON</span> ($x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$, requires $f'(x_n) \ne 0$).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hessian Discriminant Tree -->
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-2">
+                    <span class="font-bold text-amber-300 text-xs uppercase tracking-wider block">HESSIAN CRITICAL POINT CLASSIFICATION TREE</span>
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800 text-xs text-slate-300 space-y-1 font-mono">
+                        <div>Calculate Discriminant: $D = f_{xx} f_{yy} - (f_{xy})^2$</div>
+                        <div class="text-emerald-400">• $D > 0$ and $f_{xx} > 0 \implies$ LOCAL MINIMUM</div>
+                        <div class="text-amber-300">• $D > 0$ and $f_{xx} < 0 \implies$ LOCAL MAXIMUM</div>
+                        <div class="text-rose-400 font-bold">• $D < 0 \implies$ SADDLE POINT (No extremum!)</div>
+                        <div class="text-slate-400">• $D = 0 \implies$ TEST FAILS (Inconclusive)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOARD EXAM CHECKLIST -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-2">
+                <span class="font-bold text-emerald-400 text-xs uppercase tracking-wider block">FINAL BOARD EXAM VERIFICATION CHECKLIST</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-slate-300">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Limits & continuity verified</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Chain rule & inverse derivatives</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Kinematics $a = v \frac{dv}{dx}$</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Radius of curvature $\rho = 1/\kappa$</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Euler's & Clairaut's theorems</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Hessian discriminant $D$</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Central difference $O(h^2)$</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Bisection iteration formula $N$</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Newton-Raphson breakdown</div>
+                </div>
+            </div>
+        </section>
 
         <!-- ================= PAGE 9: COMPLETE 40-QUESTION BOARD EXAM BANK ================= -->
         <section id="page9" class="page-content hidden space-y-6">
@@ -858,7 +1218,7 @@
                     </div>
                 </div>
 
-                <!-- Q11 to Q40 concise summaries -->
+                <!-- Q11 -->
                 <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
                     <div class="flex justify-between items-start">
                         <span class="font-bold text-sky-300 text-xs">Q11: Camera Tracking Angular Velocity</span>
@@ -871,110 +1231,381 @@
                     </div>
                 </div>
 
+                <!-- Q12 -->
                 <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q12 & Q13: Parametric Curve Classifications</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q12: D | Q13: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q12: Exponential Parametric Response</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: D</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">Q12: $y=e^{2t}, x=e^t \implies y=x^2$ (Quadratic). Q13: $x=\ln(t^2), y=\ln(t^5) \implies y=2.5x$ (Linear).</p>
+                    <p class="text-xs text-slate-300 font-semibold">$y(t) = e^{2t}, x(t) = e^t$ for $t > 0$. Classify the response curve.</p>
+                    <div class="text-[11px] text-slate-400">A. Exponential | B. Linear | C. Logarithmic | <strong>D. Quadratic [CORRECT]</strong></div>
                     <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
-                        <strong>Key Takeaway:</strong> Substitute parametric parameter $t$ out to determine Cartesian geometry directly.
+                        <strong>Solution:</strong> $y = (e^t)^2 = x^2 \implies$ Quadratic parabola in Cartesian coordinates.
                     </div>
                 </div>
 
-                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
-                    <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q14 & Q15: Parametric Derivatives</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q14: C | Q15: B</span>
-                    </div>
-                    <p class="text-xs text-slate-300 font-semibold">Q14: $x=\ln t, y=e^{2t} \implies dy/dx = 2te^{2t}$. Q15: $x=t^2, y=t^3-3t \implies d^2y/dx^2 = 1.5$ at $t=1$.</p>
-                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
-                        <strong>Trap Warning:</strong> Always divide $\frac{d}{dt}(dy/dx)$ by $x'(t)$ for second parametric derivatives!
-                    </div>
-                </div>
-
-                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
-                    <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q16 & Q17: Radius of Curvature & Inverse Derivative</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q16: B | Q17: A</span>
-                    </div>
-                    <p class="text-xs text-slate-300 font-semibold">Q16: $y=\ln x$ at $x=1 \implies \rho = 2\sqrt{2}$. Q17: $f(x)=x^3+2x=3 \implies a=1, f'(1)=5 \implies (f^{-1})'(3) = 0.20$.</p>
-                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
-                        <strong>Formula:</strong> $(f^{-1})'(b) = \frac{1}{f'(a)}$ where $f(a)=b$.
-                    </div>
-                </div>
-
+                <!-- Q13 -->
                 <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q18 & Q19: Measurement Error & Linear Approximation</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q18: B | Q19: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q13: Logarithmic Parametric Filter Envelope</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">Q18: $r=10\text{ m}, dr=\pm 0.1 \implies dV = 4\pi r^2 dr = \mathbf{40\pi\ m^3}$. Q19: $f(2.04) \approx 5 + 3(0.04) = \mathbf{5.12}$.</p>
+                    <p class="text-xs text-slate-300 font-semibold">$x(t) = \ln(t^2), y(t) = \ln(t^5)$ for $t > 1$. What is the mathematical nature of $y$ w.r.t $x$?</p>
+                    <div class="text-[11px] text-slate-400">A. Exponential | <strong>B. Linear [CORRECT]</strong> | C. Logarithmic | D. Quadratic</div>
                     <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
-                        <strong>Formula:</strong> $f(x_0+\Delta x) \approx f(x_0) + f'(x_0)\Delta x$.
+                        <strong>Solution:</strong> $x = 2\ln t \implies \ln t = x/2$. $y = 5\ln t = 5(x/2) = 2.5x \implies$ Straight line (Linear).
                     </div>
                 </div>
 
+                <!-- Q14 -->
                 <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q20 & Q21: Diode Resistance & Finite Difference</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q20: B | Q21: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q14: First Parametric Derivative</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">Q20: $r_d = V_T / I_D \approx \mathbf{0.031\ \Omega}$. Q21: $\Delta^2 V(0) = (30-18) - (18-10) = 12 - 8 = \mathbf{4}$.</p>
+                    <p class="text-xs text-slate-300 font-semibold">$x = \ln(t), y = e^{2t}$. Find $\frac{dy}{dx}$.</p>
+                    <div class="text-[11px] text-slate-400">A. $2e^{2t}$ | B. $\frac{2e^{2t}}{t}$ | <strong>C. $2te^{2t}$ [CORRECT]</strong> | D. $\frac{e^{2t}}{t}$</div>
                     <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
-                        <strong>Diode Conductance:</strong> $g_m = I_D / V_T \implies r_d = 1 / g_m$.
+                        <strong>Solution:</strong> $\frac{dx}{dt} = 1/t, \frac{dy}{dt} = 2e^{2t} \implies \frac{dy}{dx} = \frac{2e^{2t}}{1/t} = 2te^{2t}$.
                     </div>
                 </div>
 
+                <!-- Q15 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q15: Second Parametric Derivative</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$x(t) = t^2, y(t) = t^3 - 3t$. Calculate $\frac{d^2y}{dx^2}$ at $t=1$.</p>
+                    <div class="text-[11px] text-slate-400">A. 0.75 | <strong>B. 1.5 [CORRECT]</strong> | C. 3 | D. 0</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $dy/dx = \frac{3t^2-3}{2t} = 1.5t - 1.5/t$. $\frac{d}{dt}(dy/dx) = 1.5 + 1.5/t^2$. Divide by $x'(t) = 2t \implies \frac{1.5+1.5}{2} = 1.5$.
+                    </div>
+                </div>
+
+                <!-- Q16 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q16: Radius of Curvature of Log Curve</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Find radius of curvature $\rho$ of $y = \ln x$ at $x=1$.</p>
+                    <div class="text-[11px] text-slate-400">A. $\sqrt{2}$ | <strong>B. $2\sqrt{2}$ [CORRECT]</strong> | C. 4 | D. 8</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $y'=1, y''=-1 \implies \rho = \frac{[1+(1)^2]^{3/2}}{|-1|} = 2\sqrt{2}$.
+                    </div>
+                </div>
+
+                <!-- Q17 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q17: Derivative of Inverse Function</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: A</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$f(x) = x^3 + 2x$. Find $(f^{-1})'(3)$.</p>
+                    <div class="text-[11px] text-slate-400"><strong>A. 0.20 [CORRECT]</strong> | B. 5 | C. 0.037 | D. 27</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Solve $f(a) = a^3+2a = 3 \implies a=1$. $f'(x) = 3x^2+2 \implies f'(1) = 5$. $(f^{-1})'(3) = 1/f'(1) = 1/5 = 0.20$.
+                    </div>
+                </div>
+
+                <!-- Q18 -->
                 <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q22 to Q25: Calculus Theorems & Truncation</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q22: B | Q23: C | Q24: B | Q25: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q18: Sphere Measurement Error Propagation</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">
-                        Q22: Central Difference $O(h^2) \implies$ halving $h$ reduces error to $\mathbf{1/4}$.<br>
-                        Q23 & Q24: IVT and Rolle's Theorem fail due to infinite discontinuities at $x=2$ and $x=0$.<br>
-                        Q25: MVT for $f(x)=\sqrt{x}$ on $[0,4] \implies f'(c) = 0.5 \implies c = \mathbf{1.0}$.
-                    </p>
+                    <p class="text-xs text-slate-300 font-semibold">Sphere radius $r=10\text{ m}$ with error $dr = \pm 0.1\text{ m}$. Find max volume error $dV$.</p>
+                    <div class="text-[11px] text-slate-400">A. $4\pi\text{ m}^3$ | <strong>B. $40\pi\text{ m}^3$ [CORRECT]</strong> | C. $100\pi\text{ m}^3$ | D. $400\pi\text{ m}^3$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $V = \frac{4}{3}\pi r^3 \implies dV = 4\pi r^2 dr = 4\pi(10)^2(0.1) = 40\pi\text{ m}^3$.
+                    </div>
                 </div>
 
-                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                <!-- Q19 -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q26 to Q31: Bisection, Extrema & Optimization</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q26: C | Q27: B | Q28: B | Q29: B | Q30: B | Q31: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q19: Linear Approximation</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">
-                        Q26: Bisection $x_3 = \mathbf{1.625}$. Q27: $N \ge 9.96 \implies \mathbf{10\text{ iterations}}$.<br>
-                        Q28: Fermat's theorem: Every local extremum is a critical point.<br>
-                        Q29: $f'' > 0 \implies \text{Local Minimum}$. Q30: Surface $S(x) = x^2 + \frac{4000}{x}$.<br>
-                        Q31: Minimum cost $C(5) = (5)^2 - 10(5) + 40 = \mathbf{15}$.
-                    </p>
+                    <p class="text-xs text-slate-300 font-semibold">$f(2)=5, f'(2)=3$. Estimate $f(2.04)$.</p>
+                    <div class="text-[11px] text-slate-400">A. 5.04 | <strong>B. 5.12 [CORRECT]</strong> | C. 5.20 | D. 5.24</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $f(2.04) \approx f(2) + f'(2)\Delta x = 5 + 3(0.04) = 5.12$.
+                    </div>
                 </div>
 
+                <!-- Q20 -->
                 <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q32 to Q35: Multivariable Optimization & Partial Derivatives</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q32: A | Q33: B | Q34: C | Q35: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q20: Diode Dynamic Resistance</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">
-                        Q32: Power max currents $I_1 = \mathbf{3.5\text{ A}}, I_2 = \mathbf{2.9\text{ A}}$.<br>
-                        Q33: $x^2+y^2+z^2=3 \implies \partial z/\partial x = -x/z = \mathbf{-1}$.<br>
-                        Q34: Euler's theorem for homogeneous degree 2: $\mathbf{2V(x,y)}$.<br>
-                        Q35: Clairaut's theorem requires continuous 2nd-order partial derivatives.
-                    </p>
+                    <p class="text-xs text-slate-300 font-semibold">$I_S = 4\text{ pA}, V_T = 0.025\text{ V}$. Find $r_d$ at $V_D = 0.65\text{ V}$.</p>
+                    <div class="text-[11px] text-slate-400">A. $0.025\ \Omega$ | <strong>B. $0.031\ \Omega$ [CORRECT]</strong> | C. $0.042\ \Omega$ | D. $32.15\ \Omega$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $I_D = 4\text{ pA} \cdot e^{0.65/0.025} = 0.783\text{ A}$. $r_d = V_T / I_D = 0.025 / 0.783 \approx 0.0319\ \Omega \approx 0.031\ \Omega$.
+                    </div>
                 </div>
 
+                <!-- Q21 -->
                 <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
                     <div class="flex justify-between items-start">
-                        <span class="font-bold text-sky-300 text-xs">Q36 to Q40: Hessian, Jacobian & Newton-Raphson</span>
-                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q36: C | Q37: C | Q38: A | Q39: B | Q40: B</span>
+                        <span class="font-bold text-sky-300 text-xs">Q21: Second-Order Difference Operator</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-semibold">
-                        Q36 & Q37: $D < 0$ strictly proves a <strong>Saddle Point</strong>.<br>
-                        Q38: Jacobian determinant $|J| = |2(3) - (-1)(1)| = \mathbf{7}$.<br>
-                        Q39: Newton-Raphson fails when $f'(x_n) = 0$.<br>
-                        Q40: $f(x) = x^6-x-1=0, x_0=1.5 \implies x_3 \approx \mathbf{1.1395}$.
-                    </p>
+                    <p class="text-xs text-slate-300 font-semibold">$V(0)=10, V(2)=18, V(4)=30$. Find $\Delta^2 V(0)$.</p>
+                    <div class="text-[11px] text-slate-400">A. 1 | <strong>B. 4 [CORRECT]</strong> | C. 2 | D. 8</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $\Delta V(0) = 18-10=8, \Delta V(2) = 30-18=12 \implies \Delta^2 V(0) = 12-8=4$.
+                    </div>
+                </div>
+
+                <!-- Q22 -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q22: Central Difference Error Halving</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Halving step size $h \to h/2$ in Central Difference reduces error by what factor?</p>
+                    <div class="text-[11px] text-slate-400">A. $1/2$ | <strong>B. $1/4$ [CORRECT]</strong> | C. $1/8$ | D. Unchanged</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Truncation error $\propto h^2 \implies (h/2)^2 = h^2/4 \implies$ Error shrinks by $1/4$.
+                    </div>
+                </div>
+
+                <!-- Q23 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q23: Intermediate Value Theorem Failure</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Why does IVT fail for $f(x) = \frac{1}{x-2}$ on $[0,3]$?</p>
+                    <div class="text-[11px] text-slate-400">A. $f(0), f(3)$ same sign | B. Not diff everywhere | <strong>C. Infinite discontinuity at $x=2$ [CORRECT]</strong> | D. Target outside range</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> IVT requires $f(x)$ to be continuous across $[a,b]$. Vertical asymptote at $x=2$ breaks continuity.
+                    </div>
+                </div>
+
+                <!-- Q24 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q24: Rolle's Theorem Failure</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Why does Rolle's Theorem fail for $f(x) = 1/x^2$ on $[-1,1]$ despite $f(-1)=f(1)=1$?</p>
+                    <div class="text-[11px] text-slate-400">A. Even function | <strong>B. Infinite discontinuity at $x=0$ [CORRECT]</strong> | C. $f' \ge 0$ | D. Abs max at endpoints</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Rolle's theorem requires continuity on $[-1,1]$. Infinite discontinuity exists at $x=0$.
+                    </div>
+                </div>
+
+                <!-- Q25 -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q25: Mean Value Theorem Point $c$</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Find $c \in (0,4)$ for $f(x) = \sqrt{x}$ according to MVT.</p>
+                    <div class="text-[11px] text-slate-400">A. 2 | <strong>B. 1.0 [CORRECT]</strong> | C. 0.5 | D. N/A</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $\frac{f(4)-f(0)}{4-0} = \frac{2-0}{4} = 0.5$. $f'(c) = \frac{1}{2\sqrt{c}} = 0.5 \implies \sqrt{c} = 1 \implies c = 1.0$.
+                    </div>
+                </div>
+
+                <!-- Q26 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q26: Bisection Midpoint Iteration</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Bisection on $[1,2]$ for $x^3-x-2=0$. Find midpoint $x_3$ during 3rd iteration.</p>
+                    <div class="text-[11px] text-slate-400">A. 1.5 | B. 1.75 | <strong>C. 1.625 [CORRECT]</strong> | D. 1.5625</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $x_1 = 1.5 \implies f(1.5)<0$. $x_2 = \frac{1.5+2}{2} = 1.75 \implies f(1.75)>0$. $x_3 = \frac{1.5+1.75}{2} = 1.625$.
+                    </div>
+                </div>
+
+                <!-- Q27 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q27: Bisection Iteration Count</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Bisection on $[0,1]$ for tolerance $\epsilon=0.001$. How many iterations $N$ required?</p>
+                    <div class="text-[11px] text-slate-400">A. 9 | <strong>B. 10 [CORRECT]</strong> | C. 11 | D. 8</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $N \ge \frac{\ln(1/0.001)}{\ln 2} = \frac{\ln 1000}{\ln 2} \approx 9.96 \implies 10$ iterations.
+                    </div>
+                </div>
+
+                <!-- Q28 -->
+                <div class="review-card card-concept glass-panel p-4 rounded-xl space-y-2" data-priority="concept">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q28: Fermat's Theorem Interpretation</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Which statement correctly interprets Fermat's Theorem?</p>
+                    <div class="text-[11px] text-slate-400">A. Every critical pt is local extremum | <strong>B. Every diff local extremum is a critical point [CORRECT]</strong> | C. $f'=0 \implies$ max | D. Extrema have $f''>0$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Fermat's theorem proves local extrema MUST occur at critical points ($f'(c)=0$).
+                    </div>
+                </div>
+
+                <!-- Q29 -->
+                <div class="review-card card-concept glass-panel p-4 rounded-xl space-y-2" data-priority="concept">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q29: Second Derivative Test Criterion</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">If $f'(c) = 0$ and $f''(c) > 0$, what feature occurs at $x=c$?</p>
+                    <div class="text-[11px] text-slate-400">A. Local Maximum | <strong>B. Local Minimum [CORRECT]</strong> | C. Point of Inflection | D. Vertical Asymptote</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $f''(c) > 0 \implies$ Concave Up $\implies$ Local Minimum.
+                    </div>
+                </div>
+
+                <!-- Q30 -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q30: Enclosure Surface Optimization</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Open top enclosure with base $x$ and volume $V=1000\text{ cm}^3$. Find objective surface function $S(x)$.</p>
+                    <div class="text-[11px] text-slate-400">A. $x^2+1000/x$ | <strong>B. $x^2 + \frac{4000}{x}$ [CORRECT]</strong> | C. $2x^2 + 4000/x$ | D. $4x + 1000/x^2$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $S(x) = \text{Base} + 4\times \text{Sides} = x^2 + 4xh = x^2 + 4x(1000/x^2) = x^2 + 4000/x$.
+                    </div>
+                </div>
+
+                <!-- Q31 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q31: Minimum Production Cost</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$C(x) = x^2 - 10x + 40$. Find minimum production cost.</p>
+                    <div class="text-[11px] text-slate-400">A. 10 | <strong>B. 15 [CORRECT]</strong> | C. 20 | D. 25</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Parabola vertex $x = -b/2a = 10/2 = 5$. $C(5) = (5)^2 - 10(5) + 40 = 25 - 50 + 40 = 15$.
+                    </div>
+                </div>
+
+                <!-- Q32 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q32: Multivariable Power Maximization</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: A</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$P(I_1, I_2) = 10I_1 + 15I_2 - I_1^2 - 2I_2^2 - I_1 I_2$. Find currents for maximum power.</p>
+                    <div class="text-[11px] text-slate-400"><strong>A. $I_1=3.5\text{ A}, I_2=2.9\text{ A}$ [CORRECT]</strong> | B. $4.8\text{ A}, 3.0\text{ A}$ | C. $3.6\text{ A}, 3.2\text{ A}$ | D. $4.0\text{ A}, 2.5\text{ A}$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $P_1 = 10-2I_1-I_2=0, P_2 = 15-4I_2-I_1=0 \implies I_1 = 25/7 \approx 3.57\text{ A}, I_2 = 20/7 \approx 2.86\text{ A}$.
+                    </div>
+                </div>
+
+                <!-- Q33 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q33: Spherical Surface Implicit Partial</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$x^2+y^2+z^2=3$. Find $\frac{\partial z}{\partial x}$ at $(1,1,1)$.</p>
+                    <div class="text-[11px] text-slate-400">A. 1 | <strong>B. -1 [CORRECT]</strong> | C. 0 | D. 0.5</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Differentiate implicitly w.r.t $x$: $2x + 2z \frac{\partial z}{\partial x} = 0 \implies \frac{\partial z}{\partial x} = -\frac{x}{z} = -\frac{1}{1} = -1$.
+                    </div>
+                </div>
+
+                <!-- Q34 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q34: Euler's Theorem Homogeneous Potential</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$V(x,y) = \frac{x^4-y^4}{x^2+y^2}$. Evaluate $x \frac{\partial V}{\partial x} + y \frac{\partial V}{\partial y}$.</p>
+                    <div class="text-[11px] text-slate-400">A. 0 | B. $V(x,y)$ | <strong>C. $2V(x,y)$ [CORRECT]</strong> | D. $4V(x,y)$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $V(tx,ty) = t^2 V(x,y) \implies$ degree $n=2$. Euler's theorem gives $n \cdot V(x,y) = 2V(x,y)$.
+                    </div>
+                </div>
+
+                <!-- Q35 -->
+                <div class="review-card card-concept glass-panel p-4 rounded-xl space-y-2" data-priority="concept">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q35: Clairaut's Theorem Condition</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Which condition guarantees equality of mixed partial derivatives ($f_{xy} = f_{yx}$)?</p>
+                    <div class="text-[11px] text-slate-400">A. Continuous 1st partials | <strong>B. Continuous 2nd-order partial derivatives [CORRECT]</strong> | C. Diff | D. Existence of mixed partials</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Clairaut's theorem strictly requires 2nd-order partial derivatives to be continuous on an open region.
+                    </div>
+                </div>
+
+                <!-- Q36 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q36: Hessian Saddle Point Condition</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">For Hessian $D = f_{xx}f_{yy} - (f_{xy})^2$, what condition guarantees a Saddle Point?</p>
+                    <div class="text-[11px] text-slate-400">A. $D>0, f_{xx}>0$ | B. $D=0$ | <strong>C. $D < 0$ [CORRECT]</strong> | D. $D>0, f_{xx}<0$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $D < 0$ proves the surface curves upward in one direction and downward in another $\implies$ Saddle Point.
+                    </div>
+                </div>
+
+                <!-- Q37 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q37: Origin Critical Point Classification</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Classify the origin $(0,0)$ for $f(x,y) = x^3 - 3xy + y^3$.</p>
+                    <div class="text-[11px] text-slate-400">A. Local Max | B. Local Min | <strong>C. Saddle Point [CORRECT]</strong> | D. Not a critical point</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $f_{xx}(0,0)=0, f_{yy}(0,0)=0, f_{xy}(0,0)=-3 \implies D = (0)(0) - (-3)^2 = -9 < 0 \implies$ Saddle Point.
+                    </div>
+                </div>
+
+                <!-- Q38 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q38: Absolute Jacobian Determinant</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: A</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Find absolute Jacobian $|J|$ for $u = 2x-y, v = x+3y$.</p>
+                    <div class="text-[11px] text-slate-400"><strong>A. 7 [CORRECT]</strong> | B. 5 | C. 1 | D. 0</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $J = \begin{vmatrix} 2 & -1 \\ 1 & 3 \end{vmatrix} = 2(3) - (-1)(1) = 6 + 1 = 7$.
+                    </div>
+                </div>
+
+                <!-- Q39 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q39: Newton-Raphson Failure Condition</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Under what condition does Newton-Raphson algorithm geometrically fail?</p>
+                    <div class="text-[11px] text-slate-400">A. $f(x_n)=0$ | <strong>B. First derivative $f'(x_n) = 0$ [CORRECT]</strong> | C. $f''(x_n)=0$ | D. Limit approaches infinity</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $x_{n+1} = x_n - f/f'$. When $f'(x_n)=0$, division by zero occurs because tangent line is horizontal.
+                    </div>
+                </div>
+
+                <!-- Q40 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q40: Newton-Raphson Multi-Step Solution</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$x^6-x-1=0$, starting with $x_0=1.5$. Solve for $x_3$.</p>
+                    <div class="text-[11px] text-slate-400">A. 1.1245 | <strong>B. 1.1395 [CORRECT]</strong> | C. 1.1325 | D. 1.1405</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $x_1 = 1.5 - \frac{8.8906}{44.5625} = 1.3004 \implies x_2 = 1.1814 \implies x_3 = 1.1814 - \frac{0.5382}{12.9818} \approx \mathbf{1.1395}$.
+                    </div>
                 </div>
 
             </div>
@@ -1096,6 +1727,10 @@
     <script>
         // Auto-render KaTeX math formulas across the document on page load
         document.addEventListener("DOMContentLoaded", function() {
+            reRenderMath();
+        });
+
+        function reRenderMath() {
             if (typeof renderMathInElement === 'function') {
                 renderMathInElement(document.body, {
                     delimiters: [
@@ -1107,7 +1742,7 @@
                     throwOnError: false
                 });
             }
-        });
+        }
 
         // Interactive Tab Switcher
         function switchTab(tabId) {
@@ -1148,6 +1783,9 @@
 
             // Smooth scroll to top of page
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Re-render KaTeX math
+            setTimeout(reRenderMath, 50);
         }
 
         // Calculator: Newton-Raphson
