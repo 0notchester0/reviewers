@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam Command Center — Differential Calculus & Numerical Methods</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                            dark: '#0b132b'
+                        },
+                        trap: '#ef4444',
+                        must: '#f43f5e',
+                        yield: '#f97316',
+                        important: '#eab308',
+                        concept: '#3b82f6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- KaTeX Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+        }
+        .math-code {
+            font-family: 'Fira Code', monospace;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+        .card-must { border-left: 4px solid #f43f5e; }
+        .card-yield { border-left: 4px solid #f97316; }
+        .card-important { border-left: 4px solid #eab308; }
+        .card-concept { border-left: 4px solid #3b82f6; }
+        .card-trap { border-left: 4px solid #ef4444; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 bg-slate-950/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Title & Branding -->
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-sky-500/10 rounded-lg border border-sky-500/30 text-sky-400">
+                        <i class="fa-solid fa-microchip text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                            <span>ECE BOARD EXAM COMMAND CENTER</span>
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">MATH & NUMERICAL</span>
+                        </h1>
+                        <p class="text-xs text-slate-400">Differential Calculus & Numerical Methods — High-Yield Reviewer</p>
+                    </div>
+                </div>
+
+                <!-- Global Search & Actions -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative w-48 sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                        <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Search formulas, concepts..." 
+                               class="w-full bg-slate-900 border border-slate-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 transition">
+                    </div>
+                    <button onclick="printReviewer()" class="hidden sm:flex items-center space-x-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg border border-slate-700 transition">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Print Sheet</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUB-NAV TAB BUTTONS -->
+            <div class="flex space-x-1 overflow-x-auto pb-2 scrollbar-none pt-1">
+                <button onclick="switchTab('page1')" id="tab-page1" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap bg-sky-500 text-white shadow">
+                    <i class="fa-solid fa-map mr-1.5"></i>1. Overview & Formulas
+                </button>
+                <button onclick="switchTab('page2')" id="tab-page2" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-infinity mr-1.5"></i>2. Limits & Derivatives
+                </button>
+                <button onclick="switchTab('page3')" id="tab-page3" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-gauge-high mr-1.5"></i>3. Kinematics & Optimization
+                </button>
+                <button onclick="switchTab('page4')" id="tab-page4" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-draw-polygon mr-1.5"></i>4. Curvature & Multivariable
+                </button>
+                <button onclick="switchTab('page5')" id="tab-page5" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-calculator mr-1.5"></i>5. Numerical Methods
+                </button>
+                <button onclick="switchTab('page6')" id="tab-page6" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-bolt mr-1.5"></i>6. Diode Dynamics & Constants
+                </button>
+                <button onclick="switchTab('page7')" id="tab-page7" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-scale-balanced mr-1.5"></i>7. Don't Confuse
+                </button>
+                <button onclick="switchTab('page8')" id="tab-page8" class="tab-btn px-3 py-1.5 text-xs font-medium rounded-md whitespace-nowrap text-slate-400 hover:text-slate-200 hover:bg-slate-800/60">
+                    <i class="fa-solid fa-triangle-exclamation mr-1.5"></i>8. Rapid Traps & Review
+                </button>
+                <button onclick="switchTab('page9')" id="tab-page9" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-md whitespace-nowrap text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 hover:bg-emerald-400/20">
+                    <i class="fa-solid fa-list-check mr-1.5"></i>9. 40-Q Solved Exam Bank
+                </button>
+                <button onclick="switchTab('calculators')" id="tab-calculators" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded-md whitespace-nowrap text-amber-400 bg-amber-400/10 border border-amber-400/20 hover:bg-amber-400/20">
+                    <i class="fa-solid fa-sliders mr-1.5"></i>Interactive Solvers
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- PRIORITY LEGEND FILTER BAR -->
+    <div class="bg-slate-900/90 border-b border-slate-800 px-4 py-2 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <span class="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Board Priority Filter:</span>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterPriority('all')" class="p-filter active px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-medium">All Topics</button>
+                <button onclick="filterPriority('must')" class="p-filter px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 font-medium">🔴 MUST MEMORIZE</button>
+                <button onclick="filterPriority('yield')" class="p-filter px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30 font-medium">🟠 HIGH-YIELD</button>
+                <button onclick="filterPriority('important')" class="p-filter px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-medium">🟡 IMPORTANT</button>
+                <button onclick="filterPriority('concept')" class="p-filter px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-medium">🔵 CONCEPTUAL</button>
+                <button onclick="filterPriority('trap')" class="p-filter px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 font-medium">⚠️ COMMON TRAP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+        <!-- ================= PAGE 1: MASTER OVERVIEW & TOPIC MAP ================= -->
+        <section id="page1" class="page-content space-y-6">
+            <!-- TOPIC MIND MAP CONTAINER -->
+            <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                <h2 class="text-sm font-bold text-sky-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-sitemap"></i> ECE DIFFERENTIAL CALCULUS & NUMERICAL METHODS MAP
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-sky-300 font-bold block mb-1">1. LIMITS & CONTINUITY</span>
+                        <ul class="text-slate-400 space-y-1 text-[11px]">
+                            <li>• Intermediate Value Theorem</li>
+                            <li>• Mean Value & Rolle's Theorem</li>
+                            <li>• Discontinuity Classifications</li>
+                            <li>• Trigonometric & Path Limits</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-orange-300 font-bold block mb-1">2. DERIVATIVES & MOTION</span>
+                        <ul class="text-slate-400 space-y-1 text-[11px]">
+                            <li>• $a(x) = v \frac{dv}{dx}$ Kinematics</li>
+                            <li>• $v \cdot a < 0$ Slowing Down</li>
+                            <li>• Rocket Camera Related Rates</li>
+                            <li>• Optimization & Surface Area</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-amber-300 font-bold block mb-1">3. CURVATURE & GEOMETRY</span>
+                        <ul class="text-slate-400 space-y-1 text-[11px]">
+                            <li>• Radius of Curvature $\rho = 1/\kappa$</li>
+                            <li>• Cartesian, Parametric, Polar</li>
+                            <li>• 2nd Parametric Derivative</li>
+                            <li>• Differential Approximations</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-blue-300 font-bold block mb-1">4. MULTIVARIABLE CALCULUS</span>
+                        <ul class="text-slate-400 space-y-1 text-[11px]">
+                            <li>• Clairaut's Partial Equality</li>
+                            <li>• Euler's Homogeneous $n V$</li>
+                            <li>• Hessian Matrix $D = f_{xx}f_{yy}-f_{xy}^2$</li>
+                            <li>• Jacobian Determinant $J$</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                        <span class="text-rose-300 font-bold block mb-1">5. NUMERICAL METHODS</span>
+                        <ul class="text-slate-400 space-y-1 text-[11px]">
+                            <li>• Finite Difference Operators</li>
+                            <li>• Central Difference $O(h^2)$</li>
+                            <li>• Bisection Method & Iteration $N$</li>
+                            <li>• Newton-Raphson $x_{n+1}$</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CORE TOP 12 EQUATION GRID -->
+            <div class="space-y-3">
+                <h2 class="text-sm font-bold text-rose-400 uppercase tracking-widest flex items-center gap-2">
+                    <i class="fa-solid fa-star"></i> CORE CHEAT SHEET — TOP 12 BOARD EXAM FORMULAS
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Formula Card 1 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">1. Fundamental Derivative</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$\lim_{h \to 0} \frac{f(x+h) - f(x)}{h} = f'(x)$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Evaluating theoretical limits representing exact instantaneous derivatives.</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Used in Question 5 to instantly spot $\frac{d}{dx}(\sin x)$ at $x = \pi/6$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 2 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">2. Composite Chain Rule</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$\frac{d}{dx}[f(g(u))] = f'(g(u)) \cdot g'(u) \cdot u'$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Multi-layered composite function differentiation.</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 7: $h'(x) = f'(g(x^2)) \cdot g'(x^2) \cdot 2x \implies h'(2) = -60$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 3 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">3. Position-Dependent Acceleration</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$a(x) = v \frac{dv}{dx}$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> When velocity is given as a function of position $v(x)$ instead of time $t$.</p>
+                        <div class="text-[11px] bg-red-500/10 text-red-300 p-2 rounded border border-red-500/20">
+                            <strong>⚠️ TRAP:</strong> Do not just differentiate $v(x)$! You MUST multiply by $v(x)$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 4 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">4. Inverse Function Derivative</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$(f^{-1})'(b) = \frac{1}{f'(a)} \quad \text{where } f(a) = b$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Evaluating slope of inverse functions without solving for $f^{-1}(x)$.</p>
+                        <div class="text-[11px] bg-red-500/10 text-red-300 p-2 rounded border border-red-500/20">
+                            <strong>⚠️ TRAP:</strong> Do NOT compute $\frac{1}{f'(b)}$! First solve $f(a)=b$ to get $a$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 5 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">5. Cartesian Radius of Curvature</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$\rho = \frac{[1 + (y')^2]^{3/2}}{|y''|}$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Curves $y = f(x)$. Note that $\rho = 1/\kappa$ (reciprocal of curvature).</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 16: $y=\ln x$ at $x=1 \implies y'=1, y''=-1 \implies \rho = 2\sqrt{2}$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 6 -->
+                    <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">6. Parametric Radius of Curvature</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 border border-orange-500/30">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$\rho = \frac{[(x')^2 + (y')^2]^{3/2}}{|x' y'' - y' x''|}$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Parametrically defined curves $x(t), y(t)$.</p>
+                        <div class="text-[11px] bg-slate-800 text-slate-300 p-2 rounded border border-slate-700">
+                            <strong>[NOTES]</strong> Curvature $\kappa$ is the inverse: $\kappa = \frac{|x' y'' - y' x''|}{[(x')^2 + (y')^2]^{3/2}}$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 7 -->
+                    <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">7. Linear Approximation</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 border border-orange-500/30">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$f(x_0 + \Delta x) \approx f(x_0) + f'(x_0)\Delta x$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Estimating nearby function values or differential error propagation.</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 19: $f(2)=5, f'(2)=3 \implies f(2.04) \approx 5 + 3(0.04) = 5.12$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 8 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">8. Euler's Theorem (Homogeneous)</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$x \frac{\partial V}{\partial x} + y \frac{\partial V}{\partial y} = n \cdot V(x,y)$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Shortcuts multivariable partial differential expressions for homogeneous degree $n$.</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 34: $V=\frac{x^4-y^4}{x^2+y^2}$ has degree $n=2 \implies 2V(x,y)$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 9 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">9. Hessian Discriminant ($D$)</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$D = f_{xx} f_{yy} - (f_{xy})^2$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">CRITERIA:</strong> $D > 0, f_{xx} > 0$ (Min) | $D > 0, f_{xx} < 0$ (Max) | $D < 0$ (Saddle Point).</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 36/37: $D < 0$ strictly guarantees a Saddle Point!
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 10 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">10. Newton-Raphson Iteration</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Rapid numerical root iteration.</p>
+                        <div class="text-[11px] bg-red-500/10 text-red-300 p-2 rounded border border-red-500/20">
+                            <strong>⚠️ CRITICAL FAIL:</strong> Geometrically breaks down if $f'(x_n) = 0$ (division by zero).
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 11 -->
+                    <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">11. Bisection Min. Iterations</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$N \ge \frac{\ln\left(\frac{b - a}{\epsilon}\right)}{\ln 2}$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Calculating exact iterations needed for error tolerance $\epsilon$ on $[a,b]$.</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 27: $[0,1], \epsilon=0.001 \implies N \ge 9.96 \implies 10 \text{ iterations}$.
+                        </div>
+                    </div>
+
+                    <!-- Formula Card 12 -->
+                    <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-slate-100 text-sm">12. Central Difference Error</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-orange-500/20 text-orange-300 border border-orange-500/30">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-sm">
+                            $$\text{Truncation Error} \propto h^2$$
+                        </div>
+                        <p class="text-xs text-slate-400"><strong class="text-slate-300">USE:</strong> Error scaling in numerical differentiation.</p>
+                        <div class="text-[11px] bg-amber-500/10 text-amber-300 p-2 rounded border border-amber-500/20">
+                            <strong>[NOTES]</strong> Question 22: Halving step $h \to h/2$ reduces error by a factor of $1/4$.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: LIMITS, CONTINUITY & DIFFERENTIATION ================= -->
+        <section id="page2" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-sky-500 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 2: LIMITS, CONTINUITY & DIFFERENTIATION</h2>
+                <p class="text-xs text-slate-400">Core criteria, discontinuities, multivariable limits, trig limits, L'Hôpital's rule, and standard derivatives</p>
+            </div>
+
+            <!-- L'HOPITAL'S RULE & INDETERMINATE FORMS -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">🔴 INDETERMINATE FORMS & L'HÔPITAL'S RULE</h3>
+                    <span class="text-[10px] px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded border border-rose-500/30">🔴 MUST MEMORIZE</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-2">
+                        <span class="font-bold text-slate-200">Standard Quotient Forms ($\frac{0}{0}$ or $\frac{\infty}{\infty}$):</span>
+                        <div class="bg-slate-950 p-2 rounded text-center font-mono text-sky-300">
+                            $$\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}$$
+                        </div>
+                        <p class="text-slate-400 text-[11px]">Differentiate numerator and denominator separately until an indeterminate state is removed.</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-2">
+                        <span class="font-bold text-slate-200">Algebraic Transformation Strategies:</span>
+                        <ul class="text-[11px] text-slate-300 space-y-1">
+                            <li>• <strong>Product $0 \cdot \infty$:</strong> Rewrite as $\frac{f(x)}{1/g(x)}$ to form $\frac{0}{0}$ or $\frac{\infty}{\infty}$.</li>
+                            <li>• <strong>Difference $\infty - \infty$:</strong> Combine into a single common fraction first.</li>
+                            <li>• <strong>Powers $1^\infty, 0^0, \infty^0$:</strong> Take natural log $y = f(x)^{g(x)} \implies \ln y = g(x) \ln f(x)$.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STANDARD DERIVATIVE FORMULAS REFERENCE SHEET -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">MASTER DERIVATIVES REFERENCE TABLE</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 bg-slate-900/50">
+                                <th class="p-2">Category</th>
+                                <th class="p-2">Function $f(x)$</th>
+                                <th class="p-2">Derivative $f'(x)$</th>
+                                <th class="p-2">Key Exam Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300 font-mono text-[11px]">
+                            <tr>
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Trigonometric</td>
+                                <td class="p-2">$\sin u$, $\cos u$, $\tan u$</td>
+                                <td class="p-2">$u'\cos u$, $-u'\sin u$, $u'\sec^2 u$</td>
+                                <td class="p-2 text-slate-400 font-sans">Notice negative sign for co-functions ($\cos, \cot, \csc$).</td>
+                            </tr>
+                            <tr class="bg-slate-900/20">
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Inverse Trig</td>
+                                <td class="p-2">$\arcsin u$, $\arctan u$</td>
+                                <td class="p-2">$\frac{u'}{\sqrt{1-u^2}}$, $\frac{u'}{1+u^2}$</td>
+                                <td class="p-2 text-amber-300 font-sans">High-frequency in board exam integrals & derivatives.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 text-sky-300 font-sans font-semibold">Log / Exponential</td>
+                                <td class="p-2">$e^u$, $a^u$, $\ln u$, $\log_a u$</td>
+                                <td class="p-2">$u' e^u$, $u' a^u \ln a$, $\frac{u'}{u}$, $\frac{u'}{u \ln a}$</td>
+                                <td class="p-2 text-slate-400 font-sans">For base $a$, do not omit the natural log factor $\ln a$.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SPECIAL LIMIT EVALUATIONS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Multivariable Path Limit -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-orange-300 text-xs">🟠 MULTIVARIABLE PATH DEPENDENCE</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 4 [NOTES]</span>
+                    </div>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-xs">
+                        $$\lim_{(x,y) \to (0,0)} \frac{xy}{x^2 + y^2}$$
+                    </div>
+                    <div class="text-xs text-slate-300 space-y-1">
+                        <p><strong>Test along linear path $y = mx$:</strong></p>
+                        <p class="font-mono text-slate-400 text-[11px] bg-slate-900 p-2 rounded">
+                            $$\lim_{x \to 0} \frac{x(mx)}{x^2 + (mx)^2} = \frac{m x^2}{x^2(1 + m^2)} = \frac{m}{1 + m^2}$$
+                        </p>
+                        <p class="text-rose-400 font-semibold">Result depends directly on slope $m \implies$ LIMIT DOES NOT EXIST (DNE)!</p>
+                    </div>
+                </div>
+
+                <!-- Periodic Derivatives -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-rose-300 text-xs">🔴 PERIODIC TRIGONOMETRIC DERIVATIVE</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 6 [NOTES]</span>
+                    </div>
+                    <p class="text-xs text-slate-300">Find 100th derivative of $f(x) = \cos(x)$ evaluated at $x = \pi$:</p>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs space-y-1 text-slate-300">
+                        <div class="flex justify-between"><span>Pattern repeats every 4 derivatives:</span> <span class="font-mono text-sky-300">$100 \pmod 4 = 0$</span></div>
+                        <div class="flex justify-between"><span>Remainder 0 $\implies f^{(100)}(x) = \cos(x)$</span></div>
+                        <div class="font-bold text-emerald-400 text-center pt-1">$f^{(100)}(\pi) = \cos(\pi) = -1$</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: KINEMATICS & OPTIMIZATION ================= -->
+        <section id="page3" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-orange-500 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 3: DERIVATIVE APPLICATIONS & OPTIMIZATION</h2>
+                <p class="text-xs text-slate-400">Position-dependent kinematics, particle motion, tracking cameras, differentials & error propagation</p>
+            </div>
+
+            <!-- DIFFERENTIALS & ERROR PROPAGATION CARD -->
+            <div class="review-card card-must glass-panel p-4 rounded-xl space-y-3" data-priority="must">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-rose-400 text-xs uppercase tracking-wider">🔴 DIFFERENTIALS & MEASUREMENT ERROR PROPAGATION</h3>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 18 [NOTES]</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                        <span class="font-bold text-sky-300 block">1. Absolute Error ($\Delta y$)</span>
+                        <div class="font-mono text-slate-200 text-[11px] my-1">$$dy = f'(x) dx$$</div>
+                        <span class="text-slate-400 text-[10px]">Differential approximation for small changes $dx = \Delta x$.</span>
+                    </div>
+                    <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                        <span class="font-bold text-amber-300 block">2. Relative Error</span>
+                        <div class="font-mono text-slate-200 text-[11px] my-1">$$\text{Relative Error} = \frac{dy}{y}$$</div>
+                        <span class="text-slate-400 text-[10px]">Ratio of absolute error to actual function value.</span>
+                    </div>
+                    <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                        <span class="font-bold text-emerald-300 block">3. Percentage Error</span>
+                        <div class="font-mono text-slate-200 text-[11px] my-1">$$\text{Percentage} = \frac{dy}{y} \times 100\%$$</div>
+                        <span class="text-slate-400 text-[10px]">For sphere volume $V = \frac{4}{3}\pi r^3 \implies \frac{dV}{V} = 3 \frac{dr}{r}$.</span>
+                    </div>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs text-sky-300">
+                    <strong>Sphere Volume Error Example (Q18):</strong> $r = 10\text{ m}, dr = \pm 0.1\text{ m} \implies dV = 4\pi r^2 dr = 4\pi(10)^2(\pm 0.1) = \mathbf{\pm 40\pi\ m^3}$.
+                </div>
+            </div>
+
+            <!-- RELATED RATES: TRACKING CAMERA -->
+            <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-3" data-priority="yield">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-orange-300 text-xs uppercase tracking-wider">🟠 RELATED RATES — ROCKET TRACKING CAMERA</h3>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 11 [NOTES]</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-1">
+                        <span class="text-sky-300 font-bold">1. Geometric Link</span>
+                        <div class="font-mono text-slate-300">$$\tan\theta = \frac{y}{x} = \frac{y}{2000}$$</div>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-1">
+                        <span class="text-sky-300 font-bold">2. Implicit Time Derivative</span>
+                        <div class="font-mono text-slate-300">$$\sec^2\theta \cdot \frac{d\theta}{dt} = \frac{1}{2000} \frac{dy}{dt}$$</div>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-1">
+                        <span class="text-sky-300 font-bold">3. Substitution at $y=2000\text{ m}$</span>
+                        <div class="font-mono text-emerald-400 font-bold">
+                            $$\theta = 45^\circ \implies \sec^2(45^\circ) = 2$$
+                            $$2 \cdot \frac{d\theta}{dt} = \frac{500}{2000} \implies \frac{d\theta}{dt} = 0.125\text{ rad/s}$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OPTIMIZATION ENCLOSURE FORMULA -->
+            <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                <div class="flex justify-between items-start">
+                    <span class="font-bold text-orange-300 text-xs">🟠 PCB ENCLOSURE SURFACE AREA OPTIMIZATION</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 30 [NOTES]</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-xs">
+                    $$S(x) = \text{Base} + 4 \times \text{Sides} = x^2 + 4xh \quad \text{with } V = x^2 h = 1000 \implies h = \frac{1000}{x^2}$$
+                    $$\implies S(x) = x^2 + \frac{4000}{x}$$
+                </div>
+                <div class="text-[11px] bg-red-500/10 text-red-300 p-2 rounded border border-red-500/20">
+                    <strong>⚠️ TRAP:</strong> OPEN TOP means ONLY 1 base ($x^2$), not $2x^2$! Option B is correct.
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: CURVATURE & MULTIVARIABLE ================= -->
+        <section id="page4" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-amber-500 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 4: CURVATURE, GEOMETRY & MULTIVARIABLE CALCULUS</h2>
+                <p class="text-xs text-slate-400">Curvature, center of curvature, Clairaut's, Euler's, Hessian discriminant, gradients, and Jacobians</p>
+            </div>
+
+            <!-- CENTER OF CURVATURE & OSCULATING CIRCLE -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider">CENTER OF CURVATURE $(\alpha, \beta)$ & OSCULATING CIRCLE</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-1">
+                        <span class="font-bold text-sky-300 font-sans block">X-Coordinate of Center ($\alpha$):</span>
+                        <div class="text-slate-200">$$\alpha = x - \frac{y'[1 + (y')^2]}{y''}$$</div>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-1">
+                        <span class="font-bold text-sky-300 font-sans block">Y-Coordinate of Center ($\beta$):</span>
+                        <div class="text-slate-200">$$\beta = y + \frac{1 + (y')^2}{y''}$$</div>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-400">
+                    The <strong>Osculating Circle</strong> has center $(\alpha, \beta)$ and radius equal to the radius of curvature $\rho = 1/\kappa$. Equation: $(x - \alpha)^2 + (y - \beta)^2 = \rho^2$.
+                </p>
+            </div>
+
+            <!-- TOTAL DIFFERENTIAL & GRADIENT VECTOR -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-2">
+                    <span class="font-bold text-sky-300 text-xs uppercase tracking-wider">TOTAL DIFFERENTIAL ($dz$)</span>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center font-mono text-sky-300 text-xs">
+                        $$dz = \frac{\partial z}{\partial x} dx + \frac{\partial z}{\partial y} dy$$
+                    </div>
+                    <p class="text-xs text-slate-400">Used to estimate physical changes in multivariable ECE systems (e.g., total voltage drift $dV = V_I dI + V_R dR$).</p>
+                </div>
+
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-2">
+                    <span class="font-bold text-emerald-300 text-xs uppercase tracking-wider">GRADIENT VECTOR ($\nabla f$)</span>
+                    <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center font-mono text-emerald-300 text-xs">
+                        $$\nabla f = \left\langle \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right\rangle$$
+                    </div>
+                    <p class="text-xs text-slate-400">Points in the direction of maximum rate of increase. $|\nabla f|$ equals the maximum rate of change.</p>
+                </div>
+            </div>
+
+            <!-- SECOND PARAMETRIC DERIVATIVE CARD -->
+            <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                <div class="flex justify-between items-start">
+                    <span class="font-bold text-rose-300 text-xs">🔴 SECOND PARAMETRIC DERIVATIVE FORMULA</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 15 [NOTES]</span>
+                </div>
+                <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-center font-mono text-sky-300 text-xs">
+                    $$\frac{d^2y}{dx^2} = \frac{\frac{d}{dt}\left(\frac{dy}{dx}\right)}{\frac{dx}{dt}}$$
+                </div>
+                <div class="text-[11px] bg-red-500/10 text-red-300 p-2 rounded border border-red-500/20">
+                    <strong>⚠️ CRITICAL TRAP:</strong> $\frac{d^2y}{dx^2} \ne \frac{y''(t)}{x''(t)}$! You MUST divide the $t$-derivative of $\frac{dy}{dx}$ by $x'(t)$. For Question 15 ($x=t^2, y=t^3-3t$), evaluation at $t=1$ gives <strong class="text-white">1.5</strong>.
+                </div>
+            </div>
+
+            <!-- MULTIVARIABLE THEOREMS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Clairaut's Theorem -->
+                <div class="review-card card-concept glass-panel p-4 rounded-xl space-y-2" data-priority="concept">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-blue-300 text-xs">🔵 CLAIRAUT'S (SCHWARZ'S) THEOREM</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 35 [NOTES]</span>
+                    </div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800 text-center font-mono text-sky-300 text-xs">
+                        $$f_{xy} = f_{yx} \quad \left(\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial^2 f}{\partial y \partial x}\right)$$
+                    </div>
+                    <p class="text-xs text-slate-400"><strong class="text-slate-300">Sufficient Condition:</strong> Requires <strong class="text-amber-300">CONTINUOUS SECOND-ORDER</strong> partial derivatives.</p>
+                </div>
+
+                <!-- Jacobian Determinant -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-rose-300 text-xs">🔴 JACOBIAN DETERMINANT</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Question 38 [NOTES]</span>
+                    </div>
+                    <div class="bg-slate-950 p-2 rounded border border-slate-800 font-mono text-sky-300 text-xs">
+                        $$J = \begin{vmatrix} \frac{\partial u}{\partial x} & \frac{\partial u}{\partial y} \\ \frac{\partial v}{\partial x} & \frac{\partial v}{\partial y} \end{vmatrix} = \begin{vmatrix} 2 & -1 \\ 1 & 3 \end{vmatrix} = 2(3) - (-1)(1) = 7$$
+                    </div>
+                    <p class="text-xs text-slate-400">For $u=2x-y$ and $v=x+3y$, exact absolute value of Jacobian is <strong class="text-emerald-400">7</strong>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: NUMERICAL METHODS ================= -->
+        <section id="page5" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-rose-500 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 5: NUMERICAL METHODS & ALGORITHMS</h2>
+                <p class="text-xs text-slate-400">Finite differences, root-finding algorithms, numerical integration error bounds</p>
+            </div>
+
+            <!-- COMPARISON: NUMERICAL ROOT FINDING & INTEGRATION -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                <h3 class="text-xs font-bold text-rose-400 uppercase tracking-wider">NUMERICAL INTEGRATION ERROR BOUNDS</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800">
+                        <span class="font-bold text-slate-200 block mb-1">Trapezoidal Rule</span>
+                        <div class="font-mono text-sky-300 text-[11px] mb-1">$$\text{Error} \propto h^2$$</div>
+                        <span class="text-slate-400 text-[10px]">First-order polynomial approximation per panel. Order $O(h^2)$.</span>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800">
+                        <span class="font-bold text-emerald-300 block mb-1">Simpson's 1/3 Rule</span>
+                        <div class="font-mono text-sky-300 text-[11px] mb-1">$$\text{Error} \propto h^4$$</div>
+                        <span class="text-emerald-400/90 text-[10px]">Parabolic approximation across 2 subintervals. Order $O(h^4)$.</span>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded border border-slate-800">
+                        <span class="font-bold text-amber-300 block mb-1">Simpson's 3/8 Rule</span>
+                        <div class="font-mono text-sky-300 text-[11px] mb-1">$$\text{Error} \propto h^4$$</div>
+                        <span class="text-slate-400 text-[10px]">Cubic approximation across 3 subintervals. Order $O(h^4)$.</span>
+                    </div>
+                </div>
+            </div>
+
+        <!-- ================= PAGE 9: COMPLETE 40-QUESTION BOARD EXAM BANK ================= -->
+        <section id="page9" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-emerald-400 pl-3">
+                <h2 class="text-base font-bold text-white">PAGE 9: COMPLETE 40-QUESTION SOLVED BOARD EXAM BANK</h2>
+                <p class="text-xs text-slate-400">Step-by-step solutions, options, formulas, and board traps for Questions 1 to 40</p>
+            </div>
+
+            <!-- EXAM QUESTION CARDS CONTAINER -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- Q1 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q1: Continuity Condition</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Which condition is necessary for continuity at $x=a$?</p>
+                    <div class="text-[11px] text-slate-400">A. $f'(a)$ exists | <strong>B. $\lim_{x\to a} f(x) = f(a)$ [CORRECT]</strong> | C. $\lim_{x\to a} f(x)$ exists | D. Function is differentiable</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Continuity requires 3 conditions: $f(a)$ exists, limit exists, and $\lim_{x\to a} f(x) = f(a)$.
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q2: Discontinuity of Rational Expression</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: D</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Analyze behavior of $f(x) = \frac{x^2-1}{x-1}$ at $x=1$.</p>
+                    <div class="text-[11px] text-slate-400">A. Point Discontinuity | B. Jump Discontinuity | C. Infinite Discontinuity | <strong>D. Removable Discontinuity [CORRECT]</strong></div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $f(x) = \frac{(x-1)(x+1)}{x-1} = x+1$ for $x \ne 1$. Common factor cancels $\implies$ Removable hole at $(1,2)$.
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q3: Theoretical Limit $\cos(x)/x$</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: D</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Evaluate exact limit $\lim_{x\to 0} \frac{\cos(x)}{x}$.</p>
+                    <div class="text-[11px] text-slate-400">A. 1 | B. 0 | C. -1 | <strong>D. Undefined / Does Not Exist [CORRECT]</strong></div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> As $x \to 0^+$, $\frac{1}{x} \to +\infty$. As $x \to 0^-$, $\frac{1}{x} \to -\infty$. One-sided limits mismatch $\implies$ DNE.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q4: Multivariable Path Limit</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: D</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Evaluate $\lim_{(x,y)\to (0,0)} \frac{xy}{x^2+y^2}$.</p>
+                    <div class="text-[11px] text-slate-400">A. 0 | B. 0.5 | C. 1 | <strong>D. Does Not Exist [CORRECT]</strong></div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Substitute $y = mx \implies \lim = \frac{m}{1+m^2}$. Value depends on path slope $m \implies$ DNE.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q5: Fundamental Derivative Definition</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Evaluate $\lim_{h\to 0} \frac{\sin(\pi/6+h) - \sin(\pi/6)}{h}$.</p>
+                    <div class="text-[11px] text-slate-400">A. 0.5 | <strong>B. 0.866 ($\frac{\sqrt{3}}{2}$) [CORRECT]</strong> | C. 0 | D. Does not exist</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Limit equals $\left.\frac{d}{dx}(\sin x)\right|_{x=\pi/6} = \cos(\pi/6) = \frac{\sqrt{3}}{2} \approx 0.866$.
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q6: 100th Derivative of $\cos(x)$</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Find 100th derivative of $f(x) = \cos x$ evaluated at $x=\pi$.</p>
+                    <div class="text-[11px] text-slate-400">A. 1 | B. 0 | <strong>C. -1 [CORRECT]</strong> | D. Does not exist</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Period is 4. $100 \pmod 4 = 0 \implies f^{(100)}(x) = \cos x \implies \cos(\pi) = -1$.
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q7: Composite Chain Rule Evaluation</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$h(x) = f(g(x^2))$. Given $g(4)=2, g'(4)=-3, f'(2)=5$. Find $h'(2)$.</p>
+                    <div class="text-[11px] text-slate-400">A. -30 | <strong>B. -60 [CORRECT]</strong> | C. 20 | D. -15</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $h'(x) = f'(g(x^2)) \cdot g'(x^2) \cdot 2x \implies h'(2) = f'(g(4)) \cdot g'(4) \cdot 4 = (5)(-3)(4) = -60$.
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q8: Implicit Radical Curve Slope</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Find slope of tangent to $\sqrt{x} + \sqrt{y} = \sqrt{k}$ at $(x_0, y_0)$.</p>
+                    <div class="text-[11px] text-slate-400">A. $\sqrt{\frac{y_0}{x_0}}$ | B. $-\frac{y_0}{x_0}$ | <strong>C. $-\sqrt{\frac{y_0}{x_0}}$ [CORRECT]</strong> | D. $\frac{\sqrt{k}}{\sqrt{x_0}}$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Differentiate: $\frac{1}{2\sqrt{x}} + \frac{1}{2\sqrt{y}}y' = 0 \implies y' = -\frac{\sqrt{y}}{\sqrt{x}} = -\sqrt{\frac{y_0}{x_0}}$.
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q9: Position-Dependent Acceleration</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$v(x) = x^2 - 4x\text{ m/s}$. Find $a$ at $x = 5\text{ m}$.</p>
+                    <div class="text-[11px] text-slate-400">A. $6\text{ m/s}^2$ | B. $5\text{ m/s}^2$ | <strong>C. $30\text{ m/s}^2$ [CORRECT]</strong> | D. $1\text{ m/s}^2$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $v(5) = 5$, $\frac{dv}{dx} = 2x-4 \implies \left.\frac{dv}{dx}\right|_{x=5} = 6$. $a = v \frac{dv}{dx} = (5)(6) = 30\text{ m/s}^2$.
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q10: Slowing Down Time Interval</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: C</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$s(t) = t^3 - 6t^2 + 9t$. When is the dampener strictly slowing down?</p>
+                    <div class="text-[11px] text-slate-400">A. $1<t<2$ & $2<t<3$ | B. $t>2$ | <strong>C. $0<t<1$ & $2<t<3$ [CORRECT]</strong> | D. $t<2$</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> Slowing down requires $v(t) \cdot a(t) < 0$. $v = 3(t-1)(t-3)$, $a = 6(t-2)$. Signs differ on $(0,1)$ and $(2,3)$.
+                    </div>
+                </div>
+
+                <!-- Q11 to Q40 concise summaries -->
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q11: Camera Tracking Angular Velocity</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Ans: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">$x=2000\text{ m}, dy/dt=500\text{ m/s}, y=2000\text{ m}$. Find $d\theta/dt$.</p>
+                    <div class="text-[11px] text-slate-400">A. 0.250 rad/s | <strong>B. 0.125 rad/s [CORRECT]</strong> | C. $45^\circ/s$ | D. 0.500 rad/s</div>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Solution:</strong> $\tan\theta = y/2000 \implies \sec^2\theta d\theta/dt = (1/2000) dy/dt \implies 2 d\theta/dt = 0.25 \implies d\theta/dt = 0.125\text{ rad/s}$.
+                    </div>
+                </div>
+
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q12 & Q13: Parametric Curve Classifications</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q12: D | Q13: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Q12: $y=e^{2t}, x=e^t \implies y=x^2$ (Quadratic). Q13: $x=\ln(t^2), y=\ln(t^5) \implies y=2.5x$ (Linear).</p>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Key Takeaway:</strong> Substitute parametric parameter $t$ out to determine Cartesian geometry directly.
+                    </div>
+                </div>
+
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q14 & Q15: Parametric Derivatives</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q14: C | Q15: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Q14: $x=\ln t, y=e^{2t} \implies dy/dx = 2te^{2t}$. Q15: $x=t^2, y=t^3-3t \implies d^2y/dx^2 = 1.5$ at $t=1$.</p>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Trap Warning:</strong> Always divide $\frac{d}{dt}(dy/dx)$ by $x'(t)$ for second parametric derivatives!
+                    </div>
+                </div>
+
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q16 & Q17: Radius of Curvature & Inverse Derivative</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q16: B | Q17: A</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Q16: $y=\ln x$ at $x=1 \implies \rho = 2\sqrt{2}$. Q17: $f(x)=x^3+2x=3 \implies a=1, f'(1)=5 \implies (f^{-1})'(3) = 0.20$.</p>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Formula:</strong> $(f^{-1})'(b) = \frac{1}{f'(a)}$ where $f(a)=b$.
+                    </div>
+                </div>
+
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q18 & Q19: Measurement Error & Linear Approximation</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q18: B | Q19: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Q18: $r=10\text{ m}, dr=\pm 0.1 \implies dV = 4\pi r^2 dr = \mathbf{40\pi\ m^3}$. Q19: $f(2.04) \approx 5 + 3(0.04) = \mathbf{5.12}$.</p>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Formula:</strong> $f(x_0+\Delta x) \approx f(x_0) + f'(x_0)\Delta x$.
+                    </div>
+                </div>
+
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q20 & Q21: Diode Resistance & Finite Difference</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q20: B | Q21: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">Q20: $r_d = V_T / I_D \approx \mathbf{0.031\ \Omega}$. Q21: $\Delta^2 V(0) = (30-18) - (18-10) = 12 - 8 = \mathbf{4}$.</p>
+                    <div class="text-[11px] bg-slate-950 p-2 rounded text-slate-300 border border-slate-800">
+                        <strong>Diode Conductance:</strong> $g_m = I_D / V_T \implies r_d = 1 / g_m$.
+                    </div>
+                </div>
+
+                <div class="review-card card-yield glass-panel p-4 rounded-xl space-y-2" data-priority="yield">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q22 to Q25: Calculus Theorems & Truncation</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q22: B | Q23: C | Q24: B | Q25: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">
+                        Q22: Central Difference $O(h^2) \implies$ halving $h$ reduces error to $\mathbf{1/4}$.<br>
+                        Q23 & Q24: IVT and Rolle's Theorem fail due to infinite discontinuities at $x=2$ and $x=0$.<br>
+                        Q25: MVT for $f(x)=\sqrt{x}$ on $[0,4] \implies f'(c) = 0.5 \implies c = \mathbf{1.0}$.
+                    </p>
+                </div>
+
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q26 to Q31: Bisection, Extrema & Optimization</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q26: C | Q27: B | Q28: B | Q29: B | Q30: B | Q31: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">
+                        Q26: Bisection $x_3 = \mathbf{1.625}$. Q27: $N \ge 9.96 \implies \mathbf{10\text{ iterations}}$.<br>
+                        Q28: Fermat's theorem: Every local extremum is a critical point.<br>
+                        Q29: $f'' > 0 \implies \text{Local Minimum}$. Q30: Surface $S(x) = x^2 + \frac{4000}{x}$.<br>
+                        Q31: Minimum cost $C(5) = (5)^2 - 10(5) + 40 = \mathbf{15}$.
+                    </p>
+                </div>
+
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q32 to Q35: Multivariable Optimization & Partial Derivatives</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q32: A | Q33: B | Q34: C | Q35: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">
+                        Q32: Power max currents $I_1 = \mathbf{3.5\text{ A}}, I_2 = \mathbf{2.9\text{ A}}$.<br>
+                        Q33: $x^2+y^2+z^2=3 \implies \partial z/\partial x = -x/z = \mathbf{-1}$.<br>
+                        Q34: Euler's theorem for homogeneous degree 2: $\mathbf{2V(x,y)}$.<br>
+                        Q35: Clairaut's theorem requires continuous 2nd-order partial derivatives.
+                    </p>
+                </div>
+
+                <div class="review-card card-must glass-panel p-4 rounded-xl space-y-2" data-priority="must">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-sky-300 text-xs">Q36 to Q40: Hessian, Jacobian & Newton-Raphson</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Q36: C | Q37: C | Q38: A | Q39: B | Q40: B</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-semibold">
+                        Q36 & Q37: $D < 0$ strictly proves a <strong>Saddle Point</strong>.<br>
+                        Q38: Jacobian determinant $|J| = |2(3) - (-1)(1)| = \mathbf{7}$.<br>
+                        Q39: Newton-Raphson fails when $f'(x_n) = 0$.<br>
+                        Q40: $f(x) = x^6-x-1=0, x_0=1.5 \implies x_3 \approx \mathbf{1.1395}$.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= TAB: INTERACTIVE SOLVERS ================= -->
+        <section id="calculators" class="page-content hidden space-y-6">
+            <div class="border-l-4 border-amber-400 pl-3">
+                <h2 class="text-base font-bold text-white">INTERACTIVE ECE FORMULA SOLVERS</h2>
+                <p class="text-xs text-slate-400">Test equations and verify numerical calculations live</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Solver 1: Bisection Iteration Count -->
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-amber-300 text-xs uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i> Bisection Minimum Iterations ($N$)
+                    </h3>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <div>
+                            <label class="text-slate-400 block mb-1">Start $a$</label>
+                            <input type="number" id="bis-a" value="0" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">End $b$</label>
+                            <input type="number" id="bis-b" value="1" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">Tolerance $\epsilon$</label>
+                            <input type="number" id="bis-e" value="0.001" step="0.0001" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                    </div>
+                    <button onclick="calcBisection()" class="w-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-xs py-2 rounded border border-amber-500/30 transition">
+                        Calculate Minimum Iterations
+                    </button>
+                    <div id="bis-result" class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-center text-emerald-400">
+                        Required Iterations $N = 10$
+                    </div>
+                </div>
+
+                <!-- Solver 2: Diode Dynamic Resistance -->
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-amber-300 text-xs uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-microchip"></i> Diode Dynamic Resistance ($r_d$)
+                    </h3>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <div>
+                            <label class="text-slate-400 block mb-1">$I_S$ (pA)</label>
+                            <input type="number" id="d-is" value="4" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">$V_T$ (V)</label>
+                            <input type="number" id="d-vt" value="0.025" step="0.001" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">$V_D$ (V)</label>
+                            <input type="number" id="d-vd" value="0.65" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                    </div>
+                    <button onclick="calcDiode()" class="w-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-xs py-2 rounded border border-amber-500/30 transition">
+                        Calculate $r_d$
+                    </button>
+                    <div id="d-result" class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-center text-emerald-400">
+                        Dynamic Resistance $r_d \approx 0.0319\ \Omega$
+                    </div>
+                </div>
+
+                <!-- Solver 3: Newton-Raphson 3-Step Root Solver -->
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-amber-300 text-xs uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-trend-up"></i> Newton-Raphson Root Iteration ($x^6-x-1=0$)
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="text-slate-400 block mb-1">Initial Guess ($x_0$)</label>
+                            <input type="number" id="nr-x0" value="1.5" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">Target Iteration ($n$)</label>
+                            <input type="number" id="nr-n" value="3" min="1" max="5" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                    </div>
+                    <button onclick="calcNewtonRaphson()" class="w-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-xs py-2 rounded border border-amber-500/30 transition">
+                        Compute $x_n$
+                    </button>
+                    <div id="nr-result" class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-center text-emerald-400">
+                        $x_3 \approx 1.1395$
+                    </div>
+                </div>
+
+                <!-- Solver 4: Error Propagation -->
+                <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-amber-300 text-xs uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-cubes"></i> Sphere Volume Error ($dV = 4\pi r^2 dr$)
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <label class="text-slate-400 block mb-1">Radius $r$ (m)</label>
+                            <input type="number" id="err-r" value="10" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">Measurement Error $dr$ (m)</label>
+                            <input type="number" id="err-dr" value="0.1" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200">
+                        </div>
+                    </div>
+                    <button onclick="calcVolumeError()" class="w-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-xs py-2 rounded border border-amber-500/30 transition">
+                        Calculate $dV$
+                    </button>
+                    <div id="err-result" class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-center text-emerald-400">
+                        $dV = 40\pi \approx 125.66\text{ m}^3$
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Auto-render KaTeX math formulas across the document on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+
+        // Interactive Tab Switcher
+        function switchTab(tabId) {
+            // Reset search input
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // Show selected target page
+            const targetPage = document.getElementById(tabId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+
+            // Reset tab button highlight styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-500', 'text-white', 'shadow');
+                if (!btn.id.includes('page9') && !btn.id.includes('calculators')) {
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            // Highlight active tab button
+            const activeBtn = document.getElementById('tab-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-sky-500', 'text-white', 'shadow');
+                activeBtn.classList.remove('text-slate-400');
+            }
+
+            // Reset card visibility
+            document.querySelectorAll('.review-card').forEach(card => {
+                card.style.display = 'block';
+            });
+
+            // Smooth scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Calculator: Newton-Raphson
+        function calcNewtonRaphson() {
+            let x = parseFloat(document.getElementById('nr-x0').value);
+            const n = parseInt(document.getElementById('nr-n').value);
+
+            if (isNaN(x) || isNaN(n) || n < 1) {
+                document.getElementById('nr-result').innerText = "Invalid inputs!";
+                return;
+            }
+
+            for (let i = 0; i < n; i++) {
+                const f = Math.pow(x, 6) - x - 1;
+                const fPrime = 6 * Math.pow(x, 5) - 1;
+                if (Math.abs(fPrime) < 1e-12) {
+                    document.getElementById('nr-result').innerText = "Failed: f'(x) = 0!";
+                    return;
+                }
+                x = x - (f / fPrime);
+            }
+
+            document.getElementById('nr-result').innerText = `Calculated x_${n} ≈ ${x.toFixed(4)}`;
+        }
+
+        // Calculator: Error Propagation
+        function calcVolumeError() {
+            const r = parseFloat(document.getElementById('err-r').value);
+            const dr = parseFloat(document.getElementById('err-dr').value);
+
+            if (isNaN(r) || isNaN(dr) || r <= 0) {
+                document.getElementById('err-result').innerText = "Invalid inputs!";
+                return;
+            }
+
+            const dvCoeff = 4 * r * r * dr;
+            const dvVal = dvCoeff * Math.PI;
+
+            document.getElementById('err-result').innerText = `dV = ${dvCoeff.toFixed(1)}π ≈ ${dvVal.toFixed(2)} m³`;
+        }
+
+        // Global Search Filter
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.review-card');
+            
+            // If searching, ensure all tab sections are visible
+            if (query.length > 0) {
+                document.querySelectorAll('.page-content').forEach(el => el.classList.remove('hidden'));
+            } else {
+                switchTab('page1');
+                return;
+            }
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Priority Filter
+        function filterPriority(priority) {
+            document.querySelectorAll('.p-filter').forEach(btn => btn.classList.remove('ring-2', 'ring-sky-400'));
+            event.target.classList.add('ring-2', 'ring-sky-400');
+
+            const cards = document.querySelectorAll('.review-card');
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('hidden'));
+
+            cards.forEach(card => {
+                if (priority === 'all' || card.getAttribute('data-priority') === priority) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Calculator: Bisection Iteration Count
+        function calcBisection() {
+            const a = parseFloat(document.getElementById('bis-a').value);
+            const b = parseFloat(document.getElementById('bis-b').value);
+            const e = parseFloat(document.getElementById('bis-e').value);
+
+            if (isNaN(a) || isNaN(b) || isNaN(e) || e <= 0 || b <= a) {
+                document.getElementById('bis-result').innerText = "Invalid inputs!";
+                return;
+            }
+
+            const n = Math.ceil(Math.log((b - a) / e) / Math.log(2));
+            document.getElementById('bis-result').innerText = `Required Iterations N = ${n}`;
+        }
+
+        // Calculator: Diode Resistance
+        function calcDiode() {
+            const isPico = parseFloat(document.getElementById('d-is').value);
+            const vt = parseFloat(document.getElementById('d-vt').value);
+            const vd = parseFloat(document.getElementById('d-vd').value);
+
+            const is = isPico * 1e-12;
+            const id = is * (Math.exp(vd / vt) - 1);
+            const rd = vt / id;
+
+            document.getElementById('d-result').innerText = `I_D = ${id.toFixed(3)} A | Dynamic Resistance r_d = ${rd.toFixed(4)} Ω`;
+        }
+
+        // Print Reviewer Function
+        function printReviewer() {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('hidden'));
+            window.print();
+        }
+    </script>
+</body>
+</html>
