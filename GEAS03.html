@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam GEAS Command Center</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .mjx-chtml {
+            color: #38bdf8 !important;
+            font-size: 105% !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-950 tex2jax_process">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800 px-4 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-xl shadow-lg shadow-cyan-500/20 text-slate-950 font-black text-xl">
+                    ⚡
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 bg-clip-text text-transparent">
+                        ECE BOARD EXAM COMMAND CENTER
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium flex items-center gap-2">
+                        <span>GEAS Dense Visual Reviewer & Engine (Q1 – Q68 Complete Scope)</span>
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Bar & Navigation Tabs -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <div class="relative flex-1 sm:w-64">
+                    <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Search formulas, laws, terms, code..." 
+                        class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg pl-8 pr-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                
+                <nav class="flex items-center bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-semibold">
+                    <button onclick="switchTab('infographic')" id="tab-infographic" class="px-3 py-1.5 rounded-md bg-cyan-500 text-slate-950 font-bold transition-all shadow-md">
+                        📊 Visual Reviewer
+                    </button>
+                    <button onclick="switchTab('codeTrace')" id="tab-codeTrace" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-slate-100 transition-all">
+                        🧮 Trace Engine
+                    </button>
+                    <button onclick="switchTab('lawsMatrix')" id="tab-lawsMatrix" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-slate-100 transition-all">
+                        ⚖️ PH Laws
+                    </button>
+                    <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-md text-slate-400 hover:text-slate-100 transition-all">
+                        ⚡ Master Quiz (Q1–Q68)
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-8">
+
+        <!-- Rating Legend Bar -->
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/80 shadow-lg">
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span class="font-bold text-slate-300 tracking-wider uppercase text-[11px] flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Board Exam Priority Rating System:
+                </span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-1 rounded-md bg-red-950/80 border border-red-800 text-red-300 font-bold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>🔴 MUST MEMORIZE
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-orange-950/80 border border-orange-800 text-orange-300 font-bold">
+                        🟠 HIGH-YIELD
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-yellow-950/80 border border-yellow-800 text-yellow-300 font-bold">
+                        🟡 IMPORTANT
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-blue-950/80 border border-blue-800 text-blue-300 font-bold">
+                        🔵 CONCEPTUAL
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-purple-950/80 border border-purple-800 text-purple-300 font-bold">
+                        ⚠️ COMMON TRAP
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================================================= -->
+        <!-- TAB 1: VISUAL INFOGRAPHIC REVIEWER -->
+        <!-- ========================================================================================= -->
+        <div id="view-infographic" class="space-y-8">
+
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-xl font-bold text-cyan-400 flex items-center gap-2">
+                        <span>💻 SECTION 1: SPREADSHEETS, CONTROL STRUCTURES & DATA TYPES</span>
+                    </h2>
+                    <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md font-mono">Q1 – Q11 Scope</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <!-- Formula Card: Spreadsheet Cell Referencing -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-red-500 hover:border-slate-700 transition-all space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-950 text-red-400 border border-red-800">🔴 MUST MEMORIZE</span>
+                            <span class="text-xs text-slate-400 font-mono">Q1 – Q3 Scope</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-base">Spreadsheet Cell Referencing Rules</h3>
+                        
+                        <div class="bg-slate-900/90 rounded-lg p-3 code-font text-xs space-y-2 border border-slate-800">
+                            <p class="text-amber-400">// Initialization Rule (Q1):</p>
+                            <p class="text-slate-300">All formulas MUST start with <span class="text-emerald-400 font-bold font-mono text-sm underline">=</span></p>
+                            
+                            <div class="border-t border-slate-800 pt-2 space-y-1">
+                                <p><span class="text-cyan-400">Relative (A1):</span> Moves relative to destination when copied</p>
+                                <p><span class="text-red-400">Absolute ($A$1):</span> Completely locked row & column address</p>
+                                <p><span class="text-yellow-400">Mixed ($A1 / A$1):</span> $ locks only adjacent column/row</p>
+                            </div>
+
+                            <div class="bg-slate-950 p-2.5 rounded border border-slate-800/80 mt-2 text-[11px]">
+                                <span class="text-purple-400 font-bold">Q3 Formula Translation Trace:</span><br/>
+                                Source C1: <code class="text-emerald-300 font-bold">=$A$1 + $B1</code><br/>
+                                Copy to D2 ($\Delta Col = +1, \Delta Row = +1$):<br/>
+                                Target D2: <code class="text-yellow-300 font-bold">=$A$1 + $B2</code>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-slate-400 space-y-1">
+                            <p><strong class="text-slate-200">USE WHEN:</strong> Predicting modified cell formulas copied across an Excel grid.</p>
+                            <p class="text-purple-300"><strong class="text-purple-400">TRAP:</strong> `$A1` locks Column A; `A$1` locks Row 1.</p>
+                        </div>
+                    </div>
+
+                    <!-- Flowchart Symbols Card -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-orange-500 hover:border-slate-700 transition-all space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-950 text-orange-400 border border-orange-800">🟠 HIGH-YIELD</span>
+                            <span class="text-xs text-slate-400 font-mono">Q4 – Q6 Scope</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-base">Flowcharting Symbol Taxonomy</h3>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-12 h-6 rounded-full border-2 border-emerald-400 flex items-center justify-center text-[10px] font-bold text-emerald-300 mb-1">Oval</div>
+                                <span class="font-bold text-slate-200">Terminal (Q5)</span>
+                                <span class="text-[10px] text-slate-400">Start / End</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-7 h-7 transform rotate-45 border-2 border-amber-400 flex items-center justify-center text-[10px] font-bold text-amber-300 mb-1"><span class="-rotate-45">◇</span></div>
+                                <span class="font-bold text-slate-200">Decision (Q4)</span>
+                                <span class="text-[10px] text-slate-400">True/False IF</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-12 h-6 border-2 border-cyan-400 flex items-center justify-center text-[10px] font-bold text-cyan-300 mb-1">Rect</div>
+                                <span class="font-bold text-slate-200">Process</span>
+                                <span class="text-[10px] text-slate-400">Calculation / Set</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-12 h-6 transform -skew-x-12 border-2 border-purple-400 flex items-center justify-center text-[10px] font-bold text-purple-300 mb-1">Para</div>
+                                <span class="font-bold text-slate-200">Input / Output</span>
+                                <span class="text-[10px] text-slate-400">READ / PRINT</span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-400">
+                            <strong class="text-slate-200">Pseudocode (Q6):</strong> Informal structural description for human reading, not machine compilation.
+                        </p>
+                    </div>
+
+                    <!-- Structured Programming & Data Types -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-yellow-500 hover:border-slate-700 transition-all space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-950 text-yellow-400 border border-yellow-800">🟡 IMPORTANT</span>
+                            <span class="text-xs text-slate-400 font-mono">Q7 – Q11 Scope</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-base">Data Types, Compiler & Control Structures</h3>
+
+                        <div class="text-xs space-y-2">
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-cyan-300">char (Q7):</strong> Stores a single alphanumeric symbol ('A', '9', '#').
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-amber-300">Compiler (Q8):</strong> Translates source code into machine code <em>all at once</em> before execution.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-emerald-300">Selection Structure (Q9):</strong> Branches via IF-THEN-ELSE based on Boolean evaluation.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-purple-300">Array (Q10, Q17):</strong> Fixed-size collection in <em>contiguous memory</em>. <span class="text-red-400 font-semibold">(Not a primitive type!)</span>
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800 text-[11px]">
+                                <strong class="text-cyan-400">Structured Loops (Q11 Review Box):</strong><br/>
+                                • <code>FOR count = 1 to 5 DO</code> (Exact 5 iterations)<br/>
+                                • <code>IF-THEN</code>, <code>WHILE</code>, <code>DO/WHILE</code>, <code>REPEAT UNTIL</code>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-xl font-bold text-amber-400 flex items-center gap-2">
+                        <span>⚡ CRITICAL ALGORITHM DRY-RUN TRACE CARDS</span>
+                    </h2>
+                    <span class="text-xs text-slate-400">Questions Q12 – Q19 Trace Breakdown</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <!-- Q12 Modulo Loop Trace -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-red-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-950 text-red-400 border border-red-800">🔴 MUST MEMORIZE</span>
+                            <span class="text-xs text-slate-400 font-mono">Q12 Code Trace</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Modulo Loop Total Calculator</h4>
+
+                        <div class="bg-slate-900 p-2.5 rounded code-font text-[11px] text-slate-300 border border-slate-800">
+                            Total = 0<br/>
+                            FOR i = 1 to 4 DO:<br/>
+                            &nbsp;&nbsp;IF (i % 2 == 0) Total += (i * 2)<br/>
+                            &nbsp;&nbsp;ELSE Total += i
+                        </div>
+
+                        <div class="text-[11px] space-y-1 bg-slate-950 p-2.5 rounded border border-slate-800">
+                            <p>• $i=1$: Odd $\rightarrow$ $\text{Total} = 0 + 1 = 1$</p>
+                            <p>• $i=2$: Even $\rightarrow$ $\text{Total} = 1 + (2 \times 2) = 5$</p>
+                            <p>• $i=3$: Odd $\rightarrow$ $\text{Total} = 5 + 3 = 8$</p>
+                            <p>• $i=4$: Even $\rightarrow$ $\text{Total} = 8 + (4 \times 2) = 16$</p>
+                            <div class="border-t border-slate-800 pt-1 text-emerald-400 font-bold text-right">
+                                FINAL Total = 16
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q13 Short Circuit & Post Increment -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-purple-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-950 text-purple-400 border border-purple-800">⚠️ TRAP DETECTOR</span>
+                            <span class="text-xs text-slate-400 font-mono">Q13 Code Trace</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">C Post-Increment (`y++`) Evaluation</h4>
+
+                        <div class="bg-slate-900 p-2.5 rounded code-font text-[11px] text-slate-300 border border-slate-800">
+                            int x = 5, y = 2, z = 0;<br/>
+                            if (x > 3 && y++) z = x * y;<br/>
+                            printf("%d", z);
+                        </div>
+
+                        <div class="bg-slate-950 p-2.5 rounded text-[11px] space-y-1 border border-slate-800">
+                            <p>1. $x > 3$ evaluates to <span class="text-emerald-400 font-bold">TRUE (5 > 3)</span>.</p>
+                            <p>2. $y++$ returns original value <span class="text-amber-400 font-bold">2 (TRUE)</span>, then increments $y \rightarrow 3$.</p>
+                            <p>3. Execution inside IF: $z = x \times y = 5 \times 3 = 15$.</p>
+                            <div class="border-t border-slate-800 pt-1 text-emerald-400 font-bold text-right font-mono">
+                                OUTPUT = 15
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q14 While Loop Division -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-orange-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-950 text-orange-400 border border-orange-800">🟠 HIGH-YIELD</span>
+                            <span class="text-xs text-slate-400 font-mono">Q14 Loop Counter</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Integer Division Loop Count</h4>
+
+                        <div class="bg-slate-900 p-2.5 rounded code-font text-[11px] text-slate-300 border border-slate-800">
+                            int count = 0, value = 20;<br/>
+                            while (value > 2) { value /= 2; count++; }
+                        </div>
+
+                        <div class="text-[11px] bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+                            <p>• Pass 1: $20 > 2 \rightarrow value = 10, count = 1$</p>
+                            <p>• Pass 2: $10 > 2 \rightarrow value = 5, count = 2$</p>
+                            <p>• Pass 3: $5 > 2 \rightarrow value = 2, count = 3$</p>
+                            <p>• Pass 4: $2 > 2$ is <span class="text-red-400 font-bold">FALSE</span>. Loop terminates.</p>
+                            <div class="border-t border-slate-800 pt-1 text-emerald-400 font-bold text-right font-mono">
+                                count = 3
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q15 Array Stepped Loop -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-yellow-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-950 text-yellow-400 border border-yellow-800">🟡 IMPORTANT</span>
+                            <span class="text-xs text-slate-400 font-mono">Q15 Array Sum</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Array Stepped Index Accumulation</h4>
+
+                        <div class="bg-slate-900 p-2.5 rounded code-font text-[11px] text-slate-300 border border-slate-800">
+                            int data[5] = {2, 4, 6, 8, 10};<br/>
+                            int sum = 0;<br/>
+                            for (int i=0; i&lt;4; i+=2) sum += data[i+1];
+                        </div>
+
+                        <div class="text-[11px] bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+                            <p>• $i=0$: Target `data[1]` = 4 $\rightarrow \text{sum} = 0 + 4 = 4$</p>
+                            <p>• $i=2$: Target `data[3]` = 8 $\rightarrow \text{sum} = 4 + 8 = 12$</p>
+                            <p>• $i=4$: Condition $4 < 4$ fails. Loop terminates.</p>
+                            <div class="border-t border-slate-800 pt-1 text-emerald-400 font-bold text-right font-mono">
+                                sum = 12
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q16 Logic Gate Equivalence -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-cyan-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-400 border border-cyan-800">🔵 CONCEPTUAL</span>
+                            <span class="text-xs text-slate-400 font-mono">Q16 Gate Analysis</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Nested Conditional to Logic Gate</h4>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-center text-xs code-font bg-slate-950 rounded border border-slate-800">
+                                <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
+                                    <tr><th class="p-1">A</th><th class="p-1">B</th><th class="p-1 text-cyan-400">Output</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-slate-900"><td>0</td><td>0</td><td class="text-emerald-400 font-bold">1</td></tr>
+                                    <tr class="border-b border-slate-900"><td>0</td><td>1</td><td class="text-emerald-400 font-bold">1</td></tr>
+                                    <tr class="border-b border-slate-900"><td>1</td><td>0</td><td class="text-emerald-400 font-bold">1</td></tr>
+                                    <tr><td>1</td><td>1</td><td class="text-red-400 font-bold">0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-xs text-amber-300 font-bold text-center">Equivalent Gate: NAND Gate (NOT-AND)</p>
+                    </div>
+
+                    <!-- Q19 Recursive Function -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-emerald-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">🔴 MUST MEMORIZE</span>
+                            <span class="text-xs text-slate-400 font-mono">Q19 Recursion</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Recursive `mystery(3, 2)` Tree</h4>
+
+                        <div class="bg-slate-950 p-2.5 rounded text-[11px] font-mono space-y-1 border border-slate-800">
+                            <p class="text-cyan-300">Call 1: mystery(3, 2) $\rightarrow$ b=2 (even) $\rightarrow$ mystery(6, 1)</p>
+                            <p class="text-amber-300">Call 2: mystery(6, 1) $\rightarrow$ b=1 (odd) $\rightarrow$ mystery(12, 0) + 6</p>
+                            <p class="text-emerald-300">Call 3: mystery(12, 0) $\rightarrow$ b=0 (Base) $\rightarrow$ Returns 0</p>
+                            <div class="border-t border-slate-800 pt-1 text-purple-300 font-bold text-right">
+                                Unwound Output = 6
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-xl font-bold text-purple-400 flex items-center gap-2">
+                        <span>🏗️ SECTION 3: SOFTWARE ENGINEERING, OOP & UML DIAGRAMS</span>
+                    </h2>
+                    <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md font-mono">Q20 – Q36 Scope</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <!-- OOP Pillars & SOLID -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-red-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-950 text-red-400 border border-red-800">🔴 MUST MEMORIZE</span>
+                            <span class="text-xs text-slate-400 font-mono">Q24, Q25, Q27, Q29</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-base">OOP Pillars ("A PIE") & SOLID</h3>
+
+                        <div class="bg-slate-900/90 p-3 rounded-lg text-xs space-y-1.5 border border-slate-800">
+                            <p><strong class="text-amber-400">A - Abstraction:</strong> Hiding internal complex implementation; exposing essential features.</p>
+                            <p><strong class="text-cyan-400">P - Polymorphism (Q25):</strong> Same method name, different implementations across classes.</p>
+                            <p><strong class="text-emerald-400">I - Inheritance:</strong> Child class absorbs attributes/methods of parent class.</p>
+                            <p><strong class="text-purple-400">E - Encapsulation (Q27):</strong> Bundling data & methods into single unit; restricting outside access.</p>
+                        </div>
+
+                        <div class="bg-purple-950/40 p-2.5 rounded border border-purple-800/60 text-[11px] text-purple-200">
+                            <strong>⚠️ COMMON TRAP (Q24):</strong> <em>Compilation</em> is NOT an OOP Pillar!
+                        </div>
+
+                        <div class="text-[11px] text-slate-300 bg-slate-900 p-2 rounded border border-slate-800">
+                            <strong class="text-yellow-400">Single Responsibility Principle (SRP - Q29):</strong> A class should have one, and only one, reason to change.
+                        </div>
+                    </div>
+
+                    <!-- UML Diagram Taxonomies -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-cyan-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-400 border border-cyan-800">🔵 CONCEPTUAL</span>
+                            <span class="text-xs text-slate-400 font-mono">Q20 – Q23, Q28</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-base">UML Classification & Relationships</h3>
+
+                        <div class="text-xs space-y-2">
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-cyan-300">Structural Diagrams:</strong> Class Diagram (Q21), Component Diagram, Deployment Diagram.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-amber-300">Behavioral (Dynamic) Diagrams (Q23):</strong> Sequence Diagram (step-by-step messages over time), Activity Diagram, Use Case Diagram.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-purple-300">Composition (Q22):</strong> Strong aggregation where part lifetime is strictly owned by whole object.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-emerald-300">Dependency (Q28):</strong> Represented by dashed line with open arrowhead ($A \dashrightarrow B$).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Runtime Exceptions & GUI Frameworks -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-orange-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-950 text-orange-400 border border-orange-800">🟠 HIGH-YIELD</span>
+                            <span class="text-xs text-slate-400 font-mono">Q30 – Q36</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100 text-base">Exceptions, GUI & CAPTCHA</h3>
+
+                        <div class="text-xs space-y-2">
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-red-400">ArithmeticException (Q31):</strong> Automatically thrown when dividing an integer by zero.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-amber-300">Event-Driven Programming (Q32):</strong> Flow determined by user actions (clicks, keypresses). Standard for GUIs.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-cyan-300">JLabel (Q34):</strong> Java Swing component used to display static text ("System Ready").
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-emerald-300">Tkinter (Q35):</strong> Standard built-in Python GUI library.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-purple-300">CAPTCHA (Q36):</strong> Challenge-response test to prevent automated bot input using warped image recognition.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-xl font-bold text-emerald-400 flex items-center gap-2">
+                        <span>📐 SECTION 4: CAD DRAFTING & TECHNICAL DRAWING</span>
+                    </h2>
+                    <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md font-mono">Q37 – Q44 Scope</span>
+                </div>
+
+                <!-- Complete CAD Tools Master Grid -->
+                <div class="glass-panel rounded-xl p-5 border border-slate-800 space-y-4">
+                    <h3 class="font-bold text-slate-100 text-base flex items-center gap-2">
+                        <span class="text-cyan-400">🛠️ CAD COMMAND MASTER CATEGORY GRID</span>
+                        <span class="text-xs text-slate-400 font-mono">(Complete Reference Table from Notes)</span>
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                            <span class="font-bold text-cyan-300 border-b border-slate-800 block pb-1">1. CREATION & DRAWING</span>
+                            <p><strong class="text-slate-200">LINE / PLINE:</strong> Straight segments & continuous 2D paths</p>
+                            <p><strong class="text-slate-200">CIRCLE / ARC:</strong> Curved geometry and radii</p>
+                            <p><strong class="text-slate-200">RECTANG / POLYGON:</strong> Enclosed geometric shapes</p>
+                            <p><strong class="text-amber-300">HATCH (Q40):</strong> Pattern fits, solid shading, gradient fill</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                            <span class="font-bold text-emerald-300 border-b border-slate-800 block pb-1">2. PRECISION & NAVIGATION</span>
+                            <p><strong class="text-emerald-400">OSNAP (F3) (Q42):</strong> Locks to Midpoint, Endpoint, Center</p>
+                            <p><strong class="text-slate-200">ORTHO (F8):</strong> Forces cursor to strict 90° orthogonal paths</p>
+                            <p><strong class="text-slate-200">PAN / ZOOM:</strong> Canvas navigation</p>
+                            <p><strong class="text-slate-200">LAYERS:</strong> Group elements by color, linetype, visibility</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                            <span class="font-bold text-amber-300 border-b border-slate-800 block pb-1">3. MODIFICATION & EDITING</span>
+                            <p><strong class="text-amber-400">OFFSET (Q38):</strong> Parallel lines/curves at set distance</p>
+                            <p><strong class="text-slate-200">TRIM / EXTEND:</strong> Cut excess or reach boundaries</p>
+                            <p><strong class="text-emerald-300">FILLET (Q39):</strong> Connects lines with smooth tangent arc</p>
+                            <p><strong class="text-slate-200">CHAMFER:</strong> Angled straight-bevel cut</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-1.5">
+                            <span class="font-bold text-purple-300 border-b border-slate-800 block pb-1">4. ANNOTATION & MEASURE</span>
+                            <p><strong class="text-slate-200">DIMLINEAR / DIMALIGN:</strong> Precise dimensioning</p>
+                            <p><strong class="text-slate-200">TEXT / MTEXT:</strong> Notes, labels, and callouts</p>
+                            <p><strong class="text-slate-200">DIST / LIST:</strong> Verify coordinates and distances</p>
+                            <p><strong class="text-slate-200">BLOCK / EXPLODE:</strong> Group into single entity or break apart</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <!-- CAD Selection Box Comparison -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-orange-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-950 text-orange-400 border border-orange-800">🟠 HIGH-YIELD</span>
+                            <span class="text-xs text-slate-400 font-mono">Q37 Scope</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100">Window vs Crossing Selection</h3>
+
+                        <div class="space-y-2 text-xs">
+                            <div class="bg-blue-950/40 p-3 rounded-lg border border-blue-800/80">
+                                <span class="font-bold text-blue-300">Window Selection (Left-to-Right):</span>
+                                <p class="text-slate-300 text-[11px] mt-1">Selects <strong class="text-white underline">ONLY</strong> objects that fall <strong class="text-emerald-400">ENTIRELY inside</strong> the selection frame box.</p>
+                            </div>
+
+                            <div class="bg-emerald-950/40 p-3 rounded-lg border border-emerald-800/80">
+                                <span class="font-bold text-emerald-300">Crossing Selection (Right-to-Left):</span>
+                                <p class="text-slate-300 text-[11px] mt-1">Selects objects inside <strong class="text-amber-300">OR TOUCHING</strong> the boundary frame.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workspaces & Projections -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-blue-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950 text-blue-400 border border-blue-800">🔵 CONCEPTUAL</span>
+                            <span class="text-xs text-slate-400 font-mono">Q41, Q43, Q44</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100">Workspaces & Drafting Views</h3>
+
+                        <div class="text-xs space-y-2">
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-cyan-300">Model Space (Q41):</strong> Drawing arena for 2D/3D geometry at <span class="text-emerald-400 font-bold">1:1 real-world scale</span>.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-amber-300">Orthographic Projections (Q44):</strong> Multiple 2D views (Front, Top, Side) providing <span class="text-white font-semibold">complete & unambiguous</span> manufacturing representation.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-purple-300">Isometric View (Q43):</strong> Gives a realistic 3D pictorial representation on a 2D plane.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-xl font-bold text-emerald-300 flex items-center gap-2">
+                        <span>🌿 SECTION 5: ECOLOGY, ECOSYSTEMS & CYCLES</span>
+                    </h2>
+                    <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md font-mono">Q45 – Q54 Scope</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+                    <!-- Ecological Dynamics & Species -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-red-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-950 text-red-400 border border-red-800">🔴 MUST MEMORIZE</span>
+                            <span class="text-xs text-slate-400 font-mono">Q45, Q47, Q48</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100">Ecological Progression & Species Roles</h3>
+
+                        <div class="text-xs space-y-2">
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <span class="font-bold text-cyan-300">Secondary Succession (Q45):</span>
+                                <p class="text-slate-300 text-[11px]">Progression after disturbance where <span class="text-amber-300 font-bold">SOIL REMAINS INTACT</span> (e.g., clearing forest for cell tower $\rightarrow$ weeds $\rightarrow$ shrubs $\rightarrow$ trees).</p>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <span class="font-bold text-red-400">Keystone Species (Q47):</span>
+                                <p class="text-slate-300 text-[11px]">Disproportionately large impact on ecosystem (e.g., Sea Otters controlling Urchins). Removal causes collapse!</p>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <span class="font-bold text-emerald-300">Carrying Capacity (K) (Q48):</span>
+                                <p class="text-slate-300 text-[11px]">Max population environment can sustain indefinitely without habitat degradation.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resource Competition & Species Taxonomy -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-orange-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-950 text-orange-400 border border-orange-800">🟠 HIGH-YIELD</span>
+                            <span class="text-xs text-slate-400 font-mono">Q46, Q47 Definitions</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100">Species Taxonomy Cards</h3>
+
+                        <div class="space-y-2 text-xs">
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-amber-300">Pioneer Species:</strong> First hardy organisms to colonize barren or heavily disrupted environments.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-red-400">Invasive Species:</strong> Non-native organisms rapidly overpopulating and outcompeting native species.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-cyan-300">Indicator Species:</strong> Highly sensitive organisms providing immediate clues about ecosystem health or pollution.
+                            </p>
+                            <p class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-emerald-300">Resource Partitioning (Q46):</strong> Species divide shared resources to coexist (e.g., foraging upper canopy vs lower trunk).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Biogeochemical Cycles Matrix -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-yellow-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-950 text-yellow-400 border border-yellow-800">🟡 IMPORTANT</span>
+                            <span class="text-xs text-slate-400 font-mono">Q50 – Q54</span>
+                        </div>
+                        <h3 class="font-bold text-slate-100">Biogeochemical Cycles</h3>
+
+                        <div class="text-xs space-y-2">
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-blue-300">Transpiration (Q50):</strong> Release of water vapor by plants through leaves into atmosphere.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-cyan-300">Photosynthesis (Q51, Q53):</strong> $6\text{CO}_2 + 6\text{H}_2\text{O} + \text{sunlight} \rightarrow \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2$. Removes atmospheric $\text{CO}_2$.
+                            </div>
+                            <div class="bg-slate-900 p-2 rounded border border-slate-800">
+                                <strong class="text-amber-300">Nitrogen Fixation (Q52):</strong> Bacteria convert inert $\text{N}_2$ gas into biologically usable nitrates. Denitrification returns $\text{N}_2$ gas.
+                            </div>
+                            <div class="bg-purple-950/50 p-2 rounded border border-purple-800 text-purple-200">
+                                <strong>⚠️ PHOSPHORUS CYCLE EXCEPTION (Q54):</strong> Does <strong class="text-yellow-300 underline">NOT</strong> involve the ATMOSPHERE!
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h2 class="text-xl font-bold text-purple-400 flex items-center gap-2">
+                        <span>🧪 ENVIRONMENTAL DEGRADATION & ATMOSPHERIC PHENOMENA</span>
+                    </h2>
+                    <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md font-mono">Q49, Q64 – Q68 Scope</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    
+                    <!-- Eutrophication Pipeline -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-purple-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-950 text-purple-400 border border-purple-800">⚠️ PROCESS FLOW</span>
+                            <span class="text-xs text-slate-400 font-mono">Q49 Scope</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Aquatic Eutrophication Process Pipeline</h4>
+
+                        <div class="bg-slate-950 p-3 rounded-lg text-xs space-y-2 border border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 flex items-center justify-center font-bold text-[10px]">1</span>
+                                <span class="text-slate-300">Agricultural Runoff containing Nitrogen & Phosphorus enters lake.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 flex items-center justify-center font-bold text-[10px]">2</span>
+                                <span class="text-amber-300 font-semibold">Triggers Explosive Algae Bloom.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 flex items-center justify-center font-bold text-[10px]">3</span>
+                                <span class="text-slate-300">Algae blocks sunlight $\rightarrow$ aquatic submerged plants die.</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-red-950 text-red-400 border border-red-800 flex items-center justify-center font-bold text-[10px]">4</span>
+                                <span class="text-red-300 font-bold">Decomposers deplete dissolved oxygen ($\text{DO}$) $\rightarrow$ Hypoxia / Fish Kills.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Atmospheric Gas & Acid Rain Comparison -->
+                    <div class="searchable-card glass-panel rounded-xl p-5 border-l-4 border-l-blue-500 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950 text-blue-400 border border-blue-800">🔵 CONCEPTUAL</span>
+                            <span class="text-xs text-slate-400 font-mono">Q64 – Q68 Scope</span>
+                        </div>
+                        <h4 class="font-bold text-slate-100">Acid Rain, Ocean Acidification & Gases</h4>
+
+                        <div class="text-xs space-y-2">
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <strong class="text-cyan-300">Ocean Acidification (Q64):</strong> Caused by absorption of $\text{CO}_2 \rightarrow \text{forms } \text{H}_2\text{CO}_3$ (carbonic acid), lowering ocean pH.
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <strong class="text-amber-300">Water Vapor ($\text{H}_2\text{O}$) (Q65):</strong> Most abundant <span class="text-emerald-400 font-bold">natural</span> greenhouse gas; not targeted by treaties.
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <strong class="text-red-400">Acid Rain Precursors (Q66):</strong> Sulfur Dioxide ($\text{SO}_2$) and Nitrogen Oxides ($\text{NO}_x$) reacting with atmospheric $\text{H}_2\text{O} \rightarrow \text{H}_2\text{SO}_4 + \text{HNO}_3$.
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                                <strong class="text-emerald-300">Triple Bottom Line (TBL) (Q68):</strong> Sustainability measured by <span class="text-yellow-300 font-bold">People, Planet, Profit</span>.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ========================================================================================= -->
+        <!-- TAB 2: CODE TRACE INTERACTIVE ENGINE -->
+        <!-- ========================================================================================= -->
+        <div id="view-codeTrace" class="hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-xl font-bold text-cyan-400">🧮 INTERACTIVE ALGORITHM DRY-RUN ENGINE</h2>
+                        <p class="text-xs text-slate-400">Simulate variable states step-by-step for board exam programming problems.</p>
+                    </div>
+                    <select id="traceSelector" onchange="loadTraceSimulator()" class="bg-slate-900 border border-slate-700 text-xs text-cyan-300 rounded-lg p-2 font-mono">
+                        <option value="q12">Q12: Modulo Loop Total</option>
+                        <option value="q13">Q13: Short-Circuit & y++</option>
+                        <option value="q14">Q14: While Loop Division</option>
+                        <option value="q15">Q15: Array Stepped Loop</option>
+                        <option value="q16">Q16: Logic Gate NAND</option>
+                        <option value="q18">Q18: Nested Loop Jump Trace</option>
+                        <option value="q19">Q19: Recursive mystery(3,2)</option>
+                    </select>
+                </div>
+
+                <div id="traceDisplayArea" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Dynamic trace container injected here by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================================================= -->
+        <!-- TAB 3: PHILIPPINE ENVIRONMENTAL LAWS COMMAND CENTER -->
+        <!-- ========================================================================================= -->
+        <div id="view-lawsMatrix" class="hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold text-emerald-400">⚖️ PHILIPPINE ENVIRONMENTAL LAWS MASTER MATRIX</h2>
+                    <p class="text-xs text-slate-400">Complete statutory reference guide for GEAS environmental engineering board questions (Q55 – Q63).</p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-300 border-b border-slate-800">
+                                <th class="p-3">Statute / Law</th>
+                                <th class="p-3">Official Legislation Title</th>
+                                <th class="p-3">Core Scope & Key Terms</th>
+                                <th class="p-3">Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 font-mono text-slate-300">
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-red-400">PD 1586 (Q55)</td>
+                                <td class="p-3">Environmental Impact Statement (EIS) System</td>
+                                <td class="p-3 text-slate-200">Requires ECC / CNC for projects; governed by DENR-EMB. ECA vs ECP.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-300 border border-red-800 font-sans">🔴 MUST</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-cyan-400">RA 9275 (Q61)</td>
+                                <td class="p-3">Philippine Clean Water Act of 2004</td>
+                                <td class="p-3 text-slate-200">Water pollution control from land-based sources (industrial, sewage).</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-300 border border-red-800 font-sans">🔴 MUST</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-cyan-400">RA 8749 (Q60)</td>
+                                <td class="p-3">Philippine Clean Air Act of 1999</td>
+                                <td class="p-3 text-slate-200">Air quality management, stationary & mobile emissions, $\text{SO}_2$ controls.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-300 border border-red-800 font-sans">🔴 MUST</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-amber-400">RA 9003</td>
+                                <td class="p-3">Ecological Solid Waste Management Act of 2000</td>
+                                <td class="p-3 text-slate-200">Solid waste segregation, municipal waste management plans, LGUs.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-orange-950 text-orange-300 border border-orange-800 font-sans">🟠 HIGH</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-purple-400">RA 6969 (Q60)</td>
+                                <td class="p-3">Toxic Substances & Hazardous/Nuclear Waste Act</td>
+                                <td class="p-3 text-slate-200">Importation, movement, and disposal of hazardous/chemical waste.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-red-950 text-red-300 border border-red-800 font-sans">🔴 MUST</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-emerald-400">RA 9729 (Q62)</td>
+                                <td class="p-3">Climate Change Act of 2009</td>
+                                <td class="p-3 text-slate-200">Created the Climate Change Commission (CCC) for policy coordination.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-orange-950 text-orange-300 border border-orange-800 font-sans">🟠 HIGH</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-emerald-400">RA 9513 (Q59)</td>
+                                <td class="p-3">Renewable Energy Act of 2008</td>
+                                <td class="p-3 text-slate-200">Incentivizes RE projects; aims to diversify national energy mix.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-orange-950 text-orange-300 border border-orange-800 font-sans">🟠 HIGH</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-emerald-400">RA 11285 (Q63)</td>
+                                <td class="p-3">Energy Efficiency and Conservation Act</td>
+                                <td class="p-3 text-slate-200">Institutionalizes energy conservation policies and energy audits.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-orange-950 text-orange-300 border border-orange-800 font-sans">🟠 HIGH</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/50">
+                                <td class="p-3 font-bold text-slate-400">PD 1151</td>
+                                <td class="p-3">Philippine Environmental Policy</td>
+                                <td class="p-3 text-slate-200">First policy recognizing environmental protection as national priority.</td>
+                                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-yellow-950 text-yellow-300 border border-yellow-800 font-sans">🟡 IMP</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- EIS System Assessment Pipeline -->
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-slate-100 text-sm">PD 1586 EIS SYSTEM ASSESSMENT PIPELINE (Q55 – Q58, Q60)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-2 text-center text-xs">
+                        <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+                            <div class="text-cyan-400 font-bold mb-1">1. Screening</div>
+                            <span class="text-[11px] text-slate-400">Check if project requires EIA</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+                            <div class="text-cyan-400 font-bold mb-1">2. Scoping</div>
+                            <span class="text-[11px] text-slate-400">Gather baseline environmental data</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+                            <div class="text-cyan-400 font-bold mb-1">3. IEE / EIS</div>
+                            <span class="text-[11px] text-slate-400">Prepare Impact Statement report</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+                            <div class="text-cyan-400 font-bold mb-1">4. Review (Q57)</div>
+                            <span class="text-[11px] text-slate-400">DENR-EMB & Public Consultation</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-slate-950 border border-emerald-800 bg-emerald-950/30">
+                            <div class="text-emerald-400 font-bold mb-1">5. Decision (Q56)</div>
+                            <span class="text-[11px] text-emerald-200">Issue ECC or CNC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================================================= -->
+        <!-- TAB 4: PRACTICE QUIZ / MASTER QUESTION BANK -->
+        <!-- ========================================================================================= -->
+        <div id="view-quiz" class="hidden space-y-6">
+            <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-6 max-w-3xl mx-auto">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-xl font-bold text-amber-400">⚡ BOARD EXAM RAPID PRACTICE QUIZ</h2>
+                        <p class="text-xs text-slate-400">Test your knowledge against exact board exam questions from your GEAS notes.</p>
+                    </div>
+                    <div class="text-right font-mono">
+                        <span id="quizScore" class="text-lg font-bold text-emerald-400">0</span>
+                        <span class="text-slate-500">/</span>
+                        <span id="quizTotal" class="text-slate-400">0</span>
+                    </div>
+                </div>
+
+                <div id="quizContainer" class="space-y-6">
+                    <!-- Dynamic Question Card Injected Here -->
+                </div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-slate-800">
+                    <button onclick="prevQuestion()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700">← Previous</button>
+                    <button onclick="nextQuestion()" class="px-4 py-2 rounded-lg bg-cyan-500 text-slate-950 text-xs font-bold hover:bg-cyan-400">Next Question →</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="glass-panel border-t border-slate-800 py-4 px-4 text-center text-xs text-slate-500 mt-12">
+        <p>ECE Professional Board Examination GEAS Visual Reviewer Command Center</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            ['infographic', 'codeTrace', 'lawsMatrix', 'quiz'].forEach(id => {
+                const view = document.getElementById(`view-${id}`);
+                const btn = document.getElementById(`tab-${id}`);
+                if (id === tabId) {
+                    view.classList.remove('hidden');
+                    btn.className = "px-3 py-1.5 rounded-md bg-cyan-500 text-slate-950 font-bold transition-all shadow-md";
+                } else {
+                    view.classList.add('hidden');
+                    btn.className = "px-3 py-1.5 rounded-md text-slate-400 hover:text-slate-100 transition-all";
+                }
+            });
+
+            if (tabId === 'codeTrace') loadTraceSimulator();
+            if (tabId === 'quiz') loadQuiz();
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.searchable-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function loadTraceSimulator() {
+            const sel = document.getElementById('traceSelector').value;
+            const container = document.getElementById('traceDisplayArea');
+
+            if (sel === 'q12') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q12 Pseudocode:</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">Total = 0
+FOR i = 1 to 4 DO:
+   IF (i mod 2 == 0) Total += (i * 2)
+   ELSE Total += i</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Trace Execution Table:</h3>
+                        <table class="w-full text-xs code-font text-center">
+                            <thead class="bg-slate-950 text-slate-400">
+                                <tr><th class="p-1">i</th><th class="p-1">Condition</th><th class="p-1">Calc</th><th class="p-1 text-emerald-400">Total</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td>1</td><td>1%2 != 0 (False)</td><td>Total += 1</td><td class="font-bold">1</td></tr>
+                                <tr><td>2</td><td>2%2 == 0 (True)</td><td>Total += (2*2)</td><td class="font-bold">5</td></tr>
+                                <tr><td>3</td><td>3%2 != 0 (False)</td><td>Total += 3</td><td class="font-bold">8</td></tr>
+                                <tr><td>4</td><td>4%2 == 0 (True)</td><td>Total += (4*2)</td><td class="font-bold text-emerald-400">16</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (sel === 'q13') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q13 Code Segment:</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">int x = 5; int y = 2; int z = 0;
+if (x > 3 && y++) {
+    z = x * y;
+}
+printf("%d", z);</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Step Breakdown:</h3>
+                        <div class="text-xs space-y-2 text-slate-300 font-mono">
+                            <p>1. Evaluate condition 1: <code>x &gt; 3</code> $\rightarrow$ <code>5 &gt; 3</code> = TRUE.</p>
+                            <p>2. Evaluate condition 2: <code>y++</code> returns <code>2</code> (TRUE), then increments <code>y</code> to <code>3</code>.</p>
+                            <p>3. Both conditions pass! IF block executes: <code>z = 5 * 3 = 15</code>.</p>
+                            <p class="text-emerald-400 font-bold border-t border-slate-800 pt-1">OUTPUT = 15</p>
+                        </div>
+                    </div>
+                `;
+            } else if (sel === 'q14') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q14 C While Loop Division Code:</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">int count = 0; int value = 20;
+while (value > 2) {
+    value = value / 2;
+    count++;
+}</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Step Trace:</h3>
+                        <table class="w-full text-xs code-font text-center">
+                            <thead class="bg-slate-950 text-slate-400">
+                                <tr><th class="p-1">Pass</th><th class="p-1">value &gt; 2</th><th class="p-1">value / 2</th><th class="p-1 text-cyan-400">count</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td>1</td><td>20 &gt; 2 (True)</td><td>10</td><td>1</td></tr>
+                                <tr><td>2</td><td>10 &gt; 2 (True)</td><td>5</td><td>2</td></tr>
+                                <tr><td>3</td><td>5 &gt; 2 (True)</td><td>2</td><td>3</td></tr>
+                                <tr><td>End</td><td>2 &gt; 2 (FALSE)</td><td>Terminates</td><td class="font-bold text-cyan-400">3</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (sel === 'q15') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q15 Array Stepped Loop Code:</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">int data[5] = {2, 4, 6, 8, 10};
+int sum = 0;
+for (int i = 0; i < 4; i += 2) {
+    sum += data[i + 1];
+}</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Execution Breakdown:</h3>
+                        <p class="text-xs text-slate-300">• Pass 1 (i=0): <code>data[0+1]</code> = <code>data[1]</code> = 4 $\rightarrow$ sum = 4</p>
+                        <p class="text-xs text-slate-300">• Pass 2 (i=2): <code>data[2+1]</code> = <code>data[3]</code> = 8 $\rightarrow$ sum = 4 + 8 = 12</p>
+                        <p class="text-xs text-slate-300">• Pass 3 (i=4): Condition <code>i &lt; 4</code> FAILS. Loop ends.</p>
+                        <p class="text-xs text-emerald-400 font-bold font-mono">FINAL sum = 12</p>
+                    </div>
+                `;
+            } else if (sel === 'q16') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q16 Gate Pseudocode:</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">IF (A == TRUE) THEN
+  IF (B == TRUE) THEN Output = FALSE
+  ELSE Output = TRUE
+ELSE Output = TRUE</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Derived Truth Table:</h3>
+                        <table class="w-full text-xs code-font text-center">
+                            <thead class="bg-slate-950 text-slate-400">
+                                <tr><th class="p-1">A</th><th class="p-1">B</th><th class="p-1 text-cyan-400">Output</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td>0</td><td>0</td><td class="text-emerald-400 font-bold">1</td></tr>
+                                <tr><td>0</td><td>1</td><td class="text-emerald-400 font-bold">1</td></tr>
+                                <tr><td>1</td><td>0</td><td class="text-emerald-400 font-bold">1</td></tr>
+                                <tr><td>1</td><td>1</td><td class="text-red-400 font-bold">0</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="text-xs text-amber-300 font-bold text-center">Identified Logic Gate: NAND Gate</p>
+                    </div>
+                `;
+            } else if (sel === 'q18') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q18 Nested Loop Pseudocode:</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">Set w = 1, x = 1
+for (each y from 11 to 20)
+  for (each a from -3 to 0)
+    if z == -1 then continue
+    w = -1; x = 20
+    jump out of the loop
+Print w + x</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Trace & Output Breakdown:</h3>
+                        <div class="text-xs font-mono space-y-2 text-slate-300">
+                            <p>• Initial state: <code>w = 1, x = 1</code></p>
+                            <p>• First iteration: <code>w</code> is updated to <code>-1</code>, <code>x</code> is updated to <code>20</code>, then loop jumps out.</p>
+                            <p>• Calculation: <code>w + x = -1 + 20 = 19</code> (or <code>1 + 1 = 2</code> if z is -1 throughout).</p>
+                        </div>
+                    </div>
+                `;
+            } else if (sel === 'q19') {
+                container.innerHTML = `
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-amber-400 text-sm">Q19 Recursive Function mystery(a, b):</h3>
+                        <pre class="bg-slate-950 p-3 rounded text-xs code-font text-slate-300">FUNCTION mystery(a, b)
+    IF b == 0 THEN RETURN 0
+    ELSE IF b % 2 == 0 THEN RETURN mystery(a + a, b / 2)
+    ELSE RETURN mystery(a + a, b / 2) + a</pre>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                        <h3 class="font-bold text-cyan-400 text-sm">Call Tree Unwinding for mystery(3, 2):</h3>
+                        <div class="text-xs font-mono space-y-2 text-slate-300">
+                            <p class="text-cyan-300">[Call 1]: mystery(3, 2) $\rightarrow$ b=2 (even) $\rightarrow$ mystery(6, 1)</p>
+                            <p class="text-amber-300">[Call 2]: mystery(6, 1) $\rightarrow$ b=1 (odd) $\rightarrow$ mystery(12, 0) + 6</p>
+                            <p class="text-emerald-300">[Call 3]: mystery(12, 0) $\rightarrow$ b=0 (Base case) $\rightarrow$ Returns 0</p>
+                            <p class="text-purple-300 pt-2 border-t border-slate-800">Unwinding: 0 + 6 = 6. Output = 6</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        const quizData = [
+            { q: "In spreadsheet software (such as MS Excel), what specific symbol must always be typed first to signal that a formula is being entered?", options: ["Ampersand (&)", "Equal sign (=)", "Dollar sign ($)", "Asterisk (*)"], answer: 1, explanation: "Every formula in Excel MUST start with an equal sign (=)." },
+            { q: "What type of cell referencing in a spreadsheet remains completely locked on a specific row and column address when copied?", options: ["Relative Cell Reference", "Absolute Cell Reference", "Mixed Cell Reference", "Volatile Cell Reference"], answer: 1, explanation: "Absolute cell referencing ($A$1) locks both column and row." },
+            { q: "An engineer writes the formula =$A$1+$B1 in cell C1. When copied down diagonally to cell D2, what formula appears in D2?", options: ["=$A$1+$B1", "=$A$1+$B2", "=$B$2+$C2", "=$A$2+$B2"], answer: 1, explanation: "Column locked ($A), row 1 locked ($1). $B1 has locked column $B and relative row 1. Moving to row 2 changes 1 -> 2, yielding =$A$1+$B2." },
+            { q: "In flowcharting, what shape represents a decision point requiring logical evaluation?", options: ["Rectangle", "Diamond", "Oval", "Parallelogram"], answer: 1, explanation: "Diamond represents decision points." },
+            { q: "What is the purpose of the Oval / Rounded Rectangle symbol in flowcharts?", options: ["To mark Start or End of program", "To perform calculations", "To print outputs", "To switch pages"], answer: 0, explanation: "Terminal shapes indicate Start or End." },
+            { q: "What is an informal, high-level structural description of a computer program intended for human reading?", options: ["Pseudocode", "Assembly Language", "Machine Code", "Source Array"], answer: 0, explanation: "Pseudocode represents informal human-readable program logic." },
+            { q: "Which basic data type stores a single alphanumeric symbol?", options: ["Integer", "Character (char)", "Float", "Boolean"], answer: 1, explanation: "char stores single alphanumeric characters." },
+            { q: "What software translates high-level source code into machine code all at once before execution?", options: ["Assembler", "Linker", "Compiler", "Interpreter"], answer: 2, explanation: "Compilers translate entire code blocks prior to execution." },
+            { q: "Which basic control structure branches based on True/False evaluation?", options: ["Sequence structure", "Selection structure", "Repetition structure", "Modular structure"], answer: 1, explanation: "Selection structures (IF-THEN) branch execution." },
+            { q: "What data structure stores a fixed-size collection of elements of the same data type in contiguous memory?", options: ["Linked List", "Array", "Object Matrix", "String Stack"], answer: 1, explanation: "Arrays store elements contiguously." },
+            { q: "Which CAD command creates parallel lines or concentric curves at a set distance?", options: ["COPY", "ARRAY", "OFFSET", "SCALE"], answer: 2, explanation: "OFFSET duplicates geometries at set distances." },
+            { q: "Which CAD command connects intersecting lines with a smooth, tangent arc?", options: ["CHAMFER", "OFFSET", "FILLET", "TRIM"], answer: 2, explanation: "FILLET creates rounded tangent arcs." },
+            { q: "Which law established the Environmental Impact Statement (EIS) System in the Philippines?", options: ["RA 9275", "RA 9003", "PD 1586", "PD 1151"], answer: 2, explanation: "PD 1586 established the Philippine EIS System." },
+            { q: "Which biogeochemical cycle is unique because it does NOT involve the atmosphere?", options: ["Carbon Cycle", "Nitrogen Cycle", "Phosphorus Cycle", "Water Cycle"], answer: 2, explanation: "The Phosphorus Cycle relies purely on terrestrial/aquatic weathering." },
+            { q: "What document is issued by the DENR-EMB allowing a project to proceed after demonstrating acceptable environmental impact?", options: ["ECC (Environmental Compliance Certificate)", "CNC (Certificate of Non-Coverage)", "LLDA Clearance", "PTO (Permit To Operate)"], answer: 0, explanation: "ECC is issued by DENR-EMB upon EIS approval." },
+            { q: "Which greenhouse gas is the most abundant in the atmosphere and contributes most to the natural greenhouse effect?", options: ["Water Vapor", "Methane", "Carbon Dioxide", "Nitrous Oxide"], answer: 0, explanation: "Water vapor (H2O) is the most abundant natural greenhouse gas." },
+            { q: "Which law is known as the Philippine Clean Water Act of 2004?", options: ["RA 8749", "RA 9003", "RA 9275", "RA 9513"], answer: 2, explanation: "RA 9275 is the Clean Water Act of 2004." },
+            { q: "In OOP, which pillar represents defining multiple methods with the same name but different implementations?", options: ["Encapsulation", "Abstraction", "Inheritance", "Polymorphism"], answer: 3, explanation: "Polymorphism translates to 'many forms' (overloading/overriding)." },
+            { q: "Which law is known as the Renewable Energy Act of 2008?", options: ["RA 9275", "RA 9513", "RA 8749", "RA 9003"], answer: 1, explanation: "RA 9513 is the Renewable Energy Act." },
+            { q: "What report introduced the widely accepted definition of Sustainable Development in 1987?", options: ["The Brundtland Report", "The Paris Agreement", "The Kyoto Protocol", "The Montreal Protocol"], answer: 0, explanation: "The Brundtland Report ('Our Common Future') established this definition." }
+        ];
+
+        let currentQuizIndex = 0;
+        let score = 0;
+
+        function loadQuiz() {
+            document.getElementById('quizTotal').innerText = quizData.length;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('quizContainer');
+            const item = quizData[currentQuizIndex];
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <span class="text-xs text-cyan-400 font-mono font-bold">Question ${currentQuizIndex + 1} of ${quizData.length}</span>
+                    <h3 class="font-bold text-slate-100 text-base">${item.q}</h3>
+
+                    <div class="space-y-2">
+                        ${item.options.map((opt, i) => `
+                            <button onclick="checkAnswer(${i})" class="w-full text-left p-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-medium text-slate-200 transition-all flex items-center justify-between">
+                                <span>${opt}</span>
+                                <span id="opt-icon-${i}" class="font-mono text-sm"></span>
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div id="explanationBox" class="hidden p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-300">
+                        <strong class="text-cyan-400">Explanation:</strong> ${item.explanation}
+                    </div>
+                </div>
+            `;
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const item = quizData[currentQuizIndex];
+            const explanationBox = document.getElementById('explanationBox');
+            explanationBox.classList.remove('hidden');
+
+            if (selectedIndex === item.answer) {
+                document.getElementById(`opt-icon-${selectedIndex}`).innerHTML = "✅";
+                score++;
+                document.getElementById('quizScore').innerText = score;
+            } else {
+                document.getElementById(`opt-icon-${selectedIndex}`).innerHTML = "❌";
+                document.getElementById(`opt-icon-${item.answer}`).innerHTML = "✅";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuizIndex < quizData.length - 1) {
+                currentQuizIndex++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderQuestion();
+            }
+        }
+    </script>
+</body>
+</html>
