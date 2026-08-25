@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam Command Center - GEAS Master Reviewer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        priority: {
+                            must: '#ef4444',
+                            high: '#f97316',
+                            imp: '#eab308',
+                            concept: '#3b82f6',
+                            trap: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- KaTeX CSS & JS for Math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .katex-display { margin: 0.5em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+        .glass-card {
+            background: rgba(24, 24, 27, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tag-badge {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        kbd {
+            background-color: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 0.25rem;
+            box-shadow: inset 0 -1px 0 rgba(0,0,0,0.25);
+            color: #e4e4e7;
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.35rem;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #18181b; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 w-full lg:w-auto justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400">
+                        <i data-lucide="calculator" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">
+                            ECE COMMAND CENTER
+                        </h1>
+                        <p class="text-xs text-zinc-400 font-mono">ENGINEERING ECONOMICS, MANAGEMENT &amp; ACCOUNTING</p>
+                    </div>
+                </div>
+                <div class="lg:hidden flex items-center space-x-2">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2 text-zinc-400 hover:text-white">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Global Search Bar -->
+            <div class="relative w-full lg:w-96">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+                <input type="text" id="searchInput" placeholder="Search formulas, concepts, traps, or questions (Q1-Q55)..." 
+                       class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg pl-9 pr-8 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition-all">
+                <button id="clearSearch" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
+
+            <!-- Page Navigation Tabs -->
+            <nav id="navMenu" class="hidden lg:flex items-center space-x-1 bg-zinc-900/80 p-1 rounded-lg border border-zinc-800 text-xs font-semibold overflow-x-auto w-full lg:w-auto">
+                <button onclick="switchTab('page1')" id="tab-page1" class="tab-btn active px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all bg-cyan-600 text-white">
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i>
+                    <span>Overview</span>
+                </button>
+                <button onclick="switchTab('page2')" id="tab-page2" class="tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span>Deep Dive</span>
+                </button>
+                <button onclick="switchTab('page3')" id="tab-page3" class="tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    <span>Rapid Review &amp; Traps</span>
+                </button>
+                <button onclick="switchTab('page4')" id="tab-page4" class="tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                    <span>Caltech &amp; Q1-55</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Priority Legend Bar -->
+    <section class="bg-zinc-900/80 border-b border-zinc-800/80 py-2 px-4 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-zinc-400 font-semibold uppercase text-[10px] tracking-wider">Priority Legend:</span>
+                <span class="tag-badge bg-red-500/20 text-red-400 border border-red-500/30">🔴 Must Memorize</span>
+                <span class="tag-badge bg-orange-500/20 text-orange-400 border border-orange-500/30">🟠 High-Yield</span>
+                <span class="tag-badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🟡 Important</span>
+                <span class="tag-badge bg-blue-500/20 text-blue-400 border border-blue-500/30">🔵 Conceptual</span>
+                <span class="tag-badge bg-amber-500/20 text-amber-300 border border-amber-500/30">⚠️ Common Trap</span>
+            </div>
+            <div class="flex items-center space-x-3 text-[11px] text-zinc-400 font-mono">
+                <span>Source: <strong class="text-cyan-400">Aug 25 (GEAS).pdf</strong></span>
+                <span>•</span>
+                <span>55 Board Exam Questions + Hand-written Solutions</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-8">
+
+        <!-- ==================== PAGE 1: MASTER OVERVIEW ==================== -->
+        <div id="page1" class="tab-content space-y-6">
+            
+            <!-- Map of GEAS & Engineering Management -->
+            <div class="glass-card rounded-xl p-5 border border-zinc-800">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-3 mb-4">
+                    <h2 class="text-base font-bold text-cyan-400 flex items-center gap-2">
+                        <i data-lucide="network" class="w-5 h-5"></i>
+                        MAP OF ENGINEERING ECONOMICS, MANAGEMENT &amp; STARTUPS
+                    </h2>
+                    <span class="text-xs text-zinc-500 font-mono">[NOTES / SYLLABUS ARCHITECTURE]</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-red-400 mb-1 flex items-center gap-1">
+                            <span>1. Financial Math</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Compound Interest ($F$)</li>
+                            <li>• Real vs Nominal Rate</li>
+                            <li>• Amortization &amp; Sinking</li>
+                            <li>• Gradient Series</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-orange-400 mb-1 flex items-center gap-1">
+                            <span>2. Depreciation</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Straight Line (SLM)</li>
+                            <li>• Sinking Fund (SFM)</li>
+                            <li>• Declining Balance (DBM)</li>
+                            <li>• Double DBM &amp; SYD</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-yellow-400 mb-1 flex items-center gap-1">
+                            <span>3. Econ Decision</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Benefit-Cost ($B/C \ge 1$)</li>
+                            <li>• Simple Payback Period</li>
+                            <li>• Present Worth Analysis</li>
+                            <li>• Rent vs Buy Break-Even</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-blue-400 mb-1 flex items-center gap-1">
+                            <span>4. Startup Metrics</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Net Burn Rate &amp; Runway</li>
+                            <li>• Gross Margin % (COGS)</li>
+                            <li>• Pre &amp; Post-Money Val</li>
+                            <li>• Multi-Round Dilution</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-emerald-400 mb-1 flex items-center gap-1">
+                            <span>5. Management</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• POLC Framework</li>
+                            <li>• Feedforward/Concurrent</li>
+                            <li>• McGregor Theory X/Y</li>
+                            <li>• Maslow's Hierarchy</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-purple-400 mb-1 flex items-center gap-1">
+                            <span>6. Strategy &amp; IP</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Porter's 4 Strategies</li>
+                            <li>• IP Protection Types</li>
+                            <li>• Lean Canvas &amp; PESTLE</li>
+                            <li>• Marketing Mix 4 Ps</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Formulas Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Core Interest & Annuity Formulas Card -->
+                <div class="glass-card rounded-xl p-5 border border-red-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-500 text-black font-black px-3 py-1 text-[10px] rounded-bl-lg">
+                        🔴 MUST MEMORIZE
+                    </div>
+                    <h3 class="text-sm font-bold text-red-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="bookmark" class="w-4 h-4"></i>
+                        CORE FINANCIAL MATHEMATICS FORMULAS
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">1. Compound Interest</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$F = P(1+i)^n = P\left(1 + \frac{NR}{m}\right)^{m \cdot t}$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Single future lump sum $F$ or present $P$.</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> $i = NR/m$ per compounding period!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">2. Real Interest Rate (Exact vs Approx)</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$i_{\text{real}} = \frac{1 + i_{\text{nom}}}{1 + f} - 1 \approx i_{\text{nom}} - f$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Accounting for inflation rate $f$ (Q2).</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> Board exam usually defaults to exact form!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">3. Amortization (Present Worth)</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$P = A \left[ \frac{(1+i)^n - 1}{i(1+i)^n} \right]$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Finding loan monthly payment $A$ (Q3).</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> Subtract downpayment first from price!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">4. Sinking Fund (Future Worth)</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$F = A \left[ \frac{(1+i)^n - 1}{i} \right]$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Savings goal targeted in future (Q4).</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> Multiply individual target by total headcount!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Startup Metrics Formulas Card -->
+                <div class="glass-card rounded-xl p-5 border border-orange-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-orange-500 text-black font-black px-3 py-1 text-[10px] rounded-bl-lg">
+                        🟠 HIGH-YIELD
+                    </div>
+                    <h3 class="text-sm font-bold text-orange-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                        STARTUP METRICS &amp; FINANCIAL EQUATIONS
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Net Burn Rate &amp; Runway</div>
+                            $$\text{Net Burn} = \text{OpEx} - \text{Revenue}$$
+                            $$\text{Runway (mo)} = \frac{\text{Cash Balance}}{\text{Net Burn Rate}}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Gross Margin Percentage</div>
+                            $$\text{COGS} = \text{Direct Materials} + \text{Direct Labor}$$
+                            $$\text{GM\%} = \frac{\text{Price} - \text{COGS}}{\text{Price}} \times 100\%$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Valuation &amp; Ownership</div>
+                            $$\text{Post-Money} = \text{Pre-Money} + \text{Investment}$$
+                            $$\text{Investor \%} = \frac{\text{Investment}}{\text{Post-Money}}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Accounting Fundamental Equation</div>
+                            $$\text{Assets} = \text{Liabilities} + \text{Equity}$$
+                            <div class="text-[9px] text-zinc-500 font-sans mt-0.5">• Loan for inventory: Assets +100k, Liab +100k</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POLC Framework & Depreciation Table -->
+            <div class="glass-card rounded-xl p-5 border border-zinc-800">
+                <h3 class="text-sm font-bold text-cyan-400 flex items-center gap-2 mb-3">
+                    <i data-lucide="layers" class="w-4 h-4"></i>
+                    MANAGEMENT POLC FUNCTIONS &amp; DEPRECIATION METHODS
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <!-- POLC Card -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-zinc-200">POLC Management Functions</span>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MEMORIZE</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                            <div class="p-2 bg-zinc-950 rounded border border-zinc-800">
+                                <span class="text-cyan-400 font-bold block">1. Planning</span>
+                                Setting goals, risk mitigation plans (Q38), strategic plans (Q39).
+                            </div>
+                            <div class="p-2 bg-zinc-950 rounded border border-zinc-800">
+                                <span class="text-emerald-400 font-bold block">2. Organizing</span>
+                                Allocating resources, departmentalization, delegation (Q41).
+                            </div>
+                            <div class="p-2 bg-zinc-950 rounded border border-zinc-800">
+                                <span class="text-amber-400 font-bold block">3. Leading</span>
+                                Directing workers, autocratic vs democratic styles (Q40).
+                            </div>
+                            <div class="p-2 bg-zinc-950 rounded border border-zinc-800">
+                                <span class="text-purple-400 font-bold block">4. Controlling</span>
+                                Checking progress vs standards (Q44), feedforward/concurrent (Q43).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Depreciation Card -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-zinc-200">Depreciation Methods Summary</span>
+                            <span class="tag-badge bg-orange-500/20 text-orange-400">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="space-y-1.5 text-[11px] font-mono">
+                            <div class="flex justify-between border-b border-zinc-800 pb-1">
+                                <span class="text-cyan-400 font-bold">SLM:</span>
+                                <span class="text-zinc-300">$d = (FC - SV)/n$ (Equal annual charge)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1">
+                                <span class="text-emerald-400 font-bold">SFM:</span>
+                                <span class="text-zinc-300">$d = (FC - SV) \cdot \frac{i}{(1+i)^n - 1}$ (Fund earns int)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1">
+                                <span class="text-amber-400 font-bold">DBM:</span>
+                                <span class="text-zinc-300">$k = 1 - \sqrt[n]{SV/FC}$ (Fixed % on Book Value)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-zinc-800 pb-1">
+                                <span class="text-purple-400 font-bold">DDBM:</span>
+                                <span class="text-zinc-300">$k = 2/n$ (Double rate, ignores SV for rate)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 2: SUBJECT & TOPIC DEEP DIVE ==================== -->
+        <div id="page2" class="tab-content hidden space-y-6">
+
+            <!-- SECTION A: FINANCIAL MATH -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold">SECTION A</span>
+                    <h2 class="text-base font-bold text-zinc-100">FINANCIAL MATHEMATICS &amp; ANNUITIES</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Gradient Series -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 md:col-span-1 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-red-400 flex items-center gap-1">
+                                <i data-lucide="bar-chart-2" class="w-4 h-4"></i> GRADIENT CASH FLOWS
+                            </h3>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MUST</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">Summation formula for discrete escalating payments (Q6):</p>
+                        
+                        <div class="text-center font-mono my-2 text-cyan-300 text-xs">
+                            $$P = \sum_{x=1}^{n} \frac{F_x}{(1+i)^x} = \sum_{x=1}^{n} \frac{A + (x-1)G}{(1+i)^x}$$
+                        </div>
+
+                        <div class="bg-zinc-900 p-2.5 rounded border border-zinc-800 text-[11px] font-mono space-y-1">
+                            <div class="text-amber-400 font-bold">[NOTES] Q6 Solved:</div>
+                            <p>Yr 1: $1000, Yr 2: $1200, Yr 3: $1400 at $10\%$:</p>
+                            <p class="text-sky-300">$P = \frac{1000}{1.1^1} + \frac{1200}{1.1^2} + \frac{1400}{1.1^3} = \$2,952.67$</p>
+                        </div>
+                    </div>
+
+                    <!-- Amortization vs Sinking Fund Breakdown -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 md:col-span-2 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-orange-400 flex items-center gap-1">
+                                <i data-lucide="calculator" class="w-4 h-4"></i> ANNUITY SCENARIOS &amp; DEFERRED CASH FLOWS
+                            </h3>
+                            <span class="tag-badge bg-orange-500/20 text-orange-400">🟠 HIGH-YIELD</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-zinc-800 text-zinc-400 font-mono text-[10px]">
+                                        <th class="p-2">Annuity Type</th>
+                                        <th class="p-2">Known Variable</th>
+                                        <th class="p-2">Solved Formula &amp; Board Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-zinc-800/60 font-mono text-[11px]">
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Amortization (Q3)</td>
+                                        <td class="p-2 text-cyan-300">Present $P = \$1.82\text{M}$</td>
+                                        <td class="p-2 text-zinc-400">$A = P \cdot \frac{i(1+i)^n}{(1+i)^n - 1} \implies \mathbf{\text{P}36,903.04/\text{mo}}$</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Sinking Fund (Q4)</td>
+                                        <td class="p-2 text-cyan-300">Future $F = \$3.0\text{M}$</td>
+                                        <td class="p-2 text-zinc-400">$A = F \cdot \frac{i}{(1+i)^n - 1} \implies \mathbf{\text{P}236,546.37/\text{mo}}$</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Deferred Annuity (Q5)</td>
+                                        <td class="p-2 text-cyan-300">Deposits 6 yrs, Idle 5 yrs</td>
+                                        <td class="p-2 text-zinc-400">$F_6 = \text{P}136,038 \implies F_{11} = F_6(1.05)^5 = \mathbf{\text{P}173,623}$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION B: DEPRECIATION METHODS -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold">SECTION B</span>
+                    <h2 class="text-base font-bold text-zinc-100">DEPRECIATION METHODS &amp; CALCULATOR ALGORITHMS</h2>
+                </div>
+
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-3">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-400 font-mono">
+                                    <th class="p-2.5">Method</th>
+                                    <th class="p-2.5 text-cyan-400">Annual Charge Formula ($d$)</th>
+                                    <th class="p-2.5 text-emerald-400">Key Characteristic / Rule</th>
+                                    <th class="p-2.5 text-amber-400">Solved Value (Q8: $FC=380\text{k}, SV=19.5\text{k}, n=10$)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/60 font-mono text-[11px]">
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Straight Line (SLM)</td>
+                                    <td class="p-2.5 text-cyan-300">$d = \frac{FC - SV}{n}$</td>
+                                    <td class="p-2.5 text-zinc-400">Equal annual depreciation charge over useful life (Q7).</td>
+                                    <td class="p-2.5 text-zinc-300">$d = \mathbf{\$2,333.33/yr}$ (for $FC=40\text{k}, SV=5\text{k}, n=15$)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Sinking Fund (SFM)</td>
+                                    <td class="p-2.5 text-cyan-300">$d = (FC - SV) \frac{i}{(1+i)^n - 1}$</td>
+                                    <td class="p-2.5 text-emerald-300">Assumes annual charges are reinvested to earn interest $i$ (Q10).</td>
+                                    <td class="p-2.5 text-zinc-300">$d = \mathbf{\$1,503.70/yr}$ (at $i=6\%$)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Declining Balance (DBM)</td>
+                                    <td class="p-2.5 text-cyan-300">$k = 1 - \sqrt[n]{\frac{SV}{FC}}$</td>
+                                    <td class="p-2.5 text-amber-300 font-bold">Applies fixed % $k$ to current Book Value annually (Q9).</td>
+                                    <td class="p-2.5 text-emerald-400 font-bold">$BV_7 = \mathbf{\text{P}47,539.71} \quad d_4 = \mathbf{\text{P}40,057.54}$</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Double Declining (DDBM)</td>
+                                    <td class="p-2.5 text-cyan-300">$k = \frac{2}{n}$</td>
+                                    <td class="p-2.5 text-zinc-400">Double straight line rate. Ignores $SV$ when finding $k$.</td>
+                                    <td class="p-2.5 text-emerald-400 font-bold">$BV_7 = \mathbf{\text{P}79,691.78} \quad d_4 = \mathbf{\text{P}38,912.00}$</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Sum of Years' Digits (SYD)</td>
+                                    <td class="p-2.5 text-cyan-300">$d_m = (FC - SV) \frac{n - m + 1}{S}$</td>
+                                    <td class="p-2.5 text-purple-300">$S = \frac{n(n+1)}{2}$. Accelerated depreciation.</td>
+                                    <td class="p-2.5 text-emerald-400 font-bold">$BV_7 = \mathbf{\text{P}58,827.27} \quad d_4 = \mathbf{\text{P}45,881.82}$</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION C, D, E: STARTUPS, MANAGEMENT & IP -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-xs font-bold">SECTION C, D, E</span>
+                    <h2 class="text-base font-bold text-zinc-100">STARTUPS, MANAGERIAL CONTROL, STRATEGY &amp; IP</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Types of Managerial Control -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-blue-400">MANAGERIAL CONTROL TYPES</h3>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MUST</span>
+                        </div>
+                        <div class="text-xs space-y-1.5 font-mono">
+                            <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                                <span class="text-cyan-400 font-bold block">Feedforward Control</span>
+                                Executed <strong>BEFORE</strong> work begins. Prevents errors entering system.
+                            </div>
+                            <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                                <span class="text-amber-400 font-bold block">Concurrent Control (Q43)</span>
+                                Executed <strong>DURING</strong> work activity. Corrects live issues as they happen.
+                            </div>
+                            <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                                <span class="text-emerald-400 font-bold block">Feedback Control</span>
+                                Executed <strong>AFTER</strong> activity. Learns from final outcomes.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leadership & Maslow -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-purple-400">MOTIVATION &amp; LEADERSHIP</h3>
+                            <span class="tag-badge bg-orange-500/20 text-orange-400">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="font-mono text-xs space-y-2">
+                            <div class="bg-zinc-900 p-2 rounded border border-zinc-800">
+                                <div class="text-[10px] text-zinc-400">McGregor Theory X vs Y (Q45):</div>
+                                <span class="text-amber-300">• Theory X:</span> Assumes employees naturally dislike work, lazy, must be coerced.<br>
+                                <span class="text-emerald-300">• Theory Y:</span> Assumes work is natural, employees seek ownership.
+                            </div>
+                            <div class="bg-zinc-900 p-2 rounded border border-zinc-800">
+                                <div class="text-[10px] text-zinc-400">Maslow's Hierarchy Order (Q46, Q47):</div>
+                                <span class="text-sky-300">1. Phys $\to$ 2. Safety $\to$ 3. Social $\to$ 4. Esteem $\to$ 5. Self-Actualization (Highest!)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- IP Protection Types -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-emerald-400">INTELLECTUAL PROPERTY TYPES</h3>
+                            <span class="tag-badge bg-yellow-500/20 text-yellow-400">🟡 IMPORTANT</span>
+                        </div>
+                        <div class="font-mono text-xs space-y-1">
+                            <div class="p-1.5 bg-zinc-900 rounded border border-zinc-800 text-amber-300">
+                                <strong>Trademark (Q35):</strong> Brand names, logos ("WaveSync").
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 rounded border border-zinc-800 text-emerald-300">
+                                <strong>Trade Secret (Q36):</strong> Un-reverse-engineerable process (NDAs).
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 rounded border border-zinc-800 text-sky-300">
+                                <strong>Utility Patent:</strong> Inventions / mechanisms (20 yrs protection).
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 rounded border border-zinc-800 text-purple-300">
+                                <strong>Copyright:</strong> Code, literature, software expression.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 3: RAPID REVIEW & TRAPS ==================== -->
+        <div id="page3" class="tab-content hidden space-y-6">
+
+            <!-- DON'T CONFUSE THESE Section -->
+            <div class="glass-card rounded-xl p-5 border border-zinc-800">
+                <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2 mb-4">
+                    <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+                    DON'T CONFUSE THESE! (SIDE-BY-SIDE COMPARISONS)
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Comparison 1 -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800 text-xs">
+                        <div class="font-bold text-zinc-200 border-b border-zinc-800 pb-2 mb-2">
+                            Sunk Cost vs. Opportunity Cost
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-red-400">
+                                <strong class="text-zinc-200 block mb-1">Sunk Cost (Q11)</strong>
+                                • Cost incurred in the past<br>
+                                • Unrecoverable expense<br>
+                                • <strong>ACTION:</strong> MUST BE IGNORED in future economic decisions!
+                            </div>
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-amber-300">
+                                <strong class="text-zinc-200 block mb-1">Opportunity Cost (Q12)</strong>
+                                • Potential benefit given up<br>
+                                • Foregone value of next option<br>
+                                • <strong>ACTION:</strong> INCLUDE when evaluating trade-offs!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison 2 -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800 text-xs">
+                        <div class="font-bold text-zinc-200 border-b border-zinc-800 pb-2 mb-2">
+                            Cost-Plus vs. Value-Based Pricing
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-sky-300">
+                                <strong class="text-zinc-200 block mb-1">Cost-Plus Pricing</strong>
+                                • Total Cost + Fixed Mark-up %<br>
+                                • Based strictly on production cost<br>
+                                • Traditional pricing method
+                            </div>
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-emerald-300">
+                                <strong class="text-zinc-200 block mb-1">Value-Based Pricing (Q52)</strong>
+                                • Based on estimated financial gain<br>
+                                • Based on customer perceived value<br>
+                                • Common for SaaS optimization
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOP 5 BOARD EXAM TRAPS -->
+            <div class="glass-card rounded-xl p-5 border border-amber-900/40 bg-amber-950/10">
+                <h2 class="text-sm font-bold text-amber-300 flex items-center gap-2 mb-4">
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    TOP 5 BOARD EXAM TRAPS TO AVOID
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">1. COGS vs Overhead</div>
+                        <p class="text-[11px] text-zinc-400">In Gross Margin %, include ONLY direct materials &amp; labor. IGNORE office rent/admin overhead (Q26)!</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">2. Salvage Value in DDBM</div>
+                        <p class="text-[11px] text-zinc-400">DDBM rate $k = 2/n$ IGNORES salvage value $SV$ when calculating rate percentage!</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">3. Pre vs Post-Money %</div>
+                        <p class="text-[11px] text-zinc-400">Investor ownership % = Investment / Post-Money. Post-Money = Pre-Money + Investment (Q29)!</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">4. Unfair Advantage Entry</div>
+                        <p class="text-[11px] text-zinc-400">"We have the best developers" is a WEAK Lean Canvas entry because it is easily claimed/copied (Q20)!</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">5. Inflation Interest Rate</div>
+                        <p class="text-[11px] text-zinc-400">Real interest rate $i_{\text{real}} = \frac{1+i_{\text{nom}}}{1+f} - 1$. Don't confuse with simple subtraction!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Terms Cheat Sheet -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 lg:col-span-2">
+                    <h3 class="text-xs font-bold text-cyan-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="scale" class="w-4 h-4"></i>
+                        FINANCIAL STATEMENTS &amp; COMPONENT CHEAT SHEET
+                    </h3>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-400 font-mono text-[10px]">
+                                    <th class="p-2">Financial Statement</th>
+                                    <th class="p-2">Time Horizon</th>
+                                    <th class="p-2">Key Equation / Metric</th>
+                                    <th class="p-2">Board Context</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/60 font-mono text-[11px]">
+                                <tr>
+                                    <td class="p-2 text-zinc-200">Balance Sheet</td>
+                                    <td class="p-2 text-cyan-300">Point in time (Snapshot)</td>
+                                    <td class="p-2 text-emerald-400">$\text{Assets} = \text{Liabilities} + \text{Equity}$</td>
+                                    <td class="p-2 text-zinc-400">Inventory loan (Q28)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 text-zinc-200">Income Statement</td>
+                                    <td class="p-2 text-cyan-300">Over period (12 months)</td>
+                                    <td class="p-2 text-emerald-400">$\text{Net Income} = \text{Revenue} - \text{Expenses}$</td>
+                                    <td class="p-2 text-zinc-400">Profitability check (Q55)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 text-zinc-200">Cash Flow Statement</td>
+                                    <td class="p-2 text-cyan-300">Over period (12 months)</td>
+                                    <td class="p-2 text-emerald-400">Operating, Investing, Financing</td>
+                                    <td class="p-2 text-zinc-400">SMMT Machine = Investing (Q25)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Source Audit Box -->
+                <div class="glass-card rounded-xl p-4 border border-zinc-800">
+                    <h3 class="text-xs font-bold text-purple-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="check-check" class="w-4 h-4"></i>
+                        VERIFIED SOLVED DATA
+                    </h3>
+                    <div class="space-y-2 text-[11px] text-zinc-400 font-mono">
+                        <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                            <span class="text-amber-400 font-bold block">✓ Q1 Interest Diff:</span>
+                            $F_{\text{monthly}} - F_{\text{annual}} = 1126.83 - 1120 = \mathbf{\$6.825}$.
+                        </div>
+                        <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                            <span class="text-cyan-400 font-bold block">✓ Q17 Decision Matrix:</span>
+                            Supplier X = 6.9 vs Supplier Y = 7.2 $\implies$ <strong>Supplier Y Wins</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 4: CALTECH & QUESTION DATABASE ==================== -->
+        <div id="page4" class="tab-content hidden space-y-6">
+
+            <!-- Caltech Calculator Shortcuts Header Card -->
+            <div class="glass-card rounded-xl p-5 border border-cyan-900/40 bg-cyan-950/10">
+                <h2 class="text-sm font-bold text-cyan-300 flex items-center gap-2 mb-3">
+                    <i data-lucide="calculator" class="w-5 h-5"></i>
+                    CASIO STAT MODE SHORTCUTS FOR DEPRECIATION
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                        <div class="text-cyan-400 font-bold mb-1">1. DBM / Matheson Method</div>
+                        <p class="text-[11px] text-zinc-300 mb-1"><kbd>Mode 3</kbd> $\to$ <kbd>6</kbd> ($a \cdot b^x$)</p>
+                        <table class="w-full text-center text-[10px] my-1 bg-zinc-950 border border-zinc-800">
+                            <tr class="border-b border-zinc-800 text-zinc-400"><th>X</th><th>Y</th></tr>
+                            <tr><td>0</td><td>$FC$</td></tr>
+                            <tr><td>$n$</td><td>$SV$</td></tr>
+                        </table>
+                        <p class="text-[10px] text-zinc-400 mt-1">Book Value at yr $y$: Enter <kbd>y ŷ</kbd></p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                        <div class="text-emerald-400 font-bold mb-1">2. Double DBM Method</div>
+                        <p class="text-[11px] text-zinc-300 mb-1"><kbd>Mode 3</kbd> $\to$ <kbd>6</kbd> ($a \cdot b^x$)</p>
+                        <table class="w-full text-center text-[10px] my-1 bg-zinc-950 border border-zinc-800">
+                            <tr class="border-b border-zinc-800 text-zinc-400"><th>X</th><th>Y</th></tr>
+                            <tr><td>0</td><td>$FC$</td></tr>
+                            <tr><td>1</td><td>$FC(1 - 2/n)$</td></tr>
+                        </table>
+                        <p class="text-[10px] text-zinc-400 mt-1">Book Value at yr $y$: Enter <kbd>y ŷ</kbd></p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                        <div class="text-purple-400 font-bold mb-1">3. SYD Method</div>
+                        <p class="text-[11px] text-zinc-300 mb-1"><kbd>Mode 3</kbd> $\to$ <kbd>3</kbd> ($A + Bx + Cx^2$)</p>
+                        <table class="w-full text-center text-[10px] my-1 bg-zinc-950 border border-zinc-800">
+                            <tr class="border-b border-zinc-800 text-zinc-400"><th>X</th><th>Y</th></tr>
+                            <tr><td>0</td><td>$FC$</td></tr>
+                            <tr><td>$n$</td><td>$SV$</td></tr>
+                            <tr><td>$n+1$</td><td>$SV$</td></tr>
+                        </table>
+                        <p class="text-[10px] text-zinc-400 mt-1">Book Value at yr $y$: Enter <kbd>y ŷ</kbd></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solved Board Exam Questions 1-55 Database -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <h2 class="text-sm font-bold text-zinc-100 flex items-center gap-2">
+                        <i data-lucide="database" class="w-4 h-4"></i>
+                        BOARD EXAM QUESTIONS 1–55 MASTER REPOSITORY
+                    </h2>
+                    <span class="text-xs text-zinc-500 font-mono" id="questionCount">Showing 55 Questions</span>
+                </div>
+
+                <!-- Questions Grid Container -->
+                <div id="questionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Questions dynamically rendered by JS -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Script for Tab Switching, Search & Question Rendering -->
+    <script>
+        /* Database of Questions 1-55 from GEAS source material with escaped LaTeX strings */
+        const questionsData = [
+            {
+                id: 1,
+                topic: "Compound Interest & Compounding Frequency",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "A loan of $1,000 is taken at 12% nominal interest. Compare the total interest paid after 1 year if compounded annually versus monthly. What is the difference?",
+                ans: "$6.825",
+                sol: "F_{annual} = 1000(1.12)^1 = \$1120; F_{monthly} = 1000(1 + 0.12/12)^{12} = \$1126.825. Diff = \$6.825."
+            },
+            {
+                id: 2,
+                topic: "Inflation & Real Interest Rate",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "If the nominal interest rate is 9% and the inflation rate is 4%, what is the approximate real interest rate?",
+                ans: "4.8% (Exact) / 5.0% (Approx)",
+                sol: "Exact i_{real} = \\frac{1 + 0.09}{1 + 0.04} - 1 = 4.808\\%. Approx = 9\\% - 4\\% = 5\\%."
+            },
+            {
+                id: 3,
+                topic: "Auto Amortization Payment",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "A Tesla Model Y is priced at P2,275,000. You make a 20% downpayment. Balance amortized at 8% monthly for 5 years. How much is the monthly payment?",
+                ans: "P36,903.04",
+                sol: "P = 2.275M \\times 0.80 = 1.82M. P = A \\left[ \\frac{(1+i)^n - 1}{i(1+i)^n} \\right] \\implies 1.82M = A \\left[ \\frac{(1+8/1200)^{60}-1}{(8/1200)(1+8/1200)^{60}} \\right] \\implies A = P36,903.04."
+            },
+            {
+                id: 4,
+                topic: "Sinking Fund Employee Bonus Target",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "You want to give each of your 30 employees a P100,000 bonus in 1 year. How much do you need to invest monthly at 12% compounded monthly?",
+                ans: "P236,546.37",
+                sol: "Target F = 30 \\times 100,000 = P3,000,000. F = A \\left[ \\frac{(1+i)^n - 1}{i} \\right] \\implies 3M = A \\left[ \\frac{(1.01)^{12}-1}{0.01} \\right] \\implies A = P236,546.37."
+            },
+            {
+                id: 5,
+                topic: "Deferred Savings Account Growth",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Deposits P20,000 yearly for 6 years, then forgets to deposit for next 5 years. Total in account at end of 11 years at 5% interest?",
+                ans: "P173,623",
+                sol: "F_6 = 20k \\left[ \\frac{(1.05)^6 - 1}{0.05} \\right] = P136,038. F_{11} = F_6 (1.05)^5 = 136,038 \\times 1.27628 = P173,623."
+            },
+            {
+                id: 6,
+                topic: "Gradient Series Present Worth",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Series of payments: $1,000 next year, $1,200 the following year, $1,400 the year after. Interest rate 10%. Present worth?",
+                ans: "$2,952.67",
+                sol: "P = \\frac{1000}{1.1^1} + \\frac{1200}{1.1^2} + \\frac{1400}{1.1^3} = 909.09 + 991.74 + 1051.84 = \$2,952.67."
+            },
+            {
+                id: 7,
+                topic: "SLM & SFM Depreciation",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Microwave receiver $40,000, useful life 15 yrs, salvage $5,000. Annual charge by (a) SLM and (b) SFM at i=6%?",
+                ans: "(a) $2,333.33 / (b) $1,503.70",
+                sol: "SLM d = \\frac{40k - 5k}{15} = \$2,333.33. SFM d = (40k - 5k) \\frac{0.06}{(1.06)^{15}-1} = \$1,503.70."
+            },
+            {
+                id: 8,
+                topic: "DBM, DDBM & SYD Book Value Comparison",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Oscilloscope costs P380,000, salvage P19,500 after 10 yrs. Book value at Year 7 by (a) DBM, (b) DDBM, (c) SYD?",
+                ans: "(a) P47,539.71 / (b) P79,691.78 / (c) P58,827.27",
+                sol: "Using STAT shortcuts: DBM BV_7 = P47,539.71; DDBM BV_7 = P79,691.78; SYD BV_7 = P58,827.27."
+            },
+            {
+                id: 9,
+                topic: "Declining Balance Definition",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "In the Declining Balance depreciation method, how is the annual depreciation calculated?",
+                ans: "By applying a fixed percentage to the current book value",
+                sol: "Fixed rate k = 1 - \\sqrt[n]{SV/FC} applied to current book value."
+            },
+            {
+                id: 10,
+                topic: "Sinking Fund Characteristic",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "The Sinking Fund method of depreciation is characterized by which of the following?",
+                ans: "The assumption that depreciation is reinvested to earn interest",
+                sol: "Sinking fund assumes equal deposits earning interest over life."
+            },
+            {
+                id: 11,
+                topic: "Unrecoverable Past Expense",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "What term describes a cost incurred in the past that cannot be recovered and must be ignored in future decisions?",
+                ans: "Sunk Cost",
+                sol: "Sunk cost is past and unrecoverable; irrelevent to future economic choices."
+            },
+            {
+                id: 12,
+                topic: "Opportunity Cost Definition",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "In economic terminology, what is an 'Opportunity Cost'?",
+                ans: "The potential benefit that is given up",
+                sol: "Foregone benefit when selecting one alternative over another."
+            },
+            {
+                id: 13,
+                topic: "Benefit-Cost Ratio Acceptability",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "For a project to be acceptable using the Benefit-Cost Ratio (B/C), the ratio must be:",
+                ans: "Greater than or equal to 1.0",
+                sol: "B/C \\ge 1.0 indicates benefits equal or exceed total costs."
+            },
+            {
+                id: 14,
+                topic: "Simple Payback Period",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Energy saving system costs $12,000, saves $3,000 per year. What is the simple payback period?",
+                ans: "4 years",
+                sol: "Payback = Initial Cost / Annual Savings = 12000 / 3000 = 4 years."
+            },
+            {
+                id: 15,
+                topic: "Long-term Investment Equipment Comparison",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Transformer A ($50k, $2k annual losses) vs Transformer B ($65k, $500 annual losses) at 10% interest. Tool to apply?",
+                ans: "Present Worth Analysis",
+                sol: "Present worth analysis evaluates total present cost of equipment over useful life."
+            },
+            {
+                id: 16,
+                topic: "Rent vs Buy Break-Even",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Rent generator for $200/day or buy for $5,000. How many days must it be used to justify purchase?",
+                ans: "25 Days",
+                sol: "Days = 5000 / 200 = 25 days."
+            },
+            {
+                id: 17,
+                topic: "Weighted Decision Matrix",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Weights: Cost (40%), Reliability (50%), Delivery (10%). Supplier X scores 8, 6, 7. Supplier Y scores 5, 9, 7. Which to select?",
+                ans: "Supplier Y (Score 7.2 vs 6.9)",
+                sol: "Score X = 0.4(8) + 0.5(6) + 0.1(7) = 6.9. Score Y = 0.4(5) + 0.5(9) + 0.1(7) = 7.2."
+            },
+            {
+                id: 18,
+                topic: "Microeconomics Scope",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "Which scenario is primarily a subject of microeconomic analysis?",
+                ans: "The effect of a new technological innovation on the pricing strategy",
+                sol: "Microeconomics analyzes individual firm and product market dynamics."
+            },
+            {
+                id: 19,
+                topic: "Value Proposition Canvas Categorization",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Smart irrigation controller ML feature that saves water by predicting rainfall. Categorized as?",
+                ans: "Gain Creator",
+                sol: "Gain creators describe how product creates customer benefits and savings."
+            },
+            {
+                id: 20,
+                topic: "Lean Canvas Unfair Advantage",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Why is 'We have the best software developers' considered a weak entry for Unfair Advantage block?",
+                ans: "'Best developers' is subjective, easily claimed by competitors",
+                sol: "Unfair Advantage must be something that cannot be easily copied or bought."
+            },
+            {
+                id: 21,
+                topic: "MVP Testing Canvas Block",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "A startup is testing an MVP to validate assumptions. Which part of Lean Canvas does this address?",
+                ans: "Solutions",
+                sol: "MVP validates product features and solutions."
+            },
+            {
+                id: 22,
+                topic: "Porter's Generic Strategies",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Company focuses on radiation-hardened microchips exclusively for aerospace and satellite companies. Called?",
+                ans: "Differentiation Focus",
+                sol: "Differentiation Focus targets a narrow niche with highly specialized premium products."
+            },
+            {
+                id: 23,
+                topic: "PESTLE Analysis Factor",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Sudden drop in the global price of lithium-ion cells classified under which PESTLE factor?",
+                ans: "Economic",
+                sol: "Component market prices fall under Economic macro-environmental factors."
+            },
+            {
+                id: 24,
+                topic: "Startup Cash Runway",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Fixed costs $50,000/mo, $500,000 in bank. If they sell zero units, what is their runway?",
+                ans: "10 months",
+                sol: "Runway = Cash Balance / Net Burn = 500,000 / 50,000 = 10 months."
+            },
+            {
+                id: 25,
+                topic: "Cash Flow Statement Category",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Purchase of a $100,000 SMT pick-and-place machine recorded under which category?",
+                ans: "Cash Flow from Investing Activities",
+                sol: "Long-term equipment purchases belong to Investing Activities."
+            },
+            {
+                id: 26,
+                topic: "Gross Margin Percentage",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Price $150, raw materials $40, direct labor $20, office rent $5,000/mo. Gross Margin %?",
+                ans: "60.0%",
+                sol: "COGS = Materials + Direct Labor = $40 + $20 = $60 (Rent is overhead!). GM% = (150-60)/150 = 60.0%."
+            },
+            {
+                id: 27,
+                topic: "Net Burn Rate & Runway",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Cash $200,000, OpEx $40,000/mo, Rev $10,000/mo. Net Burn Rate and total runway?",
+                ans: "Net Burn: $30,000; Runway: 6.67 months",
+                sol: "Net Burn = OpEx - Rev = 40k - 10k = $30,000/mo. Runway = 200k / 30k = 6.67 months."
+            },
+            {
+                id: 28,
+                topic: "Fundamental Accounting Equation",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "$100,000 bank loan to buy inventory. How does this affect Balance Sheet (Assets = Liabilities + Equity)?",
+                ans: "Assets increase by $100k, Liabilities increase by $100k",
+                sol: "Inventory (Asset) +$100k, Bank Loan (Liability) +$100k."
+            },
+            {
+                id: 29,
+                topic: "Term Sheet Pre/Post-Money Valuation",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Investor puts in $1 Million at $4 Million Pre-Money Valuation. Investor ownership %?",
+                ans: "20%",
+                sol: "Post-Money = 4M + 1M = $5M. Investor % = 1M / 5M = 20%."
+            },
+            {
+                id: 30,
+                topic: "Multi-Round Equity Dilution",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Founders own 100%. Seed round sells 20%. Series A sells 25% post-money. Founders final ownership?",
+                ans: "60%",
+                sol: "After Seed: Founders retain 80%. After Series A: Founders retain 80% \\times (1 - 0.25) = 60%."
+            },
+            {
+                id: 31,
+                topic: "Low Risk Globalization Strategy",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Firmware startup wants to scale globally with lowest financial risk and rapid entry. Strategy?",
+                ans: "Licensing the firmware to existing global router manufacturers",
+                sol: "Licensing requires no capital expenditure for factories or direct distribution."
+            },
+            {
+                id: 32,
+                topic: "Razor and Blades Business Model",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Free hardware smart energy meters + paid monthly cloud dashboard subscription. Model?",
+                ans: "Razor and Blades (Bait and Hook)",
+                sol: "Free/cheap physical product tied to recurring high-margin subscription."
+            },
+            {
+                id: 33,
+                topic: "Pay-Per-Use Business Model",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Free industrial drone + $5 per acre mapped using software fee. Model?",
+                ans: "Pay-Per-Use / Transaction-Based Model",
+                sol: "Revenue tied directly to customer usage volume."
+            },
+            {
+                id: 34,
+                topic: "Go-to-Market Strategy Flaw",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Critique GTM selling 5G base station antennas directly to consumers via e-commerce website.",
+                ans: "It is flawed because 5G antennas are heavily regulated",
+                sol: "5G telecom infrastructure requires carrier sales & spectrum regulation approval."
+            },
+            {
+                id: 35,
+                topic: "Trademark Protection",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Protects protocol name 'WaveSync' and blue wave logo from competitor use?",
+                ans: "Trademark",
+                sol: "Trademarks protect brand names, titles, symbols, and logos."
+            },
+            {
+                id: 36,
+                topic: "Trade Secret Protection",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Complex graphene supercapacitor process impossible to reverse engineer. Best IP protection?",
+                ans: "Keep the process a Trade Secret, restricting access via NDAs and security protocols",
+                sol: "Trade secrets protect un-reverse-engineerable processes indefinitely without public disclosure."
+            },
+            {
+                id: 37,
+                topic: "Corporate Social Responsibility & Ethics",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Supplier offers batteries 40% below market cost but uses unsafe labor & illegal waste disposal. Ethical action?",
+                ans: "Reject the supplier and absorb the higher costs from a compliant supplier",
+                sol: "CSR requires maintaining ethical labor & environmental standards regardless of cost."
+            },
+            {
+                id: 38,
+                topic: "POLC Risk Mitigation Phase",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Engineering Manager developing a Risk Mitigation Plan for flood control project. Which POLC phase?",
+                ans: "Planning",
+                sol: "Planning involves anticipating future risks and creating mitigation protocols."
+            },
+            {
+                id: 39,
+                topic: "Strategic Plan Definition",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Which type of plan applies to the entire organization, establishes overall goals, and positions the org?",
+                ans: "Strategic plan",
+                sol: "Strategic plans cover org-wide long-term direction."
+            },
+            {
+                id: 40,
+                topic: "Autocratic Leadership Style",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "Leader dictating work methods, making unilateral decisions, strictly limiting participation?",
+                ans: "Autocratic leadership",
+                sol: "Autocratic leaders make decisions unilaterally without team participation."
+            },
+            {
+                id: 41,
+                topic: "Delegation Definition",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "Downward transfer of formal authority from superior to subordinate to accomplish tasks?",
+                ans: "Delegation",
+                sol: "Delegation is transferring formal task authority to lower levels."
+            },
+            {
+                id: 42,
+                topic: "SMART Criteria Application",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Which maintenance team goal best applies SMART criteria?",
+                ans: "Reduce downtime by 15% by December",
+                sol: "Specific, Measurable (15%), Relevant, Time-bound (December)."
+            },
+            {
+                id: 43,
+                topic: "Concurrent Managerial Control",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Which type of control takes place while a work activity is in progress?",
+                ans: "Concurrent control",
+                sol: "Concurrent control monitors and corrects live active processes."
+            },
+            {
+                id: 44,
+                topic: "Controlling Process First Step",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "What is the first step in the formal Controlling process?",
+                ans: "Establishing performance standards",
+                sol: "Standards must be defined before actual performance can be measured or compared."
+            },
+            {
+                id: 45,
+                topic: "McGregor Theory X",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Motivational theory assuming employees inherently dislike work, are lazy, avoid responsibility?",
+                ans: "Theory X",
+                sol: "Theory X views workers as naturally avoiding work and needing coercion."
+            },
+            {
+                id: 46,
+                topic: "Maslow Safety Needs",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Employee performance drops because workstation is unsafe and poorly lit. Maslow level to address?",
+                ans: "Safety Needs",
+                sol: "Physical hazards and workstation safety fall under Safety Needs."
+            },
+            {
+                id: 47,
+                topic: "Maslow Highest Order Need",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "According to Maslow's Hierarchy of Needs, what is the highest-order need?",
+                ans: "Self-Actualization",
+                sol: "Self-Actualization (realizing full personal potential) is the apex need."
+            },
+            {
+                id: 48,
+                topic: "Matrix Organizational Structure",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Structure assigning specialists from functional depts to project teams led by project managers?",
+                ans: "Matrix structure",
+                sol: "Matrix structures overlay project teams across functional departments."
+            },
+            {
+                id: 49,
+                topic: "SWOT Acronym",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "In strategic planning, what does SWOT stand for?",
+                ans: "Strengths, Weaknesses, Opportunities, Threats",
+                sol: "SWOT = Internal Strengths/Weaknesses + External Opportunities/Threats."
+            },
+            {
+                id: 50,
+                topic: "SWOT Environmental Threat",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Sudden change in environmental regulations requiring all projects to retrofit sensors is a?",
+                ans: "Threat",
+                sol: "Unfavorable external regulatory changes are classified as Threats."
+            },
+            {
+                id: 51,
+                topic: "Marketing 4 Ps - Product",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Deciding whether to include high-cost Titanium Housing for industrial sensor durability. Which of 4 Ps?",
+                ans: "Product - trade-off between technical performance and production cost",
+                sol: "Physical features and material selection belong to Product."
+            },
+            {
+                id: 52,
+                topic: "Value-Based Pricing Definition",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Value-Based Pricing strategy for software differs from Cost-Plus Pricing because?",
+                ans: "Value-based pricing is set according to the estimated financial gain",
+                sol: "Value-Based pricing prices according to customer ROI or perceived financial gain."
+            },
+            {
+                id: 53,
+                topic: "Price Skimming Risk",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Primary risk of a Price Skimming strategy when launching innovative hardware?",
+                ans: "It may attract competitors early",
+                sol: "High initial pricing creates huge profit margins that entice competitors to enter."
+            },
+            {
+                id: 54,
+                topic: "Marketing 4 Ps - Price",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Lowering retail cost of smart-home hub by 15% to clear inventory before new launch manipulating?",
+                ans: "Price",
+                sol: "Discounting and price alterations belong to Price."
+            },
+            {
+                id: 55,
+                topic: "Income Statement Purpose",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Which financial statement must you look at to understand revenues earned and expenses over past 12 months?",
+                ans: "Income Statement",
+                sol: "Income Statement measures total revenues, expenses, and net income over a time period."
+            }
+        ];
+
+        // Helper to trigger KaTeX rendering safely
+        function triggerKaTeX(containerElement) {
+            if (typeof renderMathInElement === 'function' && containerElement) {
+                renderMathInElement(containerElement, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Function to render questions into Page 4
+        function renderQuestions(items) {
+            const container = document.getElementById('questionsContainer');
+            document.getElementById('questionCount').innerText = `Showing ${items.length} Questions`;
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center py-8 text-zinc-500 font-mono text-xs">No questions matched your search term.</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map(q => `
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2 hover:border-cyan-500/40 transition-all">
+                    <div class="flex items-center justify-between text-xs border-b border-zinc-800/80 pb-2">
+                        <span class="font-bold text-cyan-400 font-mono">Q${q.id}. ${q.topic}</span>
+                        <span class="tag-badge ${q.badgeClass}">${q.priority}</span>
+                    </div>
+                    <p class="text-xs text-zinc-200 leading-relaxed font-mono">${q.text}</p>
+                    <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800 text-xs">
+                        <div class="text-emerald-400 font-bold font-mono">ANSWER: ${q.ans}</div>
+                        <div class="text-[11px] text-zinc-400 font-mono mt-1">
+                            <strong class="text-zinc-300">Solution Logic:</strong> ${q.sol}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Trigger KaTeX render on container
+            triggerKaTeX(container);
+        }
+
+        // Global Search Filter logic
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            // Filter questions
+            const filtered = questionsData.filter(q => 
+                q.topic.toLowerCase().includes(query) ||
+                q.text.toLowerCase().includes(query) ||
+                q.ans.toLowerCase().includes(query) ||
+                q.priority.toLowerCase().includes(query) ||
+                `q${q.id}`.includes(query) ||
+                `q ${q.id}`.includes(query)
+            );
+
+            // If user searches, switch to page 4 automatically to view matched questions
+            if (query.length > 0) {
+                switchTab('page4');
+            }
+
+            renderQuestions(filtered);
+        }
+
+        // Tab Switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-600', 'text-white');
+                btn.classList.add('text-zinc-400');
+            });
+
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-cyan-600', 'text-white');
+                activeBtn.classList.remove('text-zinc-400');
+            }
+
+            // Trigger KaTeX render on newly visible tab
+            triggerKaTeX(targetTab);
+        }
+
+        // Toggle Mobile Navigation Menu
+        function toggleMobileMenu() {
+            const nav = document.getElementById('navMenu');
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('w-full');
+        }
+
+        // Initialize App on DOM Content Loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Render questions 1-55 into database container
+            renderQuestions(questionsData);
+
+            // Setup search bar listeners
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+
+            searchInput.addEventListener('input', handleSearch);
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                handleSearch();
+            });
+
+            // Initial KaTeX render pass for static math in body
+            triggerKaTeX(document.body);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam Command Center - Integral Calculus</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            900: '#0c4a6e',
+                        },
+                        priority: {
+                            must: '#ef4444',
+                            high: '#f97316',
+                            imp: '#eab308',
+                            concept: '#3b82f6',
+                            trap: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- KaTeX CSS & JS for Math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .katex-display { margin: 0.5em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+        .glass-card {
+            background: rgba(24, 24, 27, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tag-badge {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        kbd {
+            background-color: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 0.25rem;
+            box-shadow: inset 0 -1px 0 rgba(0,0,0,0.25);
+            color: #e4e4e7;
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.35rem;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #18181b; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 w-full lg:w-auto justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">
+                            ECE COMMAND CENTER
+                        </h1>
+                        <p class="text-xs text-zinc-400 font-mono">INTEGRAL CALCULUS &amp; SIGNAL APPLICATIONS STUDY GUIDE</p>
+                    </div>
+                </div>
+                <div class="lg:hidden flex items-center space-x-2">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2 text-zinc-400 hover:text-white">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Global Search Bar -->
+            <div class="relative w-full lg:w-96">
+                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+                <input type="text" id="searchInput" placeholder="Search formulas, concepts, traps, or questions (Q1-Q40)..." 
+                       class="w-full bg-zinc-900 border border-zinc-700/80 rounded-lg pl-9 pr-8 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition-all">
+                <button id="clearSearch" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
+
+            <!-- Page Navigation Tabs -->
+            <nav id="navMenu" class="hidden lg:flex items-center space-x-1 bg-zinc-900/80 p-1 rounded-lg border border-zinc-800 text-xs font-semibold overflow-x-auto w-full lg:w-auto">
+                <button onclick="switchTab('page1')" id="tab-page1" class="tab-btn active px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all bg-cyan-600 text-white">
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i>
+                    <span>Overview</span>
+                </button>
+                <button onclick="switchTab('page2')" id="tab-page2" class="tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                    <span>Deep Dive</span>
+                </button>
+                <button onclick="switchTab('page3')" id="tab-page3" class="tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    <span>Rapid Review &amp; Traps</span>
+                </button>
+                <button onclick="switchTab('page4')" id="tab-page4" class="tab-btn px-3 py-1.5 rounded-md flex items-center space-x-1.5 transition-all text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                    <span>Caltech &amp; Q1-40</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Priority Legend Bar -->
+    <section class="bg-zinc-900/80 border-b border-zinc-800/80 py-2 px-4 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-zinc-400 font-semibold uppercase text-[10px] tracking-wider">Priority Legend:</span>
+                <span class="tag-badge bg-red-500/20 text-red-400 border border-red-500/30">🔴 Must Memorize</span>
+                <span class="tag-badge bg-orange-500/20 text-orange-400 border border-orange-500/30">🟠 High-Yield</span>
+                <span class="tag-badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">🟡 Important</span>
+                <span class="tag-badge bg-blue-500/20 text-blue-400 border border-blue-500/30">🔵 Conceptual</span>
+                <span class="tag-badge bg-amber-500/20 text-amber-300 border border-amber-500/30">⚠️ Common Trap</span>
+            </div>
+            <div class="flex items-center space-x-3 text-[11px] text-zinc-400 font-mono">
+                <span>Source: <strong class="text-cyan-400">Aug 25 (Math).pdf</strong></span>
+                <span>•</span>
+                <span>40 Board Exam Questions + Caltech Notes</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-8">
+
+        <!-- ==================== PAGE 1: MASTER OVERVIEW ==================== -->
+        <div id="page1" class="tab-content space-y-6">
+            
+            <!-- Map of Integral Calculus -->
+            <div class="glass-card rounded-xl p-5 border border-zinc-800">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-3 mb-4">
+                    <h2 class="text-base font-bold text-cyan-400 flex items-center gap-2">
+                        <i data-lucide="network" class="w-5 h-5"></i>
+                        MAP OF INTEGRAL CALCULUS &amp; ECE APPLICATIONS
+                    </h2>
+                    <span class="text-xs text-zinc-500 font-mono">[NOTES / SYLLABUS ARCHITECTURE]</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-red-400 mb-1 flex items-center gap-1">
+                            <span>1. Standard Forms</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Inverse Trig Integrals</li>
+                            <li>• Diff of Squares Log</li>
+                            <li>• FTC 1 &amp; FTC 2</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-orange-400 mb-1 flex items-center gap-1">
+                            <span>2. Advanced Tech</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• IBP (LIATE Hierarchy)</li>
+                            <li>• Cyclic IBP Trick</li>
+                            <li>• PFD 4 Structural Rules</li>
+                            <li>• Trig Substitution</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-yellow-400 mb-1 flex items-center gap-1">
+                            <span>3. Numerical Int.</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Trapezoidal Rule</li>
+                            <li>• Simpson's 1/3 Rule</li>
+                            <li>• Weights: 1,4,2,4,2,4,1</li>
+                            <li>• Concavity Traps</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-blue-400 mb-1 flex items-center gap-1">
+                            <span>4. Geometric Apps</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Arc Length ($ds$)</li>
+                            <li>• Surface Area ($2\pi r ds$)</li>
+                            <li>• Disk / Washer Method</li>
+                            <li>• Cylindrical Shell</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-emerald-400 mb-1 flex items-center gap-1">
+                            <span>5. ECE Signals</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• Total Charge $q = \int i dt$</li>
+                            <li>• Energy $E = \int |x(t)|^2 dt$</li>
+                            <li>• 1D &amp; 2D PDF Area = 1</li>
+                            <li>• Average Sine Voltage</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800 hover:border-cyan-500/50 transition-all">
+                        <div class="font-bold text-purple-400 mb-1 flex items-center gap-1">
+                            <span>6. Improper &amp; Centroid</span>
+                        </div>
+                        <ul class="text-zinc-400 space-y-1 font-mono text-[11px]">
+                            <li>• $p$-Integral Test ($p \le 1$)</li>
+                            <li>• Infinite Upper Bounds</li>
+                            <li>• Centroid ($\bar{y} = \pi/8$)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Integrals & Inverse Trig Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Core Standard Integrals Card -->
+                <div class="glass-card rounded-xl p-5 border border-red-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-500 text-black font-black px-3 py-1 text-[10px] rounded-bl-lg">
+                        🔴 MUST MEMORIZE
+                    </div>
+                    <h3 class="text-sm font-bold text-red-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="bookmark" class="w-4 h-4"></i>
+                        CORE STANDARD INTEGRAL FORMULAS
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">1. Inverse Sine Form</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$\int \frac{dx}{\sqrt{a^2 - x^2}} = \sin^{-1}\left(\frac{x}{a}\right) + C$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Radical term $\sqrt{a^2-x^2}$ is in denominator.</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> No multiplier fraction $1/a$ outside $\sin^{-1}$!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">2. Inverse Tangent Form</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$\int \frac{dx}{x^2 + a^2} = \frac{1}{a} \tan^{-1}\left(\frac{x}{a}\right) + C$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Quadratic sum $x^2+a^2$ with no square root.</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> Do NOT forget the leading factor $\frac{1}{a}$!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">3. Natural Log Derivative Derivative</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$\int \frac{2x}{x^2 + a^2} dx = \ln(x^2 + a^2) + C$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Numerator is exact derivative of denominator.</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> Do not confuse with inverse tangent form!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] font-mono text-zinc-400">4. Difference of Squares Log Form</span>
+                            <div class="my-1.5 text-center font-mono text-cyan-300">
+                                $$\int \frac{dx}{x^2 - a^2} = \frac{1}{2a} \ln\left|\frac{x-a}{x+a}\right| + C$$
+                            </div>
+                            <div class="text-[10px] text-zinc-400 space-y-0.5">
+                                <p><strong class="text-zinc-300">USE WHEN:</strong> Denominator is $x^2 - a^2$ (Q2).</p>
+                                <p><strong class="text-amber-400">TRAP:</strong> Order in log fraction is strictly $\frac{x-a}{x+a}$!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inverse Trig Derivatives Card -->
+                <div class="glass-card rounded-xl p-5 border border-orange-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-orange-500 text-black font-black px-3 py-1 text-[10px] rounded-bl-lg">
+                        🟠 HIGH-YIELD
+                    </div>
+                    <h3 class="text-sm font-bold text-orange-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="variable" class="w-4 h-4"></i>
+                        INVERSE TRIGONOMETRIC DERIVATIVES
+                    </h3>
+
+                    <div class="grid grid-cols-2 gap-3 font-mono text-xs">
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Arcsine Derivative</div>
+                            $$\frac{d}{dx}(\sin^{-1} x) = \frac{1}{\sqrt{1 - x^2}}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Arccosine Derivative</div>
+                            $$\frac{d}{dx}(\cos^{-1} x) = -\frac{1}{\sqrt{1 - x^2}}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Arctangent Derivative</div>
+                            $$\frac{d}{dx}(\tan^{-1} x) = \frac{1}{1 + x^2}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Arccotangent Derivative</div>
+                            $$\frac{d}{dx}(\cot^{-1} x) = -\frac{1}{1 + x^2}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Arcsecant Derivative</div>
+                            $$\frac{d}{dx}(\sec^{-1} x) = \frac{1}{|x|\sqrt{x^2 - 1}}$$
+                        </div>
+                        <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800">
+                            <div class="text-[10px] text-zinc-400">Arccosecant Derivative</div>
+                            $$\frac{d}{dx}(\csc^{-1} x) = -\frac{1}{|x|\sqrt{x^2 - 1}}$$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fundamental Theorem & Leibniz Rule Section -->
+            <div class="glass-card rounded-xl p-5 border border-zinc-800">
+                <h3 class="text-sm font-bold text-cyan-400 flex items-center gap-2 mb-3">
+                    <i data-lucide="layers" class="w-4 h-4"></i>
+                    FUNDAMENTAL THEOREMS &amp; LEIBNIZ RULE
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <!-- FTC 2 Card -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-zinc-200">Second Fundamental Theorem of Calculus (FTC-2)</span>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MEMORIZE</span>
+                        </div>
+                        <div class="text-center font-mono my-2 text-sky-300">
+                            $$\int_{a}^{b} f(x) dx = F(b) - F(a)$$
+                        </div>
+                        <p class="text-[11px] text-zinc-400 leading-relaxed">
+                            <strong class="text-zinc-200">Mandatory Condition (Q20):</strong> $f(x)$ MUST be strictly continuous on the closed interval $[a, b]$. <span class="text-cyan-400 font-mono">[NOTES]</span>
+                        </p>
+                    </div>
+
+                    <!-- Leibniz Rule Card -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-bold text-zinc-200">Leibniz Rule (Differentiation Under Integral)</span>
+                            <span class="tag-badge bg-amber-500/20 text-amber-300">⚠️ HIGH TRAP</span>
+                        </div>
+                        <div class="text-center font-mono my-1 text-sky-300 text-[11px]">
+                            $$\frac{d}{dx} \int_{g(x)}^{h(x)} f(t) dt = f(h(x))\cdot h'(x) - f(g(x))\cdot g'(x)$$
+                        </div>
+                        <div class="mt-2 text-[11px] bg-amber-950/30 border border-amber-800/40 p-2 rounded text-amber-200">
+                            <strong>TRAP (Q18, Q19):</strong> Never forget to multiply $f(h(x))$ by $h'(x)$ and $f(g(x))$ by $g'(x)$!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 2: SUBJECT & TOPIC DEEP DIVE ==================== -->
+        <div id="page2" class="tab-content hidden space-y-6">
+
+            <!-- SECTION A: INTEGRATION TECHNIQUES -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono text-xs font-bold">SECTION A</span>
+                    <h2 class="text-base font-bold text-zinc-100">ADVANCED INTEGRATION TECHNIQUES</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- IBP & LIATE Hierarchy -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 md:col-span-1 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-red-400 flex items-center gap-1">
+                                <i data-lucide="list-ordered" class="w-4 h-4"></i> LIATE RULE (IBP)
+                            </h3>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MUST</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">Formula: $\int u \, dv = uv - \int v \, du$. Priority sequence for selecting $u$:</p>
+                        
+                        <div class="space-y-1.5 font-mono text-xs">
+                            <div class="p-1.5 bg-zinc-900 border-l-2 border-red-500 rounded flex justify-between">
+                                <span class="font-bold text-red-400">L - Logarithmic</span>
+                                <span class="text-zinc-500 text-[10px]">$\ln x, \log_b x$</span>
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 border-l-2 border-orange-500 rounded flex justify-between">
+                                <span class="font-bold text-orange-400">I - Inverse Trig</span>
+                                <span class="text-zinc-500 text-[10px]">$\sin^{-1} x, \tan^{-1} x$</span>
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 border-l-2 border-yellow-500 rounded flex justify-between">
+                                <span class="font-bold text-yellow-400">A - Algebraic</span>
+                                <span class="text-zinc-500 text-[10px]">$x^n, 3x^2, \sqrt{x}$</span>
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 border-l-2 border-blue-500 rounded flex justify-between">
+                                <span class="font-bold text-blue-400">T - Trigonometric</span>
+                                <span class="text-zinc-500 text-[10px]">$\sin x, \cos x$</span>
+                            </div>
+                            <div class="p-1.5 bg-zinc-900 border-l-2 border-purple-500 rounded flex justify-between">
+                                <span class="font-bold text-purple-400">E - Exponential</span>
+                                <span class="text-zinc-500 text-[10px]">$e^x, 2^x$</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-950/40 border border-amber-800/50 p-2.5 rounded text-[11px] text-amber-300">
+                            <strong>Cyclic IBP Trick (Q12):</strong> When integral reappears (e.g. $\int e^x \cos x dx$), add original integral $I$ to LHS and divide by combined multiplier!
+                        </div>
+                    </div>
+
+                    <!-- Partial Fraction Decomposition Setups -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 md:col-span-2 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-orange-400 flex items-center gap-1">
+                                <i data-lucide="layout-grid" class="w-4 h-4"></i> PARTIAL FRACTION DECOMPOSITION (PFD)
+                            </h3>
+                            <span class="tag-badge bg-orange-500/20 text-orange-400">🟠 HIGH-YIELD</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-zinc-800 text-zinc-400 font-mono text-[10px]">
+                                        <th class="p-2">Denominator Factor Type</th>
+                                        <th class="p-2">Assumed Partial Fraction Form</th>
+                                        <th class="p-2">Example / Board Exam Context</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-zinc-800/60 font-mono text-[11px]">
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Distinct Linear $(x - a)$</td>
+                                        <td class="p-2 text-cyan-300">$\frac{A}{x - a}$</td>
+                                        <td class="p-2 text-zinc-400">1 constant per distinct factor</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Repeated Linear $(x - a)^k$</td>
+                                        <td class="p-2 text-cyan-300">$\frac{A_1}{x - a} + \frac{A_2}{(x - a)^2} + \dots + \frac{A_k}{(x - a)^k}$</td>
+                                        <td class="p-2 text-zinc-400">$\frac{5x-2}{(x+2)^3} \implies 3$ constants (Q14)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Irreducible Quadratic $(x^2 + a^2)$</td>
+                                        <td class="p-2 text-cyan-300">$\frac{Ax + B}{x^2 + a^2}$</td>
+                                        <td class="p-2 text-zinc-400">$\frac{4x^2-3x+1}{(x-2)(x^2+9)} \implies \frac{A}{x-2} + \frac{Bx+C}{x^2+9}$ (Q13)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-zinc-300">Repeated Quadratic $(x^2 + a^2)^2$</td>
+                                        <td class="p-2 text-cyan-300">$\frac{Ax + B}{x^2 + a^2} + \frac{Cx + D}{(x^2 + a^2)^2}$</td>
+                                        <td class="p-2 text-zinc-400">$\frac{5x^3-2x+1}{(x^2+4)^2}$ (Q15)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trigonometric Substitution Decision Tree -->
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-red-400 flex items-center gap-1">
+                            <i data-lucide="git-fork" class="w-4 h-4"></i> TRIGONOMETRIC SUBSTITUTION DECISION TREE
+                        </h3>
+                        <span class="tag-badge bg-red-500/20 text-red-400">🔴 MUST MEMORIZE</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-red-500/30 hover:border-red-500 transition-all">
+                            <div class="text-red-400 font-bold mb-1">Radical Form: $\sqrt{a^2 - x^2}$</div>
+                            <div class="text-zinc-300 text-[11px] space-y-1">
+                                <div>• Substitute: $x = a \sin \theta$</div>
+                                <div>• Differential: $dx = a \cos \theta d\theta$</div>
+                                <div>• Identity: $1 - \sin^2 \theta = \cos^2 \theta$</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-orange-500/30 hover:border-orange-500 transition-all">
+                            <div class="text-orange-400 font-bold mb-1">Radical Form: $\sqrt{a^2 + x^2}$ (Q16)</div>
+                            <div class="text-zinc-300 text-[11px] space-y-1">
+                                <div>• Substitute: $x = a \tan \theta$</div>
+                                <div>• Differential: $dx = a \sec^2 \theta d\theta$</div>
+                                <div>• Identity: $1 + \tan^2 \theta = \sec^2 \theta$</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/90 p-3 rounded-lg border border-yellow-500/30 hover:border-yellow-500 transition-all">
+                            <div class="text-yellow-400 font-bold mb-1">Radical Form: $\sqrt{x^2 - a^2}$ (Q17)</div>
+                            <div class="text-zinc-300 text-[11px] space-y-1">
+                                <div>• Substitute: $x = a \sec \theta$</div>
+                                <div>• Differential: $dx = a \sec \theta \tan \theta d\theta$</div>
+                                <div>• Identity: $\sec^2 \theta - 1 = \tan^2 \theta$</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION B & C: IMPROPER INTEGRALS, PDFs & SIGNALS -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold">SECTION B &amp; C</span>
+                    <h2 class="text-base font-bold text-zinc-100">IMPROPER INTEGRALS, PDFs &amp; ECE SIGNAL APPLICATIONS</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- p-Integral Test -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-red-400">$p$-INTEGRAL CONVERGENCE TEST</h3>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MUST</span>
+                        </div>
+                        <div class="text-center font-mono my-1 text-cyan-300 text-xs">
+                            $$\int_{1}^{\infty} \frac{1}{x^p} dx$$
+                        </div>
+                        <div class="space-y-1 text-xs">
+                            <div class="p-2 bg-emerald-950/40 border border-emerald-800/50 rounded text-emerald-300">
+                                <strong>$p > 1$:</strong> CONVERGES strictly to $\frac{1}{p - 1}$ (Q7)
+                            </div>
+                            <div class="p-2 bg-red-950/40 border border-red-800/50 rounded text-red-300">
+                                <strong>$p \le 1$:</strong> DIVERGES strictly to $\infty$ (Q6)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ECE Charge & Signal Energy -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-emerald-400">CHARGE &amp; SIGNAL ENERGY</h3>
+                            <span class="tag-badge bg-orange-500/20 text-orange-400">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="font-mono text-xs space-y-2">
+                            <div class="bg-zinc-900 p-2 rounded border border-zinc-800">
+                                <div class="text-[10px] text-zinc-400">Total Charge Transferred (Q3):</div>
+                                $$q = \int_{t_1}^{t_2} i(t) dt \quad \text{[Coulombs C]}$$
+                            </div>
+                            <div class="bg-zinc-900 p-2 rounded border border-zinc-800">
+                                <div class="text-[10px] text-zinc-400">Total Signal Energy (Q1):</div>
+                                $$E = \int_{-\infty}^{\infty} |x(t)|^2 dt \quad \text{[Joules J]}$$
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Probability Density Functions (PDFs) -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-purple-400">1D &amp; 2D PDF NORMALIZATION</h3>
+                            <span class="tag-badge bg-yellow-500/20 text-yellow-400">🟡 IMPORTANT</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-400">Total probability area MUST equal 1:</p>
+                        <div class="font-mono text-xs space-y-1">
+                            <div class="bg-zinc-900 p-2 rounded border border-zinc-800 text-sky-300">
+                                1D: $\int_{-\infty}^{\infty} f(v) dv = 1 \implies k = \frac{3}{4}$ (Q4)
+                            </div>
+                            <div class="bg-zinc-900 p-2 rounded border border-zinc-800 text-sky-300">
+                                2D: $\int_{0}^{1}\int_{0}^{x} c \cdot xy \, dy \, dx = 1 \implies c = 8$ (Q5)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION D: NUMERICAL INTEGRATION -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-300 font-mono text-xs font-bold">SECTION D</span>
+                    <h2 class="text-base font-bold text-zinc-100">NUMERICAL INTEGRATION METHODS</h2>
+                </div>
+
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-3">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-400 font-mono">
+                                    <th class="p-2.5">Feature</th>
+                                    <th class="p-2.5 text-cyan-400">Trapezoidal Rule</th>
+                                    <th class="p-2.5 text-emerald-400">Simpson's 1/3 Rule</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/60 font-mono text-[11px]">
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Geometric Segment</td>
+                                    <td class="p-2.5 text-zinc-400">Straight-line (Linear)</td>
+                                    <td class="p-2.5 text-zinc-400">Parabolic Arcs (Quadratic)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Subinterval Count ($n$)</td>
+                                    <td class="p-2.5 text-cyan-300">ANY integer $n \ge 1$ (supports non-uniform spacing)</td>
+                                    <td class="p-2.5 text-emerald-300">MUST be EVEN ($n = 2, 4, 6\dots$)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Sample Points ($N = n+1$)</td>
+                                    <td class="p-2.5 text-zinc-400">Any number of points</td>
+                                    <td class="p-2.5 text-amber-300 font-bold">MUST be ODD ($N = 3, 5, 7\dots$) (Q30)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Composite Weight Pattern</td>
+                                    <td class="p-2.5 text-cyan-300">1, 2, 2, 2, ..., 2, 1</td>
+                                    <td class="p-2.5 text-emerald-300">1, 4, 2, 4, 2, 4, 1 (Q28)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Global Error Order</td>
+                                    <td class="p-2.5 text-zinc-400 font-mono">$O(h^2)$</td>
+                                    <td class="p-2.5 text-zinc-400 font-mono">$O(h^4)$</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-bold text-zinc-300">Exactness</td>
+                                    <td class="p-2.5 text-zinc-400">Linear Polynomials ($1^\text{st}$ deg)</td>
+                                    <td class="p-2.5 text-emerald-300 font-bold">Up to $3^\text{rd}$ degree Polynomials (Q27)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-amber-950/30 border border-amber-800/40 p-2.5 rounded text-xs text-amber-200">
+                        <strong>RIEMANN SUM CONCAVITY RULE (Q22):</strong> For a strictly <em>concave-down</em> charging curve ($v(t) = V_0(1-e^{-t/\tau})$), a <strong>Left Riemann Sum</strong> strictly <strong class="text-red-400">UNDERESTIMATES</strong> the true integral area!
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION E, F, G: ARC LENGTH, REVOLUTION & CENTROIDS -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-zinc-800 pb-2">
+                    <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-xs font-bold">SECTION E, F, G</span>
+                    <h2 class="text-base font-bold text-zinc-100">ARC LENGTH, SOLIDS OF REVOLUTION &amp; CENTROIDS</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Solids of Revolution Decision Matrix -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-blue-400">DISK / WASHER vs. SHELL METHOD</h3>
+                            <span class="tag-badge bg-red-500/20 text-red-400">🔴 MUST</span>
+                        </div>
+
+                        <div class="text-[11px] font-mono space-y-2">
+                            <div class="p-2.5 bg-zinc-900 rounded border border-zinc-800">
+                                <div class="text-cyan-400 font-bold">Disk / Washer Method (Slice $\perp$ Axis)</div>
+                                <div class="text-zinc-400 mt-1">$V = \pi \int_a^b (R_{out}^2 - r_{in}^2) d(\text{var})$</div>
+                                <div class="text-zinc-500 text-[10px]">• Revolve around Horizontal $\to dx$ | Vertical $\to dy$</div>
+                            </div>
+
+                            <div class="p-2.5 bg-zinc-900 rounded border border-zinc-800">
+                                <div class="text-emerald-400 font-bold">Cylindrical Shell Method (Slice $\parallel$ Axis)</div>
+                                <div class="text-zinc-400 mt-1">$V = 2\pi \int_a^b (\text{radius})(\text{height}) d(\text{var})$</div>
+                                <div class="text-zinc-500 text-[10px]">• Revolve around Horizontal $\to dy$ | Vertical $\to dx$ (Q36)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Centroid & Arc Length Formula Sheet -->
+                    <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-purple-400">ARC LENGTH &amp; CENTROID FORMULAS</h3>
+                            <span class="tag-badge bg-orange-500/20 text-orange-400">🟠 HIGH-YIELD</span>
+                        </div>
+
+                        <div class="text-[11px] font-mono space-y-2">
+                            <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                                <div class="text-zinc-400 text-[10px]">Parametric Arc Length (Q33):</div>
+                                $$L = \int_{t_1}^{t_2} \sqrt{\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2} dt$$
+                            </div>
+
+                            <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                                <div class="text-zinc-400 text-[10px]">Microstrip Patch Antenna Centroid ($\bar{y}$):</div>
+                                $$\bar{y} = \frac{\frac{1}{2}\int_{0}^{\pi}\sin^2(x)dx}{\int_{0}^{\pi}\sin(x)dx} = \frac{\pi/4}{2} = \frac{\pi}{8} \quad \text{(Q40)}$$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 3: RAPID REVIEW & TRAPS ==================== -->
+        <div id="page3" class="tab-content hidden space-y-6">
+
+            <!-- DON'T CONFUSE THESE Section -->
+            <div class="glass-card rounded-xl p-5 border border-zinc-800">
+                <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2 mb-4">
+                    <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+                    DON'T CONFUSE THESE! (SIDE-BY-SIDE COMPARISONS)
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Comparison 1 -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800 text-xs">
+                        <div class="font-bold text-zinc-200 border-b border-zinc-800 pb-2 mb-2">
+                            Trapezoidal vs. Simpson's 1/3 Rule Requirements
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-cyan-300">
+                                <strong class="text-zinc-200 block mb-1">Trapezoidal Rule</strong>
+                                • Works for ANY $n \ge 1$<br>
+                                • Supports uneven spacing<br>
+                                • Linear interpolation<br>
+                                • $O(h^2)$ global error
+                            </div>
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-emerald-300">
+                                <strong class="text-zinc-200 block mb-1">Simpson's 1/3 Rule</strong>
+                                • Requires EVEN $n$<br>
+                                • Requires uniform $h$<br>
+                                • Parabolic arc approximation<br>
+                                • $O(h^4)$ global error
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparison 2 -->
+                    <div class="bg-zinc-900/90 p-4 rounded-lg border border-zinc-800 text-xs">
+                        <div class="font-bold text-zinc-200 border-b border-zinc-800 pb-2 mb-2">
+                            Revolutions About Vertical Axis ($y$-axis or $x = k$)
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-sky-300">
+                                <strong class="text-zinc-200 block mb-1">Washer Method</strong>
+                                • Slices are Horizontal<br>
+                                • Thickness is $dy$<br>
+                                • Integrate w.r.t. $y$<br>
+                                • Formula: $\pi \int (R^2 - r^2) dy$
+                            </div>
+                            <div class="bg-zinc-950 p-2 rounded border border-zinc-800 text-purple-300">
+                                <strong class="text-zinc-200 block mb-1">Shell Method</strong>
+                                • Slices are Vertical<br>
+                                • Thickness is $dx$<br>
+                                • Integrate w.r.t. $x$<br>
+                                • Formula: $2\pi \int (\text{rad})(\text{ht}) dx$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOP 5 BOARD EXAM TRAPS -->
+            <div class="glass-card rounded-xl p-5 border border-amber-900/40 bg-amber-950/10">
+                <h2 class="text-sm font-bold text-amber-300 flex items-center gap-2 mb-4">
+                    <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                    TOP 5 BOARD EXAM TRAPS TO AVOID
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">1. Radian Mode Missing</div>
+                        <p class="text-[11px] text-zinc-400">Evaluating trig or inverse trig integrals in DEGREE mode on calculator will give wrong choices!</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">2. Chain Rule in Leibniz</div>
+                        <p class="text-[11px] text-zinc-400">When differentiating $\int_a^{g(x)} f(t) dt$, never forget to multiply by $g'(x)$!</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">3. Points vs Subintervals</div>
+                        <p class="text-[11px] text-zinc-400">Simpson's requires EVEN subintervals $n$, which means ODD total points $N = n + 1$.</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">4. Shifted Axis Radius</div>
+                        <p class="text-[11px] text-zinc-400">When revolving around $y=5$ or $x=-2$, radius is $|5 - y|$ or $|x - (-2)| = x+2$.</p>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-amber-800/40">
+                        <div class="font-bold text-amber-400 mb-1">5. $p$-Series Boundary</div>
+                        <p class="text-[11px] text-zinc-400">$p \le 1$ strictly DIVERGES; $p > 1$ CONVERGES. Do not invert the inequality!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constants, SI Units & Audit Log -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Constants & Units -->
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 lg:col-span-2">
+                    <h3 class="text-xs font-bold text-cyan-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="scale" class="w-4 h-4"></i>
+                        SI UNITS &amp; CONSTANTS CHEAT SHEET
+                    </h3>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-400 font-mono text-[10px]">
+                                    <th class="p-2">Parameter</th>
+                                    <th class="p-2">Symbol / Formula</th>
+                                    <th class="p-2">SI Unit</th>
+                                    <th class="p-2">Context</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/60 font-mono text-[11px]">
+                                <tr>
+                                    <td class="p-2 text-zinc-200">Electric Charge</td>
+                                    <td class="p-2 text-cyan-300">$q = \int i \, dt$</td>
+                                    <td class="p-2 text-emerald-400">Coulomb [C] / A·s</td>
+                                    <td class="p-2 text-zinc-400">Transient currents</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 text-zinc-200">Signal Energy</td>
+                                    <td class="p-2 text-cyan-300">$E = \int |x(t)|^2 dt$</td>
+                                    <td class="p-2 text-emerald-400">Joules [J]</td>
+                                    <td class="p-2 text-zinc-400">Communication theory</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 text-zinc-200">Average Sine Voltage</td>
+                                    <td class="p-2 text-cyan-300">$V_{avg} = \frac{2V_m}{\pi} \approx 0.637 V_m$</td>
+                                    <td class="p-2 text-emerald-400">Volts [V]</td>
+                                    <td class="p-2 text-zinc-400">Half-wave sine integral (Q31)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Source Audit Box -->
+                <div class="glass-card rounded-xl p-4 border border-zinc-800">
+                    <h3 class="text-xs font-bold text-purple-400 flex items-center gap-2 mb-3">
+                        <i data-lucide="check-check" class="w-4 h-4"></i>
+                        DISCREPANCY AUDIT
+                    </h3>
+                    <div class="space-y-2 text-[11px] text-zinc-400">
+                        <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                            <span class="text-amber-400 font-bold block">⚠️ Question 18 Typo Flag:</span>
+                            Derivative of $\int_4^{x^2} \sin(t^2) dt$ is $2x \sin(x^4)$. Test choices listed higher powers ($\sin(x^6)$) due to source typo.
+                        </div>
+                        <div class="p-2 bg-zinc-900 rounded border border-zinc-800">
+                            <span class="text-cyan-400 font-bold block">ℹ️ Question 10 Wording:</span>
+                            IBP is derived from the <strong>Product Rule</strong>, not the Quotient Rule.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 4: CALTECH & QUESTION DATABASE ==================== -->
+        <div id="page4" class="tab-content hidden space-y-6">
+
+            <!-- Caltech Calculator Shortcuts Header Card -->
+            <div class="glass-card rounded-xl p-5 border border-cyan-900/40 bg-cyan-950/10">
+                <h2 class="text-sm font-bold text-cyan-300 flex items-center gap-2 mb-3">
+                    <i data-lucide="calculator" class="w-5 h-5"></i>
+                    CALTECH CALCULATOR SHORTCUTS (BOARD EXAM TRICKS)
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                        <div class="text-cyan-400 font-bold mb-1">1. Indefinite Integrals via Differentiation</div>
+                        <ol class="list-decimal list-inside space-y-1 text-[11px] text-zinc-300">
+                            <li>Choose test values (e.g. $x = 2.3$, $a = 1.5$).</li>
+                            <li>Evaluate integrand at $x$ using calculator.</li>
+                            <li>Take $d/dx$ of each answer choice at $x$ using <kbd>d/dx</kbd> key.</li>
+                            <li><strong>MATCH:</strong> Derivative of correct choice == Integrand value!</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-zinc-900/90 p-3 rounded-lg border border-zinc-800">
+                        <div class="text-emerald-400 font-bold mb-1">2. Numerical Integration Iteration Formula</div>
+                        <div class="text-[11px] text-zinc-300 space-y-1">
+                            <div>• <strong>Trapezoidal:</strong> $A = A + \frac{h}{2}[f(x) + f(x+h)] : x = x + h$</div>
+                            <div>• <strong>Simpson's:</strong> $A = A + \frac{h}{3}[f(x) + 4f(x+h) + f(x+2h)] : x = x + 2h$</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solved Board Exam Questions 1-40 Database -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                    <h2 class="text-sm font-bold text-zinc-100 flex items-center gap-2">
+                        <i data-lucide="database" class="w-4 h-4"></i>
+                        BOARD EXAM QUESTIONS 1–40 MASTER REPOSITORY
+                    </h2>
+                    <span class="text-xs text-zinc-500 font-mono" id="questionCount">Showing 40 Questions</span>
+                </div>
+
+                <!-- Questions Grid Container -->
+                <div id="questionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Questions dynamically rendered by JS with escaped LaTeX strings -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Script for Tab Switching, Search & Question Rendering -->
+    <script>
+        /* Database of Questions 1-40 from source material with double-escaped LaTeX strings */
+        const questionsData = [
+            {
+                id: 1,
+                topic: "Signal Energy / Improper Integral",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Evaluate the improper integral representing total signal energy: $I = \\int_{-\\infty}^{\\infty} \\frac{1}{1+x^2} dx$.",
+                ans: "B. \\pi",
+                sol: "\\left[ \\tan^{-1}(x) \\right]_{-\\infty}^{\\infty} = \\frac{\\pi}{2} - \\left(-\\frac{\\pi}{2}\\right) = \\pi."
+            },
+            {
+                id: 2,
+                topic: "Standard Integrals",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "$\\int \\frac{dx}{x^2 - a^2}$ results in which standard form?",
+                ans: "D. \\frac{1}{2a} \\ln \\frac{x-a}{x+a}",
+                sol: "Standard logarithmic difference of squares integration formula."
+            },
+            {
+                id: 3,
+                topic: "Transient Current & Charge",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Transient current $I(t) = \\frac{t}{(t^2+1)^2}$ A. Total charge transferred from $t=0$ to $t \\to \\infty$?",
+                ans: "B. 0.50 C",
+                sol: "Let $u = t^2 + 1 \\implies q = \\frac{1}{2} \\int_{1}^{\\infty} u^{-2} du = 0.50\\text{ C}$."
+            },
+            {
+                id: 4,
+                topic: "Noise Voltage PDF (1D)",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Noise voltage PDF $f(v) = k(1-v^2)$ for $-1 \\le v \\le 1$. Find constant $k$.",
+                ans: "B. 3/4",
+                sol: "\\int_{-1}^{1} k(1-v^2) dv = k \\left( \\frac{4}{3} \\right) = 1 \\implies k = 3/4."
+            },
+            {
+                id: 5,
+                topic: "Correlated Noise PDF (2D)",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Joint PDF $f(x,y) = c \\cdot xy$ for triangular region $0 \\le x \\le 1$ and $0 \\le y \\le x$. Find $c$.",
+                ans: "C. 8",
+                sol: "\\int_{0}^{1} \\int_{0}^{x} c \\cdot xy \\, dy \\, dx = \\frac{c}{8} = 1 \\implies c = 8."
+            },
+            {
+                id: 6,
+                topic: "p-Integral Boundary",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Exact boundary condition for $\\int_{1}^{\\infty} \\frac{1}{x^p} dx$ to strictly diverge to infinity?",
+                ans: "B. p \\le 1",
+                sol: "If $p \\le 1$, the integrand does not decay fast enough and diverges."
+            },
+            {
+                id: 7,
+                topic: "p-Integral Exact Value",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "For $p > 1$, exact algebraic representation of $\\int_{1}^{\\infty} \\frac{1}{x^p} dx$?",
+                ans: "C. \\frac{1}{p - 1}",
+                sol: "\\lim_{b \\to \\infty} \\left[ \\frac{x^{1-p}}{1-p} \\right]_1^b = 0 - \\frac{1}{1-p} = \\frac{1}{p-1}."
+            },
+            {
+                id: 8,
+                topic: "Rationalizing Substitution",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Evaluating $\\int \\frac{\\sqrt{x}}{x+1} dx$ with $u = \\sqrt{x}$. Resulting $du$ integral?",
+                ans: "B. \\int \\frac{2u^2}{u^2+1} du",
+                sol: "Since $x = u^2 \\implies dx = 2u \\, du$, integrand becomes $\\frac{u \\cdot 2u \\, du}{u^2+1} = \\frac{2u^2}{u^2+1} du$."
+            },
+            {
+                id: 9,
+                topic: "Rational Integration Power",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Evaluating $\\int \\frac{1}{x^{1/2} + x^{1/3}} dx$. What is substitution integer $n$ in $x = u^n$?",
+                ans: "C. 6",
+                sol: "$n = \\text{LCM}(2, 3) = 6$ to eliminate fractional exponents."
+            },
+            {
+                id: 10,
+                topic: "IBP Concept",
+                priority: "🔵 CONCEPTUAL",
+                badgeClass: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+                text: "Why is Integration by Parts referred to as the Inverse of the Product Rule?",
+                ans: "B. Derived directly by integrating product rule formula d(uv) = u dv + v du",
+                sol: "Derived from integrating the differential product rule."
+            },
+            {
+                id: 11,
+                topic: "LIATE Selection",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Applying LIATE to choose $u$ for $\\int x^2 \\ln(x) dx$. Which function is $u$?",
+                ans: "B. \\ln(x)",
+                sol: "Logarithmic (L) comes before Algebraic (A) in LIATE."
+            },
+            {
+                id: 12,
+                topic: "Reappearing Integral",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "In $\\int e^x \\cos(x) dx$, IBP twice brings back original integral. Valid next step?",
+                ans: "C. Add reappeared integral to opposite side and divide by coefficient",
+                sol: "Algebraic trick to isolate $I$ on LHS."
+            },
+            {
+                id: 13,
+                topic: "PFD Irreducible Quadratic",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Required setup for $\\frac{4x^2-3x+1}{(x-2)(x^2+9)}$?",
+                ans: "B. \\frac{A}{x-2} + \\frac{Bx+C}{x^2+9}",
+                sol: "Quadratic $x^2+9$ requires linear numerator $Bx+C$."
+            },
+            {
+                id: 14,
+                topic: "PFD Repeated Linear",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Number of undetermined constants in $\\frac{5x-2}{(x+2)^3}$?",
+                ans: "C. 3",
+                sol: "3 terms for powers 1, 2, 3: $A, B, C$."
+            },
+            {
+                id: 15,
+                topic: "PFD Repeated Quadratic",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Correct structural setup for $\\frac{5x^3-2x+1}{(x^2+4)^2}$?",
+                ans: "C. \\frac{Ax+B}{x^2+4} + \\frac{Cx+D}{(x^2+4)^2}",
+                sol: "Repeated quadratic requires $(Ax+B)$ for power 1 and $(Cx+D)$ for power 2."
+            },
+            {
+                id: 16,
+                topic: "Trig Substitution",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Correct substitution for integrand with $\\sqrt{a^2+x^2}$?",
+                ans: "A. x = a \\tan \\theta",
+                sol: "Uses identity $1+\\tan^2\\theta = \\sec^2\\theta$."
+            },
+            {
+                id: 17,
+                topic: "Trig Substitution Selection",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Appropriate substitution for $\\int \\frac{dx}{x\\sqrt{x^2-4}}$?",
+                ans: "D. x = 2 \\sec \\theta",
+                sol: "For $\\sqrt{x^2-a^2}$ with $a=2$, use $x = 2\\sec\\theta$."
+            },
+            {
+                id: 18,
+                topic: "Leibniz Rule Single Bound",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "First derivative of $F(x) = \\int_{4}^{x^2} \\sin(t^2) dt$?",
+                ans: "Correct: 2x \\sin(x^4) [Note: PDF choices contained typo]",
+                sol: "$F'(x) = \\sin((x^2)^2) \\cdot \\frac{d}{dx}(x^2) = 2x \\sin(x^4)$."
+            },
+            {
+                id: 19,
+                topic: "Leibniz Rule Double Bound",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "First derivative of $F(x) = \\int_{2x}^{x^2} \\frac{\\sin t}{t} dt$?",
+                ans: "B. \\frac{2\\sin(x^2)}{x} - \\frac{\\sin(2x)}{x}",
+                sol: "$\\frac{\\sin(x^2)}{x^2}(2x) - \\frac{\\sin(2x)}{2x}(2) = \\frac{2\\sin(x^2)}{x} - \\frac{\\sin(2x)}{x}$."
+            },
+            {
+                id: 20,
+                topic: "FTC 2 Condition",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Condition for FTC-2 $\\int_a^b f(x) dx = F(b) - F(a)$?",
+                ans: "A. f(x) is continuous on [a, b]",
+                sol: "Continuity on closed interval is mandatory."
+            },
+            {
+                id: 21,
+                topic: "Riemann Delta x",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Width $\\Delta x$ for $f(x)=x^3$ on [1, 5] with $n=8$ subintervals?",
+                ans: "C. 0.5",
+                sol: "\\Delta x = \\frac{b-a}{n} = \\frac{5-1}{8} = 0.5."
+            },
+            {
+                id: 22,
+                topic: "Concavity Riemann Sum",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "For concave-down voltage curve $v(t) = V_0(1-e^{-t/RC})$, Left Riemann Sum will...",
+                ans: "C. Underestimate the exact area",
+                sol: "Left rectangles fall strictly below a concave-down increasing curve."
+            },
+            {
+                id: 23,
+                topic: "Left Riemann Calculation",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Left Riemann Sum with $n=4$ for $f(x)=x^2+1$ on [0, 2]?",
+                ans: "A. 3.75",
+                sol: "\\Delta x = 0.5; x_i = [0, 0.5, 1.0, 1.5] \\implies 0.5(1 + 1.25 + 2 + 3.25) = 3.75."
+            },
+            {
+                id: 24,
+                topic: "Non-Uniform Data Integration",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Integration technique appropriate for non-uniform time stamps dataset?",
+                ans: "A. Trapezoidal Rule",
+                sol: "Trapezoidal rule easily adapts to variable segment widths $\\Delta x_i$."
+            },
+            {
+                id: 25,
+                topic: "Uneven Trapezoidal Charge",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Charge with $t=[0,1,3,4]$ and $I=[2,5,8,10]$ using Trapezoidal Rule?",
+                ans: "B. 25.5 C",
+                sol: "\\frac{1}{2}(2+5)(1) + \\frac{1}{2}(5+8)(2) + \\frac{1}{2}(8+10)(1) = 3.5 + 13 + 9 = 25.5\\text{ C}."
+            },
+            {
+                id: 26,
+                topic: "Trapezoidal Numerical",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Approximate $\\int_0^1 e^{-0.5x} \\sin(2x) dx$ with $n=4$ Trapezoidal?",
+                ans: "C. 0.3437",
+                sol: "Apply composite trapezoidal rule with $h = 0.25$."
+            },
+            {
+                id: 27,
+                topic: "Quadratic Polynomial Integration",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Which rule is exact if the integrand is a quadratic polynomial?",
+                ans: "A. Simpson's 1/3 Rule",
+                sol: "Simpson's 1/3 rule uses quadratic parabolas and is exact up to degree 3."
+            },
+            {
+                id: 28,
+                topic: "Simpson's Weights",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Modified Simpson's 1/3 rule weights pattern for $n=6$ intervals (7 points)?",
+                ans: "A. 1, 4, 2, 4, 2, 4, 1",
+                sol: "Standard 1/3 rule coefficient pattern alternates 4 and 2."
+            },
+            {
+                id: 29,
+                topic: "Simpson's Numerical",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Approximate $\\int_1^3 \\ln(x^2+1) dx$ using Simpson's 1/3 with $n=4$?",
+                ans: "B. 2.089",
+                sol: "Apply Simpson's composite formula with $h = 0.5$."
+            },
+            {
+                id: 30,
+                topic: "Simpson's Sample Points",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Total number of sampled data points $N$ required for Simpson's 1/3 Rule?",
+                ans: "B. N must be an odd number",
+                sol: "Even subintervals $n$ implies $N = n + 1$ total sample points must be ODD."
+            },
+            {
+                id: 31,
+                topic: "Average Sine Voltage",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Average voltage of half-cycle sine wave $v(t) = 10 \\sin(t)$ over $[0, \\pi]$?",
+                ans: "D. 6.37 V",
+                sol: "V_{avg} = \\frac{1}{\\pi} \\int_0^\\pi 10 \\sin t \\, dt = \\frac{20}{\\pi} \\approx 6.366\\text{ V}."
+            },
+            {
+                id: 32,
+                topic: "Arc Length Integral Function",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Arc length of $y = \\int_1^x \\sqrt{t^3-1} dt$ from $x=1$ to $x=4$?",
+                ans: "B. 62/5",
+                sol: "dy/dx = \\sqrt{x^3-1} \\implies 1+(dy/dx)^2 = x^3 \\implies L = \\int_1^4 x^{3/2} dx = 62/5."
+            },
+            {
+                id: 33,
+                topic: "Parametric Arc Length",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Arc length for $x(t) = \\cos(3t), y(t) = \\sin(3t)$ from $0 < t < \\pi$?",
+                ans: "B. 3\\pi",
+                sol: "\\sqrt{(-3\\sin 3t)^2 + (3\\cos 3t)^2} = 3 \\implies L = \\int_0^\\pi 3 dt = 3\\pi."
+            },
+            {
+                id: 34,
+                topic: "Differential Arc Length ds",
+                priority: "🟡 IMPORTANT",
+                badgeClass: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                text: "Differential scalar $ds$ for line $y = 3x+2$ revolved around x-axis?",
+                ans: "A. \\sqrt{10} dx",
+                sol: "ds = \\sqrt{1 + (dy/dx)^2} dx = \\sqrt{1 + 3^2} dx = \\sqrt{10} dx."
+            },
+            {
+                id: 35,
+                topic: "Surface Area Revolution",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Surface area integral when $x = y^2 (0 \\le y \\le 1)$ revolves around y-axis?",
+                ans: "B. 2\\pi \\int_0^1 y^2 \\sqrt{1+4y^2} dy",
+                sol: "SA = 2\\pi \\int x ds = 2\\pi \\int y^2 \\sqrt{1 + (dx/dy)^2} dy = 2\\pi \\int y^2 \\sqrt{1+4y^2} dy."
+            },
+            {
+                id: 36,
+                topic: "Method Selection",
+                priority: "🔴 MUST MEMORIZE",
+                badgeClass: "bg-red-500/20 text-red-400 border-red-500/30",
+                text: "Which method avoids solving for $x$ in terms of $y$ when revolving $y=x^2$ about y-axis?",
+                ans: "C. Shell method in dx",
+                sol: "Cylindrical shells integrate w.r.t. $x$ when revolving about vertical axis."
+            },
+            {
+                id: 37,
+                topic: "Shell Method Shifted Axis",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Region $y=\\sin x$ from $0$ to $\\pi$ revolved around vertical line $x = -1$. Shell expression?",
+                ans: "C. 2\\pi \\int_0^\\pi (x+1) \\sin(x) dx",
+                sol: "Radius is distance from slice to axis: $r = x - (-1) = x+1$."
+            },
+            {
+                id: 38,
+                topic: "Washer Method Inner Radius",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Region bounded by $y=x^2$ and $y=4x$ revolved around $x=-2$. Inner radius expression?",
+                ans: "B. \\frac{y}{4} + 2",
+                sol: "Inner boundary is line $x = y/4$. Radius to $x=-2$ is $y/4 - (-2) = y/4 + 2$."
+            },
+            {
+                id: 39,
+                topic: "Washer Method Outer Radius",
+                priority: "⚠️ COMMON TRAP",
+                badgeClass: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                text: "Region $y=e^x, y=1, x=2$ revolved around $y=5$. Outer radius expression?",
+                ans: "B. 4",
+                sol: "Outer boundary is line $y=1$. Radius to axis $y=5$ is $|1 - 5| = 4$."
+            },
+            {
+                id: 40,
+                topic: "Antenna Centroid",
+                priority: "🟠 HIGH-YIELD",
+                badgeClass: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+                text: "Geometric centroid y-coordinate (\\bar{y}) of radiating element bounded by $y=\\sin x$ from $0$ to $\\pi$?",
+                ans: "B. \\pi / 8",
+                sol: "\\bar{y} = M_x / A = \\frac{\\frac{1}{2} \\int_0^\\pi \\sin^2 x dx}{\\int_0^\\pi \\sin x dx} = \\frac{\\pi/4}{2} = \\frac{\\pi}{8}."
+            }
+        ];
+
+        // Helper to trigger KaTeX rendering safely
+        function triggerKaTeX(containerElement) {
+            if (typeof renderMathInElement === 'function' && containerElement) {
+                renderMathInElement(containerElement, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Function to render questions into Page 4
+        function renderQuestions(items) {
+            const container = document.getElementById('questionsContainer');
+            document.getElementById('questionCount').innerText = `Showing ${items.length} Questions`;
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center py-8 text-zinc-500 font-mono text-xs">No questions matched your search term.</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map(q => `
+                <div class="glass-card rounded-xl p-4 border border-zinc-800 space-y-2 hover:border-cyan-500/40 transition-all">
+                    <div class="flex items-center justify-between text-xs border-b border-zinc-800/80 pb-2">
+                        <span class="font-bold text-cyan-400 font-mono">Q${q.id}. ${q.topic}</span>
+                        <span class="tag-badge ${q.badgeClass}">${q.priority}</span>
+                    </div>
+                    <p class="text-xs text-zinc-200 leading-relaxed font-mono">${q.text}</p>
+                    <div class="bg-zinc-900/90 p-2.5 rounded border border-zinc-800 text-xs">
+                        <div class="text-emerald-400 font-bold font-mono">ANSWER: ${q.ans}</div>
+                        <div class="text-[11px] text-zinc-400 font-mono mt-1">
+                            <strong class="text-zinc-300">Solution Logic:</strong> ${q.sol}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Trigger KaTeX render on container
+            triggerKaTeX(container);
+        }
+
+        // Global Search Filter logic
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            // Filter questions
+            const filtered = questionsData.filter(q => 
+                q.topic.toLowerCase().includes(query) ||
+                q.text.toLowerCase().includes(query) ||
+                q.ans.toLowerCase().includes(query) ||
+                q.priority.toLowerCase().includes(query) ||
+                `q${q.id}`.includes(query) ||
+                `q ${q.id}`.includes(query)
+            );
+
+            // If user searches, switch to page 4 automatically to view matched questions
+            if (query.length > 0) {
+                switchTab('page4');
+            }
+
+            renderQuestions(filtered);
+        }
+
+        // Tab Switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-600', 'text-white');
+                btn.classList.add('text-zinc-400');
+            });
+
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-cyan-600', 'text-white');
+                activeBtn.classList.remove('text-zinc-400');
+            }
+
+            // Trigger KaTeX render on newly visible tab
+            triggerKaTeX(targetTab);
+        }
+
+        // Toggle Mobile Navigation Menu
+        function toggleMobileMenu() {
+            const nav = document.getElementById('navMenu');
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('w-full');
+        }
+
+        // Initialize App on DOM Content Loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide icons
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Render questions 1-40 into database container
+            renderQuestions(questionsData);
+
+            // Setup search bar listeners
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+
+            searchInput.addEventListener('input', handleSearch);
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                handleSearch();
+            });
+
+            // Initial KaTeX render pass for static math in body
+            triggerKaTeX(document.body);
+        });
+    </script>
+</body>
+</html>
