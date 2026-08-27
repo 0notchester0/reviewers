@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam Command Center — Differential Equations Reviewer</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- MathJax Configuration & Script -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      },
+      startup: {
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            console.log('MathJax initial rendering complete');
+          });
+        }
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #080c14;
+      color: #e2e8f0;
+    }
+    .code-font {
+      font-family: 'Fira Code', monospace;
+    }
+    .card-border {
+      border: 1px solid #1e293b;
+      transition: all 0.2s ease-in-out;
+    }
+    .card-border:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 4px 20px -2px rgba(56, 189, 248, 0.15);
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+    /* MathJax rendering visual tweak */
+    .mjx-chtml {
+      outline: none;
+      font-size: 105% !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-16 text-slate-200">
+
+  <!-- TOP HEADER / COMMAND BAR -->
+  <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-800 shadow-2xl px-4 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="bg-blue-600 text-white p-2.5 rounded-xl font-black text-xl tracking-wider code-font shadow-lg shadow-blue-600/30">ECE</div>
+        <div>
+          <h1 class="text-lg md:text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            DIFFERENTIAL EQUATIONS COMMAND CENTER
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800">BOARD EXAM REVIEWER</span>
+          </h1>
+          <p class="text-xs text-slate-400">Exhaustive Notes, Solved PDF Items (Q1–Q45), Circuit Transients &amp; MathJax Equations</p>
+        </div>
+      </div>
+      
+      <!-- PRIORITY LEGEND -->
+      <div class="flex flex-wrap items-center gap-1.5 text-[11px] font-semibold">
+        <span class="px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800">🔴 MUST MEMORIZE</span>
+        <span class="px-2 py-0.5 rounded bg-orange-950 text-orange-400 border border-orange-800">🟠 HIGH-YIELD</span>
+        <span class="px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-800">🟡 IMPORTANT</span>
+        <span class="px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800">🔵 CONCEPTUAL</span>
+        <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-700">⚠️ COMMON TRAP</span>
+        <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700">📝 SOLVED Q</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH BAR & NAVIGATION TABS -->
+  <div class="max-w-7xl mx-auto px-4 mt-6">
+    <div class="flex flex-col md:flex-row gap-3 items-center justify-between mb-4">
+      <!-- Search Input -->
+      <div class="relative w-full md:w-96">
+        <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Search formulas, concepts, or Q1-Q45..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+        <span class="absolute right-3 top-2.5 text-xs text-slate-500">🔍</span>
+      </div>
+      <div class="text-xs text-slate-400">
+        Tip: Click any tab to switch view or use the search box to find specific PDF questions (e.g., <code class="text-amber-400 code-font">Q32</code>, <code class="text-sky-400 code-font">Wronskian</code>).
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+      <button onclick="switchTab('page1')" id="btn-page1" class="tab-btn px-4 py-2 rounded-lg font-bold text-xs bg-blue-600 text-white shadow-lg">
+        MODULE 1: DE Fundamentals &amp; Wronskian
+      </button>
+      <button onclick="switchTab('page2')" id="btn-page2" class="tab-btn px-4 py-2 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 hover:bg-slate-700">
+        MODULE 2: 1st-Order DEs, Curves &amp; RL/RC
+      </button>
+      <button onclick="switchTab('page3')" id="btn-page3" class="tab-btn px-4 py-2 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 hover:bg-slate-700">
+        MODULE 3: 2nd-Order DEs &amp; RLC Damping
+      </button>
+      <button onclick="switchTab('page4')" id="btn-page4" class="tab-btn px-4 py-2 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 hover:bg-slate-700">
+        MODULE 4: PDEs, Systems &amp; Analogies
+      </button>
+      <button onclick="switchTab('page5')" id="btn-page5" class="tab-btn px-4 py-2 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 hover:bg-slate-700">
+        MODULE 5: All 45 PDF Items &amp; Cheat Sheet
+      </button>
+    </div>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 mt-6">
+
+    <!-- ============================================================== -->
+    <!-- MODULE 1: DE CLASSIFICATION, WRONSKIAN & OPERATORS             -->
+    <!-- ============================================================== -->
+    <div id="page1" class="tab-content block space-y-6">
+      
+      <!-- HEADER BANNER -->
+      <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-blue-800/60 rounded-xl p-5 shadow-2xl">
+        <h2 class="text-2xl font-black text-blue-400 mb-1">MODULE 1: DE CLASSIFICATION, WRONSKIAN THEORY &amp; LINEAR OPERATORS</h2>
+        <p class="text-xs text-slate-300">Order vs. Degree rules, Arbitrary Constants, Wronskian Determinant, Superposition Test, Non-Linearity Criteria, and Lipschitz Uniqueness.</p>
+      </div>
+
+      <!-- DECISION TREE: ORDER & DEGREE IDENTIFICATION -->
+      <div class="bg-slate-900 p-5 rounded-xl card-border">
+        <h3 class="text-sm font-extrabold text-amber-400 mb-3 flex items-center gap-2">
+          <span>🌳 DECISION TREE: DETERMINING ORDER AND DEGREE OF ANY DE</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="text-sky-400 font-bold">STEP 1: FIND ORDER</span>
+            <p class="text-slate-300">Locate the highest derivative present in the equation (e.g., $\frac{d^3y}{dx^3} \implies \text{Order } 3$).</p>
+            <div class="bg-slate-900 p-2 rounded text-[11px] text-amber-300">Order is ALWAYS a positive integer!</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="text-emerald-400 font-bold">STEP 2: PREPARE FOR DEGREE</span>
+            <p class="text-slate-300">Clear all fractions, negative exponents, and radicals involving derivatives.</p>
+            <div class="bg-slate-900 p-2 rounded text-[11px] text-emerald-300">Example: Square both sides if $\sqrt{y'}$.</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="text-rose-400 font-bold">STEP 3: CHECK DEGREE TRAPS</span>
+            <p class="text-slate-300">If any derivative is inside $\sin(y')$, $e^{y'}$, or $\ln(y')$, the degree is <strong class="text-rose-400">UNDEFINED</strong>!</p>
+            <div class="bg-slate-900 p-2 rounded text-[11px] text-rose-300">Otherwise, degree = exponent of highest derivative.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 1 GRID CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- CARD 1: ORDER & DEGREE FORMULA CARD -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-amber-400">ORDER &amp; DEGREE OF A DE</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p><strong class="text-white">Order:</strong> Order of the highest derivative present.</p>
+            <p><strong class="text-white">Degree:</strong> Exponent of highest-order derivative after clearing radical/fractional powers.</p>
+            
+            <!-- FORMULA BOX -->
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="text-[11px] font-bold text-amber-300">FORMULA / EXAMPLE (Q3 [NOTES]):</span>
+              <div class="text-center py-2 text-sky-300 code-font">
+                $$\left(\frac{d^3 y}{dx^3}\right)^2 + 4\sin\left(\frac{dy}{dx}\right) = x^3$$
+              </div>
+              <ul class="list-disc pl-4 text-[11px] space-y-1 text-slate-300">
+                <li><strong>Highest Derivative:</strong> $\frac{d^3y}{dx^3} \implies \mathbf{\text{Order } 3}$</li>
+                <li><strong>Degree:</strong> <span class="text-rose-400 font-bold">UNDEFINED</span> (transcendental $\sin(y')$ term)</li>
+              </ul>
+            </div>
+
+            <div class="bg-rose-950/40 p-2.5 rounded border border-rose-800/50 text-[11px] text-rose-200">
+              <strong class="font-bold">⚠️ COMMON TRAP:</strong> Do not confuse order and degree! Degree can only be evaluated when DE is polynomial in derivatives.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: ESSENTIAL CONSTANTS -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-sky-400">ESSENTIAL ARBITRARY CONSTANTS</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-orange-950 text-orange-400 border border-orange-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>The order of a DE equals the number of <strong>essential (independent) arbitrary constants</strong> in its general solution family.</p>
+            
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="text-[11px] font-bold text-amber-300">SOLVED EXAMPLE (Q4 [NOTES]):</span>
+              <div class="text-center py-1 text-yellow-300 code-font">
+                $$y = C_1 e^{4x + C_2}$$
+              </div>
+              <p class="text-[11px]">Simplify using exponent rules:</p>
+              <div class="text-center py-1 text-sky-300 code-font">
+                $$y = C_1 e^{C_2} e^{4x} = C e^{4x}$$
+              </div>
+              <p class="text-emerald-400 text-[11px] font-bold">Result: 1 essential constant $\implies \mathbf{\text{First-Order DE!}}$</p>
+            </div>
+
+            <div class="bg-blue-950/40 p-2 rounded border border-blue-800/50 text-[11px] text-blue-200">
+              <strong class="font-bold">💡 RULE:</strong> $C_1 e^{C_2}$ is just a single constant $C$. Always simplify algebraically first before counting constants!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: WRONSKIAN DETERMINANT -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-purple-400">WRONSKIAN DETERMINANT TEST</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Tests linear independence of solution sets $f(x), g(x)$:</p>
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+              $$W(f,g) = \begin{vmatrix} f & g \\ f' & g' \end{vmatrix} = f g' - g f'$$
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2 text-center text-[11px] font-bold">
+              <div class="bg-emerald-950/60 border border-emerald-700 text-emerald-300 p-2 rounded">
+                $$W \neq 0$$
+                <p class="text-[10px] font-normal text-slate-300">Linearly INDEPENDENT</p>
+              </div>
+              <div class="bg-rose-950/60 border border-rose-700 text-rose-300 p-2 rounded">
+                $$W = 0 \text{ everywhere}$$
+                <p class="text-[10px] font-normal text-slate-300">Linearly DEPENDENT (Q1)</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-[11px]">
+              <strong class="text-amber-300">Q2 EXAMPLE [NOTES]:</strong> Evaluate $W(\cos x, \sin x)$ for $y'' + y = 0$:
+              $$W = \begin{vmatrix} \cos x & \sin x \\ -\sin x & \cos x \end{vmatrix} = \cos^2 x + \sin^2 x = \mathbf{1}$$
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4: LINEAR DIFFERENTIAL OPERATOR -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-emerald-400">LINEAR OPERATOR SUPERPOSITION</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800 font-bold">🔵 CONCEPTUAL</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>An operator $L$ is strictly <strong>linear</strong> if and only if it satisfies the Principle of Superposition:</p>
+            <div class="bg-slate-950 p-3 rounded border border-emerald-800 text-center">
+              <div class="text-emerald-300 font-bold code-font">
+                $$L(c_1 y_1 + c_2 y_2) = c_1 L(y_1) + c_2 L(y_2)$$
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400">Satisfies both <strong>Additivity</strong> ($L(y_1+y_2)=L(y_1)+L(y_2)$) and <strong>Homogeneity</strong> ($L(cy)=cL(y)$).</p>
+            <div class="bg-slate-950 p-2 rounded text-[11px] text-amber-300">
+              <strong>Q5 [NOTES]:</strong> Option B represents the exact mathematical proof of linearity.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5: NON-LINEAR DE IDENTIFICATION -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-rose-400">NON-LINEAR DE IDENTIFICATION</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-orange-950 text-orange-400 border border-orange-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>A DE is <strong>NON-LINEAR</strong> if any of these conditions are met:</p>
+            <ul class="list-disc pl-4 space-y-1 text-[11px] text-slate-300">
+              <li>Dependent variable $y$ multiplied by derivative: $y \frac{dy}{dx}$ (Q14).</li>
+              <li>Power of $y$ or derivatives $\neq 1$: $y^2, (y')^3$.</li>
+              <li>Non-linear function of $y$: $\sin(y), e^y, \ln(y)$.</li>
+            </ul>
+            <div class="bg-slate-950 p-2 rounded border border-rose-900/50 text-rose-300 text-[11px]">
+              <strong>Q15 [NOTES]:</strong> $\frac{d^2\theta}{dt^2} + \sin(\theta) = 0$ is <strong>NON-LINEAR</strong> because of $\sin(\theta)$.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6: LIPSCHITZ CONDITION -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-yellow-400">LIPSCHITZ CONSTANT (Q45)</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-800 font-bold">🟡 IMPORTANT</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Guarantees unique solution for $\frac{dy}{dt} = f(t,y)$:</p>
+            <div class="bg-slate-950 p-2 rounded text-center text-sky-300 code-font">
+              $$L = \max \left| \frac{\partial f}{\partial y} \right|$$
+            </div>
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-[11px]">
+              <span class="text-emerald-400 font-bold">Q45 SOLVED [NOTES]:</span> For $\frac{dy}{dt} = 7y + \cos(t)$:
+              $$\frac{\partial f}{\partial y} = \frac{\partial}{\partial y}(7y + \cos t) = 7 \implies \mathbf{L = 7}$$
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODULE 2: 1ST-ORDER DEs, TRAJECTORIES & RL/RC CIRCUITS        -->
+    <!-- ============================================================== -->
+    <div id="page2" class="tab-content hidden space-y-6">
+
+      <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 border border-emerald-800/60 rounded-xl p-5 shadow-2xl">
+        <h2 class="text-2xl font-black text-emerald-400 mb-1">MODULE 2: FIRST-ORDER DEs, ORTHOGONAL TRAJECTORIES &amp; RL/RC TRANSIENTS</h2>
+        <p class="text-xs text-slate-300">Separable, Homogeneous, Exact, Non-Exact Integrating Factors, Orthogonal Trajectories, Clairaut's Equation, and First-Order RL/RC Circuit Transients.</p>
+      </div>
+
+      <!-- DECISION TREE FOR 1ST ORDER DEs -->
+      <div class="bg-slate-900 p-5 rounded-xl card-border">
+        <h3 class="text-sm font-extrabold text-amber-400 mb-3 flex items-center gap-2">
+          <span>🌳 MASTER DECISION TREE: HOW TO SOLVE ANY FIRST-ORDER DE</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+          
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <div class="text-sky-400 font-bold mb-1">1. SEPARABLE?</div>
+            <p class="text-slate-400 mb-2">Can you split into $f(y)dy = g(x)dx$?</p>
+            <span class="text-emerald-400 font-bold">Action:</span> $\int f(y)dy = \int g(x)dx + C$.
+            <div class="text-[10px] text-rose-400 mt-2">❌ $y' = y^2 + t^2$ CANNOT be separated! (Q8)</div>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <div class="text-sky-400 font-bold mb-1">2. HOMOGENEOUS?</div>
+            <p class="text-slate-400 mb-2">Is $M(tx,ty) = t^n M(x,y)$? (Q9)</p>
+            <span class="text-emerald-400 font-bold">Action:</span> Sub $y = vx \implies dy = v dx + x dv$.
+            <p class="text-[10px] text-sky-300 mt-1">Guaranteed outcome: Reduces to <strong>Variable Separable</strong>! (Q10)</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <div class="text-sky-400 font-bold mb-1">3. EXACT?</div>
+            <p class="text-slate-400 mb-2">Does $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$? (Q11)</p>
+            <span class="text-emerald-400 font-bold">Action:</span> $F(x,y) = \int M dx + g(y) = C$.
+            <p class="text-[10px] text-amber-300 mt-1">Physical meaning: Potential field $F(x,y) = \text{Voltage}$ (Q13).</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <div class="text-sky-400 font-bold mb-1">4. LINEAR / BERNOULLI?</div>
+            <p class="text-slate-400 mb-2">$y' + P(x)y = Q(x)y^n$</p>
+            <span class="text-emerald-400 font-bold">Linear ($n=0$):</span> $I.F. = e^{\int P(x)dx}$<br>
+            <span class="text-amber-400 font-bold">Bernoulli ($n \neq 0,1$):</span> Sub $v = y^{1-n}$ (Q17).
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MODULE 2 GRID CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- CARD: INTEGRATING FACTORS FOR NON-EXACT DE -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-yellow-400">INTEGRATING FACTOR TEST RATIOS</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>If $M dx + N dy = 0$ is NOT exact ($\frac{\partial M}{\partial y} \neq \frac{\partial N}{\partial x}$):</p>
+            
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <span class="text-sky-300 font-bold">Ratio for $x$ alone:</span>
+              <p class="code-font text-center text-xs">$$p(x) = \frac{M_y - N_x}{N} \implies \mu(x) = e^{\int p(x)dx}$$</p>
+            </div>
+
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <span class="text-emerald-300 font-bold">Ratio for $y$ alone (Q12 [NOTES]):</span>
+              <p class="code-font text-center text-xs">$$p(y) = \frac{N_x - M_y}{M} \implies \mu(y) = e^{\int p(y)dy}$$</p>
+            </div>
+            
+            <div class="bg-rose-950/40 p-2 rounded border border-rose-800/50 text-[11px] text-rose-200">
+              <strong class="font-bold">⚠️ TRAP:</strong> Note the swapped order of partial derivatives: $(N_x - M_y)$ for $p(y)$ vs $(M_y - N_x)$ for $p(x)$!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: ORTHOGONAL TRAJECTORIES -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-emerald-400">ORTHOGONAL TRAJECTORIES</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-orange-950 text-orange-400 border border-orange-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Used to find electric field lines perpendicular to equipotential lines:</p>
+            <ol class="list-decimal pl-4 space-y-1 text-[11px]">
+              <li>Differentiate family $y = f(x,c)$ and eliminate $c \implies \left(\frac{dy}{dx}\right)_{\text{orig}}$.</li>
+              <li>Replace $\frac{dy}{dx}$ with $-\frac{dx}{dy}$.</li>
+              <li>Solve resulting DE for orthogonal family.</li>
+            </ol>
+
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-[11px]">
+              <strong class="text-amber-300">Q7 SOLVED [NOTES]:</strong> Equipotential $y = c x^2 \implies c = y/x^2$.<br>
+              $\frac{dy}{dx} = 2cx = 2(y/x^2)x = \frac{2y}{x}$.<br>
+              <span class="text-emerald-400 font-bold">Orthogonal Field Line DE:</span> $\mathbf{\frac{dy}{dx} = -\frac{x}{2y}}$
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: CIRCLES TANGENT TO X-AXIS AT ORIGIN -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-sky-400">CIRCLES TANGENT TO X-AXIS (Q6)</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-800 font-bold">🟡 IMPORTANT</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Circles centered on y-axis tangent to x-axis at $(0,0)$:</p>
+            <div class="bg-slate-950 p-2 rounded text-center code-font text-yellow-300">
+              $$x^2 + (y-r)^2 = r^2 \implies x^2 + y^2 - 2ry = 0$$
+            </div>
+            <p class="text-[11px]">Differentiate to eliminate radius parameter $r$:</p>
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center code-font text-emerald-300 font-bold">
+              $$(x^2 - y^2)y' - 2xy = 0$$
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: RL CIRCUIT TRANSIENT -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-rose-400">RL CIRCUIT TRANSIENT ANALYSIS</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <span class="text-amber-400 font-bold">GOVERNING DE:</span>
+              <p class="code-font text-sky-300">$$L \frac{dI}{dt} + R I = V(t) \implies \frac{dI}{dt} + \frac{R}{L}I = \frac{V(t)}{L}$$</p>
+              <p><strong>Integrating Factor (Q16):</strong> <span class="text-emerald-400 font-bold">$$I.F. = e^{\frac{R}{L}t}$$</span></p>
+              <p><strong>Time Constant ($\tau$):</strong> <span class="text-yellow-300 font-bold">$$\tau = \frac{L}{R} \text{ [seconds]}$$</span></p>
+            </div>
+
+            <div class="bg-slate-950 p-2 rounded text-[11px] border border-slate-800">
+              <strong class="text-sky-300">Q32 SOLVED [NOTES]:</strong> $L=50\text{ mH}, R=25\ \Omega, I_0=2\text{ A}$.<br>
+              $\tau = \frac{50\times 10^{-3}}{25} = 2\text{ ms}$. At $t=0.5\text{ ms}$:<br>
+              $$i(t) = 2 e^{-0.5/2} = 2 e^{-0.25} = \mathbf{1.56\text{ A}}$$
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: RC CIRCUIT TRANSIENT -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-cyan-400">RC CIRCUIT TRANSIENT ANALYSIS</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <span class="text-amber-400 font-bold">GOVERNING DE:</span>
+              <p class="code-font text-sky-300">$$R \frac{dq}{dt} + \frac{1}{C} q = V_{dc}$$</p>
+              <p><strong>Time Constant ($\tau$):</strong> <span class="text-yellow-300 font-bold">$$\tau = R C \text{ [seconds]}$$</span></p>
+            </div>
+
+            <div class="bg-slate-950 p-2 rounded text-[11px] border border-slate-800 space-y-1">
+              <strong class="text-emerald-400">Q35 &amp; Q36 SOLVED [NOTES]:</strong>
+              <p>• <strong>Transient Portion:</strong> Dictated by complementary solution $y_c(t) = C e^{-t/RC}$ (Q35).</p>
+              <p>• <strong>Q36:</strong> $0.5 \frac{di}{dt} + 10i = 24 \implies \tau = \frac{L}{R} = \frac{0.5}{10} = \mathbf{0.05\text{ s}}$, $I_{ss} = \frac{24}{10} = \mathbf{2.4\text{ A}}$.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: CLAIRAUT'S EQUATION -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-purple-400">CLAIRAUT'S EQUATION TRICK</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 border border-yellow-800 font-bold">🟡 IMPORTANT</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Form: <span class="code-font text-yellow-300">$$y = x y' + f(y')$$</span></p>
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
+              <p class="text-emerald-400 font-bold">BOARD EXAM INSTANT SOLUTION TRICK:</p>
+              <p class="text-slate-300">Replace derivative $y'$ with constant $c$!</p>
+              <p class="code-font text-sky-300 font-bold text-center my-1">$$y = c x + f(c)$$</p>
+            </div>
+            <div class="bg-slate-950 p-2 rounded text-[11px] border border-slate-800">
+              <strong class="text-amber-300">Q39 SOLVED [NOTES]:</strong> $y = x y' + (y')^2 \implies \mathbf{y = c x + c^2}$
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODULE 3: 2ND-ORDER DEs, RLC DAMPING & RESONANCE              -->
+    <!-- ============================================================== -->
+    <div id="page3" class="tab-content hidden space-y-6">
+
+      <div class="bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 border border-purple-800/60 rounded-xl p-5 shadow-2xl">
+        <h2 class="text-2xl font-black text-purple-400 mb-1">MODULE 3: SECOND-ORDER DEs, RLC DAMPING &amp; RESONANCE</h2>
+        <p class="text-xs text-slate-300">Characteristic Equations, Damping Regimes, Natural vs Damped Frequencies, Resonance, and Series vs Parallel RLC Damping Behaviors.</p>
+      </div>
+
+      <!-- COMPREHENSIVE DAMPING SUMMARY TABLE -->
+      <div class="bg-slate-900 p-4 rounded-xl card-border overflow-x-auto">
+        <h3 class="text-sm font-extrabold text-amber-400 mb-3 flex items-center gap-2">
+          <span>⚡ SECOND-ORDER SYSTEM DAMPING REGIMES &amp; RLC COMPARISON</span>
+        </h3>
+        <table class="w-full text-xs text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-950 text-slate-300 border-b border-slate-800 code-font">
+              <th class="p-2 border-r border-slate-800">DAMPING REGIME</th>
+              <th class="p-2 border-r border-slate-800">CHARACTERISTIC ROOTS ($m_1, m_2$)</th>
+              <th class="p-2 border-r border-slate-800">DAMPING RATIO ($\zeta$)</th>
+              <th class="p-2 border-r border-slate-800">SERIES RLC CONDITION</th>
+              <th class="p-2 border-r border-slate-800">PHYSICAL / GRAPHICAL RESPONSE</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-300">
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-2 border-r border-slate-800 font-bold text-rose-400">OVERDAMPED</td>
+              <td class="p-2 border-r border-slate-800 code-font">Real &amp; Distinct ($m_1 \neq m_2$)</td>
+              <td class="p-2 border-r border-slate-800 font-bold text-rose-400">$$\zeta > 1$$</td>
+              <td class="p-2 border-r border-slate-800 code-font">$$R^2 > \frac{4L}{C}$$</td>
+              <td class="p-2 border-r border-slate-800">Sluggish exponential decay, zero oscillation.</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50 bg-slate-950/40">
+              <td class="p-2 border-r border-slate-800 font-bold text-amber-400">CRITICALLY DAMPED</td>
+              <td class="p-2 border-r border-slate-800 code-font">Real &amp; Repeated ($m_1 = m_2 = -a$)</td>
+              <td class="p-2 border-r border-slate-800 font-bold text-amber-400">$$\zeta = 1$$</td>
+              <td class="p-2 border-r border-slate-800 code-font font-bold text-amber-300">$$R^2 = \frac{4L}{C} \text{ (Q27)}$$</td>
+              <td class="p-2 border-r border-slate-800">Returns to equilibrium <strong>fastest without oscillating</strong> (Q26).</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-2 border-r border-slate-800 font-bold text-emerald-400">UNDERDAMPED</td>
+              <td class="p-2 border-r border-slate-800 code-font">Complex Conjugates ($\alpha \pm j\omega_d$)</td>
+              <td class="p-2 border-r border-slate-800 font-bold text-emerald-400">$$0 < \zeta < 1$$</td>
+              <td class="p-2 border-r border-slate-800 code-font">$$R^2 < \frac{4L}{C}$$</td>
+              <td class="p-2 border-r border-slate-800">Exponentially decaying sinusoid (Q24, Q28).</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50 bg-slate-950/40">
+              <td class="p-2 border-r border-slate-800 font-bold text-cyan-400">UNDAMPED (PURE RESONANCE)</td>
+              <td class="p-2 border-r border-slate-800 code-font">Purely Imaginary ($\pm j\omega_0$)</td>
+              <td class="p-2 border-r border-slate-800 font-bold text-cyan-400">$$\zeta = 0$$</td>
+              <td class="p-2 border-r border-slate-800 code-font">$$R = 0$$</td>
+              <td class="p-2 border-r border-slate-800">Continuous, un-decaying sinusoid (Q37).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MODULE 3 GRID CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- CARD: SERIES VS PARALLEL DAMPING -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-red-400">SERIES VS PARALLEL RLC DAMPING</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-700 font-bold">⚠️ COMMON TRAP</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <span class="text-sky-300 font-bold">SERIES RLC CIRCUIT:</span>
+              <p class="code-font text-xs">$$\alpha = \frac{R}{2L}, \quad \zeta = \frac{R}{2}\sqrt{\frac{C}{L}}$$</p>
+              <p class="text-emerald-400 font-semibold">Increasing $R \implies$ INCREASES damping!</p>
+            </div>
+
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <span class="text-amber-300 font-bold">PARALLEL RLC CIRCUIT (Q38 [NOTES]):</span>
+              <p class="code-font text-xs">$$\alpha = \frac{1}{2RC}, \quad \zeta = \frac{1}{2R}\sqrt{\frac{L}{C}}$$</p>
+              <p class="text-rose-400 font-bold">Increasing $R \implies$ DECREASES damping ratio $\zeta$!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: RLC FREQUENCIES -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-sky-400">RLC FREQUENCY RELATIONSHIPS</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+              <span class="text-sky-300 font-bold">Undamped Natural Frequency ($\omega_n$):</span>
+              <p class="code-font text-center text-yellow-300 font-bold text-xs py-1">$$\omega_n = \frac{1}{\sqrt{LC}} \text{ [rad/s]}$$</p>
+            </div>
+            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+              <span class="text-emerald-300 font-bold">Damped Frequency ($\omega_d$):</span>
+              <p class="code-font text-center text-emerald-300 text-xs py-1">$$\omega_d = \sqrt{\omega_n^2 - \alpha^2} = \omega_n \sqrt{1 - \zeta^2}$$</p>
+            </div>
+            <div class="bg-slate-950 p-2 rounded border border-slate-800 text-[11px]">
+              <strong class="text-amber-300">Q30 SOLVED [NOTES]:</strong> $x(t) = e^{-3t}(C_1 \cos 4t + C_2 \sin 4t)$<br>
+              $\alpha = 3, \omega_d = 4 \implies \omega_n = \sqrt{3^2 + 4^2} = \mathbf{5\text{ rad/s}}$.<br>
+              Damping ratio $\zeta = \frac{\alpha}{\omega_n} = \frac{3}{5} = \mathbf{0.600}$.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: RESONANCE IN PARTICULAR SOLUTIONS -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-yellow-400">PURE RESONANCE (Q23)</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-orange-950 text-orange-400 border border-orange-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Solving $y'' + \omega_0^2 y = F_0 \sin(\omega t)$ when forcing frequency equals natural frequency ($\omega = \omega_0$):</p>
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1">
+              <p class="text-slate-300">Standard trial $A\cos(\omega t) + B\sin(\omega t)$ fails. Must multiply trial by $t$!</p>
+              <p class="code-font text-yellow-300 font-bold text-center">$$y_p(t) = A t \cos(\omega_0 t) + B t \sin(\omega_0 t)$$</p>
+            </div>
+            <div class="bg-slate-950 p-2 rounded text-[11px] border border-slate-800">
+              <strong class="text-amber-300">Q23 SOLVED [NOTES]:</strong> $y'' + 9y = 5\sin(3t) \implies \mathbf{y_p(t) = A t \cos(3t) + B t \sin(3t)}$
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODULE 4: PDEs, SYSTEMS & ELECTRO-MECHANICAL ANALOGIES       -->
+    <!-- ============================================================== -->
+    <div id="page4" class="tab-content hidden space-y-6">
+
+      <div class="bg-gradient-to-r from-slate-900 via-cyan-950 to-slate-900 border border-cyan-800/60 rounded-xl p-5 shadow-2xl">
+        <h2 class="text-2xl font-black text-cyan-400 mb-1">MODULE 4: PDEs, LINEAR SYSTEMS &amp; ELECTRO-MECHANICAL ANALOGIES</h2>
+        <p class="text-xs text-slate-300">Partial Differential Equations, Matrix Eigenvalue Analysis, Mechanical-Electrical Analogies, and Non-Linear Oscillators (Van der Pol).</p>
+      </div>
+
+      <!-- PDE COMPREHENSIVE SUMMARY CARD -->
+      <div class="bg-slate-900 p-5 rounded-xl card-border">
+        <h3 class="text-sm font-extrabold text-cyan-400 mb-3 flex items-center gap-2">
+          <span>🌐 PARTIAL DIFFERENTIAL EQUATIONS (PDE) MASTER TABLE</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="px-2 py-0.5 rounded bg-yellow-950 text-yellow-400 font-bold border border-yellow-800 text-[10px]">PARABOLIC</span>
+            <div class="font-bold text-white text-sm">1D HEAT / DIFFUSION (Q41)</div>
+            <p class="code-font text-sky-300 font-bold text-xs">$$\frac{\partial u}{\partial t} = c^2 \frac{\partial^2 u}{\partial x^2}$$</p>
+            <p class="text-slate-400 text-[11px]">Models heat flow, charge carrier diffusion in semiconductors.</p>
+          </div>
+
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-400 font-bold border border-rose-800 text-[10px]">HYPERBOLIC</span>
+            <div class="font-bold text-white text-sm">1D / 2D WAVE EQUATION</div>
+            <p class="code-font text-emerald-300 font-bold text-xs">$$\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}$$</p>
+            <p class="text-slate-400 text-[11px]">Models EM wave propagation, transmission lines.</p>
+          </div>
+
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 font-bold border border-emerald-800 text-[10px]">ELLIPTIC (Q44)</span>
+            <div class="font-bold text-white text-sm">LAPLACE &amp; POISSON (Q42, Q43)</div>
+            <p class="code-font text-yellow-300 font-bold text-xs">$$\nabla^2 u = 0 \text{ (Laplace)}$$</p>
+            <p class="code-font text-amber-300 font-bold text-xs">$$\nabla^2 u = f(x,y) \text{ (Poisson)}$$</p>
+            <p class="text-slate-400 text-[11px]">Solutions to Laplace are <strong>Harmonic Functions</strong> (Q43).</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MODULE 4 GRID CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        
+        <!-- CARD 1: ELECTRO-MECHANICAL ANALOGY TABLE -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-emerald-400">⚙️ ELECTRO-MECHANICAL ANALOGIES (Q33, Q34)</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="text-xs">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-950 text-slate-400 code-font border-b border-slate-800">
+                  <th class="p-2">MECHANICAL SYSTEM</th>
+                  <th class="p-2">FORCE-VOLTAGE ANALOGY</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300 text-[11px]">
+                <tr><td class="p-2 font-bold text-white">Mass ($m$) / Rotational Inertia ($J$)</td><td class="p-2 text-sky-300 font-bold">Inductor ($L$)</td></tr>
+                <tr><td class="p-2 font-bold text-white">Damper / Viscous Friction ($b$ / $M$)</td><td class="p-2 text-rose-400 font-bold">Resistor ($R$) (Q33)</td></tr>
+                <tr><td class="p-2 font-bold text-white">Spring Constant ($k$)</td><td class="p-2 text-amber-300 font-bold">Elastance ($1/C$)</td></tr>
+                <tr><td class="p-2 font-bold text-white">Displacement ($x$ / $\theta$)</td><td class="p-2 text-emerald-300">Charge ($q$)</td></tr>
+                <tr><td class="p-2 font-bold text-white">Velocity ($v$ / $\omega$)</td><td class="p-2 text-cyan-300">Current ($i$)</td></tr>
+              </tbody>
+            </table>
+
+            <div class="bg-slate-950 p-2.5 rounded border border-slate-800 mt-3 text-[11px]">
+              <strong class="text-amber-300">Q34 SOLVED [NOTES]:</strong> Motor $J \frac{d^2\theta}{dt^2} + M \frac{d\theta}{dt} = K I(t)$.<br>
+              Given $J=0.05, M=0.02, K=0.5, I=4\text{A}$ at $t=0$ from rest ($\frac{d\theta}{dt}=0$):<br>
+              $$0.05 \frac{d^2\theta}{dt^2} + 0 = 0.5(4) = 2 \implies \frac{d^2\theta}{dt^2} = \frac{2}{0.05} = \mathbf{40\text{ rad/s}^2}$$
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: VAN DER POL OSCILLATOR -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-3 searchable-card">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span class="font-black text-sm text-amber-400">VAN DER POL OSCILLATOR (Q40)</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-800 font-bold">🔵 CONCEPTUAL</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <p>Non-linear equation modeling self-sustaining electronic oscillators (e.g., varactor diode circuits):</p>
+            <div class="bg-slate-950 p-3 rounded border border-slate-800 text-center">
+              <p class="code-font text-amber-300 font-bold text-sm">$$\frac{d^2 v}{dt^2} + (v^2 - 1)\frac{dv}{dt} + v = 0$$</p>
+            </div>
+            <p class="text-[11px] text-slate-400">Features non-linear damping: adds energy at low amplitudes ($|v| < 1$) and dissipates energy at high amplitudes ($|v| > 1$), creating stable limit cycles.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- MODULE 5: ALL 45 PDF ITEMS & BOARD CHEAT SHEET                -->
+    <!-- ============================================================== -->
+    <div id="page5" class="tab-content hidden space-y-6">
+
+      <div class="bg-gradient-to-r from-slate-900 via-rose-950 to-slate-900 border border-rose-800/60 rounded-xl p-5 shadow-2xl">
+        <h2 class="text-2xl font-black text-rose-400 mb-1">MODULE 5: COMPLETE PDF DIRECTORY (Q1–Q45) &amp; RAPID CHEAT SHEET</h2>
+        <p class="text-xs text-slate-300">Step-by-step solution directory for every item from the uploaded review notes, side-by-side comparisons, and formula memory locks.</p>
+      </div>
+
+      <!-- DON'T CONFUSE THESE COMPARISON GRID -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- COMPARISON 1: LAPLACE VS POISSON -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-2 searchable-card">
+          <h3 class="text-xs font-black text-sky-400 border-b border-slate-800 pb-1">⚡ LAPLACE EQUATION vs POISSON EQUATION</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+              <span class="font-bold text-emerald-400">LAPLACE EQUATION</span>
+              <p class="code-font my-1 text-sky-300 text-xs">$$\nabla^2 u = 0$$</p>
+              <p class="text-[10px] text-slate-400">Charge-free region ($\rho = 0$). Solutions are <strong>Harmonic Functions</strong>.</p>
+            </div>
+            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+              <span class="font-bold text-amber-400">POISSON EQUATION</span>
+              <p class="code-font my-1 text-yellow-300 text-xs">$$\nabla^2 u = f(x,y)$$</p>
+              <p class="text-[10px] text-slate-400">Region WITH charge density present ($\rho \neq 0$).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPARISON 2: SERIES VS PARALLEL RESONANCE -->
+        <div class="bg-slate-900 p-4 rounded-xl card-border space-y-2 searchable-card">
+          <h3 class="text-xs font-black text-amber-400 border-b border-slate-800 pb-1">⚡ SERIES RLC vs PARALLEL RLC DAMPING EFFECT</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+              <span class="font-bold text-sky-400">SERIES RLC</span>
+              <p class="code-font my-1 text-xs">$$\zeta = \frac{R}{2}\sqrt{\frac{C}{L}}$$</p>
+              <p class="text-[10px] text-emerald-400">Increasing $R \implies$ INCREASES Damping!</p>
+            </div>
+            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+              <span class="font-bold text-rose-400">PARALLEL RLC</span>
+              <p class="code-font my-1 text-xs">$$\zeta = \frac{1}{2R}\sqrt{\frac{L}{C}}$$</p>
+              <p class="text-[10px] text-rose-400 font-bold">Increasing $R \implies$ DECREASES Damping!</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TOP 10 BOARD EXAM FORMULA MEMORY LOCK -->
+      <div class="bg-slate-900 p-5 rounded-xl card-border space-y-3">
+        <h3 class="text-sm font-black text-rose-400 flex items-center gap-2">
+          <span>🚀 TOP 10 BOARD EXAM FORMULA MEMORY LOCK</span>
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center text-xs code-font">
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
+            <div class="text-slate-400 text-[10px]">RL Time Constant</div>
+            <div class="text-yellow-300 font-bold mt-1">$$\tau = \frac{L}{R}$$</div>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
+            <div class="text-slate-400 text-[10px]">RC Time Constant</div>
+            <div class="text-yellow-300 font-bold mt-1">$$\tau = R C$$</div>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
+            <div class="text-slate-400 text-[10px]">Resonant Freq ($\omega_0$)</div>
+            <div class="text-emerald-300 font-bold mt-1">$$\omega_0 = \frac{1}{\sqrt{LC}}$$</div>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
+            <div class="text-slate-400 text-[10px]">Critical Damping Condition</div>
+            <div class="text-amber-300 font-bold mt-1">$$R^2 = \frac{4L}{C}$$</div>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800">
+            <div class="text-slate-400 text-[10px]">Wronskian 2x2</div>
+            <div class="text-sky-300 font-bold mt-1">$$f g' - g f'$$</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXHAUSTIVE SOLVED PDF QUESTIONS DIRECTORY (Q1 TO Q45) -->
+      <div class="bg-slate-900 p-5 rounded-xl card-border space-y-4">
+        <h3 class="text-sm font-extrabold text-amber-400 flex items-center justify-between">
+          <span>📋 ALL 45 SOLVED BOARD EXAM QUESTIONS FROM REVIEW NOTES</span>
+          <span class="text-xs text-slate-400 font-normal">Directly extracted from Aug 27 (Math).pdf</span>
+        </h3>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-950 text-slate-300 border-b border-slate-800 code-font">
+                <th class="p-2 border-r border-slate-800 w-12">#</th>
+                <th class="p-2 border-r border-slate-800 w-1/3">QUESTION SUMMARY / CONCEPT</th>
+                <th class="p-2 border-r border-slate-800 w-24 text-center">ANS</th>
+                <th class="p-2">FORMULA / SOLUTION REASONING</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300 text-[11px]">
+              
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q1</td>
+                <td class="p-2">Wronskian guarantee for Linearly Dependent functions on interval I.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Equals EXACTLY 0 at every single point in interval I ($W \equiv 0$).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q2</td>
+                <td class="p-2">Wronskian $W(\cos x, \sin x)$ for $y'' + y = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$W = \cos x(\cos x) - \sin x(-\sin x) = \cos^2 x + \sin^2 x = \mathbf{1}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q3</td>
+                <td class="p-2">Order &amp; Degree of $(y''')^2 + 4\sin(y') = x^3$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">Order = 3 (highest derivative). Degree = UNDEFINED ($\sin(y')$ term).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q4</td>
+                <td class="p-2">Order of DE for family $y = C_1 e^{4x + C_2}$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Rewrite $y = C_1 e^{C_2} e^{4x} = C e^{4x} \implies 1$ essential constant $\implies \mathbf{\text{First Order}}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q5</td>
+                <td class="p-2">Mathematical proof definition of Linear Differential Operator $L$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Superposition test: $L(c_1 y_1 + c_2 y_2) = c_1 L(y_1) + c_2 L(y_2)$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q6</td>
+                <td class="p-2">1st-order DE for circles tangent to x-axis at origin.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2">$x^2 + y^2 - 2ry = 0 \implies \mathbf{(x^2 - y^2)y' - 2xy = 0}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q7</td>
+                <td class="p-2">Orthogonal field lines to equipotential $y = c x^2$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$y' = 2cx = 2y/x \implies$ Orthogonal slope $\mathbf{dy/dx = -x/(2y)}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q8</td>
+                <td class="p-2">Which DE CANNOT be solved by Separation of Variables?</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$\frac{dy}{dt} = y^2 + t^2$ cannot be factored into $f(y)g(t)$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q9</td>
+                <td class="p-2">Formal algebraic test for homogeneous function of degree $n$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2 font-bold text-sky-300">$M(tx, ty) = t^n M(x, y)$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q10</td>
+                <td class="p-2">Guaranteed outcome of sub $y = vx$ in homogeneous DE.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Reduces the equation to a Variable Separable DE.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q11</td>
+                <td class="p-2">Exactness test for $(3x^2y + 2xy)dx + (x^3 + x^2 + 2y)dy = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$\frac{\partial M}{\partial y} = 3x^2 + 2x = \frac{\partial N}{\partial x} \implies \mathbf{\text{EXACT}}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q12</td>
+                <td class="p-2">Secondary test ratio for I.F. depending strictly on $y$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2 font-bold text-amber-300">$$\frac{N_x - M_y}{M} \implies \mu(y) = e^{\int p(y)dy}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q13</td>
+                <td class="p-2">Physical meaning of exact DE solution $F(x,y) = C$ in electrostatics.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Electric Potential Field (Voltage).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q14</td>
+                <td class="p-2">Which feature strictly classifies a DE as non-linear?</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">Dependent variable $y$ multiplied directly by $dy/dx$ ($y \frac{dy}{dx}$).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q15</td>
+                <td class="p-2">Which circuit/physical equation is strictly non-linear?</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">$\frac{d^2\theta}{dt^2} + \sin(\theta) = 0$ (pendulum/synchronous motor DE).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q16</td>
+                <td class="p-2">Integrating factor for RL circuit $L \frac{dI}{dt} + RI = V(t)$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">D</td>
+                <td class="p-2 font-bold text-emerald-300">$$I.F. = e^{(R/L)t}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q17</td>
+                <td class="p-2">Substitution to linearize Bernoulli DE $y' + Py = Qy^n$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2 font-bold text-yellow-300">$$v = y^{1-n}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q18</td>
+                <td class="p-2">Characteristic eq for matrix system $x' = 2x-3y, y' = 4x-5y$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2">$\det(A - \lambda I) = (2-\lambda)(-5-\lambda) - (-12) = \mathbf{\lambda^2 + 3\lambda + 2 = 0}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q19</td>
+                <td class="p-2">General solution for system $x'=4x+2y, y'=-3x-3y$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">D</td>
+                <td class="p-2">Option D has sign flip in eigenvector component for $e^{3t}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q20</td>
+                <td class="p-2">General solution to $y'' + 6y' + 9y = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">$(m+3)^2 = 0 \implies \mathbf{y = c_1 e^{-3x} + c_2 x e^{-3x}}$ (Repeated root).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q21</td>
+                <td class="p-2">DE corresponding to general solution $y = C_1 e^{2t} + C_2 e^{-3t}$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2">$(m-2)(m+3) = m^2 + m - 6 = 0 \implies \mathbf{y'' + y' - 6y = 0}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q22</td>
+                <td class="p-2">Physical meaning of homogeneous solution in driven RLC.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Natural transient response of the system.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q23</td>
+                <td class="p-2">Particular solution $y_p(t)$ for $y'' + 9y = 5\sin(3t)$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Pure resonance ($\omega=\omega_0=3$) $\implies \mathbf{y_p(t) = A t \cos(3t) + B t \sin(3t)}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q24</td>
+                <td class="p-2">Response of series RLC with $R=2\Omega, L=1\text{H}, C=0.04\text{F}$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">$R^2=4 < 4L/C=100 \implies$ Exponentially decaying sinusoid (Underdamped).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q25</td>
+                <td class="p-2">System state if characteristic root is $m = \pm 3$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Positive real root $m=+3$ causes exponential growth ($e^{3t}$) $\implies$ Unstable!</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q26</td>
+                <td class="p-2">Return to equilibrium for $\frac{d^2x}{dt^2} + 8\frac{dx}{dt} + 16x = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$(m+4)^2 = 0$ (Critically damped) $\implies$ Returns fastest without oscillating.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q27</td>
+                <td class="p-2">Exact critical damping condition for RLC series circuit.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2 font-bold text-amber-300">$$R^2 - \frac{4L}{C} = 0 \implies R^2 = \frac{4L}{C}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q28</td>
+                <td class="p-2">Classification of transient response for $q'' + 8q' + 25q = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2">Roots $m = -4 \pm j3 \implies$ Underdamped (Oscillatory).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q29</td>
+                <td class="p-2">Undamped natural freq $\omega_n$ for $4q'' + 12q' + 100q = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Divide by 4: $q'' + 3q' + 25q = 0 \implies \omega_n = \sqrt{25} = \mathbf{5\text{ rad/s}}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q30</td>
+                <td class="p-2">Natural freq $\omega_n$ &amp; damping ratio $\zeta$ for $x(t)=e^{-3t}(C_1\cos 4t + C_2\sin 4t)$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$\alpha=3, \omega_d=4 \implies \omega_n = \sqrt{3^2+4^2} = \mathbf{5\text{ rad/s}}, \zeta = 3/5 = \mathbf{0.600}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q31</td>
+                <td class="p-2">Time constants $\tau$ for $\frac{d^2v}{dt^2} + 5\frac{dv}{dt} + 4v = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">Roots $m = -1, -4 \implies \tau_1 = 1/1 = \mathbf{1\text{ s}}, \tau_2 = 1/4 = \mathbf{0.25\text{ s}}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q32</td>
+                <td class="p-2">Instantaneous current in shorted RL ($L=50\text{mH}, R=25\Omega, I_0=2\text{A}$) at $t=0.5\text{ms}$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2">$\tau = 50\text{m}/25 = 2\text{ms} \implies i(0.5\text{m}) = 2 e^{-0.5/2} = \mathbf{1.56\text{ A}}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q33</td>
+                <td class="p-2">Mechanical damper corresponds to which electrical element?</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">Resistor ($R$).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q34</td>
+                <td class="p-2">Initial acceleration $\frac{d^2\theta}{dt^2}$ at $t=0$ for DC motor armature.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2 font-bold text-sky-300">$$J \alpha = K I \implies 0.05 \alpha = 0.5(4) = 2 \implies \alpha = \mathbf{40\text{ rad/s}^2}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q35</td>
+                <td class="p-2">Which component dictates transient response in charging RC?</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">The complementary solution ($y_c$).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q36</td>
+                <td class="p-2">Steady-state current $I_{ss}$ &amp; time constant $\tau$ for $0.5i' + 10i = 24$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">$I_{ss} = 24/10 = \mathbf{2.4\text{ A}}$, $\tau = L/R = 0.5/10 = \mathbf{0.05\text{ s}}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q37</td>
+                <td class="p-2">Natural resonant frequency of LC tank ($L=10\text{mH}, C=10\mu\text{F}$).</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2 font-bold text-emerald-300">$$\omega_0 = \frac{1}{\sqrt{10^{-2} \times 10^{-5}}} = \frac{1}{\sqrt{10^{-7}}} = \mathbf{3,162\text{ rad/s}}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q38</td>
+                <td class="p-2">Effect of increasing $R$ on damping ratio in Parallel RLC circuit.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">In parallel RLC, $\zeta = \frac{1}{2R}\sqrt{\frac{L}{C}} \implies$ Increasing $R$ <strong>DECREASES</strong> $\zeta$!</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q39</td>
+                <td class="p-2">General solution to Clairaut DE $y = x y' + (y')^2$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2">Replace $y'$ with constant $c \implies \mathbf{y = c x + c^2}$.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q40</td>
+                <td class="p-2">Name of non-linear DE $v'' + (v^2-1)v' + v = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">Van der Pol Equation.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q41</td>
+                <td class="p-2">1D Diffusion / Heat equation PDE format.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">A</td>
+                <td class="p-2 font-bold text-sky-300">$$\frac{\partial u}{\partial t} = c^2 \frac{\partial^2 u}{\partial x^2}$$</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q42</td>
+                <td class="p-2">PDE mapping potential when charge density $f(x,y)$ is present.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">2D Poisson Equation ($\nabla^2 u = f(x,y)$).</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q43</td>
+                <td class="p-2">Mathematical classification of function satisfying Laplace eq.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">Harmonic Function.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card bg-slate-950/40">
+                <td class="p-2 font-bold text-sky-400 code-font">Q44</td>
+                <td class="p-2">Classification of steady-state Laplace equation $u_{xx} + u_{yy} = 0$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">C</td>
+                <td class="p-2">Elliptic PDE.</td>
+              </tr>
+
+              <tr class="hover:bg-slate-800/50 searchable-card">
+                <td class="p-2 font-bold text-sky-400 code-font">Q45</td>
+                <td class="p-2">Lipschitz constant $L$ for $\frac{dy}{dt} = 7y + \cos(t)$.</td>
+                <td class="p-2 text-center font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-800">B</td>
+                <td class="p-2">$L = \max |\frac{\partial f}{\partial y}| = \frac{\partial}{\partial y}(7y + \cos t) = \mathbf{7}$.</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- TAB SWITCHING & SEARCH SCRIPT -->
+  <script>
+    function triggerMathJax() {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise().catch(err => console.log('MathJax typeset error:', err));
+      }
+    }
+
+    function switchTab(tabId) {
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('block');
+      });
+      // Deactivate all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+
+      // Show active content
+      const activeContent = document.getElementById(tabId);
+      if (activeContent) {
+        activeContent.classList.remove('hidden');
+        activeContent.classList.add('block');
+      }
+
+      // Highlight active button
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+        activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg');
+      }
+
+      // Trigger MathJax re-render for newly visible elements
+      setTimeout(triggerMathJax, 50);
+    }
+
+    function filterCards() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.searchable-card');
+      
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    window.onload = function() {
+      triggerMathJax();
+    };
+  </script>
+</body>
+</html>
