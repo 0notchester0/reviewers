@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Board Exam — Rapid Command Center & Dense Infographic Reviewer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for crisp mathematical formula rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- Phosphor Icons for Engineering UI -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#082f49',
+                            accent: '#00f2fe',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e',
+                            emerald: '#10b981',
+                            purple: '#a855f7'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Menlo', 'Courier New', 'monospace'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #080d1a;
+            color: #e2e8f0;
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Technical grid background pattern */
+        .bg-tech-grid {
+            background-image: radial-gradient(rgba(14, 165, 233, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .formula-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .formula-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(14, 165, 233, 0.25);
+        }
+
+        .katex-display {
+            margin: 0.4em 0 !important;
+        }
+        .katex {
+            font-size: 1.05em;
+        }
+    </style>
+</head>
+<body class="bg-[#070b14] text-slate-100 min-h-screen bg-tech-grid antialiased selection:bg-cyan-500 selection:text-black">
+
+    <header class="sticky top-0 z-50 bg-[#090f1d]/95 backdrop-blur-md border-b border-cyan-900/60 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2.5 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-md text-white">
+                        <i class="ph-bold ph-cpu text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                                ECE BOARD EXAM COMMAND CENTER
+                                <span class="bg-cyan-500/20 text-cyan-300 text-[11px] px-2.5 py-0.5 rounded-full border border-cyan-500/40 font-mono font-semibold">HIGH-DENSITY REVIEWER</span>
+                            </h1>
+                        </div>
+                        <p class="text-xs text-slate-400">Digital Electronics • Microprocessor Systems (8085/8051) • Logic Families • FSMs • Formulas</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs & Fast Quick Links -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="scrollToSection('sec-overview')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-slate-300 transition-all border border-slate-700 flex items-center gap-1.5">
+                        <i class="ph ph-tree-structure"></i> Taxonomy
+                    </button>
+                    <button onclick="scrollToSection('sec-combinational')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-cyan-400 transition-all border border-slate-700 flex items-center gap-1.5">
+                        <i class="ph ph-circuitry"></i> Combinational
+                    </button>
+                    <button onclick="scrollToSection('sec-sequential')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-emerald-400 transition-all border border-slate-700 flex items-center gap-1.5">
+                        <i class="ph ph-arrows-clockwise"></i> Sequential & FSM
+                    </button>
+                    <button onclick="scrollToSection('sec-microprocessors')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 hover:bg-slate-700 text-amber-400 transition-all border border-slate-700 flex items-center gap-1.5">
+                        <i class="ph ph-microchip"></i> 8085 & MCU
+                    </button>
+                    <button onclick="scrollToSection('sec-formulas')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white transition-all shadow-md flex items-center gap-1.5">
+                        <i class="ph ph-calculator"></i> Formulas & Solvers
+                    </button>
+                    <button onclick="scrollToSection('sec-traps')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-950/80 hover:bg-rose-900 text-rose-300 transition-all border border-rose-800/60 flex items-center gap-1.5">
+                        <i class="ph ph-warning-octagon"></i> Traps
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+
+        <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="bg-[#0e1626] border border-cyan-900/60 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Fastest Logic
+                </span>
+                <div class="mt-1">
+                    <div class="text-lg font-bold text-cyan-300">ECL</div>
+                    <div class="text-[11px] text-slate-400 font-mono">\(t_{pd} \approx 2\text{ ns}\) (Non-sat BJT)</div>
+                </div>
+            </div>
+
+            <div class="bg-[#0e1626] border border-emerald-900/60 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Lowest Power
+                </span>
+                <div class="mt-1">
+                    <div class="text-lg font-bold text-emerald-300">CMOS</div>
+                    <div class="text-[11px] text-slate-400 font-mono">\(P_D \approx 0.1\text{ mW}\) / High \(NM\)</div>
+                </div>
+            </div>
+
+            <div class="bg-[#0e1626] border border-amber-900/60 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span> Universal Gates
+                </span>
+                <div class="mt-1">
+                    <div class="text-lg font-bold text-amber-300">NAND / NOR</div>
+                    <div class="text-[11px] text-slate-400 font-mono">7400 (NAND) • 7402 (NOR)</div>
+                </div>
+            </div>
+
+            <div class="bg-[#0e1626] border border-purple-900/60 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-purple-400"></span> Johnson Modulo
+                </span>
+                <div class="mt-1">
+                    <div class="text-lg font-bold text-purple-300">\(2N\text{ States}\)</div>
+                    <div class="text-[11px] text-slate-400 font-mono">4 Flip-Flops = 8 States</div>
+                </div>
+            </div>
+
+            <div class="bg-[#0e1626] border border-blue-900/60 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-blue-400"></span> Frequency Divider
+                </span>
+                <div class="mt-1">
+                    <div class="text-lg font-bold text-blue-300">\(f_{clk} / 2^N\)</div>
+                    <div class="text-[11px] text-slate-400 font-mono">T-FF / JK (\(J=K=1\))</div>
+                </div>
+            </div>
+
+            <div class="bg-[#0e1626] border border-rose-900/60 rounded-xl p-3 flex flex-col justify-between shadow-sm">
+                <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-rose-400"></span> 8051 Port Reset
+                </span>
+                <div class="mt-1">
+                    <div class="text-lg font-bold text-rose-300">Logic HIGH</div>
+                    <div class="text-[11px] text-slate-400 font-mono">Default \(0\text{xFF}\) (\(+5\text{V}\))</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-overview" class="bg-[#0e1626] border border-slate-800 rounded-2xl p-5 shadow-xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-cyan-400"></div>
+                    <h2 class="text-lg font-bold text-white tracking-wide uppercase">🗺️ Master Architecture & Exam Topic Map</h2>
+                </div>
+                <span class="text-xs text-slate-400 font-mono">Interactive Board Knowledge Tree</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+                <!-- Branch 1 -->
+                <div class="p-4 rounded-xl bg-slate-900/90 border border-cyan-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl"></div>
+                    <h3 class="text-cyan-300 font-bold text-sm mb-2 flex items-center gap-2">
+                        <i class="ph ph-tree-view text-base"></i> 1. Combinational Systems
+                    </h3>
+                    <ul class="space-y-1.5 text-slate-300">
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> Universal Gates: NAND (7400), NOR (7402)</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> Boolean Algebra & Consensus Theorem</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> K-Map Reductions & Don't Care States (\(d\))</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> Prime & Essential Prime Implicants (EPI)</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> Quine-McCluskey Method (\(> 5\) variables)</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> Static-1 Hazard Fix: Redundant Consensus Term</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">▸</span> Adders: \(\Sigma = A \oplus B \oplus C_{in}\), \(C_{out} = AB + C_{in}(A \oplus B)\)</li>
+                    </ul>
+                </div>
+
+                <!-- Branch 2 -->
+                <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl"></div>
+                    <h3 class="text-emerald-300 font-bold text-sm mb-2 flex items-center gap-2">
+                        <i class="ph ph-repeat text-base"></i> 2. Sequential Logic & FSM
+                    </h3>
+                    <ul class="space-y-1.5 text-slate-300">
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> Latches & Flip-Flops: SR, JK, D, T</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> D-FF (\(J=D, K=D'\)), T-FF (\(J=K=T\))</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> Ripple (\(N \cdot t_{pd}\)) vs Synchronous Counters</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> Johnson (Twisted-Ring) Modulo-\(2N\) Counter</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> Shift Registers: SISO, SIPO, PISO, PIPO</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> Moore (State Only) vs Mealy (State + Input)</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">▸</span> ASM Charts: State (Rect), Decision (Diamond), Cond (Oval)</li>
+                    </ul>
+                </div>
+
+                <!-- Branch 3 -->
+                <div class="p-4 rounded-xl bg-slate-900/90 border border-amber-900/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl"></div>
+                    <h3 class="text-amber-300 font-bold text-sm mb-2 flex items-center gap-2">
+                        <i class="ph ph-cpu text-base"></i> 3. Microprocessors & Embedded
+                    </h3>
+                    <ul class="space-y-1.5 text-slate-300">
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> Harvard (Dual Bus) vs Von Neumann (Unified)</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> 8085 Architecture: PC (16-bit), SP (LIFO), ALU</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> Status Flags: Sign, Zero, Parity, Aux Carry, Carry</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> SRAM (6T Cache, No Refresh) vs DRAM (1T1C Refresh)</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> Instruction Timing: Cycle = 1 to 5 Machine Cycles</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> Interfacing: Flyback Diode (\(L \frac{di}{dt}\)), Pull-Up/Down, DMA</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">▸</span> Protocols: I2C (2-wire SDA/SCL) vs SPI (4-wire)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-combinational" class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex items-center gap-3">
+                    <span class="px-2.5 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-lg text-xs font-mono font-bold">SECTION 1</span>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Combinational Logic, Boolean Algebra & Gate Synthesis</h2>
+                </div>
+                <span class="text-xs text-slate-400 font-mono hidden sm:inline">Q1–Q17 In-Depth Notes</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                
+                <!-- 74xx IC Matrix Card -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+                                <i class="ph-bold ph-identification-card text-lg"></i> 74xx IC Standard Mapping
+                            </h3>
+                            <span class="bg-rose-500/20 text-rose-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">🔴 MUST MEMORIZE</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs font-mono border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400">
+                                        <th class="py-1 px-2">IC Part</th>
+                                        <th class="py-1 px-2">Logic Function</th>
+                                        <th class="py-1 px-2">Configuration</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">7400</td>
+                                        <td class="py-1.5 px-2">NAND Gate</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Quad 2-Input (Universal)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">7402</td>
+                                        <td class="py-1.5 px-2">NOR Gate</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Quad 2-Input (Universal)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">7404 / 7414</td>
+                                        <td class="py-1.5 px-2">NOT Inverter</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Hex Inverter / Schmitt</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">7408</td>
+                                        <td class="py-1.5 px-2">AND Gate</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Quad 2-Input</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">7432</td>
+                                        <td class="py-1.5 px-2">OR Gate</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Quad 2-Input</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">7486</td>
+                                        <td class="py-1.5 px-2">XOR Gate</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Quad 2-Input (Inequality)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800/40">
+                                        <td class="py-1.5 px-2 font-bold text-cyan-400">74266</td>
+                                        <td class="py-1.5 px-2">XNOR Gate</td>
+                                        <td class="py-1.5 px-2 text-slate-400">Quad 2-Input (Coincidence)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-2 bg-slate-900 rounded-lg border border-slate-800 text-[11px] text-slate-400 font-mono">
+                        <span class="text-amber-400 font-bold">Exam Key:</span> To detect when two binary inputs differ, use <strong class="text-white">7486 (XOR)</strong>.
+                    </div>
+                </div>
+
+                <!-- Universal Synthesis Rules & Identities -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+                                <i class="ph-bold ph-atom text-lg"></i> Universal Synthesis Rules
+                            </h3>
+                            <span class="bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">🟠 HIGH-YIELD</span>
+                        </div>
+                        <div class="space-y-2 text-xs">
+                            <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                                <div class="font-bold text-white mb-1">SOP \(\to\) 2-Level NAND-NAND</div>
+                                <p class="text-slate-300 text-[11px]">Sum of Products maps directly to 2-level NAND. Minimum NANDs for \(F = AB + CD\) is <span class="text-cyan-300 font-bold font-mono">3 Gates</span>.</p>
+                                <div class="mt-1 text-[11px] font-mono text-cyan-300">$$\overline{\overline{AB} \cdot \overline{CD}} = AB + CD$$</div>
+                            </div>
+                            <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                                <div class="font-bold text-white mb-1">POS \(\to\) 2-Level NOR-NOR</div>
+                                <p class="text-slate-300 text-[11px]">Grouping 0s in K-map yields Product of Sums (POS), which directly realizes a 2-level NOR-NOR circuit without inverters.</p>
+                            </div>
+                            <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                                <div class="font-bold text-white mb-1">Consensus / Redundancy Theorem</div>
+                                <div class="text-[11px] font-mono text-cyan-300">$$AB + A'C + BC = AB + A'C$$</div>
+                                <div class="text-[10px] text-slate-400 mt-0.5">Dual: \((A+B)(A'+C)(B+C) = (A+B)(A'+C)\)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-2 bg-slate-900 rounded-lg border border-slate-800 text-[11px] text-slate-400 font-mono">
+                        <span class="text-cyan-400 font-bold">Odd Function:</span> \((A \oplus B) \oplus C = 1\) when an <strong class="text-white">ODD number of inputs</strong> are 1.
+                    </div>
+                </div>
+
+                <!-- Static Hazards & Quine-McCluskey Card -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+                                <i class="ph-bold ph-shield-warning text-lg"></i> Static Hazards & Tabular QM
+                            </h3>
+                            <span class="bg-rose-500/20 text-rose-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">⚠️ COMMON TRAP</span>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="p-2.5 bg-rose-950/30 border border-rose-900/50 rounded-lg">
+                                <div class="font-bold text-rose-300 text-xs flex items-center gap-1">
+                                    <i class="ph-bold ph-warning"></i> Static-1 Hazard Elimination
+                                </div>
+                                <p class="text-slate-300 text-[11px] mt-1">
+                                    Occurs in \(F = AB + A'C\) when \(B=C=1\) and \(A\) transitions \(1 \to 0\). Output momentarily drops to \(0\).
+                                </p>
+                                <div class="mt-1.5 p-1.5 bg-slate-900 rounded font-mono text-[11px] text-emerald-400">
+                                    Fix: Add consensus term \(BC \implies F = AB + A'C + \mathbf{BC}\)
+                                </div>
+                            </div>
+
+                            <div class="p-2.5 bg-slate-900/90 border border-slate-800 rounded-lg">
+                                <div class="font-bold text-cyan-300 text-xs mb-1">Quine-McCluskey (QM) Method</div>
+                                <p class="text-slate-300 text-[11px]">
+                                    Algorithmic tabular technique suited for software/computer minimization when input variables <strong class="text-white">exceed 5 or 6</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 p-2 bg-slate-900 rounded-lg border border-slate-800 text-[11px] text-slate-400 font-mono">
+                        <span class="text-purple-400 font-bold">EPI:</span> Essential Prime Implicant covers \(\ge 1\) minterm not covered by any other PI.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- K-Map 4-Variable Power Matrix -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="ph-bold ph-squares-four text-cyan-400"></i> K-Map Group Size vs. Term Variables (\(N=4\))
+                        </h3>
+                        <span class="text-[11px] font-mono text-cyan-400 font-bold">\(\text{Vars} = N - \log_2(k)\)</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 text-center text-xs font-mono mt-3">
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                            <div class="text-slate-400 text-[10px]">1 CELL</div>
+                            <div class="text-cyan-300 font-bold text-sm mt-0.5">4 Vars</div>
+                            <div class="text-[9px] text-slate-500 mt-0.5">Minterm (e.g. \(ABCD\))</div>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                            <div class="text-slate-400 text-[10px]">2 CELLS</div>
+                            <div class="text-cyan-300 font-bold text-sm mt-0.5">3 Vars</div>
+                            <div class="text-[9px] text-slate-500 mt-0.5">Pair (e.g. \(ABC\))</div>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                            <div class="text-slate-400 text-[10px]">4 CELLS</div>
+                            <div class="text-cyan-300 font-bold text-sm mt-0.5">2 Vars</div>
+                            <div class="text-[9px] text-slate-500 mt-0.5">Quad (e.g. \(AC\))</div>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                            <div class="text-slate-400 text-[10px]">8 CELLS</div>
+                            <div class="text-cyan-300 font-bold text-sm mt-0.5">1 Var</div>
+                            <div class="text-[9px] text-slate-500 mt-0.5">Octet (e.g. \(A\))</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-[11px] text-slate-400 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 font-mono flex items-center justify-between">
+                        <span>\(\Sigma m(0,2,4,6)\) in 3-var (\(A,B,C\)) \(\implies \mathbf{F = C'}\)</span>
+                        <span class="text-cyan-400 font-bold">4-cell grouping eliminates \(A\) and \(B\)</span>
+                    </div>
+                </div>
+
+                <!-- Arithmetic Logic & Adders -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-2">
+                            <i class="ph-bold ph-plus-minus text-emerald-400"></i> Half Adder & Full Adder Architecture
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3 text-xs font-mono mt-2">
+                            <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                                <div class="text-emerald-400 font-bold mb-1">HALF ADDER</div>
+                                <div class="text-[11px] text-slate-300">2 Inputs (\(A, B\)), 2 Outputs:</div>
+                                <div class="mt-1 text-slate-200">$$\Sigma = A \oplus B$$</div>
+                                <div class="text-slate-200">$$C_{out} = A \cdot B$$</div>
+                            </div>
+                            <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                                <div class="text-emerald-400 font-bold mb-1">FULL ADDER</div>
+                                <div class="text-[11px] text-slate-300">3 Inputs (\(A, B, C_{in}\)), 2 Outputs:</div>
+                                <div class="mt-1 text-slate-200">$$\Sigma = A \oplus B \oplus C_{in}$$</div>
+                                <div class="text-slate-200">$$C_{out} = AB + C_{in}(A \oplus B)$$</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-[11px] text-slate-400 font-mono bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+                        <span class="text-amber-400 font-bold">Exam Trap:</span> For Full Adder with \(A=1, B=1, C_{in}=0 \implies \mathbf{\Sigma = 0, C_{out} = 1}\).
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="sec-sequential" class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex items-center gap-3">
+                    <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-mono font-bold">SECTION 2</span>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Sequential Circuits, FSM Architectures & Logic Families</h2>
+                </div>
+                <span class="text-xs text-slate-400 font-mono hidden sm:inline">Q18–Q38 In-Depth Notes</span>
+            </div>
+
+            <!-- Flip-Flop Characteristic Equations & ASM Charts -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                <!-- SR -->
+                <div class="p-3 bg-[#0e1626] border border-slate-800 rounded-xl">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-rose-400 font-mono">SR FLIP-FLOP</span>
+                        <span class="text-[9px] bg-rose-900/50 text-rose-300 px-1.5 py-0.5 rounded font-mono">Race at 11</span>
+                    </div>
+                    <div class="text-xs font-mono text-slate-300 mt-2">
+                        <div>$$Q_{\text{next}} = S + R'Q$$</div>
+                        <div class="text-[10px] text-slate-400 mt-1">Constraint: \(S \cdot R = 0\)</div>
+                        <div class="text-[10px] text-rose-400 mt-0.5">Uncertain/Invalid state when \(S=1, R=1\)</div>
+                    </div>
+                </div>
+
+                <!-- JK -->
+                <div class="p-3 bg-[#0e1626] border border-slate-800 rounded-xl">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-cyan-400 font-mono">JK FLIP-FLOP</span>
+                        <span class="text-[9px] bg-cyan-900/50 text-cyan-300 px-1.5 py-0.5 rounded font-mono">Universal FF</span>
+                    </div>
+                    <div class="text-xs font-mono text-slate-300 mt-2">
+                        <div>$$Q_{\text{next}} = J Q' + K' Q$$</div>
+                        <div class="text-[10px] text-slate-400 mt-1">\(J=K=0 \to\) No change</div>
+                        <div class="text-[10px] text-cyan-400 mt-0.5">\(J=K=1 \to\) Toggle (\(Q'\))</div>
+                    </div>
+                </div>
+
+                <!-- D -->
+                <div class="p-3 bg-[#0e1626] border border-slate-800 rounded-xl">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-emerald-400 font-mono">D FLIP-FLOP</span>
+                        <span class="text-[9px] bg-emerald-900/50 text-emerald-300 px-1.5 py-0.5 rounded font-mono">Data Latch</span>
+                    </div>
+                    <div class="text-xs font-mono text-slate-300 mt-2">
+                        <div>$$Q_{\text{next}} = D$$</div>
+                        <div class="text-[10px] text-slate-400 mt-1">From JK: Connect \(J=D, K=D'\)</div>
+                        <div class="text-[10px] text-emerald-400 mt-0.5">Stores 1 bit reliably on clk edge</div>
+                    </div>
+                </div>
+
+                <!-- T -->
+                <div class="p-3 bg-[#0e1626] border border-slate-800 rounded-xl">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-purple-400 font-mono">T FLIP-FLOP</span>
+                        <span class="text-[9px] bg-purple-900/50 text-purple-300 px-1.5 py-0.5 rounded font-mono">Freq Divider</span>
+                    </div>
+                    <div class="text-xs font-mono text-slate-300 mt-2">
+                        <div>$$Q_{\text{next}} = T \oplus Q$$</div>
+                        <div class="text-[10px] text-slate-400 mt-1">From JK: Connect \(J=K=T\)</div>
+                        <div class="text-[10px] text-purple-400 mt-0.5">When \(T=1 \implies f_{out} = f_{clk}/2\)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                
+                <!-- Moore vs Mealy In-Depth Comparison -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="ph-bold ph-git-fork text-emerald-400"></i> FSM Paradigm: Moore vs. Mealy Machines
+                        </h3>
+                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">CORE FSM</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                        <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
+                            <div class="text-cyan-400 font-bold text-sm mb-1">MOORE MACHINE</div>
+                            <ul class="space-y-1.5 text-slate-300 text-[11px]">
+                                <li>• Output depends <strong class="text-white">ONLY on Present State</strong></li>
+                                <li>• Output written <strong class="text-white">INSIDE</strong> state circle (\(S_n/\text{out}\))</li>
+                                <li>• Synchronous output (Glitch-free)</li>
+                                <li>• Sequence detection requires <strong class="text-cyan-300">\((N+1)\) States</strong></li>
+                                <li>• <em>Ex:</em> 2 consecutive coins \(\to\) <strong class="text-cyan-300">3 States (2 FFs)</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/90 rounded-lg border border-slate-800">
+                            <div class="text-emerald-400 font-bold text-sm mb-1">MEALY MACHINE</div>
+                            <ul class="space-y-1.5 text-slate-300 text-[11px]">
+                                <li>• Output depends on <strong class="text-white">Present State AND Inputs</strong></li>
+                                <li>• Output written on <strong class="text-white">TRANSITION ARCS</strong> (\(\text{in}/\text{out}\))</li>
+                                <li>• Faster asynchronous response to input</li>
+                                <li>• Sequence detection requires <strong class="text-emerald-300">\(N\) States</strong></li>
+                                <li>• <em>Ex:</em> 2 consecutive coins \(\to\) <strong class="text-emerald-300">2 States (1 FF)</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ASM Chart Standard Elements -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="ph-bold ph-flow-arrow text-purple-400"></i> Algorithmic State Machine (ASM) Symbols
+                        </h3>
+                        <span class="text-xs text-slate-400 font-mono">Q25 Key Reference</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                        <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex flex-col items-center justify-between">
+                            <div class="w-10 h-7 border-2 border-cyan-400 rounded-sm flex items-center justify-center text-[10px] text-cyan-300 font-bold bg-cyan-950/40">
+                                STATE
+                            </div>
+                            <div class="mt-2 font-bold text-slate-200 text-[11px]">RECTANGLE</div>
+                            <div class="text-[10px] text-slate-400 mt-1">State Box / Unconditional Moore Outputs</div>
+                        </div>
+
+                        <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex flex-col items-center justify-between">
+                            <div class="w-8 h-8 border-2 border-amber-400 rotate-45 flex items-center justify-center bg-amber-950/40">
+                                <span class="-rotate-45 text-[9px] text-amber-300 font-bold">DEC</span>
+                            </div>
+                            <div class="mt-2 font-bold text-slate-200 text-[11px]">DIAMOND</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Decision Box / Evaluates Boolean condition (\(0/1\))</div>
+                        </div>
+
+                        <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex flex-col items-center justify-between">
+                            <div class="w-10 h-7 border-2 border-emerald-400 rounded-full flex items-center justify-center text-[9px] text-emerald-300 font-bold bg-emerald-950/40">
+                                COND
+                            </div>
+                            <div class="mt-2 font-bold text-slate-200 text-[11px]">OVAL / ROUNDED</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Conditional Output Box / Mealy Outputs</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                    <div>
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="ph-bold ph-scales text-amber-400"></i> IC Logic Families Benchmark Table
+                        </h3>
+                        <p class="text-xs text-slate-400">Quantitative comparisons directly from board exam review problems</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-cyan-900/60 text-cyan-300 text-[10px] rounded font-mono">Fastest: ECL</span>
+                        <span class="px-2 py-0.5 bg-emerald-900/60 text-emerald-300 text-[10px] rounded font-mono">Lowest Power: CMOS</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs font-mono border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 bg-slate-900/50">
+                                <th class="py-2 px-3">IC Logic Family</th>
+                                <th class="py-2 px-3">Transistor Type</th>
+                                <th class="py-2 px-3">Fan-Out</th>
+                                <th class="py-2 px-3">Prop. Delay (\(t_{pd}\))</th>
+                                <th class="py-2 px-3">Power Dissipation (\(P_D\))</th>
+                                <th class="py-2 px-3">Noise Margin (\(NM\))</th>
+                                <th class="py-2 px-3">Key Exam Distinction</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                            <tr class="hover:bg-slate-800/30">
+                                <td class="py-2 px-3 font-bold text-slate-200">Standard TTL (74)</td>
+                                <td class="py-2 px-3 text-slate-400">Saturated BJT</td>
+                                <td class="py-2 px-3">10</td>
+                                <td class="py-2 px-3 text-amber-400">\(10\text{ ns}\)</td>
+                                <td class="py-2 px-3">\(10\text{ mW}\)</td>
+                                <td class="py-2 px-3">\(0.4\text{ V}\)</td>
+                                <td class="py-2 px-3 text-slate-400">Legacy standard \(5\text{V}\) logic</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30">
+                                <td class="py-2 px-3 font-bold text-slate-200">Schottky TTL (74S)</td>
+                                <td class="py-2 px-3 text-slate-400">Schottky-Clamped BJT</td>
+                                <td class="py-2 px-3">10</td>
+                                <td class="py-2 px-3 text-cyan-300">\(3\text{ ns}\)</td>
+                                <td class="py-2 px-3 text-rose-400">\(22\text{ mW}\)</td>
+                                <td class="py-2 px-3">\(0.4\text{ V}\)</td>
+                                <td class="py-2 px-3 text-slate-400">Prevents BJT saturation</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30">
+                                <td class="py-2 px-3 font-bold text-slate-200">Low-Power Schottky (74LS)</td>
+                                <td class="py-2 px-3 text-slate-400">Schottky BJT</td>
+                                <td class="py-2 px-3 text-emerald-400">20</td>
+                                <td class="py-2 px-3">\(10\text{ ns}\)</td>
+                                <td class="py-2 px-3 text-emerald-400">\(2\text{ mW}\)</td>
+                                <td class="py-2 px-3">\(0.4\text{ V}\)</td>
+                                <td class="py-2 px-3 text-slate-400">Optimal power/speed TTL balance</td>
+                            </tr>
+                            <tr class="hover:bg-cyan-950/20 bg-cyan-950/10">
+                                <td class="py-2 px-3 font-bold text-cyan-300">ECL (Emitter-Coupled Logic)</td>
+                                <td class="py-2 px-3 text-cyan-400">Non-Saturating BJT</td>
+                                <td class="py-2 px-3">25</td>
+                                <td class="py-2 px-3 font-bold text-cyan-300">\(2\text{ ns}\) (FASTEST)</td>
+                                <td class="py-2 px-3 font-bold text-rose-400">\(25\text{ mW}\) (HIGHEST)</td>
+                                <td class="py-2 px-3 text-rose-400">\(0.2\text{ V}\) (Lowest)</td>
+                                <td class="py-2 px-3 text-cyan-300 font-semibold">Highest operational speed</td>
+                            </tr>
+                            <tr class="hover:bg-emerald-950/20 bg-emerald-950/10">
+                                <td class="py-2 px-3 font-bold text-emerald-300">CMOS (4000 / 74HC)</td>
+                                <td class="py-2 px-3 text-emerald-400">MOSFET (N & P-ch)</td>
+                                <td class="py-2 px-3 font-bold text-emerald-400">50+ (HIGHEST)</td>
+                                <td class="py-2 px-3 text-slate-400">\(25\text{ ns}\) (Slowest)</td>
+                                <td class="py-2 px-3 font-bold text-emerald-300">\(0.1\text{ mW}\) (LOWEST static)</td>
+                                <td class="py-2 px-3 font-bold text-emerald-300">\(3.0\text{ V}\) (HIGHEST)</td>
+                                <td class="py-2 px-3 text-emerald-300 font-semibold">Max noise immunity / EMI environments</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Johnson Counter Card -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-bold text-purple-300 font-mono uppercase">4-Bit Johnson (Twisted-Ring)</h4>
+                        <span class="text-[10px] bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded font-mono font-bold">\(2N = 8\text{ States}\)</span>
+                    </div>
+                    <p class="text-[11px] text-slate-300 mb-2">Feedback: Inverted output \(\overline{Q}_N\) connected to input \(D_1\).</p>
+                    <div class="p-2 bg-slate-900 rounded font-mono text-xs space-y-1 text-slate-300">
+                        <div class="flex justify-between"><span>Reset:</span> <span class="text-slate-400">0 0 0 0</span></div>
+                        <div class="flex justify-between"><span>Clk 1:</span> <span class="text-cyan-400">1 0 0 0</span></div>
+                        <div class="flex justify-between"><span>Clk 2:</span> <span class="text-cyan-400">1 1 0 0</span></div>
+                        <div class="flex justify-between bg-cyan-950/50 px-1 rounded border border-cyan-800/50"><span>Clk 3:</span> <strong class="text-cyan-300">1 1 1 0</strong> (Q22 Key)</div>
+                        <div class="flex justify-between"><span>Clk 4:</span> <span class="text-slate-400">1 1 1 1</span></div>
+                    </div>
+                </div>
+
+                <!-- Shift Register Right Shift -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-bold text-cyan-300 font-mono uppercase">Shift Register Right Shift</h4>
+                        <span class="text-[10px] bg-cyan-900/60 text-cyan-300 px-2 py-0.5 rounded font-mono font-bold">SIPO / SISO</span>
+                    </div>
+                    <p class="text-[11px] text-slate-300 mb-2">Initial: \([b_3, b_2, b_1, b_0] = [1, 0, 1, 0]\). Serial Input \(= 1\).</p>
+                    <div class="p-2.5 bg-slate-900 rounded font-mono text-xs text-center space-y-2">
+                        <div class="text-slate-400 text-[11px]">\(\text{Input } (1) \longrightarrow [1 \quad 0 \quad 1 \quad 0] \longrightarrow \text{Discard } (0)\)</div>
+                        <div class="p-1.5 bg-emerald-950/60 border border-emerald-800/50 rounded text-emerald-300 font-bold">
+                            New State: \(1101_2\) (\(13_{10}\) / \(\text{D}_{16}\))
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Synchronous vs Ripple -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="text-xs font-bold text-amber-300 font-mono uppercase">Ripple vs. Synchronous</h4>
+                        <span class="text-[10px] bg-amber-900/60 text-amber-300 px-2 py-0.5 rounded font-mono font-bold">Delay Mechanics</span>
+                    </div>
+                    <div class="space-y-2 text-[11px] font-mono">
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800 text-slate-300">
+                            <span class="text-amber-400 font-bold">Ripple (Asynch):</span> Clock ripples stage-by-stage. Delay \(= N \times t_{pd}\). (Slow).
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800 text-slate-300">
+                            <span class="text-cyan-400 font-bold">Synchronous:</span> All FFs share common clock. Delay \(= t_{pd}\) (single stage).
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="sec-microprocessors" class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="flex items-center gap-3">
+                    <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-lg text-xs font-mono font-bold">SECTION 3</span>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Microprocessor Architecture (8085/8051) & Embedded Interfacing</h2>
+                </div>
+                <span class="text-xs text-slate-400 font-mono hidden sm:inline">Q39–Q70 In-Depth Notes</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                
+                <!-- 8085 Register Architecture -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                                <i class="ph-bold ph-cpu text-lg"></i> 8085 Core Registers & Buses
+                            </h3>
+                            <span class="bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">HARDWARE</span>
+                        </div>
+                        <ul class="space-y-2 text-xs font-mono text-slate-300">
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-cyan-400 font-bold">Program Counter (PC):</span> 16-bit register holding the address of the <strong class="text-white">NEXT instruction</strong> to be fetched.
+                            </li>
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-emerald-400 font-bold">Stack Pointer (SP):</span> 16-bit register pointing to the top address of the <strong class="text-white">LIFO stack</strong>.
+                            </li>
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-amber-400 font-bold">Address Bus:</span> 16-bit, <strong class="text-rose-400">UNIDIRECTIONAL</strong> (CPU \(\longrightarrow\) Memory/IO).
+                            </li>
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-purple-400 font-bold">Data Bus:</span> 8-bit, <strong class="text-cyan-400">BIDIRECTIONAL</strong> (CPU \(\longleftrightarrow\) Memory/IO).
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-3 p-2 bg-slate-900 rounded-lg border border-slate-800 text-[11px] text-slate-400 font-mono">
+                        <span class="text-amber-400 font-bold">READY Pin:</span> Active-HIGH input from slow memory/IO to insert CPU WAIT states.
+                    </div>
+                </div>
+
+                <!-- 8085 PSW Flags & Assembly Execution -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                                <i class="ph-bold ph-flag text-lg"></i> Status Flags & DAA Execution
+                            </h3>
+                            <span class="bg-cyan-500/20 text-cyan-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">PSW REGISTER</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-5 gap-1 text-center font-mono text-xs mb-3">
+                            <div class="p-1 bg-slate-900 rounded border border-slate-800"><span class="text-slate-400 text-[9px]">S</span><div class="font-bold text-cyan-300">Sign</div></div>
+                            <div class="p-1 bg-slate-900 rounded border border-slate-800"><span class="text-slate-400 text-[9px]">Z</span><div class="font-bold text-cyan-300">Zero</div></div>
+                            <div class="p-1 bg-slate-900 rounded border border-slate-800"><span class="text-slate-400 text-[9px]">AC</span><div class="font-bold text-cyan-300">Aux</div></div>
+                            <div class="p-1 bg-slate-900 rounded border border-cyan-500 bg-cyan-950/40"><span class="text-cyan-400 text-[9px]">P</span><div class="font-bold text-cyan-300">Parity</div></div>
+                            <div class="p-1 bg-slate-900 rounded border border-slate-800"><span class="text-slate-400 text-[9px]">CY</span><div class="font-bold text-cyan-300">Carry</div></div>
+                        </div>
+
+                        <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800 font-mono text-xs space-y-1">
+                            <div class="text-slate-400 text-[10px] uppercase font-bold">Assembly Snippet Trace (Q54):</div>
+                            <div class="text-slate-300">MVI A, 05H <span class="text-slate-500">; A = 05H</span></div>
+                            <div class="text-slate-300">MVI B, 03H <span class="text-slate-500">; B = 03H</span></div>
+                            <div class="text-slate-300">ADD B      <span class="text-slate-500">; A = 08H</span></div>
+                            <div class="text-emerald-400 font-bold">DAA        <span class="text-slate-400">; A stays 08H (since 08H \(\le\) 9)</span></div>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-2 bg-slate-900 rounded-lg border border-slate-800 text-[11px] text-slate-400 font-mono">
+                        <span class="text-cyan-400 font-bold">Parity Flag (P):</span> Sets to `1` when arithmetic result contains an <strong class="text-white">EVEN number of 1s</strong>.
+                    </div>
+                </div>
+
+                <!-- Embedded Interfacing & Circuit Protection -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                                <i class="ph-bold ph-shield-check text-lg"></i> Hardware Protection & IO Rules
+                            </h3>
+                            <span class="bg-rose-500/20 text-rose-300 text-[10px] px-2 py-0.5 rounded font-mono font-bold">INTERFACING</span>
+                        </div>
+                        <ul class="space-y-2 text-xs font-mono text-slate-300">
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-rose-400 font-bold">Flyback Diode:</span> Connected in <strong class="text-white">reverse-parallel across inductive loads</strong> to suppress back-EMF (\(E = -L \frac{di}{dt}\)).
+                            </li>
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-amber-400 font-bold">Pull-Up / Down Resistors:</span> Prevents <strong class="text-white">floating high-impedance inputs</strong> from picking up EMI/noise.
+                            </li>
+                            <li class="p-2 bg-slate-900 rounded-lg border border-slate-800">
+                                <span class="text-cyan-400 font-bold">8051 Reset Pin State:</span> Immediately after hard reset, all port pins default to <strong class="text-emerald-300">Logic HIGH (\(+5\text{V} / \text{FFH}\))</strong>.
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-3 p-2 bg-slate-900 rounded-lg border border-slate-800 text-[11px] text-slate-400 font-mono">
+                        <span class="text-purple-400 font-bold">DMA Controller:</span> Performs direct memory-to-peripheral transfers without CPU overhead.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- SRAM vs DRAM vs ROM Matrix -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-3">
+                        <i class="ph-bold ph-memory text-cyan-400"></i> Semiconductor Memory Matrix
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs font-mono border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400">
+                                    <th class="py-1 px-2">Type</th>
+                                    <th class="py-1 px-2">Cell Design</th>
+                                    <th class="py-1 px-2">Periodic Refresh?</th>
+                                    <th class="py-1 px-2">Typical Application</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="py-1.5 px-2 font-bold text-cyan-300">SRAM</td>
+                                    <td class="py-1.5 px-2">6-Transistor Latch</td>
+                                    <td class="py-1.5 px-2 text-emerald-400 font-bold">NO</td>
+                                    <td class="py-1.5 px-2">High-speed CPU Cache</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="py-1.5 px-2 font-bold text-amber-300">DRAM</td>
+                                    <td class="py-1.5 px-2">1 Transistor + 1 Capacitor</td>
+                                    <td class="py-1.5 px-2 text-rose-400 font-bold">YES (Cap leak)</td>
+                                    <td class="py-1.5 px-2">Main System Memory (High density)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40">
+                                    <td class="py-1.5 px-2 font-bold text-purple-300">ROM / Flash</td>
+                                    <td class="py-1.5 px-2">Non-volatile floating gate</td>
+                                    <td class="py-1.5 px-2 text-emerald-400 font-bold">NO</td>
+                                    <td class="py-1.5 px-2">Firmware / Boot ROM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Serial Protocols: I2C vs SPI -->
+                <div class="bg-[#0e1626] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-2">
+                            <i class="ph-bold ph-plugs-connected text-emerald-400"></i> Board-Level Communication: \(I^2C\) vs. SPI
+                        </h3>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                                <div class="text-cyan-400 font-bold mb-1">I2C (Inter-IC)</div>
+                                <ul class="space-y-1 text-slate-300 text-[11px]">
+                                    <li>• <strong class="text-white">2 Wires:</strong> SDA (Data), SCL (Clock)</li>
+                                    <li>• Open-drain with pull-up resistors</li>
+                                    <li>• <strong class="text-emerald-300">Best for constrained PCB trace area</strong></li>
+                                </ul>
+                            </div>
+                            <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                                <div class="text-purple-400 font-bold mb-1">SPI (Serial Peripheral)</div>
+                                <ul class="space-y-1 text-slate-300 text-[11px]">
+                                    <li>• <strong class="text-white">4 Wires:</strong> MOSI, MISO, SCK, CS</li>
+                                    <li>• Dedicated CS line per slave device</li>
+                                    <li>• Higher throughput, more PCB traces</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-[11px] text-slate-400 font-mono bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+                        <span class="text-amber-400 font-bold">Bus Conflict:</span> Prevented by the <strong class="text-white">Address Decoder / Chip Select Logic</strong>.
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="sec-formulas" class="bg-[#0e1626] border border-cyan-900/50 rounded-2xl p-5 shadow-xl space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-lg text-xs font-mono font-bold">INTERACTIVE</span>
+                        <h2 class="text-xl font-bold text-white tracking-tight">Board Exam Formula Deck & Live Solvers</h2>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Instant numerical problem verification for high-yield computational topics</p>
+                </div>
+                <div class="hidden sm:flex items-center gap-2 text-xs font-mono text-cyan-400">
+                    <i class="ph-bold ph-lightning"></i> Real-time Evaluation Engine
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                
+                <!-- Calculator 1: MIPS Calculator -->
+                <div class="formula-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-cyan-300 font-mono">1. CPU MIPS Throughput</h4>
+                            <span class="text-[10px] bg-cyan-900/60 text-cyan-300 px-1.5 py-0.5 rounded font-mono">Q50 Formula</span>
+                        </div>
+                        <div class="text-xs font-mono text-slate-300 mb-3">
+                            $$\text{MIPS} = \frac{f_{\text{clk}}\text{ (MHz)}}{\text{CPI}}$$
+                        </div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Clock Frequency \(f_{clk}\) (MHz):</label>
+                                <input type="number" id="calc-mips-f" value="50" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-cyan-300 mt-0.5 focus:border-cyan-400 outline-none" oninput="computeMIPS()">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Average Cycles Per Instruction (CPI):</label>
+                                <input type="number" id="calc-mips-cpi" value="2" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-cyan-300 mt-0.5 focus:border-cyan-400 outline-none" oninput="computeMIPS()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-950 rounded-lg border border-cyan-900/50 flex items-center justify-between font-mono">
+                        <span class="text-xs text-slate-400">Throughput:</span>
+                        <span id="calc-mips-res" class="text-base font-bold text-cyan-300">25.00 MIPS</span>
+                    </div>
+                </div>
+
+                <!-- Calculator 2: FLOPS Calculator -->
+                <div class="formula-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-emerald-300 font-mono">2. Floating-Point Rate (FLOPS)</h4>
+                            <span class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded font-mono">Q48 Formula</span>
+                        </div>
+                        <div class="text-xs font-mono text-slate-300 mb-3">
+                            $$\text{FLOPS} = N_{\text{cores}} \times f_{\text{clk}} \times \left(\frac{\text{FPO}}{\text{cycle}}\right)$$
+                        </div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-slate-400 text-[10px]">Cores (\(N_{\text{cores}}\)):</label>
+                                    <input type="number" id="calc-flops-c" value="1" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-emerald-300 mt-0.5 outline-none" oninput="computeFLOPS()">
+                                </div>
+                                <div>
+                                    <label class="text-slate-400 text-[10px]">\(f_{clk}\) (GHz):</label>
+                                    <input type="number" id="calc-flops-f" step="0.1" value="4.8" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-emerald-300 mt-0.5 outline-none" oninput="computeFLOPS()">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[10px]">FPO Operations Per Cycle:</label>
+                                <input type="number" id="calc-flops-fpo" value="4" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-emerald-300 mt-0.5 outline-none" oninput="computeFLOPS()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-950 rounded-lg border border-emerald-900/50 flex items-center justify-between font-mono">
+                        <span class="text-xs text-slate-400">Floating-Point:</span>
+                        <span id="calc-flops-res" class="text-base font-bold text-emerald-300">19.20 GFLOPS</span>
+                    </div>
+                </div>
+
+                <!-- Calculator 3: PWM Duty Cycle -->
+                <div class="formula-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-amber-300 font-mono">3. PWM Duty Cycle (\(\delta\))</h4>
+                            <span class="text-[10px] bg-amber-900/60 text-amber-300 px-1.5 py-0.5 rounded font-mono">Q46 Formula</span>
+                        </div>
+                        <div class="text-xs font-mono text-slate-300 mb-3">
+                            $$V_{\text{avg}} = \delta \cdot V_s \implies \delta = \frac{V_{\text{desired}}}{V_s} \times 100\%$$
+                        </div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Supply Voltage \(V_s\) (Volts):</label>
+                                <input type="number" id="calc-pwm-vs" value="12" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-amber-300 mt-0.5 outline-none" oninput="computePWM()">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Desired Output \(V_{\text{avg}}\) (Volts):</label>
+                                <input type="number" id="calc-pwm-vout" value="9" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-amber-300 mt-0.5 outline-none" oninput="computePWM()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-950 rounded-lg border border-amber-900/50 flex items-center justify-between font-mono">
+                        <span class="text-xs text-slate-400">Duty Cycle:</span>
+                        <span id="calc-pwm-res" class="text-base font-bold text-amber-300">75.0 % (0.75)</span>
+                    </div>
+                </div>
+
+                <!-- Calculator 4: Real-time Instruction Budget -->
+                <div class="formula-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-purple-300 font-mono">4. Real-Time Instruction Budget</h4>
+                            <span class="text-[10px] bg-purple-900/60 text-purple-300 px-1.5 py-0.5 rounded font-mono">Q51 Formula</span>
+                        </div>
+                        <div class="text-xs font-mono text-slate-300 mb-3">
+                            $$N_{\text{inst}} = \text{MIPS} \times 10^6 \times T_{\text{response}}$$
+                        </div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Microcontroller MIPS:</label>
+                                <input type="number" id="calc-budget-mips" value="1" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-purple-300 mt-0.5 outline-none" oninput="computeBudget()">
+                            </div>
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Required Response Time \(T\) (ms):</label>
+                                <input type="number" id="calc-budget-t" value="2" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-purple-300 mt-0.5 outline-none" oninput="computeBudget()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-950 rounded-lg border border-purple-900/50 flex items-center justify-between font-mono">
+                        <span class="text-xs text-slate-400">Max Instructions:</span>
+                        <span id="calc-budget-res" class="text-base font-bold text-purple-300">2,000 inst</span>
+                    </div>
+                </div>
+
+                <!-- Calculator 5: 8-Bit Two's Complement Converter -->
+                <div class="formula-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-cyan-300 font-mono">5. 8-Bit Two's Complement</h4>
+                            <span class="text-[10px] bg-cyan-900/60 text-cyan-300 px-1.5 py-0.5 rounded font-mono">Q5 Method</span>
+                        </div>
+                        <div class="text-xs font-mono text-slate-300 mb-3">
+                            $$\text{Two's Comp} = \text{One's Comp} + 1$$
+                        </div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Decimal Value (-128 to +127):</label>
+                                <input type="number" id="calc-twos-dec" value="-35" min="-128" max="127" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-cyan-300 mt-0.5 outline-none" oninput="computeTwos()">
+                            </div>
+                            <div class="text-[10px] text-slate-400 pt-1 font-mono" id="calc-twos-steps">
+                                \(+35 = 00100011_2 \to \text{1's} = 11011100_2 \to +1\)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-950 rounded-lg border border-cyan-900/50 flex items-center justify-between font-mono">
+                        <span class="text-xs text-slate-400">8-Bit Binary:</span>
+                        <span id="calc-twos-res" class="text-base font-bold text-cyan-300">11011101₂ (DD₁₆)</span>
+                    </div>
+                </div>
+
+                <!-- Calculator 6: Fractional Decimal to Binary -->
+                <div class="formula-card bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-emerald-300 font-mono">6. Fractional Dec \(\to\) Binary</h4>
+                            <span class="text-[10px] bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded font-mono">Q10 Method</span>
+                        </div>
+                        <div class="text-xs font-mono text-slate-300 mb-3">
+                            $$\text{Repeated Multiplication by 2}$$
+                        </div>
+                        <div class="space-y-2 text-xs font-mono">
+                            <div>
+                                <label class="text-slate-400 text-[10px]">Fraction (e.g. 0.625):</label>
+                                <input type="number" step="0.001" id="calc-frac-dec" value="0.625" min="0" max="1" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-emerald-300 mt-0.5 outline-none" oninput="computeFrac()">
+                            </div>
+                            <div class="text-[10px] text-slate-400 pt-1 font-mono" id="calc-frac-steps">
+                                \(0.625 \times 2 = 1.25 \to 0.25 \times 2 = 0.5 \dots\)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-950 rounded-lg border border-emerald-900/50 flex items-center justify-between font-mono">
+                        <span class="text-xs text-slate-400">Radix Binary:</span>
+                        <span id="calc-frac-res" class="text-base font-bold text-emerald-300">0.101₂</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="sec-traps" class="bg-[#0e1626] border border-rose-900/50 rounded-2xl p-5 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="p-1.5 bg-rose-500/20 text-rose-400 rounded-lg">
+                        <i class="ph-bold ph-warning-octagon text-xl"></i>
+                    </span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white tracking-wide uppercase">🚫 DON'T CONFUSE THESE (CRITICAL BOARD EXAM TRAPS)</h2>
+                        <p class="text-xs text-slate-400">High-yield distinctions frequently tested in multiple-choice exams</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
+                
+                <!-- Trap 1 -->
+                <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+                    <div class="font-bold text-rose-300 text-sm border-b border-slate-800 pb-1 flex justify-between">
+                        <span>PROGRAM COUNTER vs. STACK POINTER</span>
+                    </div>
+                    <div class="space-y-1.5 text-slate-300 text-[11px]">
+                        <div><strong class="text-cyan-400">PC (Program Counter):</strong> Holds the 16-bit address of the <strong class="text-white">NEXT instruction</strong> to fetch. Increments automatically.</div>
+                        <div><strong class="text-purple-400">SP (Stack Pointer):</strong> Holds the 16-bit address of the <strong class="text-white">TOP of the LIFO stack</strong>. Modified by PUSH, POP, CALL, RET.</div>
+                        <div class="text-[10px] text-rose-400 pt-1">⚠️ TRAP: Never confuse PC with instruction register or accumulator.</div>
+                    </div>
+                </div>
+
+                <!-- Trap 2 -->
+                <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+                    <div class="font-bold text-rose-300 text-sm border-b border-slate-800 pb-1 flex justify-between">
+                        <span>HARVARD vs. VON NEUMANN</span>
+                    </div>
+                    <div class="space-y-1.5 text-slate-300 text-[11px]">
+                        <div><strong class="text-emerald-400">Harvard:</strong> Separate buses & memories for Code and Data. Allows simultaneous fetch & access \(\to\) <strong class="text-white">Higher Throughput</strong>.</div>
+                        <div><strong class="text-amber-400">Von Neumann:</strong> Shared bus and shared memory for Code and Data \(\to\) Von Neumann bottleneck.</div>
+                        <div class="text-[10px] text-rose-400 pt-1">⚠️ TRAP: Harvard does NOT eliminate the ALU or require non-volatile RAM.</div>
+                    </div>
+                </div>
+
+                <!-- Trap 3 -->
+                <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+                    <div class="font-bold text-rose-300 text-sm border-b border-slate-800 pb-1 flex justify-between">
+                        <span>SRAM vs. DRAM</span>
+                    </div>
+                    <div class="space-y-1.5 text-slate-300 text-[11px]">
+                        <div><strong class="text-cyan-400">SRAM:</strong> 6T Flip-Flop cell. Fast, costly, <strong class="text-white">DOES NOT NEED REFRESH</strong>. Used in Cache.</div>
+                        <div><strong class="text-amber-400">DRAM:</strong> 1T + 1 Capacitor cell. Dense, cheaper, <strong class="text-rose-400">REQUIRES PERIODIC REFRESH</strong>. Used in main RAM.</div>
+                        <div class="text-[10px] text-rose-400 pt-1">⚠️ TRAP: DRAM loses charge due to capacitor leakage even with power ON.</div>
+                    </div>
+                </div>
+
+                <!-- Trap 4 -->
+                <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+                    <div class="font-bold text-rose-300 text-sm border-b border-slate-800 pb-1 flex justify-between">
+                        <span>RIPPLE vs. SYNCHRONOUS COUNTERS</span>
+                    </div>
+                    <div class="space-y-1.5 text-slate-300 text-[11px]">
+                        <div><strong class="text-amber-400">Ripple (Asynchronous):</strong> FF \(Q\)-output clocks next stage. Delays accumulate: \(t_{tot} = N \cdot t_{pd}\).</div>
+                        <div><strong class="text-cyan-400">Synchronous:</strong> Clock pin of every FF connected in parallel to common clock. Negligible cumulative delay.</div>
+                        <div class="text-[10px] text-rose-400 pt-1">⚠️ TRAP: Both can be built with JK or D flip-flops; clock wiring is the key.</div>
+                    </div>
+                </div>
+
+                <!-- Trap 5 -->
+                <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+                    <div class="font-bold text-rose-300 text-sm border-b border-slate-800 pb-1 flex justify-between">
+                        <span>ECL vs. CMOS</span>
+                    </div>
+                    <div class="space-y-1.5 text-slate-300 text-[11px]">
+                        <div><strong class="text-cyan-400">ECL:</strong> Fastest logic family (\(2\text{ ns}\) delay), non-saturating BJTs, highest power consumption (\(25\text{ mW}\)).</div>
+                        <div><strong class="text-emerald-400">CMOS:</strong> Lowest static power consumption (\(0.1\text{ mW}\)), highest noise immunity (\(3.0\text{ V}\)), best for EMI.</div>
+                        <div class="text-[10px] text-rose-400 pt-1">⚠️ TRAP: Standard TTL has higher noise immunity than ECL, but CMOS has the highest.</div>
+                    </div>
+                </div>
+
+                <!-- Trap 6 -->
+                <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2">
+                    <div class="font-bold text-rose-300 text-sm border-b border-slate-800 pb-1 flex justify-between">
+                        <span>ADDRESS BUS vs. DATA BUS</span>
+                    </div>
+                    <div class="space-y-1.5 text-slate-300 text-[11px]">
+                        <div><strong class="text-rose-400">Address Bus:</strong> 16-bit, <strong class="text-white">UNIDIRECTIONAL</strong> outward from CPU to Memory/IO decoder.</div>
+                        <div><strong class="text-cyan-400">Data Bus:</strong> 8-bit, <strong class="text-white">BIDIRECTIONAL</strong> between CPU and Memory/IO.</div>
+                        <div class="text-[10px] text-rose-400 pt-1">⚠️ TRAP: Control bus contains individual control lines, but Address is strictly 1-way.</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="bg-[#0e1626] border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                <div>
+                    <h2 class="text-lg font-bold text-white tracking-wide uppercase flex items-center gap-2">
+                        <i class="ph-bold ph-list-magnifying-glass text-cyan-400"></i> Full Question-to-Concept Knowledge Matrix (Q1 to Q70)
+                    </h2>
+                    <p class="text-xs text-slate-400">Searchable repository of all 70 exam questions with detailed step-by-step mathematical solutions</p>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-slate-400"></i>
+                    <input type="text" id="concept-search" placeholder="Search question, keyword, or IC..." class="w-full bg-slate-950 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-xs text-cyan-300 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono" oninput="filterBank()">
+                </div>
+            </div>
+
+            <!-- Concept Bank Grid -->
+            <div id="bank-container" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- Dynamically Populated via JS with KaTeX auto-rendered math -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 border-t border-slate-800/80 bg-[#090f1d] py-6 text-center text-xs text-slate-500 font-mono">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div>ECE Board Exam Command Center • Digital Electronics & Microprocessor Systems</div>
+            <div class="text-slate-400">Designed for High-Yield Rapid Recall & Formula Verification</div>
+        </div>
+    </footer>
+
+    <script>
+        const examData = [
+            { q: 1, title: "Universal NAND Gate", tags: ["gates", "universal", "7400"], ans: "NAND", note: "Produces a LOW (0) output ONLY when all inputs are HIGH (1). \\(F = \\overline{A \\cdot B}\\)." },
+            { q: 2, title: "Boolean Simplification", tags: ["boolean", "algebra"], ans: "B + AC", note: "Given \\(F = AB + A(B+C) + B(B+C)\\): expanding gives \\(AB + AB + AC + B + BC = B(1+A+C) + AC = B + AC\\)." },
+            { q: 3, title: "XOR Logic Function", tags: ["gates", "xor"], ans: "XOR", note: "\\(F(A,B) = A'B + AB'\\) represents XOR (\\(A \\oplus B\\)). Its complement \\(\\overline{A'B + AB'} = AB + A'B'\\) represents XNOR." },
+            { q: 4, title: "3-Input XOR Odd Function", tags: ["xor", "parity"], ans: "Odd number of 1s", note: "\\(F = (A \\oplus B) \\oplus C\\) evaluates to HIGH (1) whenever an ODD number of inputs are 1." },
+            { q: 5, title: "Two's Complement of -35", tags: ["arithmetic", "binary"], ans: "11011101 (DDh)", note: "\\(+35_{10} = 00100011_2 \\to \\text{1's comp} = 11011100_2 \\to +1 = 11011101_2 = \\text{DD}_{16}\\)." },
+            { q: 6, title: "Minterm Expansion", tags: ["kmap", "minterm"], ans: "m7 (ABC)", note: "\\(F(A,B,C) = A'B'C + A'BC + AB'C = m_1 + m_3 + m_5\\). Adding \\(m_7 (ABC)\\) yields \\(C = C(A+A')(B+B')\\)." },
+            { q: 7, title: "74xx IC Inequality Detector", tags: ["74xx", "ic", "xor"], ans: "7486 (XOR)", note: "Outputs HIGH only when 2 inputs are different \\(\\to\\) 7486 (Quad 2-input XOR)." },
+            { q: 8, title: "NAND Synthesis for AB + CD", tags: ["nand", "synthesis"], ans: "3 NAND gates", note: "2 gates for level 1 (\\(\\overline{AB}, \\overline{CD}\\)) + 1 gate for level 2 \\(\\to \\overline{\\overline{AB} \\cdot \\overline{CD}} = AB + CD\\) (3 gates total)." },
+            { q: 9, title: "4-Variable K-Map 4-Cell Group", tags: ["kmap", "reduction"], ans: "2-variable product term", note: "Grouping \\(k=4\\) adjacent 1s eliminates \\(\\log_2(4) = 2\\) variables, leaving \\(4 - 2 = 2\\) variables." },
+            { q: 10, title: "Fractional Decimal to Binary", tags: ["binary", "fraction"], ans: "Repeated Mult by 2", note: "Multiply fraction by 2 repeatedly and record integer parts from top-to-bottom." },
+            { q: 11, title: "Quine-McCluskey Method", tags: ["minimization", "algorithms"], ans: "Quine-McCluskey", note: "Algorithmic tabular technique suited for computer reduction when variables \\(> 5\\text{ or }6\\)." },
+            { q: 12, title: "Essential Prime Implicant (EPI)", tags: ["kmap", "epi"], ans: "Covers ≥1 unique minterm", note: "An EPI covers at least one minterm that cannot be covered by any other prime implicant." },
+            { q: 13, title: "K-Map 3-Var Σm(0,2,4,6)", tags: ["kmap", "minimization"], ans: "F = C'", note: "Minterms 0,2,4,6 form a 4-cell group where \\(C\\) is 0 across all states \\(\\implies F = C'\\)." },
+            { q: 14, title: "K-Map with Don't Cares", tags: ["kmap", "dontcare"], ans: "F = B'D' + A'B' (or B')", note: "Grouping minterms 0,2,8,10 with don't cares 1,3 yields optimal reduction." },
+            { q: 15, title: "POS vs SOP NOR-NOR Synthesis", tags: ["pos", "nor"], ans: "Direct NOR-NOR Mapping", note: "Product-of-Sums (POS) algebraic form directly maps into 2-level NOR-NOR networks without extra inverters." },
+            { q: 16, title: "Static-1 Hazard Elimination", tags: ["hazard", "consensus"], ans: "Add Consensus Term BC", note: "\\(F = AB + A'C\\) has a glitch when \\(A\\) switches while \\(B=C=1\\). Adding consensus term \\(BC\\) fixes it." },
+            { q: 17, title: "Hazard-Free Modification", tags: ["hazard", "redundancy"], ans: "Add Redundant Consensus BC", note: "Adding consensus \\(BC\\) guarantees glitch-free operation without changing the boolean truth function." },
+            { q: 18, title: "Moore State Machine", tags: ["fsm", "moore"], ans: "Output = f(State ONLY)", note: "A Moore machine's output depends solely on the present state, not current inputs." },
+            { q: 19, title: "Mealy State Machine", tags: ["fsm", "mealy"], ans: "Output = f(State & Inputs)", note: "A Mealy machine's output depends on both the present state and current inputs." },
+            { q: 20, title: "Vending Machine Efficiency", tags: ["fsm", "mealy", "states"], ans: "Mealy with 2 states", note: "Detecting 2 consecutive inputs requires 2 states (1 FF) in Mealy vs 3 states (2 FFs) in Moore." },
+            { q: 21, title: "Ripple vs Synchronous Counter", tags: ["counters", "clock"], ans: "Clocking Scheme", note: "Synchronous counters clock all FFs simultaneously; Ripple uses previous output as next clock." },
+            { q: 22, title: "Full Adder Topology", tags: ["adders", "combinational"], ans: "3 Inputs, 2 Outputs", note: "Inputs: \\(A, B, C_{in}\\). Outputs: Sum (\\(\\Sigma\\)) and Carry-out (\\(C_{out}\\))." },
+            { q: 23, title: "4-Bit Johnson Counter State", tags: ["counters", "johnson"], ans: "1110", note: "Start 0000 \\(\\to\\) Clk 1: 1000 \\(\\to\\) Clk 2: 1100 \\(\\to\\) Clk 3: 1110. Total states = \\(2N = 8\\)." },
+            { q: 24, title: "D-FF from JK Flip-Flop", tags: ["flipflops", "dff"], ans: "Qnext = D", note: "Connecting an inverter between \\(J\\) and \\(K\\) (\\(J=D, K=D'\\)) creates a D flip-flop with \\(Q_{\\text{next}} = D\\)." },
+            { q: 25, title: "Full Adder (A=1, B=1, Cin=0)", tags: ["adders", "computation"], ans: "Σ = 0, Cout = 1", note: "\\(1 + 1 + 0 = 2_{10} = 10_2 \\implies \\Sigma = 0, C_{out} = 1\\)." },
+            { q: 26, title: "ASM Conditional Output Box", tags: ["asm", "fsm"], ans: "Oval with rounded sides", note: "State box = Rectangle; Decision box = Diamond; Conditional Output box = Oval." },
+            { q: 27, title: "ECL Major Advantage", tags: ["logicfamilies", "ecl"], ans: "Very High Speed (2 ns)", note: "Emitter-Coupled Logic uses non-saturating BJTs to achieve the highest operating speed." },
+            { q: 28, title: "Lowest Static Power Family", tags: ["logicfamilies", "cmos"], ans: "CMOS (0.1 mW)", note: "CMOS draws negligible static current because one MOS switch is always OFF." },
+            { q: 29, title: "High EMI Noise Immunity Logic", tags: ["logicfamilies", "noise"], ans: "CMOS (3.0 V Margin)", note: "CMOS provides the largest noise margins (\\(3.0\\text{ V}\\)), maximizing EMI rejection." },
+            { q: 30, title: "Positive Logic Definition", tags: ["logic", "voltage"], ans: "Logic 1 > Logic 0 Voltage", note: "In positive logic, logic 1 is the higher voltage level and logic 0 is the lower voltage." },
+            { q: 31, title: "SR-FF Uncertain State", tags: ["flipflops", "sr"], ans: "S-R Flip-Flop", note: "SR flip-flop exhibits an invalid/uncertain race condition when \\(S=1\\) and \\(R=1\\)." },
+            { q: 32, title: "T-FF from JK (J=K)", tags: ["flipflops", "tff"], ans: "T Flip-Flop", note: "Tying \\(J\\) and \\(K\\) together forms a T flip-flop (toggles when \\(T=1\\), holds when \\(T=0\\))." },
+            { q: 33, title: "T-FF Frequency Division", tags: ["frequency", "divider"], ans: "5 MHz (fclk / 2)", note: "\\(f_{\\text{out}} = f_{\\text{clk}} / 2 = 10\\text{ MHz} / 2 = 5\\text{ MHz}\\)." },
+            { q: 34, title: "JK-FF Frequency Divider", tags: ["flipflops", "division"], ans: "Divides frequency by 2", note: "When \\(J=K=1\\), JK flip-flop toggles every clock cycle, dividing input frequency by 2." },
+            { q: 35, title: "SIPO Register", tags: ["registers", "sipo"], ans: "Serial-In Parallel-Out", note: "Shifts in bits one at a time and outputs all bits simultaneously across parallel lines." },
+            { q: 36, title: "Right Shift Register Operation", tags: ["registers", "shift"], ans: "1101", note: "Initial 1010 shifted right with Serial In = 1 yields \\([1, 1, 0, 1] = 1101_2\\)." },
+            { q: 37, title: "8085 Program Counter (PC)", tags: ["8085", "pc"], ans: "Program Counter (16-bit)", note: "Stores the memory address of the NEXT instruction to be fetched." },
+            { q: 38, title: "Harvard Architecture Throughput", tags: ["harvard", "cpu"], ans: "Separate Code & Data Buses", note: "Separate memory buses allow instruction fetch and data operand read simultaneously." },
+            { q: 39, title: "Microcontroller GPIO Config", tags: ["mcu", "gpio"], ans: "Configure GPIO Mode", note: "Pins must be explicitly configured as input or output to guarantee signal compatibility." },
+            { q: 40, title: "Bus Conflict Prevention", tags: ["bus", "chipselect"], ans: "Address Decoder / Chip Select", note: "Decoders ensure only one IC drives the shared bidirectional data bus at a time." },
+            { q: 41, title: "Compiler Function", tags: ["software", "compiler"], ans: "Translates HLL to Machine Code", note: "Translates C/C++ source code directly into microprocessor machine code." },
+            { q: 42, title: "DRAM Dynamic Refresh", tags: ["memory", "dram"], ans: "Dynamic RAM (DRAM)", note: "Uses 1 capacitor + 1 transistor per cell; requires periodic refresh to retain charge." },
+            { q: 43, title: "PWM Peripheral Module", tags: ["mcu", "pwm"], ans: "PWM (Pulse Width Modulation)", note: "Generates variable duty-cycle pulse waveforms for speed control and voltage dimming." },
+            { q: 44, title: "Flyback Diode Protection", tags: ["interfacing", "protection"], ans: "Suppresses Inductive Back-EMF", note: "Reverse-parallel diode protects driving transistors from inductive voltage spikes (\\(L \\frac{di}{dt}\\))." },
+            { q: 45, title: "PWM Duty Cycle Calculation", tags: ["pwm", "math"], ans: "75% Duty Cycle", note: "\\(\\text{Duty Cycle} = \\frac{V_{\\text{out}}}{V_s} = \\frac{9\\text{ V}}{12\\text{ V}} = 0.75 = 75\\%\\)." },
+            { q: 46, title: "I2C Sensor Protocol Selection", tags: ["i2c", "protocols"], ans: "I2C (2-Wire SDA / SCL)", note: "Optimal for tight PCB trace areas connecting multiple onboard sensors." },
+            { q: 47, title: "FLOPS Performance Calculation", tags: ["flops", "performance"], ans: "19.2 GFLOPS", note: "\\(\\text{FLOPS} = 1\\text{ core} \\times 4.8\\text{ GHz} \\times 4\\text{ FPO} = 19.2\\text{ GFLOPS} = 0.0192\\text{ TFLOPS}\\)." },
+            { q: 48, title: "5-Stage Pipelining Throughput", tags: ["pipelining", "throughput"], ans: "1 instruction per cycle", note: "Under ideal conditions after filling, a pipeline completes 1 instruction every clock cycle." },
+            { q: 49, title: "MIPS Calculation", tags: ["mips", "performance"], ans: "25 MIPS", note: "\\(\\text{MIPS} = \\frac{f_{\\text{clk}}\\text{ (MHz)}}{\\text{CPI}} = \\frac{50\\text{ MHz}}{2} = 25\\text{ MIPS}\\)." },
+            { q: 50, title: "Real-Time Instruction Budget", tags: ["realtime", "budget"], ans: "2,000 instructions", note: "\\(\\text{Instructions} = 1\\text{ MIPS} \\times 2\\text{ ms} = (10^6\\text{ inst/s}) \\times (2 \\times 10^{-3}\\text{ s}) = 2,000\\text{ instructions}\\)." },
+            { q: 51, title: "Program Counter Increment", tags: ["8085", "pc"], ans: "2003H", note: "Current PC = 2000H. For a 3-byte instruction, next PC value = \\(2000\\text{H} + 3 = 2003\\text{H}\\)." },
+            { q: 52, title: "Machine Language", tags: ["languages", "machine"], ans: "Machine Language (Binary)", note: "Lowest level language directly decoded and executed by the CPU hardware." },
+            { q: 53, title: "8085 DAA Instruction Result", tags: ["8085", "assembly"], ans: "08H", note: "\\(05\\text{H} + 03\\text{H} = 08\\text{H}\\). DAA keeps \\(08\\text{H}\\) since \\(08\\text{H} \\le 9\\) and no carry occurred." },
+            { q: 54, title: "Parity Flag (P)", tags: ["8085", "flags"], ans: "Parity Flag", note: "Sets to 1 when the ALU arithmetic result contains an EVEN number of 1s." },
+            { q: 55, title: "Stack Pointer Role", tags: ["8085", "sp"], ans: "Top of LIFO Stack Address", note: "16-bit register tracking the top memory address of the LIFO stack structure." },
+            { q: 56, title: "Interrupt Controller", tags: ["interrupts", "mcu"], ans: "Interrupt Controller", note: "Suspends main execution upon timer overruns, pin events, or UART messages." },
+            { q: 57, title: "8051 GPIO Reset State", tags: ["8051", "reset"], ans: "Logic HIGH (+5V / FFH)", note: "Immediately following a hardware reset, 8051 port pins default to Logic HIGH." },
+            { q: 58, title: "Pull-Up / Down Resistors", tags: ["interfacing", "resistors"], ans: "Prevents Floating States", note: "Eliminates high-impedance floating logic states that pick up noise and EMI." },
+            { q: 59, title: "Direct Memory Access (DMA)", tags: ["dma", "memory"], ans: "Direct RAM-Peripheral Transfer", note: "Transfers large data blocks directly between memory and IO without CPU intervention." },
+            { q: 60, title: "Non-Volatile Long-Term Storage", tags: ["storage", "hdd"], ans: "Hard Disk Drive / Flash", note: "Stores files and operating systems permanently even when system power is OFF." },
+            { q: 61, title: "SRAM Cache Characteristics", tags: ["memory", "sram"], ans: "Static RAM (SRAM)", note: "Costly, high-speed RAM built with latches; does not require periodic refresh cycles." },
+            { q: 62, title: "8085 Instruction Timing", tags: ["8085", "timing"], ans: "Instruction Cycle", note: "An instruction cycle consists of 1 to 5 machine cycles (each composed of multiple T-states)." },
+            { q: 63, title: "Address Decoder Function", tags: ["buses", "decoder"], ans: "Address Decoder", note: "Ensures only one IC is active at a time, avoiding data bus contention." },
+            { q: 64, title: "Microcontroller Definition", tags: ["mcu", "embedded"], ans: "Dedicated Task System", note: "Microcontrollers are designed for dedicated embedded tasks with built-in RAM/ROM/IO." },
+            { q: 65, title: "Memory Location Truths", tags: ["memory", "architecture"], ans: "Can hold Data & Instructions", note: "Memory locations can store either program instructions or data operands." },
+            { q: 66, title: "Unidirectional Address Bus", tags: ["buses", "address"], ans: "Address Bus", note: "The address bus is unidirectional, carrying addresses strictly outward from the CPU." },
+            { q: 67, title: "Microprocessor Cycle Sequence", tags: ["cpu", "sequence"], ans: "Fetch -> Read -> Write -> IO", note: "Opcode fetch \\(\\to\\) Memory read \\(\\to\\) Memory write \\(\\to\\) I/O read \\(\\to\\) I/O write." },
+            { q: 68, title: "READY Pin Wait States", tags: ["8085", "ready"], ans: "READY Pin", note: "Active-HIGH input pin used by slow memory/devices to force CPU wait states." },
+            { q: 69, title: "ALU Responsibilities", tags: ["alu", "cpu"], ans: "Arithmetic & Logic ONLY", note: "ALU performs arithmetic computations (2) and logical computations (3) only." },
+            { q: 70, title: "SRAM vs DRAM Memory Cost", tags: ["sram", "dram"], ans: "SRAM is faster & costlier", note: "SRAM is used for fast caches; DRAM is used for high-capacity system memory." }
+        ];
+
+        function renderBank(items) {
+            const container = document.getElementById('bank-container');
+            container.innerHTML = '';
+            if(items.length === 0) {
+                container.innerHTML = '<div class="col-span-2 text-center py-6 text-slate-500 font-mono">No matching board review items found.</div>';
+                return;
+            }
+            items.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'p-3 bg-slate-900/90 border border-slate-800 hover:border-cyan-900/80 rounded-xl transition-all font-mono text-xs';
+                el.innerHTML = `
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-cyan-400 font-bold flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Q${item.q}: ${item.title}
+                        </span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">${item.ans}</span>
+                    </div>
+                    <p class="text-slate-300 text-[11px] leading-relaxed">${item.note}</p>
+                    <div class="mt-2 flex flex-wrap gap-1">
+                        ${item.tags.map(t => `<span class="text-[9px] bg-cyan-950/60 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-900/40">#${t}</span>`).join('')}
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+
+            // Re-render KaTeX math in the freshly generated elements
+            if (window.renderMathInElement) {
+                renderMathInElement(container, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function filterBank() {
+            const query = document.getElementById('concept-search').value.toLowerCase().trim();
+            if (!query) {
+                renderBank(examData);
+                return;
+            }
+            const filtered = examData.filter(item => 
+                item.title.toLowerCase().includes(query) ||
+                item.note.toLowerCase().includes(query) ||
+                item.ans.toLowerCase().includes(query) ||
+                `q${item.q}`.includes(query) ||
+                item.tags.some(t => t.includes(query))
+            );
+            renderBank(filtered);
+        }
+
+        function computeMIPS() {
+            const f = parseFloat(document.getElementById('calc-mips-f').value) || 0;
+            const cpi = parseFloat(document.getElementById('calc-mips-cpi').value) || 1;
+            const res = (f / cpi).toFixed(2);
+            document.getElementById('calc-mips-res').innerText = `${res} MIPS`;
+        }
+
+        function computeFLOPS() {
+            const c = parseFloat(document.getElementById('calc-flops-c').value) || 1;
+            const f = parseFloat(document.getElementById('calc-flops-f').value) || 0;
+            const fpo = parseFloat(document.getElementById('calc-flops-fpo').value) || 0;
+            const gflops = (c * f * fpo).toFixed(2);
+            document.getElementById('calc-flops-res').innerText = `${gflops} GFLOPS`;
+        }
+
+        function computePWM() {
+            const vs = parseFloat(document.getElementById('calc-pwm-vs').value) || 1;
+            const vout = parseFloat(document.getElementById('calc-pwm-vout').value) || 0;
+            const duty = Math.min(100, Math.max(0, (vout / vs) * 100)).toFixed(1);
+            const frac = (duty / 100).toFixed(2);
+            document.getElementById('calc-pwm-res').innerText = `${duty}% (${frac})`;
+        }
+
+        function computeBudget() {
+            const mips = parseFloat(document.getElementById('calc-budget-mips').value) || 0;
+            const t = parseFloat(document.getElementById('calc-budget-t').value) || 0;
+            const inst = Math.round(mips * 1e6 * (t / 1000));
+            document.getElementById('calc-budget-res').innerText = `${inst.toLocaleString()} inst`;
+        }
+
+        function computeTwos() {
+            let val = parseInt(document.getElementById('calc-twos-dec').value);
+            if (isNaN(val)) val = 0;
+            val = Math.max(-128, Math.min(127, val));
+            let byteVal = val < 0 ? (256 + val) : val;
+            let binStr = (byteVal >>> 0).toString(2).padStart(8, '0');
+            let hexStr = byteVal.toString(16).toUpperCase().padStart(2, '0');
+            document.getElementById('calc-twos-res').innerText = `${binStr}₂ (${hexStr}₁₆)`;
+            
+            const pos = Math.abs(val);
+            const posBin = pos.toString(2).padStart(8, '0');
+            const onesBin = posBin.split('').map(b => b === '1' ? '0' : '1').join('');
+            document.getElementById('calc-twos-steps').innerText = `+${pos} = ${posBin}₂ → 1's = ${onesBin}₂ → +1`;
+        }
+
+        function computeFrac() {
+            let val = parseFloat(document.getElementById('calc-frac-dec').value);
+            if (isNaN(val)) val = 0;
+            let frac = val - Math.floor(val);
+            let bits = [];
+            let steps = [];
+            let temp = frac;
+            for (let i = 0; i < 6; i++) {
+                let mult = temp * 2;
+                let bit = Math.floor(mult);
+                bits.push(bit);
+                steps.push(`${temp.toFixed(3)}×2=${mult.toFixed(3)} (bit ${bit})`);
+                temp = mult - bit;
+                if (temp === 0) break;
+            }
+            document.getElementById('calc-frac-res').innerText = `0.${bits.join('')}₂`;
+            document.getElementById('calc-frac-steps').innerText = steps.slice(0, 3).join(' → ');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize math rendering and calculators on DOM load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderBank(examData);
+            computeMIPS();
+            computeFLOPS();
+            computePWM();
+            computeBudget();
+            computeTwos();
+            computeFrac();
+
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
