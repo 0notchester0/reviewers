@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam Command Center — Advanced Engineering Mathematics & Network Signals</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX CSS & JS for equation rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              100: '#cffafe',
+              400: '#22d3ee',
+              500: '#06b6d4',
+              600: '#0891b2',
+              900: '#164e63',
+            },
+            panel: '#0f172a',
+            surface: '#1e293b',
+            accentBorder: '#334155'
+          },
+          fontFamily: {
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom dark scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+    .badge-must { background-color: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .badge-high { background-color: rgba(245, 158, 11, 0.18); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-imp  { background-color: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-conc { background-color: rgba(59, 130, 246, 0.18); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+    .badge-trap { background-color: rgba(217, 70, 239, 0.18); color: #e879f9; border: 1px solid rgba(217, 70, 239, 0.4); }
+    .katex { font-size: 1.05em !important; }
+    .katex-display { margin: 0.5em 0 !important; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+    .tab-active { border-bottom: 2px solid #06b6d4; color: #22d3ee; font-weight: 600; background-color: rgba(6, 182, 212, 0.08); }
+    .matrix-box { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.4; }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-black">
+
+  <header class="sticky top-0 z-50 bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800 shadow-xl px-4 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20 text-sm">
+          ECE
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-bold text-base md:text-lg tracking-tight text-white flex items-center gap-2">
+              ECE BOARD EXAM COMMAND CENTER
+              <span class="text-xs font-mono font-normal px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">MTH-SIGNALS-01</span>
+            </h1>
+          </div>
+          <p class="text-xs text-slate-400">Dense Infographic Reviewer • 50-Question Master Bank, Formula Vault & Complete Theory Notes</p>
+        </div>
+      </div>
+
+      <!-- Quick Search and Filter HUD -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="relative flex-1 sm:w-64">
+          <input type="text" id="globalSearch" placeholder="Search formula, theorem, Q1-50..." 
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 pl-8 transition-colors">
+          <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <button id="calcModalBtn" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium border border-slate-700 text-cyan-300 flex items-center gap-1.5 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          Fast Solver
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto mt-3 pt-2 border-t border-slate-800/80 flex space-x-1 sm:space-x-2 overflow-x-auto text-xs font-medium no-scrollbar">
+      <button onclick="switchTab('roadmap')" id="tab-roadmap" class="tab-btn px-3 py-1.5 whitespace-nowrap text-slate-300 hover:text-cyan-400 transition-colors tab-active rounded-t-lg">🗺️ Topic Mind Map</button>
+      <button onclick="switchTab('notes')" id="tab-notes" class="tab-btn px-3 py-1.5 whitespace-nowrap text-slate-300 hover:text-cyan-400 transition-colors rounded-t-lg">📖 Summary Notes & Deep Dives</button>
+      <button onclick="switchTab('formulas')" id="tab-formulas" class="tab-btn px-3 py-1.5 whitespace-nowrap text-slate-300 hover:text-cyan-400 transition-colors rounded-t-lg">⚡ Formula Vault</button>
+      <button onclick="switchTab('questions')" id="tab-questions" class="tab-btn px-3 py-1.5 whitespace-nowrap text-slate-300 hover:text-cyan-400 transition-colors rounded-t-lg">🎯 50-Question Master Bank</button>
+      <button onclick="switchTab('comparisons')" id="tab-comparisons" class="tab-btn px-3 py-1.5 whitespace-nowrap text-slate-300 hover:text-cyan-400 transition-colors rounded-t-lg">⚖️ Don't Confuse These</button>
+      <button onclick="switchTab('constants')" id="tab-constants" class="tab-btn px-3 py-1.5 whitespace-nowrap text-slate-300 hover:text-cyan-400 transition-colors rounded-t-lg">📐 Constants & Units</button>
+      <button onclick="switchTab('cram')" id="tab-cram" class="tab-btn px-3 py-1.5 whitespace-nowrap text-amber-400 hover:text-amber-300 font-bold transition-colors rounded-t-lg">⏱️ 60-Sec Cram Sheet</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+
+    <!-- PRIORITY LEGEND BAR -->
+    <div class="mb-6 p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex items-center space-x-2 font-mono text-slate-400">
+        <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <span class="font-semibold text-slate-300">EXAM PRIORITY CODES:</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="badge-must px-2 py-0.5 rounded text-[11px] font-bold">🔴 MUST MEMORIZE</span>
+        <span class="badge-high px-2 py-0.5 rounded text-[11px] font-bold">🟠 HIGH-YIELD SHORTCUT</span>
+        <span class="badge-imp px-2 py-0.5 rounded text-[11px] font-bold">🟡 IMPORTANT PROPERTY</span>
+        <span class="badge-conc px-2 py-0.5 rounded text-[11px] font-bold">🔵 CONCEPTUAL / RULE</span>
+        <span class="badge-trap px-2 py-0.5 rounded text-[11px] font-bold">⚠️ EXAM WRITER TRAP</span>
+      </div>
+    </div>
+
+    <!-- VIEW 1: Topic Roadmap -->
+    <div id="view-roadmap" class="tab-view space-y-6">
+      <div class="bg-surface rounded-2xl p-5 border border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="text-cyan-400">#1</span> MASTER TOPIC ROADMAP & DEPENDENCY ARCHITECTURE
+            </h2>
+            <p class="text-xs text-slate-400">Full 6-Domain syllabus mapping extracted directly from the examination reviewer notes.</p>
+          </div>
+          <span class="text-xs font-mono text-cyan-400 bg-cyan-950/80 px-2 py-1 rounded border border-cyan-800/60">Q1 - Q50 Complete Coverage</span>
+        </div>
+
+        <!-- Visual Mind Map Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          
+          <!-- Box 1: AC & RF -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400">DOMAIN 1</span>
+                <span class="text-[10px] font-mono text-slate-400">Q1–Q3</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mb-2">AC Circuits & RF Lines</h3>
+              <ul class="text-xs text-slate-300 space-y-1.5">
+                <li>• Admittance $Y = G + jB$</li>
+                <li>• Sign trap: capacitive $+jB$</li>
+                <li>• Complex power $S = V I^*$</li>
+                <li>• True Power $P = \text{Re}\{S\}$</li>
+                <li>• $\gamma^2 = 5 + j12 \implies \alpha, \beta$</li>
+              </ul>
+            </div>
+            <button onclick="filterQuestionsByTopic('AC Circuits')" class="mt-3 w-full py-1 text-[11px] font-medium bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 rounded border border-slate-700 transition-colors">Drill 3 Problems</button>
+          </div>
+
+          <!-- Box 2: Laplace & Systems -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400">DOMAIN 2</span>
+                <span class="text-[10px] font-mono text-slate-400">Q4–Q19</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mb-2">Laplace & Controls</h3>
+              <ul class="text-xs text-slate-300 space-y-1.5">
+                <li>• 1st & 2nd Shift Theorems</li>
+                <li>• Impulse & Delta Sifting</li>
+                <li>• s-Domain $L$, $C$ & Op-Amps</li>
+                <li>• IVT & FVT Divergence Trap</li>
+                <li>• 2nd-order $\zeta, \omega_n$ damping</li>
+              </ul>
+            </div>
+            <button onclick="filterQuestionsByTopic('Laplace')" class="mt-3 w-full py-1 text-[11px] font-medium bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 rounded border border-slate-700 transition-colors">Drill 16 Problems</button>
+          </div>
+
+          <!-- Box 3: Fourier & Signals -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400">DOMAIN 3</span>
+                <span class="text-[10px] font-mono text-slate-400">Q20–Q29</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mb-2">Fourier Analysis</h3>
+              <ul class="text-xs text-slate-300 space-y-1.5">
+                <li>• Direct inspection ($a_3$)</li>
+                <li>• Half-wave = Odd Harmonics</li>
+                <li>• Symmetrical square wave</li>
+                <li>• Gibbs $9\%$ overshoot</li>
+                <li>• Rect $\longleftrightarrow$ Sinc, Scaling $x(at)$</li>
+              </ul>
+            </div>
+            <button onclick="filterQuestionsByTopic('Fourier')" class="mt-3 w-full py-1 text-[11px] font-medium bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 rounded border border-slate-700 transition-colors">Drill 10 Problems</button>
+          </div>
+
+          <!-- Box 4: Infinite Series -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400">DOMAIN 4</span>
+                <span class="text-[10px] font-mono text-slate-400">Q30–Q36</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mb-2">Power Series & Taylor</h3>
+              <ul class="text-xs text-slate-300 space-y-1.5">
+                <li>• Ratio test $L=1 \implies$ Fails</li>
+                <li>• Radius $R$ & Interval $(x_0 \pm R)$</li>
+                <li>• Endpoint boundary testing</li>
+                <li>• Maclaurin $\tan(x) \implies 1/3$</li>
+                <li>• Composite $x^2\cos(3x)$ shortcut</li>
+              </ul>
+            </div>
+            <button onclick="filterQuestionsByTopic('Series')" class="mt-3 w-full py-1 text-[11px] font-medium bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 rounded border border-slate-700 transition-colors">Drill 7 Problems</button>
+          </div>
+
+          <!-- Box 5: Linear Algebra -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400">DOMAIN 5</span>
+                <span class="text-[10px] font-mono text-slate-400">Q37–Q43</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mb-2">Matrices & State-Space</h3>
+              <ul class="text-xs text-slate-300 space-y-1.5">
+                <li>• Reciprocal $Z_{12} = Z_{21}$</li>
+                <li>• Skew-symmetric $k_{ii} = 0$</li>
+                <li>• Singular matrix $\det=0$ (no $A^{-1}$)</li>
+                <li>• Scaling $\det(kA) = k^n \det(A)$</li>
+                <li>• Trace $\sum \lambda = \text{tr}(A)$</li>
+              </ul>
+            </div>
+            <button onclick="filterQuestionsByTopic('Matrices')" class="mt-3 w-full py-1 text-[11px] font-medium bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 rounded border border-slate-700 transition-colors">Drill 7 Problems</button>
+          </div>
+
+          <!-- Box 6: Special Functions -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-cyan-400">DOMAIN 6</span>
+                <span class="text-[10px] font-mono text-slate-400">Q44–Q50</span>
+              </div>
+              <h3 class="text-sm font-bold text-white mb-2">Special Functions</h3>
+              <ul class="text-xs text-slate-300 space-y-1.5">
+                <li>• Fibonacci $F_n L_n = F_{2n}$</li>
+                <li>• $\Gamma(1) = 1$, $\Gamma(1/2) = \sqrt{\pi}$</li>
+                <li>• Negative half: $\Gamma(-1/2) = -2\sqrt{\pi}$</li>
+                <li>• Beta $B(4,3) = 1/60$</li>
+                <li>• $\int_0^\infty e^{-x^3} dx = \frac{1}{3}\Gamma(1/3)$</li>
+              </ul>
+            </div>
+            <button onclick="filterQuestionsByTopic('Special Functions')" class="mt-3 w-full py-1 text-[11px] font-medium bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 rounded border border-slate-700 transition-colors">Drill 7 Problems</button>
+          </div>
+
+        </div>
+
+        <!-- Universal 4-Stage Solving Pipeline -->
+        <div class="mt-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800">
+          <h4 class="text-xs font-mono font-bold text-slate-300 mb-3 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            UNIVERSAL BOARD EXAM COMPUTATION PIPELINE (30-SECOND RECOGNITION RULE)
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-xs">
+            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <span class="block font-bold text-cyan-400">STAGE 1: CLASSIFY</span>
+              <span class="text-slate-400 text-[11px]">Identify domain (Time vs. s-domain vs. Fourier vs. Matrix). Note excitation (ramp, step, impulse).</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <span class="block font-bold text-amber-400">STAGE 2: SCAN CONDITIONS</span>
+              <span class="text-slate-400 text-[11px]">Check boundary traps! (FVT poles in RHP? Ratio test limit $= 1$? Capacitive susceptance sign?).</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <span class="block font-bold text-emerald-400">STAGE 3: SHORTCUT BYPASS</span>
+              <span class="text-slate-400 text-[11px]">Do NOT integrate if symmetry applies. Use $\text{tr}(A) = \sum \lambda$, $S = V I^*$, or Maclaurin series substitution.</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <span class="block font-bold text-purple-400">STAGE 4: UNIT & SIGN AUDIT</span>
+              <span class="text-slate-400 text-[11px]">Verify: Conductance & Susceptance in [S], Attenuation in [Np/m], Power in [W/VAR/VA].</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-notes" class="tab-view hidden space-y-6">
+      <div class="bg-surface rounded-2xl p-5 border border-slate-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="text-cyan-400">#2</span> COMPLETE SUMMARY NOTES, DERIVATIONS & BOXED FIGURES
+            </h2>
+            <p class="text-xs text-slate-400">Exhaustive theoretical breakdowns, reference cards, and diagrams directly transcribed from the review material.</p>
+          </div>
+          <span class="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-800/60">Official Notes Companion</span>
+        </div>
+
+        <!-- SECTION A: PDF BOXED MACLAURIN & POWER SERIES -->
+        <div class="mb-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+              <span>📜</span> BOXED MASTER SHEET: POWER, TAYLOR & MACLAURIN EXPANSIONS (From Notes Page 4)
+            </h3>
+            <span class="text-[11px] font-mono text-slate-400">Page 4 Transcribed</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 text-xs">
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="font-bold text-cyan-400 block mb-1">POWER SERIES DEFINITION</span>
+              <p class="text-slate-300 font-mono text-[12px] my-1">$$f(x) = \sum_{n=0}^{\infty} c_n (x - a)^n$$</p>
+              <span class="text-slate-400 text-[11px]">Centered at $x = a$ with coefficients $c_n$.</span>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="font-bold text-emerald-400 block mb-1">TAYLOR SERIES (Centered at $x_0$)</span>
+              <p class="text-slate-300 font-mono text-[12px] my-1">$$f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(x_0)}{n!} (x - x_0)^n$$</p>
+              <span class="text-slate-400 text-[11px]">Valid where all derivatives exist and remain continuous.</span>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+              <span class="font-bold text-purple-400 block mb-1">MACLAURIN SERIES (Centered at 0)</span>
+              <p class="text-slate-300 font-mono text-[12px] my-1">$$f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!} x^n$$</p>
+              <span class="text-slate-400 text-[11px]">Special case of Taylor Series where $x_0 = 0$.</span>
+            </div>
+          </div>
+
+          <!-- Common Maclaurin Series Table -->
+          <div class="overflow-x-auto">
+            <h4 class="text-xs font-bold text-slate-300 mb-2">COMMON MACLAURIN EXPANSIONS TESTED ON BOARD EXAMS:</h4>
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 bg-slate-950 text-slate-300">
+                  <th class="p-2 font-bold">Function $f(x)$</th>
+                  <th class="p-2 font-bold text-cyan-400">Summation Form</th>
+                  <th class="p-2 font-bold text-emerald-400">First Few Expanded Terms</th>
+                  <th class="p-2 font-bold text-amber-400">Interval / Condition</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300 font-mono text-[11px]">
+                <tr>
+                  <td class="p-2 font-bold text-white">$\cos(x)$</td>
+                  <td class="p-2">$$\sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!}$$</td>
+                  <td class="p-2">$$1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \dots$$</td>
+                  <td class="p-2 text-slate-400">All real $x \in (-\infty, \infty)$</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-bold text-white">$\sin(x)$</td>
+                  <td class="p-2">$$\sum_{n=0}^{\infty} \frac{(-1)^n x^{2n+1}}{(2n+1)!}$$</td>
+                  <td class="p-2">$$x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \dots$$</td>
+                  <td class="p-2 text-slate-400">All real $x \in (-\infty, \infty)$</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-bold text-white">$\frac{1}{1-x}$</td>
+                  <td class="p-2">$$\sum_{n=0}^{\infty} x^n$$</td>
+                  <td class="p-2">$$1 + x + x^2 + x^3 + \dots$$</td>
+                  <td class="p-2 text-amber-400 font-bold">$-1 < x < 1$ only ($R = 1$)</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-bold text-white">$e^x$</td>
+                  <td class="p-2">$$\sum_{n=0}^{\infty} \frac{x^n}{n!}$$</td>
+                  <td class="p-2">$$1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \dots$$</td>
+                  <td class="p-2 text-slate-400">All real $x \in (-\infty, \infty)$</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-bold text-white">$e^{-x}$</td>
+                  <td class="p-2">$$\sum_{n=0}^{\infty} \frac{(-1)^n x^n}{n!}$$</td>
+                  <td class="p-2">$$1 - x + \frac{x^2}{2!} - \frac{x^3}{3!} + \frac{x^4}{4!} - \dots$$</td>
+                  <td class="p-2 text-slate-400">All real $x \in (-\infty, \infty)$</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-bold text-white">$\ln(1+x)$</td>
+                  <td class="p-2">$$\sum_{n=1}^{\infty} (-1)^{n+1} \frac{x^n}{n}$$</td>
+                  <td class="p-2">$$x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \dots$$</td>
+                  <td class="p-2 text-amber-400">$-1 < x \le 1$</td>
+                </tr>
+                <tr class="bg-cyan-950/20">
+                  <td class="p-2 font-bold text-cyan-300">$\tan(x)$</td>
+                  <td class="p-2 text-slate-400">Bernoulli formula</td>
+                  <td class="p-2 text-cyan-300 font-bold">$$x + \frac{1}{3}x^3 + \frac{2}{15}x^5 + \frac{17}{315}x^7 + \dots$$</td>
+                  <td class="p-2 text-cyan-400 font-bold">Coefficient of $x^3$ is $\frac{1}{3}$ (Q34)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mb-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+              <span>🔲</span> BOXED MASTER SHEET: MATRIX STRUCTURAL ANATOMY (From Notes Page 5)
+            </h3>
+            <span class="text-[11px] font-mono text-slate-400">Page 5 Transcribed</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+            
+            <!-- Symmetric Matrix Box -->
+            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-emerald-400 text-sm">SYMMETRIC MATRIX: $A^T = A$</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono text-[10px]">Condition: $a_{ij} = a_{ji}$</span>
+              </div>
+              <p class="text-slate-300 mb-3">Reflected across the main diagonal, elements are identical. The diagonal entries are unrestricted scalars.</p>
+              
+              <div class="p-3 rounded-lg bg-slate-900 font-mono text-center text-sm border border-slate-800 text-emerald-300 mb-3">
+                $$A = \begin{bmatrix} a & w_1 & w_2 \\ w_1 & b & w_3 \\ w_2 & w_3 & c \end{bmatrix}$$
+              </div>
+
+              <ul class="space-y-1 text-slate-300 text-[11px]">
+                <li>• <strong class="text-white">ECE Application (Q37):</strong> Passive, linear, bilateral 2-port network $Z$-matrix must be symmetric: $Z_{12} = Z_{21}$ (Reciprocity Theorem).</li>
+                <li>• <strong class="text-white">Eigenvalues:</strong> All eigenvalues of a real symmetric matrix are guaranteed to be purely <strong>REAL</strong>.</li>
+              </ul>
+            </div>
+
+            <!-- Skew-Symmetric Matrix Box -->
+            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-amber-400 text-sm">SKEW-SYMMETRIC MATRIX: $K^T = -K$</span>
+                <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-mono text-[10px]">Condition: $k_{ij} = -k_{ji}$</span>
+              </div>
+              <p class="text-slate-300 mb-3">Also known as <em>antisymmetric matrix</em>. Elements across diagonal negate each other.</p>
+              
+              <div class="p-3 rounded-lg bg-slate-900 font-mono text-center text-sm border border-slate-800 text-amber-300 mb-3">
+                $$K = \begin{bmatrix} 0 & w_1 & -w_2 \\ -w_1 & 0 & w_3 \\ w_2 & -w_3 & 0 \end{bmatrix}$$
+              </div>
+
+              <ul class="space-y-1 text-slate-300 text-[11px]">
+                <li>• <strong class="text-rose-400 font-bold">MANDATORY DIAGONAL CONDITION (Q38):</strong> $k_{ii} = -k_{ii} \implies 2k_{ii} = 0 \implies k_{ii} = 0$. Every main diagonal element MUST be zero!</li>
+                <li>• <strong class="text-white">Odd Dimension Singularity:</strong> If dimension $n$ is odd (e.g. $3\times3$, $5\times5$), $\det(K) = 0$ always (Singular / Non-invertible).</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mb-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
+              <span>📡</span> BOXED MASTER SHEET: FOURIER TRANSFORM PAIRS & SIGNALS (From Notes Page 3)
+            </h3>
+            <span class="text-[11px] font-mono text-slate-400">Page 3 Transcribed</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 bg-slate-950 text-slate-300">
+                  <th class="p-2.5 font-bold">Time Domain Signal $x(t)$</th>
+                  <th class="p-2.5 font-bold text-cyan-400">Fourier Transform (Frequency Domain)</th>
+                  <th class="p-2.5 font-bold text-amber-400">Mathematical Spectrum $X(f)$ or $X(\omega)$</th>
+                  <th class="p-2.5 font-bold text-emerald-400">Exam Note / Reference</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300 text-[11px]">
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Rectangular Pulse $\text{rect}(t/\tau)$</td>
+                  <td class="p-2.5 text-cyan-300 font-semibold">Sinc function</td>
+                  <td class="p-2.5 font-mono">$$\tau \cdot \text{sinc}(f\tau) = \tau \frac{\sin(\pi f \tau)}{\pi f \tau}$$</td>
+                  <td class="p-2.5">Q24 Core Pair: Single non-repeating pulse yields continuous Sinc spectrum.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Constant (DC) $A$</td>
+                  <td class="p-2.5 text-cyan-300 font-semibold">Dirac Delta function</td>
+                  <td class="p-2.5 font-mono">$$A \cdot \delta(f) \quad \text{or} \quad 2\pi A \cdot \delta(\omega)$$</td>
+                  <td class="p-2.5">Zero frequency line spectrum at origin.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Gaussian Pulse $e^{-\pi t^2}$</td>
+                  <td class="p-2.5 text-purple-300 font-semibold">Gaussian function</td>
+                  <td class="p-2.5 font-mono">$$e^{-\pi f^2}$$</td>
+                  <td class="p-2.5 font-bold text-purple-400">Self-transforming function (shape is invariant under Fourier transformation).</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Triangular Pulse $\Lambda(t/\tau)$</td>
+                  <td class="p-2.5 text-cyan-300 font-semibold">$\text{Sinc}^2$ function</td>
+                  <td class="p-2.5 font-mono">$$\tau \cdot \text{sinc}^2(f\tau)$$</td>
+                  <td class="p-2.5">Autocorrelation / Convolution of two identical rect pulses: $\text{rect} * \text{rect} = \text{triangle}$.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Complex Sinusoid $e^{j\omega_0 t}$</td>
+                  <td class="p-2.5 text-cyan-300 font-semibold">Shifted Delta</td>
+                  <td class="p-2.5 font-mono">$$\delta(f - f_0) \quad \text{or} \quad 2\pi \delta(\omega - \omega_0)$$</td>
+                  <td class="p-2.5">Q27: Inverse transform of $\delta(f - f_0)$ is $e^{j 2\pi f_0 t}$.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Time Compression $x(at), a > 1$</td>
+                  <td class="p-2.5 text-amber-300 font-semibold">Frequency Expansion</td>
+                  <td class="p-2.5 font-mono">$$\frac{1}{|a|} X\left(\frac{f}{a}\right)$$</td>
+                  <td class="p-2.5">Q25: Speeding up $2\times$ doubles bandwidth ($20\to 40\text{ kHz}$) and halves spectral amplitude.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">Modulation $x(t)e^{j\omega_0 t}$</td>
+                  <td class="p-2.5 text-cyan-300 font-semibold">Frequency Shift</td>
+                  <td class="p-2.5 font-mono">$$X(\omega - \omega_0)$$</td>
+                  <td class="p-2.5">Q26: Translation in frequency corresponds to complex phasor modulation in time.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-white">LTI Convolution $x(t) * h(t)$</td>
+                  <td class="p-2.5 text-emerald-300 font-semibold">Frequency Multiplication</td>
+                  <td class="p-2.5 font-mono">$$X(f) \cdot H(f)$$</td>
+                  <td class="p-2.5">Q28: Time convolution maps directly to point-by-point algebraic product in frequency.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-bold text-emerald-300 flex items-center gap-2">
+              <span>🎛️</span> CONTROL SYSTEMS DAMPING & S-DOMAIN OP-AMP MODELS (From Notes Page 1 & 2)
+            </h3>
+            <span class="text-[11px] font-mono text-slate-400">Pages 1 & 2 Transcribed</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <!-- 2nd Order Damping Regimes -->
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+              <span class="font-bold text-cyan-400 block border-b border-slate-800 pb-1">SECOND-ORDER DAMPING REGIMES ($s^2 + 2\zeta\omega_n s + \omega_n^2 = 0$)</span>
+              <ul class="space-y-1.5 text-slate-300 text-[11px]">
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800">
+                  <strong class="text-amber-400">$\zeta > 1$ Overdamped:</strong> Two distinct negative real roots ($s_1 \neq s_2 < 0$). Sluggish exponential decay without oscillations.
+                </li>
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800">
+                  <strong class="text-emerald-400">$\zeta = 1$ Critically Damped:</strong> Two repeated negative real roots ($s_1 = s_2 = -\omega_n$). Fastest possible settling time with ZERO overshoot.
+                </li>
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800">
+                  <strong class="text-cyan-400">0 < $\zeta$ < 1 Underdamped (Q4, Q18):</strong> Complex conjugate roots in Left-Half Plane ($s = -\zeta\omega_n \pm j\omega_d$). Oscillatory response with exponential envelope decay.
+                </li>
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800">
+                  <strong class="text-purple-400">$\zeta = 0$ Undamped:</strong> Pure imaginary roots on $j\omega$-axis ($s = \pm j\omega_n$). Continuous, sustained sinusoidal oscillations.
+                </li>
+                <li class="p-1.5 rounded bg-rose-950/40 border border-rose-900/60 text-rose-300">
+                  <strong>$\zeta < 0$ Unstable (Q17):</strong> Roots have positive real part in Right-Half Plane (RHP). Response diverges exponentially; steady-state limit $e(\infty)$ is <strong>UNDEFINED</strong>!
+                </li>
+              </ul>
+            </div>
+
+            <!-- S-Domain Circuit Operators -->
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+              <span class="font-bold text-emerald-400 block border-b border-slate-800 pb-1">S-DOMAIN ELEMENT CONVERSIONS & OP-AMPS</span>
+              <ul class="space-y-1.5 text-slate-300 text-[11px]">
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800 font-mono">
+                  <strong class="text-white block font-sans">Inductor Ohm's Law (Q13):</strong>
+                  $$V_L(s) = sL I(s) - L i(0^-)$$
+                  With zero initial condition: $V_L(s) = sL I(s)$. For ramp $i(t)=3t \implies I(s)=3/s^2$, $V_L(s) = s(2)(3/s^2) = 6/s\text{ V}$.
+                </li>
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800 font-mono">
+                  <strong class="text-white block font-sans">Series RC Step Response (Q14):</strong>
+                  $$V_c(s) = \frac{V_{in}(s)}{1 + sRC} = \frac{V_0 / (RC)}{s(s + 1/(RC))}$$
+                  For $V_0=10\text{V}, R=5\ \Omega, C=0.1\text{F} \implies \tau=0.5\text{s} \implies V_c(s) = \frac{20}{s(s+2)}$.
+                </li>
+                <li class="p-1.5 rounded bg-slate-900 border border-slate-800 font-mono">
+                  <strong class="text-white block font-sans">Inverting Op-Amp Integrator (Q15):</strong>
+                  $$H(s) = -\frac{Z_f(s)}{Z_{in}(s)} = -\frac{1/(sC)}{R} = -\frac{1}{sRC}$$
+                  When $R = 10\text{ k}\Omega$ and $C = 100\ \mu\text{F} \implies RC = 1.0\text{ s} \implies H(s) = -\frac{1}{s}$.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="view-formulas" class="tab-view hidden space-y-6">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400">#3</span> FORMULA VAULT — RIGOROUS CARDS
+          </h2>
+          <p class="text-xs text-slate-400">Contains Variables, Units, Use-Case, Boundary Conditions, and Exact Board Traps.</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="expandAllFormulas()" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-300 border border-slate-700">Expand All</button>
+          <button onclick="collapseAllFormulas()" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 rounded text-slate-300 border border-slate-700">Collapse All</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- CARD 1: Admittance -->
+        <div class="formula-card bg-surface rounded-xl border border-slate-800 p-4 shadow-lg hover:border-cyan-500/40 transition-colors">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+            <span class="text-xs font-mono font-bold text-cyan-400">EQUATION 01 • AC NETWORKS</span>
+            <span class="badge-must text-[10px] font-bold px-2 py-0.5 rounded">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base mb-1">Impedance to Admittance Conversion</h3>
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center font-mono my-2 text-cyan-300">
+            $$Y = \frac{1}{Z} = \frac{1}{R + jX} = \frac{R}{R^2+X^2} - j\frac{X}{R^2+X^2} = G + jB$$
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs mb-3 font-mono">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">CONDUCTANCE (G)</span>
+              <span class="text-emerald-400 font-bold">$$G = \frac{R}{R^2 + X^2}\text{ [S]}$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">SUSCEPTANCE (B)</span>
+              <span class="text-amber-400 font-bold">$$B = \frac{-X}{R^2 + X^2}\text{ [S]}$$</span>
+            </div>
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300 border-t border-slate-800/60 pt-2">
+            <div><strong class="text-slate-400">USE WHEN:</strong> Converting series load $Z$ into parallel branches $G \parallel B$.</div>
+            <div><strong class="text-slate-400">CONDITION:</strong> $Z \neq 0$ (Passive or active non-zero impedance).</div>
+            <div class="p-2 rounded bg-rose-950/40 border border-rose-900/60 text-rose-300">
+              <strong>⚠️ COMMON TRAP:</strong> Sign inversion! If load is capacitive $Z = 4 - j3\ \Omega$ ($X = -3$), then $B = -(-3)/25 = +0.12\text{ S}$. Capacitors have <em>positive</em> susceptance!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: Complex Power -->
+        <div class="formula-card bg-surface rounded-xl border border-slate-800 p-4 shadow-lg hover:border-cyan-500/40 transition-colors">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+            <span class="text-xs font-mono font-bold text-cyan-400">EQUATION 02 • RF & POWER</span>
+            <span class="badge-must text-[10px] font-bold px-2 py-0.5 rounded">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base mb-1">Complex Apparent & True Power</h3>
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center font-mono my-2 text-cyan-300">
+            $$S = V I^* = P + jQ$$
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-xs mb-3 font-mono">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">TRUE / REAL (P)</span>
+              <span class="text-emerald-400 font-bold">$$P = \text{Re}\{S\}\text{ [W]}$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">REACTIVE (Q)</span>
+              <span class="text-amber-400 font-bold">$$Q = \text{Im}\{S\}\text{ [VAR]}$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">APPARENT (|S|)</span>
+              <span class="text-cyan-400 font-bold">$$|S| = |V||I|\text{ [VA]}$$</span>
+            </div>
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300 border-t border-slate-800/60 pt-2">
+            <div><strong class="text-slate-400">USE WHEN:</strong> AC phasor voltage and current vectors are given in rectangular/polar form.</div>
+            <div><strong class="text-slate-400">CONDITION:</strong> Phasors must be RMS values for direct power in Watts.</div>
+            <div class="p-2 rounded bg-rose-950/40 border border-rose-900/60 text-rose-300">
+              <strong>⚠️ COMMON TRAP:</strong> Forgetting the complex conjugate $I^*$. If $I = 3 + j4\text{ A}$, you MUST use $I^* = 3 - j4\text{ A}$. Calculating $V I$ gives completely incorrect power and phase!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: Propagation Constant -->
+        <div class="formula-card bg-surface rounded-xl border border-slate-800 p-4 shadow-lg hover:border-cyan-500/40 transition-colors">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+            <span class="text-xs font-mono font-bold text-cyan-400">EQUATION 03 • RF LINES</span>
+            <span class="badge-high text-[10px] font-bold px-2 py-0.5 rounded">🟠 HIGH-YIELD SHORTCUT</span>
+          </div>
+          <h3 class="font-bold text-white text-base mb-1">Transmission Line Propagation Constant</h3>
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center font-mono my-2 text-cyan-300">
+            $$\gamma = \alpha + j\beta \implies \gamma^2 = (\alpha^2 - \beta^2) + j(2\alpha\beta) = A + jB$$
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs mb-3 font-mono">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">ATTENUATION CONSTANT ($\alpha$)</span>
+              <span class="text-emerald-400 font-bold">$$\alpha = \sqrt{\frac{\sqrt{A^2+B^2}+A}{2}}\ [\text{Np/m}]$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">PHASE CONSTANT ($\beta$)</span>
+              <span class="text-cyan-400 font-bold">$$\beta = \sqrt{\frac{\sqrt{A^2+B^2}-A}{2}}\ [\text{rad/m}]$$</span>
+            </div>
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300 border-t border-slate-800/60 pt-2">
+            <div><strong class="text-slate-400">USE WHEN:</strong> Line test gives $\gamma^2 = A + jB$ (e.g. $5 + j12$).</div>
+            <div><strong class="text-slate-400">CONDITION:</strong> $\alpha > 0$ for passive attenuating transmission lines.</div>
+            <div class="p-2 rounded bg-rose-950/40 border border-rose-900/60 text-rose-300">
+              <strong>⚠️ COMMON TRAP:</strong> Confusing the signs under the radical: $\alpha$ uses $(+A)$, while $\beta$ uses $(-A)$.
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4: FVT & IVT -->
+        <div class="formula-card bg-surface rounded-xl border border-slate-800 p-4 shadow-lg hover:border-cyan-500/40 transition-colors">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+            <span class="text-xs font-mono font-bold text-cyan-400">EQUATION 04 • S-DOMAIN</span>
+            <span class="badge-trap text-[10px] font-bold px-2 py-0.5 rounded">⚠️ EXAM WRITER TRAP</span>
+          </div>
+          <h3 class="font-bold text-white text-base mb-1">Initial & Final Value Theorems</h3>
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center font-mono my-2 text-cyan-300">
+            $$f(0^+) = \lim_{s\to\infty} s F(s), \qquad f(\infty) = \lim_{s\to 0} s F(s)$$
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300 border-t border-slate-800/60 pt-2">
+            <div><strong class="text-slate-400">USE WHEN:</strong> Seeking initial kick $t=0^+$ or steady-state asymptote without inverse Laplace.</div>
+            <div class="p-2 rounded bg-rose-950/40 border border-rose-900/60 text-rose-300">
+              <strong>⚠️ THE FINAL VALUE THEOREM CRITICAL TRAP:</strong> FVT is <em>ONLY VALID</em> if all poles of $[s F(s)]$ lie strictly in the <strong>Left Half of the s-Plane (LHP)</strong>. If poles have positive real parts (RHP, e.g. $s^2-2s+5=0 \implies s=1\pm j2$), the system is physically unstable and $f(\infty)$ is <strong>UNDEFINED</strong>, even if $\lim_{s\to 0} s F(s)$ produces a finite number!
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5: Second-Order Standard Form -->
+        <div class="formula-card bg-surface rounded-xl border border-slate-800 p-4 shadow-lg hover:border-cyan-500/40 transition-colors">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+            <span class="text-xs font-mono font-bold text-cyan-400">EQUATION 05 • CONTROLS</span>
+            <span class="badge-must text-[10px] font-bold px-2 py-0.5 rounded">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base mb-1">Standard Second-Order Transfer Function</h3>
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center font-mono my-2 text-cyan-300">
+            $$T(s) = \frac{\omega_n^2}{s^2 + 2\zeta\omega_n s + \omega_n^2}$$
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs mb-3 font-mono">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">NATURAL FREQ ($\omega_n$)</span>
+              <span class="text-cyan-400 font-bold">$$\omega_n = \sqrt{a_0}\ [\text{rad/s}]$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">DAMPING RATIO ($\zeta$)</span>
+              <span class="text-amber-400 font-bold">$$\zeta = \frac{a_1}{2\omega_n} = \frac{a_1}{2\sqrt{a_0}}$$</span>
+            </div>
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300 border-t border-slate-800/60 pt-2">
+            <div><strong class="text-slate-400">DAMPING REGIMES:</strong> $\zeta > 1$ Overdamped; $\zeta = 1$ Critically Damped; $0 < \zeta < 1$ Underdamped; $\zeta = 0$ Sustained Undamped Oscillation.</div>
+            <div><strong class="text-slate-400">DC GAIN SHORTCUT:</strong> $\text{DC Gain} = \lim_{s\to 0} H(s) = H(0)$.</div>
+          </div>
+        </div>
+
+        <!-- CARD 6: Gamma & Beta Functions -->
+        <div class="formula-card bg-surface rounded-xl border border-slate-800 p-4 shadow-lg hover:border-cyan-500/40 transition-colors">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+            <span class="text-xs font-mono font-bold text-cyan-400">EQUATION 06 • ADVANCED MATH</span>
+            <span class="badge-must text-[10px] font-bold px-2 py-0.5 rounded">🔴 MUST MEMORIZE</span>
+          </div>
+          <h3 class="font-bold text-white text-base mb-1">Gamma $\Gamma(n)$ & Beta $B(m,n)$ Identities</h3>
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center font-mono my-2 text-cyan-300">
+            $$\Gamma(n+1) = n\Gamma(n) = n!, \qquad B(m,n) = \frac{\Gamma(m)\Gamma(n)}{\Gamma(m+n)} = \frac{(m-1)!(n-1)!}{(m+n-1)!}$$
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-xs mb-3 font-mono">
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">BASE VALUE</span>
+              <span class="text-emerald-400 font-bold">$$\Gamma(1) = 0! = 1$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">HALF-INTEGER</span>
+              <span class="text-amber-400 font-bold">$$\Gamma(1/2) = \sqrt{\pi}$$</span>
+            </div>
+            <div class="bg-slate-900/80 p-2 rounded border border-slate-800/80">
+              <span class="text-slate-400 block text-[10px]">NEGATIVE HALF</span>
+              <span class="text-purple-400 font-bold">$$\Gamma(-1/2) = -2\sqrt{\pi}$$</span>
+            </div>
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300 border-t border-slate-800/60 pt-2">
+            <div><strong class="text-slate-400">NEGATIVE FRACTION RULE:</strong> $\Gamma(n) = \frac{\Gamma(n+1)}{n} \implies \Gamma(-1/2) = \frac{\Gamma(1/2)}{-1/2} = -2\sqrt{\pi}$.</div>
+            <div><strong class="text-slate-400">EXPONENTIAL INTEGRAL:</strong> $\int_0^\infty e^{-x^k} dx = \frac{1}{k}\Gamma(1/k) \implies \int_0^\infty e^{-x^3} dx = \frac{1}{3}\Gamma(1/3)$.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="view-comparisons" class="tab-view hidden space-y-6">
+      <div>
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">#4</span> DECISION TREES & "DON'T CONFUSE THESE" TABLES
+        </h2>
+        <p class="text-xs text-slate-400">High-yield comparative matrices and fast diagnostic decision trees.</p>
+      </div>
+
+      <!-- Decision Trees Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Tree 1: Waveform Symmetry -->
+        <div class="bg-surface rounded-2xl p-5 border border-slate-800 shadow-xl">
+          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            DECISION TREE: FOURIER WAVEFORM SYMMETRY & HARMONICS
+          </h3>
+          <div class="space-y-3 text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="font-bold text-cyan-300 block mb-1">STEP 1: Check Even vs. Odd Reflection</span>
+              <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <span class="font-bold text-emerald-400">EVEN: $f(-t) = f(t)$</span>
+                  <p class="text-slate-400 text-[11px] mt-1">Cosine terms + DC only ($b_n = 0$). Symmetrical about vertical y-axis.</p>
+                </div>
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <span class="font-bold text-amber-400">ODD: $f(-t) = -f(t)$</span>
+                  <p class="text-slate-400 text-[11px] mt-1">Sine terms ONLY ($a_0 = 0, a_n = 0$). Zero DC component! Symmetrical about origin.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="font-bold text-cyan-300 block mb-1">STEP 2: Check Half-Wave Symmetry $f(t) = -f(t \pm T/2)$</span>
+              <div class="p-2 rounded bg-slate-950 border border-slate-800 mt-2">
+                <span class="font-bold text-purple-400">IF YES $\implies$ ODD HARMONICS ONLY ($n = 1, 3, 5, \dots$)</span>
+                <p class="text-slate-400 text-[11px] mt-1">All even harmonic coefficients $a_2, a_4, b_2, b_4$ are IDENTICALLY ZERO.</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-emerald-950/30 border border-emerald-900/60 text-emerald-300">
+              <strong>EXAM APPLICATION (Q22):</strong> Symmetrical square wave alternating $\pm 5\text{ V}$ crossing origin at $t=0$ has both Odd Symmetry & Half-Wave Symmetry $\implies$ <strong>Sine terms only, Odd harmonics only, Zero DC!</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tree 2: Series Convergence -->
+        <div class="bg-surface rounded-2xl p-5 border border-slate-800 shadow-xl">
+          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            DECISION TREE: POWER SERIES RADIUS & BOUNDARY INTERVAL
+          </h3>
+          <div class="space-y-3 text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="font-bold text-amber-300 block mb-1">STEP 1: Apply d'Alembert Ratio Test</span>
+              <p class="text-slate-300 font-mono text-[11px]">Evaluate $L = \lim_{n\to\infty} \left|\frac{a_{n+1}}{a_n}\right|$</p>
+              <div class="grid grid-cols-3 gap-1.5 mt-2 text-[11px] text-center">
+                <div class="p-1.5 rounded bg-emerald-950/40 border border-emerald-800 text-emerald-300">$L < 1$<br>Converges</div>
+                <div class="p-1.5 rounded bg-rose-950/40 border border-rose-800 text-rose-300">$L > 1$<br>Diverges</div>
+                <div class="p-1.5 rounded bg-amber-950/40 border border-amber-800 text-amber-300">$L = 1$<br>TEST FAILS</div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="font-bold text-amber-300 block mb-1">STEP 2: Solve for Radius $R$ and Open Interval</span>
+              <p class="text-slate-400 text-[11px]">Set $|x - x_0| < R \implies (x_0 - R, x_0 + R)$.</p>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="font-bold text-rose-400 block mb-1">STEP 3: Check Boundary Endpoints Manually!</span>
+              <p class="text-slate-300 text-[11px]">At $x = x_0 - R \implies \sum \frac{(-1)^n}{n}$ (Alternating Harmonic $\implies$ <strong>Converges</strong>, use bracket $[$).</p>
+              <p class="text-slate-300 text-[11px] mt-1">At $x = x_0 + R \implies \sum \frac{1}{n}$ (Harmonic $p=1 \implies$ <strong>Diverges</strong>, use paren $)$. True interval: $[x_0-R, x_0+R)$.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Comparison Tables Section -->
+      <div class="space-y-6 mt-6">
+        
+        <!-- Table 1: Matrix Classifications -->
+        <div class="bg-surface rounded-2xl p-5 border border-slate-800 shadow-xl overflow-x-auto">
+          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+            <span class="text-cyan-400">⚖️</span> SIDE-BY-SIDE: SYMMETRIC VS. SKEW-SYMMETRIC MATRICES
+          </h3>
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-700 bg-slate-900/80 text-slate-300">
+                <th class="p-2.5 font-bold">Property</th>
+                <th class="p-2.5 font-bold text-cyan-400">Symmetric Matrix ($A^T = A$)</th>
+                <th class="p-2.5 font-bold text-amber-400">Skew-Symmetric Matrix ($K^T = -K$)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr>
+                <td class="p-2.5 font-medium text-slate-400">Condition</td>
+                <td class="p-2.5 font-mono">$a_{ij} = a_{ji}$</td>
+                <td class="p-2.5 font-mono">$k_{ij} = -k_{ji}$</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 font-medium text-slate-400">Main Diagonal ($k_{ii}$)</td>
+                <td class="p-2.5">Can be any arbitrary scalar values</td>
+                <td class="p-2.5 font-bold text-rose-400 font-mono">MUST ALL BE IDENTICALLY ZERO ($k_{ii} = 0$)</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 font-medium text-slate-400">ECE Application</td>
+                <td class="p-2.5">Reciprocal 2-Port Network ($Z_{12} = Z_{21}$)</td>
+                <td class="p-2.5">Magnetic tensor cross-products, gyroscopic dynamics</td>
+              </tr>
+              <tr>
+                <td class="p-2.5 font-medium text-slate-400">Determinant</td>
+                <td class="p-2.5">Arbitrary value</td>
+                <td class="p-2.5">For odd dimension $n \times n$: $\det(K) = 0$ (Always Singular!)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="view-questions" class="tab-view hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-surface p-4 rounded-xl border border-slate-800">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400">#5</span> COMPLETE 50-QUESTION MASTER BANK & SOLUTIONS
+          </h2>
+          <p class="text-xs text-slate-400">All 50 questions from the review file with options, official answer, formula, and trap breakdown.</p>
+        </div>
+        <!-- Topic Filters -->
+        <div class="flex flex-wrap gap-1.5" id="topicFilterContainer">
+          <button onclick="filterQuestions('all')" class="topic-btn active px-2.5 py-1 text-xs rounded-lg bg-cyan-600 text-white font-medium">All (50)</button>
+          <button onclick="filterQuestions('AC Circuits')" class="topic-btn px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">AC & RF (3)</button>
+          <button onclick="filterQuestions('Laplace')" class="topic-btn px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">Laplace & Controls (16)</button>
+          <button onclick="filterQuestions('Fourier')" class="topic-btn px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">Fourier (10)</button>
+          <button onclick="filterQuestions('Series')" class="topic-btn px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">Series (7)</button>
+          <button onclick="filterQuestions('Matrices')" class="topic-btn px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">Matrices (7)</button>
+          <button onclick="filterQuestions('Special Functions')" class="topic-btn px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700">Special Func (7)</button>
+        </div>
+      </div>
+
+      <!-- Question Cards Grid -->
+      <div id="questionListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Dynamically Populated via JavaScript -->
+      </div>
+    </div>
+
+    <div id="view-constants" class="tab-view hidden space-y-6">
+      <div>
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span class="text-cyan-400">#6</span> CONSTANTS, UNITS & PHYSICAL CONVERSIONS
+        </h2>
+        <p class="text-xs text-slate-400">Essential standard numerical constants, ECE units, and engineering identities.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- Card 1: Key Constants -->
+        <div class="bg-surface rounded-xl p-4 border border-slate-800 shadow-lg">
+          <h3 class="text-sm font-bold text-white mb-3 text-cyan-400 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+            Special Mathematical Constants
+          </h3>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\Gamma(1/2)$</span>
+              <span class="font-mono font-bold text-emerald-400">$\sqrt{\pi} \approx 1.77245$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\Gamma(1)$</span>
+              <span class="font-mono font-bold text-emerald-400">$0! = 1$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\Gamma(-1/2)$</span>
+              <span class="font-mono font-bold text-emerald-400">$-2\sqrt{\pi} \approx -3.5449$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\Gamma(5/2)$</span>
+              <span class="font-mono font-bold text-emerald-400">$\frac{3}{4}\sqrt{\pi} \approx 1.3293$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Gibbs Overshoot</span>
+              <span class="font-mono font-bold text-amber-400">$\approx 8.95\% \to 9\%$</span>
+            </li>
+            <li class="flex justify-between">
+              <span class="text-slate-400">Fibonacci $F_{24}$</span>
+              <span class="font-mono font-bold text-cyan-400">$46,368$</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 2: ECE Dimensions & Units -->
+        <div class="bg-surface rounded-xl p-4 border border-slate-800 shadow-lg">
+          <h3 class="text-sm font-bold text-white mb-3 text-emerald-400 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            Standard Board Exam Units
+          </h3>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Conductance $G$</span>
+              <span class="font-mono font-bold text-cyan-300">Siemens [S] = $\Omega^{-1}$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Susceptance $B$</span>
+              <span class="font-mono font-bold text-cyan-300">Siemens [S]</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Attenuation $\alpha$</span>
+              <span class="font-mono font-bold text-cyan-300">Neper/meter [Np/m]</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Phase Constant $\beta$</span>
+              <span class="font-mono font-bold text-cyan-300">Radians/meter [rad/m]</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">True Real Power $P$</span>
+              <span class="font-mono font-bold text-emerald-400">Watts [W]</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">Reactive Power $Q$</span>
+              <span class="font-mono font-bold text-amber-400">Volt-Ampere Reactive [VAR]</span>
+            </li>
+            <li class="flex justify-between">
+              <span class="text-slate-400">Apparent Power $|S|$</span>
+              <span class="font-mono font-bold text-purple-400">Volt-Ampere [VA]</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Maclaurin Coefficients Quick Table -->
+        <div class="bg-surface rounded-xl p-4 border border-slate-800 shadow-lg">
+          <h3 class="text-sm font-bold text-white mb-3 text-purple-400 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            Maclaurin First Non-Zero Terms
+          </h3>
+          <ul class="text-xs space-y-2 text-slate-300">
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\tan(x)$</span>
+              <span class="font-mono font-bold text-amber-300">$x + \frac{1}{3}x^3 + \frac{2}{15}x^5$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\cos(x)$</span>
+              <span class="font-mono font-bold text-slate-300">$1 - \frac{x^2}{2} + \frac{x^4}{24}$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\sin(x)$</span>
+              <span class="font-mono font-bold text-slate-300">$x - \frac{x^3}{6} + \frac{x^5}{120}$</span>
+            </li>
+            <li class="flex justify-between border-b border-slate-800/80 pb-1">
+              <span class="text-slate-400">$\ln(1+x)$</span>
+              <span class="font-mono font-bold text-slate-300">$x - \frac{x^2}{2} + \frac{x^3}{3}$</span>
+            </li>
+            <li class="flex justify-between">
+              <span class="text-slate-400">$\frac{1}{1-x}$</span>
+              <span class="font-mono font-bold text-slate-300">$1 + x + x^2 + x^3$</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="view-cram" class="tab-view hidden space-y-6">
+      <div class="bg-gradient-to-r from-amber-950/40 via-slate-900 to-amber-950/30 p-5 rounded-2xl border border-amber-800/60 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-amber-300 flex items-center gap-2">
+              <span>⏱️</span> 60-SECOND CRAM SHEET — FINAL 10-MINUTE MEMORY DRILL
+            </h2>
+            <p class="text-xs text-slate-300">The 18 ultimate fast-recall bullets tested repeatedly on the board exam.</p>
+          </div>
+          <span class="text-xs font-mono font-bold px-2.5 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-lg">High Frequency</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">01.</span>
+            <div>
+              <strong class="text-white block">Admittance from Capacitive Impedance</strong>
+              <p class="text-slate-400">If $Z = R - jX_C$, then $B = +\frac{X_C}{R^2+X_C^2}$. Capacitive susceptance is always POSITIVE.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">02.</span>
+            <div>
+              <strong class="text-white block">Complex Apparent Power Conjugate</strong>
+              <p class="text-slate-400">$S = V I^*$. You must conjugate current $I^*$ ($3+j4 \to 3-j4$). Real power $P = \text{Re}\{S\}$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">03.</span>
+            <div>
+              <strong class="text-white block">Transmission Line $\gamma^2 = A + jB$</strong>
+              <p class="text-slate-400">$\alpha = \sqrt{\frac{\sqrt{A^2+B^2}+A}{2}}$. For $5+j12$: $\sqrt{169}=13 \implies \alpha = \sqrt{(13+5)/2} = 3\text{ Np/m}$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">04.</span>
+            <div>
+              <strong class="text-white block">Final Value Theorem (FVT) Trap</strong>
+              <p class="text-slate-400">FVT holds ONLY if all poles of $sF(s)$ lie in LHP. If roots have positive real part, $f(\infty)$ is UNDEFINED!</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">05.</span>
+            <div>
+              <strong class="text-white block">Dirac Delta Transforms & Sifting</strong>
+              <p class="text-slate-400">$\mathcal{L}\{\delta(t-a)\} = e^{-as}$; $\mathcal{L}\{\delta(t)\} = 1$. Sifting property: $\int_{-\infty}^\infty g(t)\delta(t-a)dt = g(a)$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">06.</span>
+            <div>
+              <strong class="text-white block">DC Gain of Transfer Function</strong>
+              <p class="text-slate-400">Set $s=0$: $\text{DC Gain} = H(0)$. For $\frac{50}{2s^2+4s+10}$, DC gain is $50/10 = 5$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">07.</span>
+            <div>
+              <strong class="text-white block">Half-Wave Symmetry Fourier Harmonics</strong>
+              <p class="text-slate-400">$f(t) = -f(t \pm T/2) \implies$ ODD harmonics only ($n = 1, 3, 5, \dots$). Even harmonics are 0.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">08.</span>
+            <div>
+              <strong class="text-white block">Gibbs Phenomenon Discontinuity</strong>
+              <p class="text-slate-400">Persistent $\approx 9\%$ overshoot at vertical jump discontinuities when truncating Fourier series.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">09.</span>
+            <div>
+              <strong class="text-white block">Fourier Pairs: Rect vs. Triangle</strong>
+              <p class="text-slate-400">Rectangular pulse $\longleftrightarrow$ Sinc; Triangular pulse $\longleftrightarrow$ $\text{Sinc}^2$; Gaussian $\longleftrightarrow$ Gaussian.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">10.</span>
+            <div>
+              <strong class="text-white block">Time Compression vs. Frequency Expansion</strong>
+              <p class="text-slate-400">$x(2t) \longleftrightarrow \frac{1}{2}X(f/2)$. Speeding up $2\times$ doubles bandwidth ($20\to 40\text{ kHz}$) and halves amplitude.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">11.</span>
+            <div>
+              <strong class="text-white block">d'Alembert Ratio Test at $L=1$</strong>
+              <p class="text-slate-400">If ratio limit $L = 1$, the test FAILS COMPLETELY (inconclusive). Must use alternate tests.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">12.</span>
+            <div>
+              <strong class="text-white block">Maclaurin Coefficient of $\tan(x)$</strong>
+              <p class="text-slate-400">$\tan(x) = x + \frac{1}{3}x^3 + \frac{2}{15}x^5 + \dots$ The coefficient of $x^3$ is exactly $\frac{1}{3}$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">13.</span>
+            <div>
+              <strong class="text-white block">Skew-Symmetric Diagonal Mandate</strong>
+              <p class="text-slate-400">$K^T = -K \implies k_{ii} = -k_{ii} \implies$ All main diagonal elements MUST be exactly ZERO.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">14.</span>
+            <div>
+              <strong class="text-white block">Matrix Scalar Determinant Theorem</strong>
+              <p class="text-slate-400">For $n \times n$ matrix, $\det(kA) = k^n \det(A)$. For $3\times3$ with $\det=5$ and $k=4$: $\det(4M) = 4^3(5) = 320$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">15.</span>
+            <div>
+              <strong class="text-white block">Eigenvalues Sum = Trace</strong>
+              <p class="text-slate-400">$\sum \lambda_i = \text{tr}(A)$ (sum of main diagonal elements). $\prod \lambda_i = \det(A)$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">16.</span>
+            <div>
+              <strong class="text-white block">Special Gamma Function Values</strong>
+              <p class="text-slate-400">$\Gamma(1) = 1$, $\Gamma(1/2) = \sqrt{\pi}$, $\Gamma(-1/2) = -2\sqrt{\pi}$, $\Gamma(5/2) = \frac{3}{4}\sqrt{\pi}$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">17.</span>
+            <div>
+              <strong class="text-white block">Beta Function Integer Evaluation</strong>
+              <p class="text-slate-400">$B(4,3) = \frac{3! \cdot 2!}{6!} = \frac{12}{720} = \frac{1}{60}$.</p>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-start space-x-2.5">
+            <span class="font-bold text-amber-400 font-mono">18.</span>
+            <div>
+              <strong class="text-white block">Fibonacci-Lucas Product Identity</strong>
+              <p class="text-slate-400">$F_n \cdot L_n = F_{2n}$. For $n=12$: $F_{12} \cdot L_{12} = F_{24} = 46368$.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div id="calcModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-surface border border-slate-800 rounded-2xl w-full max-w-lg p-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <h3 class="font-bold text-white text-base flex items-center gap-2">
+          <span class="text-cyan-400">⚡</span> FAST SOLVER: ADMITTANCE & ATTENUATION
+        </h3>
+        <button id="closeCalcBtn" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="font-bold text-slate-300 block mb-1">1. Impedance to Admittance: $Z = R + jX$</label>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <span class="text-[10px] text-slate-400">Resistance R ($\Omega$)</span>
+              <input type="number" id="calcR" value="4" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400">Reactance X ($\Omega$, use negative for cap)</span>
+              <input type="number" id="calcX" value="-3" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            </div>
+          </div>
+          <button onclick="calculateAdmittance()" class="mt-2 w-full py-1.5 rounded bg-cyan-600 hover:bg-cyan-500 font-bold text-white transition-colors">Compute $G$ and $B$</button>
+          <div id="admittanceResult" class="mt-2 p-2 rounded bg-slate-900/90 font-mono text-cyan-300 border border-slate-800 text-center">
+            $$G = 0.16\text{ S}, \quad B = +0.12\text{ S} \implies Y = 0.16 + j0.12\text{ S}$$
+          </div>
+        </div>
+
+        <div class="border-t border-slate-800 pt-3">
+          <label class="font-bold text-slate-300 block mb-1">2. RF Line $\gamma^2 = A + jB \implies \alpha, \beta$</label>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <span class="text-[10px] text-slate-400">Real Part A</span>
+              <input type="number" id="calcA" value="5" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400">Imag Part B</span>
+              <input type="number" id="calcB" value="12" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+            </div>
+          </div>
+          <button onclick="calculateGamma()" class="mt-2 w-full py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 font-bold text-white transition-colors">Compute $\alpha$ and $\beta$</button>
+          <div id="gammaResult" class="mt-2 p-2 rounded bg-slate-900/90 font-mono text-emerald-300 border border-slate-800 text-center">
+            $$\alpha = 3\text{ Np/m}, \quad \beta = 2\text{ rad/m}$$
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const examQuestions = [
+      {
+        id: 1,
+        topic: "AC Circuits",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "AC Admittance from Complex Impedance",
+        text: "An AC load is represented by a complex impedance $Z = 4 - j3\\ \\Omega$. To find the total equivalent parameter in parallel circuit analysis, an engineer must convert this to admittance $Y = G + jB$. What is the precise value of the conductive part ($G$) and the susceptance part ($B$)?",
+        options: [
+          "A. $G = 0.16\\text{ S}, \\quad B = -0.12\\text{ S}$",
+          "B. $G = 0.25\\text{ S}, \\quad B = 0.33\\text{ S}$",
+          "C. $G = 0.16\\text{ S}, \\quad B = +0.12\\text{ S}$",
+          "D. $G = 0.25\\text{ S}, \\quad B = -0.33\\text{ S}$"
+        ],
+        answer: "C. $G = 0.16\\text{ S}, \\quad B = +0.12\\text{ S}$",
+        solution: "Given $Z = R + jX = 4 - j3\\ \\Omega \\implies R = 4, X = -3$. Admittance $Y = 1/Z = \\frac{R - jX}{R^2 + X^2}$. $|Z|^2 = 4^2 + (-3)^2 = 25$. Conductance $G = \\frac{R}{|Z|^2} = \\frac{4}{25} = 0.16\\text{ S}$. Susceptance $B = \\frac{-X}{|Z|^2} = \\frac{-(-3)}{25} = +0.12\\text{ S}$. Therefore, $Y = 0.16 + j0.12\\text{ S}$.",
+        formula: "Y = \\frac{1}{Z} = G + jB = \\frac{R}{R^2+X^2} - j\\frac{X}{R^2+X^2}",
+        trap: "Sign trap: A capacitive load ($X = -3$) yields a POSITIVE susceptance ($B = +0.12\\text{ S}$). Do not simply copy the negative sign!"
+      },
+      {
+        id: 2,
+        topic: "AC Circuits",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "True Power from Complex Phasors",
+        text: "To determine the true power consumed by an RF antenna load, an engineer uses the complex formula $S = V I^*$. If the applied voltage is $V = 100 + j50\\text{ V}$ and the resulting current is $I = 3 + j4\\text{ A}$, what is the True Power (Real Power) drawn by the load?",
+        options: [
+          "A. $100\\text{ W}$",
+          "B. $300\\text{ W}$",
+          "C. $500\\text{ W}$",
+          "D. $700\\text{ W}$"
+        ],
+        answer: "C. $500\\text{ W}$",
+        solution: "Phasor current $I = 3 + j4\\text{ A} \\implies$ conjugate $I^* = 3 - j4\\text{ A}$. Apparent power $S = V I^* = (100 + j50)(3 - j4) = 300 - j400 + j150 - j^2(200) = (300 + 200) - j(250) = 500 - j250\\text{ VA}$. True Real Power $P = \\text{Re}\\{S\\} = 500\\text{ W}$.",
+        formula: "S = V I^* = P + jQ \\implies P = \\text{Re}\\{V I^*\\}",
+        trap: "Forgetting to take the complex conjugate $I^*$. If you compute $V I$, you get $100 - j550$, leading to wrong choice A (100 W)!"
+      },
+      {
+        id: 3,
+        topic: "AC Circuits",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Transmission Line Propagation Constant",
+        text: "A transmission line has a complex propagation constant $\\gamma = \\alpha + j\\beta$. During a test, it is found that the square of the propagation constant is $\\gamma^2 = 5 + j12$. What is the exact value of the attenuation constant $\\alpha$ (assuming $\\alpha > 0$)?",
+        options: [
+          "A. $3\\text{ Np/m}$",
+          "B. $2\\text{ Np/m}$",
+          "C. $4\\text{ Np/m}$",
+          "D. $5\\text{ Np/m}$"
+        ],
+        answer: "A. $3\\text{ Np/m}$",
+        solution: "$\\gamma^2 = (\\alpha + j\\beta)^2 = (\\alpha^2 - \\beta^2) + j(2\\alpha\\beta) = 5 + j12$. Magnitude $|\\gamma^2| = \\sqrt{5^2 + 12^2} = 13 = \\alpha^2 + \\beta^2$. Adding equations: $(\\alpha^2 - \\beta^2) + (\\alpha^2 + \\beta^2) = 5 + 13 \\implies 2\\alpha^2 = 18 \\implies \\alpha^2 = 9 \\implies \\alpha = 3\\text{ Np/m}$. (Also $\\beta = \\sqrt{(13-5)/2} = 2\\text{ rad/m}$).",
+        formula: "\\alpha = \\sqrt{\\frac{|\\gamma^2| + A}{2}} = \\sqrt{\\frac{13 + 5}{2}} = 3",
+        trap: "Confusing attenuation $\\alpha = 3$ with phase constant $\\beta = 2$."
+      },
+      {
+        id: 4,
+        topic: "Laplace",
+        priority: "🔵 CONCEPTUAL",
+        priorityClass: "badge-conc",
+        title: "System Response from Characteristic Roots",
+        text: "In a control system, the roots of the characteristic equation dictate the physical output behavior. If a transfer function yields complex roots $s = -4 \\pm j\\sqrt{5}$, what is the exact physical description of the unforced time-domain response?",
+        options: [
+          "A. Unstable Exponential Growth",
+          "B. Sustained Undamped Sinusoid",
+          "C. Overdamped Exponential Decay",
+          "D. Underdamped Decaying Sinusoid"
+        ],
+        answer: "D. Underdamped Decaying Sinusoid",
+        solution: "Roots $s = -\\sigma \\pm j\\omega_d = -4 \\pm j\\sqrt{5}$. Real part is negative ($-4 < 0$), ensuring asymptotic decay ($e^{-4t}$). Imaginary part is non-zero ($\\pm j\\sqrt{5}$), causing sinusoidal oscillation ($\\cos(\\sqrt{5}t)$). The combination is an underdamped decaying sinusoid.",
+        formula: "s = -\\zeta\\omega_n \\pm j\\omega_n\\sqrt{1-\\zeta^2} = -\\alpha \\pm j\\omega_d",
+        trap: "If imaginary part were zero with distinct roots, it would be overdamped. If real part were zero, it would be sustained undamped."
+      },
+      {
+        id: 5,
+        topic: "Laplace",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Frequency Shifting Theorem on Damped Cosine",
+        text: "Using the frequency shifting theorem, what is the Laplace transform of a decaying exponential superimposed on a cosine wave, modeled as $f(t) = e^{-3t}\\cos(4t)$?",
+        options: [
+          "A. $\\frac{s - 3}{(s - 3)^2 + 16}$",
+          "B. $\\frac{s + 3}{(s + 3)^2 + 16}$",
+          "C. $\\frac{4}{(s + 3)^2 + 16}$",
+          "D. $\\frac{s + 3}{s^2 + 16}$"
+        ],
+        answer: "B. $\\frac{s + 3}{(s + 3)^2 + 16}$",
+        solution: "Recall $\\mathcal{L}\\{\\cos(\\omega t)\\} = \\frac{s}{s^2 + \\omega^2}$. Here $\\omega = 4$, so $\\mathcal{L}\\{\\cos(4t)\\} = \\frac{s}{s^2 + 16}$. By the First Translation Theorem: $\\mathcal{L}\\{e^{-at}g(t)\\} = G(s+a)$. Here $a = 3$, so substitute $s \\to (s+3)$: $\\frac{s+3}{(s+3)^2 + 16}$.",
+        formula: "\\mathcal{L}\\{e^{-at}\\cos(\\omega t)\\} = \\frac{s+a}{(s+a)^2 + \\omega^2}",
+        trap: "Using $(s-3)$ instead of $(s+3)$, or using the sine transform $\\omega/((s+a)^2+\\omega^2)$ (choice C)."
+      },
+      {
+        id: 6,
+        topic: "Laplace",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Second Translation Theorem (Unshifted Function)",
+        text: "According to the Second Translation Theorem of Laplace transforms, $\\mathcal{L}\\{f(t-a)u(t-a)\\} = e^{-as}F(s)$ where $u(t-a)$ is the Heaviside unit step function. If an engineer needs to transform a function that is NOT properly shifted, $\\mathcal{L}\\{g(t)u(t-a)\\}$, what is the correct mathematical expansion?",
+        options: [
+          "A. $e^{-as} \\mathcal{L}\\{g(t)\\}$",
+          "B. $e^{-as} \\mathcal{L}\\{g(t + a)\\}$",
+          "C. $e^{as} \\mathcal{L}\\{g(t - a)\\}$",
+          "D. It cannot be transformed."
+        ],
+        answer: "B. $e^{-as} \\mathcal{L}\\{g(t + a)\\}$",
+        solution: "Let $\\tau = t - a \\implies t = \\tau + a$. $\\int_a^\\infty g(t)e^{-st}dt = \\int_0^\\infty g(\\tau+a)e^{-s(\\tau+a)}d\\tau = e^{-as}\\int_0^\\infty g(\\tau+a)e^{-s\\tau}d\\tau = e^{-as}\\mathcal{L}\\{g(t+a)\\}$.",
+        formula: "\\mathcal{L}\\{g(t)u(t-a)\\} = e^{-as}\\mathcal{L}\\{g(t+a)\\}",
+        trap: "Choosing A without performing the $+a$ argument shift."
+      },
+      {
+        id: 7,
+        topic: "Laplace",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Delayed Exponential Digital Pulse",
+        text: "A delayed digital pulse in a communications circuit is modeled by $f(t) = e^{-2(t-3)}u(t-3)$. What is the correct Laplace transform of this delayed signal?",
+        options: [
+          "A. $\\frac{e^{-3s}}{s + 2}$",
+          "B. $\\frac{e^{-2s}}{s + 3}$",
+          "C. $e^{-3s}\\left(\\frac{1}{s + 2} - 3\\right)$",
+          "D. $\\frac{e^{-6s}}{s + 2}$"
+        ],
+        answer: "A. $\\frac{e^{-3s}}{s + 2}$",
+        solution: "The function is already in perfectly shifted form $g(t-a)u(t-a)$ with $a = 3$ and $g(t) = e^{-2t}$. Since $\\mathcal{L}\\{e^{-2t}\\} = \\frac{1}{s+2}$, applying $\\mathcal{L}\\{g(t-3)u(t-3)\\} = e^{-3s}G(s) = \\frac{e^{-3s}}{s+2}$.",
+        formula: "\\mathcal{L}\\{g(t-a)u(t-a)\\} = e^{-as}G(s)",
+        trap: "Swapping the delay parameter 3 with exponential factor 2 (choice B)."
+      },
+      {
+        id: 8,
+        topic: "Laplace",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Rectangular Pulse Window Transform",
+        text: "A digital pulse is transmitted such that it turns on at $t = 2$ and turns off at $t = 5$, with an amplitude of 4 V. The function is $f(t) = 4u(t-2) - 4u(t-5)$. What is the Laplace transform?",
+        options: [
+          "A. $\\frac{4}{s}(e^{-2s} + e^{-5s})$",
+          "B. $\\frac{4}{s}(e^{2s} - e^{5s})$",
+          "C. $\\frac{4}{s}(e^{-2s} - e^{-5s})$",
+          "D. $\\frac{1}{s}(e^{-8s} - e^{-20s})$"
+        ],
+        answer: "C. $\\frac{4}{s}(e^{-2s} - e^{-5s})$",
+        solution: "Recall $\\mathcal{L}\\{u(t-a)\\} = \\frac{e^{-as}}{s}$. Linearity gives $\\mathcal{L}\\{4u(t-2) - 4u(t-5)\\} = 4\\frac{e^{-2s}}{s} - 4\\frac{e^{-5s}}{s} = \\frac{4}{s}(e^{-2s} - e^{-5s})$.",
+        formula: "\\mathcal{L}\\{A[u(t-t_1) - u(t-t_2)]\\} = \\frac{A}{s}(e^{-t_1 s} - e^{-t_2 s})",
+        trap: "Positive exponents in choice B, or multiplying amplitudes into exponent in choice D."
+      },
+      {
+        id: 9,
+        topic: "Laplace",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Inverse Transform of Logarithmic s-Domain Expression",
+        text: "Evaluate the time-domain function $f(t)$ for $F(s) = \\ln\\left(\\frac{s+3}{s+2}\\right)$.",
+        options: [
+          "A. $e^{-3t} - e^{-2t}$",
+          "B. $\\frac{e^{-2t} - e^{-3t}}{t}$",
+          "C. $\\frac{e^{-3t} - e^{-2t}}{t}$",
+          "D. Undefined"
+        ],
+        answer: "B. $\\frac{e^{-2t} - e^{-3t}}{t}$",
+        solution: "Rewrite $F(s) = \\ln(s+3) - \\ln(s+2)$. Use property $\\mathcal{L}\\{t f(t)\\} = -\\frac{d}{ds}F(s)$. $\\frac{d}{ds}F(s) = \\frac{1}{s+3} - \\frac{1}{s+2} \\implies -\\frac{d}{ds}F(s) = \\frac{1}{s+2} - \\frac{1}{s+3}$. Taking inverse: $t f(t) = e^{-2t} - e^{-3t} \\implies f(t) = \\frac{e^{-2t} - e^{-3t}}{t}$.",
+        formula: "\\mathcal{L}^{-1}\\{\\ln((s+a)/(s+b))\\} = \\frac{e^{-bt} - e^{-at}}{t}",
+        trap: "Reversing the exponential signs to get choice C."
+      },
+      {
+        id: 10,
+        topic: "Laplace",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Laplace Transform of Shifted Dirac Delta",
+        text: "In modeling a lightning strike on a transmission line, an engineer uses the Dirac delta function $\\delta(t-a)$. What is the exact mathematical value of the Laplace transform $\\mathcal{L}\\{\\delta(t-3)\\}$?",
+        options: [
+          "A. $\\frac{1}{s - 3}$",
+          "B. $e^{-3s}$",
+          "C. $1$",
+          "D. $0$"
+        ],
+        answer: "B. $e^{-3s}$",
+        solution: "By definition, $\\mathcal{L}\\{\\delta(t-a)\\} = \\int_0^\\infty \\delta(t-a)e^{-st}dt = e^{-as}$. For $a = 3$, this is simply $e^{-3s}$.",
+        formula: "\\mathcal{L}\\{\\delta(t-a)\\} = e^{-as}; \\quad \\text{for } a=0, \\mathcal{L}\\{\\delta(t)\\} = 1",
+        trap: "Confusing impulse $\\delta(t-3)$ with step function $u(t-3) \\to e^{-3s}/s$ or frequency pole $1/(s-3)$."
+      },
+      {
+        id: 11,
+        topic: "Laplace",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Sifting Property of Dirac Delta Function",
+        text: "Evaluate the exact mathematical value of the sifting property integral: $\\int_{-\\infty}^\\infty (t^2 + 4t)\\delta(t-3)dt$.",
+        options: [
+          "A. $21$",
+          "B. $16$",
+          "C. $0$",
+          "D. $3$"
+        ],
+        answer: "A. $21$",
+        solution: "The sifting property states $\\int_{-\\infty}^\\infty g(t)\\delta(t-t_0)dt = g(t_0)$. Here $g(t) = t^2 + 4t$ and $t_0 = 3$. Evaluating at $t = 3$: $g(3) = 3^2 + 4(3) = 9 + 12 = 21$.",
+        formula: "\\int_{-\\infty}^\\infty g(t)\\delta(t-t_0)dt = g(t_0)",
+        trap: "Thinking delta function sets the integral to 0 or integrates to 1 without evaluating $g(t_0)$."
+      },
+      {
+        id: 12,
+        topic: "Laplace",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Impulse Response of RLC Bandpass Filter",
+        text: "A passive RLC bandpass filter is hit with a unit impulse $\\delta(t)$ at $t = 0$. If the filter transfer function is $H(s) = \\frac{s}{s^2 + 4}$, what is the s-domain representation of the output response $Y(s)$?",
+        options: [
+          "A. $\\frac{1}{s(s^2 + 4)}$",
+          "B. $\\frac{s}{s^2 + 4}$",
+          "C. $\\cos(2t)$",
+          "D. $\\frac{s^2}{s^2 + 4}$"
+        ],
+        answer: "B. $\\frac{s}{s^2 + 4}$",
+        solution: "Output $Y(s) = X(s) H(s)$. Since the input is a unit impulse $x(t) = \\delta(t)$, its transform is $X(s) = 1$. Therefore, $Y(s) = 1 \\cdot H(s) = \\frac{s}{s^2 + 4}$.",
+        formula: "Y(s) = X(s)H(s); \\quad \\text{with } X(s)=\\mathcal{L}\\{\\delta(t)\\}=1 \\implies Y(s)=H(s)",
+        trap: "Choice C is the time-domain impulse response $y(t) = \\cos(2t)$, but the question explicitly asked for the s-domain representation $Y(s)$!"
+      },
+      {
+        id: 13,
+        topic: "Laplace",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Inductor Terminal Voltage Under Current Ramp",
+        text: "An inductor $L = 2\\text{ H}$ experiences a current ramp defined by $i(t) = 3tu(t)$ Amperes. What is the s-domain expression for the voltage across the inductor, $V_L(s)$?",
+        options: [
+          "A. $\\frac{6}{s^2}$",
+          "B. $\\frac{6}{s}$",
+          "C. $\\frac{3}{s^2}$",
+          "D. $\\frac{2}{s}$"
+        ],
+        answer: "B. $\\frac{6}{s}$",
+        solution: "Current transform: $I(s) = \\mathcal{L}\\{3t\\} = \\frac{3}{s^2}$. In s-domain, inductor voltage is $V_L(s) = sL I(s) - L i(0^-)$. With zero initial current: $V_L(s) = s(2)\\left(\\frac{3}{s^2}\\right) = \\frac{6}{s}\\text{ V}$. (In time domain: $v_L(t) = L \\frac{di}{dt} = 2(3) = 6\\text{ V}$, whose transform is $6/s$).",
+        formula: "V_L(s) = sL I(s) = s(2)(3/s^2) = 6/s",
+        trap: "Forgetting the multiplying $s$ term from $sL$, leading to choice A ($6/s^2$)."
+      },
+      {
+        id: 14,
+        topic: "Laplace",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Step Response of Series RC Circuit",
+        text: "A 10V DC step input is applied at $t = 0$ to a series RC circuit where $R = 5\\ \\Omega$ and $C = 0.1\\text{ F}$. Assuming zero initial charge, what is the exact s-domain representation of capacitor voltage $V_c(s)$?",
+        options: [
+          "A. $\\frac{20}{s(s + 2)}$",
+          "B. $\\frac{10}{s(s + 0.5)}$",
+          "C. $\\frac{20}{s + 2}$",
+          "D. $\\frac{10}{s + 2}$"
+        ],
+        answer: "A. $\\frac{20}{s(s + 2)}$",
+        solution: "Step input $V_{in}(s) = \\frac{10}{s}$. Voltage divider: $V_c(s) = V_{in}(s)\\frac{1/(sC)}{R + 1/(sC)} = \\frac{10}{s(RCs + 1)}$. Time constant $\\tau = RC = 5 \\times 0.1 = 0.5\\text{ s}$. $V_c(s) = \\frac{10}{s(0.5s + 1)} = \\frac{10 / 0.5}{s(s + 1/0.5)} = \\frac{20}{s(s + 2)}$.",
+        formula: "V_c(s) = \\frac{V_0 / (RC)}{s(s + 1/(RC))} = \\frac{10 / 0.5}{s(s + 2)} = \\frac{20}{s(s+2)}",
+        trap: "Not normalizing the coefficient of $s$ to 1 in the denominator factor $(0.5s+1)$."
+      },
+      {
+        id: 15,
+        topic: "Laplace",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Inverting Op-Amp Analog Integrator",
+        text: "An ideal analog integrator circuit (inverting op-amp configuration) has resistor $R = 10\\text{ k}\\Omega$ and capacitor $C = 100\\ \\mu\\text{F}$. What is the exact s-domain transfer function $H(s) = \\frac{V_{out}(s)}{V_{in}(s)}$?",
+        options: [
+          "A. $\\frac{1}{s}$",
+          "B. $-\\frac{1}{s}$",
+          "C. $\\frac{1}{s + 1}$",
+          "D. $-\\frac{1}{s + 1}$"
+        ],
+        answer: "B. $-\\frac{1}{s}$",
+        solution: "For inverting op-amp, $H(s) = -\\frac{Z_f}{Z_{in}} = -\\frac{1/(sC)}{R} = -\\frac{1}{sRC}$. $RC = (10 \\times 10^3\\ \\Omega)(100 \\times 10^{-6}\\text{ F}) = 1.0\\text{ s}$. Therefore $H(s) = -\\frac{1}{s(1)} = -\\frac{1}{s}$.",
+        formula: "H(s) = -\\frac{1}{sRC} = -\\frac{1}{s(1)} = -\\frac{1}{s}",
+        trap: "Forgetting the minus sign from the inverting op-amp terminal (choice A)."
+      },
+      {
+        id: 16,
+        topic: "Laplace",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Initial Angular Velocity via IVT",
+        text: "The angular velocity of a robotic arm is modeled in the s-domain as $\\Omega(s) = \\frac{6s^2 + 3s + 8}{2s^3 + 4s^2 + 5s}$. What is the initial angular velocity $\\omega(0)$ at the exact moment it is turned on?",
+        options: [
+          "A. $3\\text{ rad/s}$",
+          "B. $1.6\\text{ rad/s}$",
+          "C. $0\\text{ rad/s}$",
+          "D. $6\\text{ rad/s}$"
+        ],
+        answer: "A. $3\\text{ rad/s}$",
+        solution: "Apply the Initial Value Theorem: $\\omega(0^+) = \\lim_{s\\to\\infty} s\\Omega(s) = \\lim_{s\\to\\infty} \\frac{s(6s^2 + 3s + 8)}{2s^3 + 4s^2 + 5s} = \\lim_{s\\to\\infty} \\frac{6s^3 + 3s^2 + 8s}{2s^3 + 4s^2 + 5s}$. Take the ratio of leading coefficients: $6/2 = 3\\text{ rad/s}$.",
+        formula: "f(0^+) = \\lim_{s\\to\\infty} s F(s) = \\frac{6}{2} = 3\\text{ rad/s}",
+        trap: "Forgetting to multiply by $s$ before evaluating the limit at infinity."
+      },
+      {
+        id: 17,
+        topic: "Laplace",
+        priority: "⚠️ EXAM WRITER TRAP",
+        priorityClass: "badge-trap",
+        title: "Steady-State Error with Unstable RHP Poles",
+        text: "A motor control system yields an error transfer function $E(s) = \\frac{4s + 10}{s(s^2 - 2s + 5)}$. An engineer is asked to find the steady-state error of this system as time approaches infinity. What is $e(\\infty)$?",
+        options: [
+          "A. $2$",
+          "B. $0$",
+          "C. $-10$",
+          "D. Undefined"
+        ],
+        answer: "D. Undefined",
+        solution: "Before applying the Final Value Theorem, inspect the poles of $sE(s) = \\frac{4s+10}{s^2-2s+5}$. Denominator roots: $s = \\frac{2 \\pm \\sqrt{4 - 20}}{2} = 1 \\pm j2$. The real part is $+1 > 0$ (Right-Half Plane). The system is UNSTABLE and diverges exponentially! The FVT condition fails. Therefore, $e(\\infty)$ is Undefined.",
+        formula: "e(\\infty) = \\lim_{s\\to 0} s E(s) \\quad [\\text{VALID ONLY IF POLES IN LHP!}]",
+        trap: "Blindly evaluating $\\lim_{s\\to 0} s E(s) = 10/5 = 2$ (Choice A). This is a classic board trap!"
+      },
+      {
+        id: 18,
+        topic: "Laplace",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Damping Ratio of Second-Order System",
+        text: "The closed-loop transfer function of a position control system is $T(s) = \\frac{100}{s^2 + 8s + 100}$. What is the damping ratio $\\zeta$ of the system?",
+        options: [
+          "A. $0.8$",
+          "B. $0.4$",
+          "C. $8$",
+          "D. $10$"
+        ],
+        answer: "B. $0.4$",
+        solution: "Compare with standard form $T(s) = \\frac{\\omega_n^2}{s^2 + 2\\zeta\\omega_n s + \\omega_n^2}$. $\\omega_n^2 = 100 \\implies \\omega_n = 10\\text{ rad/s}$. The linear coefficient $2\\zeta\\omega_n = 8 \\implies 2\\zeta(10) = 8 \\implies 20\\zeta = 8 \\implies \\zeta = 8/20 = 0.4$.",
+        formula: "\\zeta = \\frac{a_1}{2\\omega_n} = \\frac{8}{2(10)} = 0.4",
+        trap: "Forgetting the factor of 2 in $2\\zeta\\omega_n$, which would mistakenly give 0.8."
+      },
+      {
+        id: 19,
+        topic: "Laplace",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "DC Gain of Low-Pass Filter",
+        text: "What is the DC gain of a low-pass filter defined by the transfer function $H(s) = \\frac{50}{2s^2 + 4s + 10}$?",
+        options: [
+          "A. $50$",
+          "B. $12.5$",
+          "C. $5$",
+          "D. $0$"
+        ],
+        answer: "C. $5$",
+        solution: "DC corresponds to zero frequency: $\\omega = 0 \\implies s = 0$. $\\text{DC Gain} = \\lim_{s\\to 0} H(s) = H(0) = \\frac{50}{2(0)^2 + 4(0) + 10} = \\frac{50}{10} = 5$.",
+        formula: "\\text{DC Gain} = H(0) = \\frac{50}{10} = 5",
+        trap: "Taking the numerator alone (50) without dividing by the constant denominator term (10)."
+      },
+      {
+        id: 20,
+        topic: "Fourier",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Direct Fourier Coefficient Inspection",
+        text: "A continuous signal is defined as $f(t) = 12 + 5\\cos(3t) - 8\\sin(7t)$. Without setting up the standard Fourier integration formulas, what is the exact mathematical value of the Fourier coefficient $a_3$?",
+        options: [
+          "A. $0$",
+          "B. $5$",
+          "C. $12$",
+          "D. $-8$"
+        ],
+        answer: "B. $5$",
+        solution: "The Fourier series is $f(t) = a_0 + \\sum [a_n \\cos(n\\omega_0 t) + b_n \\sin(n\\omega_0 t)]$. By direct inspection: DC term $a_0 = 12$. The cosine component at frequency 3 has coefficient $a_3 = 5$. The sine component at frequency 7 has coefficient $b_7 = -8$. Thus $a_3 = 5$.",
+        formula: "f(t) = a_0 + \\sum [a_n\\cos(nt) + b_n\\sin(nt)] \\implies a_3 = 5",
+        trap: "Integrating over an arbitrary period when direct inspection gives the answer immediately in 5 seconds."
+      },
+      {
+        id: 21,
+        topic: "Fourier",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Half-Wave Symmetry Fourier Harmonics",
+        text: "An AC waveform possesses half-wave symmetry, defined mathematically as $f(t) = -f(t \\pm T/2)$. When expanded into a Fourier Series, what specific harmonics will be present?",
+        options: [
+          "A. Both even and odd harmonics",
+          "B. Even harmonics only ($n = 2, 4, 6, \\dots$)",
+          "C. Odd harmonics only ($n = 1, 3, 5, \\dots$)",
+          "D. Only the fundamental frequency ($n = 1$)"
+        ],
+        answer: "C. Odd harmonics only ($n = 1, 3, 5, \\dots$)",
+        solution: "Half-wave symmetry causes all even harmonics to cancel identically over a full cycle: $a_{2k} = 0$ and $b_{2k} = 0$. Only odd harmonics ($n = 1, 3, 5, \\dots$) survive.",
+        formula: "f(t) = -f(t \\pm T/2) \\implies a_n = b_n = 0 \\quad \\text{for all even } n",
+        trap: "Confusing with even symmetry (which has cosine terms only, but can have both even and odd harmonics)."
+      },
+      {
+        id: 22,
+        topic: "Fourier",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Symmetrical Square Wave Fourier Components",
+        text: "In analyzing a clock signal modeled as a symmetrical square wave that alternates exactly between +5V and -5V, crossing the origin at $t = 0$ transitioning from negative to positive. Without integration, what components will strictly make up its Fourier series?",
+        options: [
+          "A. Sine and Cosine terms only (No DC)",
+          "B. Sine terms only (No DC)",
+          "C. Cosine terms and a DC component",
+          "D. Sine terms and a DC component"
+        ],
+        answer: "B. Sine terms only (No DC)",
+        solution: "1. The waveform has zero average value over a period $\\implies$ DC term $a_0 = 0$.\n2. Reflection through origin satisfies $f(-t) = -f(t) \\implies$ Odd function $\\implies$ all cosine coefficients $a_n = 0$.\n3. Therefore, only Sine terms exist (no DC).",
+        formula: "\\text{Odd Symmetry } f(-t) = -f(t) \\implies a_0 = 0, a_n = 0; \\quad b_n \\neq 0",
+        trap: "Adding a DC component when the upper (+5V) and lower (-5V) areas perfectly cancel."
+      },
+      {
+        id: 23,
+        topic: "Fourier",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Persistent 9% Discontinuity Overshoot",
+        text: "When a truncated Fourier series approximates a square wave, a persistent 9% oscillatory overshoot occurs at vertical discontinuities. What is this called?",
+        options: [
+          "A. Aliasing",
+          "B. Parseval Deviation",
+          "C. Gibbs Phenomenon",
+          "D. Spectral Leakage"
+        ],
+        answer: "C. Gibbs Phenomenon",
+        solution: "Gibbs Phenomenon describes the behavior of Fourier series near a jump discontinuity. Even as $N \\to \\infty$, the peak overshoot does not vanish; it approaches approximately $8.95\\% \\approx 9\\%$ of the jump height.",
+        formula: "\\text{Peak overshoot} = \\frac{1}{\\pi}\\int_0^\\pi \\frac{\\sin t}{t}dt - \\frac{1}{2} \\approx 8.95\\% \\approx 9\\%",
+        trap: "Aliasing is frequency overlap from sampling below the Nyquist rate, completely distinct from Gibbs phenomenon."
+      },
+      {
+        id: 24,
+        topic: "Fourier",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Fourier Transform of Single Rectangular Pulse",
+        text: "A baseband digital transmission sends a single non-repeating rectangular pulse of width $\\tau$ in the time domain. What is the fundamental shape of this signal when transformed into the continuous frequency domain via Fourier Transform?",
+        options: [
+          "A. A train of discrete impulses",
+          "B. A Gaussian curve",
+          "C. A Sinc function",
+          "D. An exponential decay"
+        ],
+        answer: "C. A Sinc function",
+        solution: "The Fourier transform of a rectangular pulse $\\text{rect}(t/\\tau)$ is $\\tau \\cdot \\text{sinc}(f\\tau) = \\frac{\\sin(\\pi f \\tau)}{\\pi f}$. The shape is a continuous Sinc function with side lobes.",
+        formula: "\\mathcal{F}\\{\\text{rect}(t/\\tau)\\} = \\tau \\cdot \\text{sinc}(f\\tau)",
+        trap: "Impulse trains arise from periodic signals (Fourier Series), but a single non-repeating pulse produces a continuous spectrum."
+      },
+      {
+        id: 25,
+        topic: "Fourier",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Fourier Time Scaling Property (Speed-Up)",
+        text: "An audio signal $x(t)$ has a Fourier transform $X(f)$ that occupies a bandwidth of 20 kHz. If the signal is sped up in a playback system such that the new signal is $x(2t)$, what happens to its frequency spectrum?",
+        options: [
+          "A. Bandwidth compresses to $10\\text{ kHz}$.",
+          "B. Bandwidth expands to $40\\text{ kHz}$; amplitude drops by half.",
+          "C. Bandwidth expands to $40\\text{ kHz}$; amplitude doubles.",
+          "D. Spectrum shifts by $2\\text{ Hz}$."
+        ],
+        answer: "B. Bandwidth expands to $40\\text{ kHz}$; amplitude drops by half.",
+        solution: "By the Fourier time scaling property, $\\mathcal{F}\\{x(at)\\} = \\frac{1}{|a|}X\\left(\\frac{f}{a}\\right)$. Here $a = 2$. Time compression ($a > 1$) leads to frequency expansion: bandwidth doubles from $20\\text{ kHz} \\to 40\\text{ kHz}$. The amplitude factor is $1/|a| = 1/2$ (halved).",
+        formula: "\\mathcal{F}\\{x(at)\\} = \\frac{1}{|a|}X(f/a) \\implies \\text{BW} \\times a, \\text{ Amp} \\times \\frac{1}{a}",
+        trap: "Assuming speeding up compresses bandwidth (choice A)."
+      },
+      {
+        id: 26,
+        topic: "Fourier",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Frequency Translation / Modulation Property",
+        text: "If the Fourier Transform of a baseband communication signal $x(t)$ is $X(\\omega)$, what is the exact frequency-domain spectrum of the amplitude-modulated signal $y(t) = x(t)e^{j\\omega_0 t}$?",
+        options: [
+          "A. $X(\\omega) \\cdot \\delta(\\omega_0)$",
+          "B. $X(\\omega + \\omega_0)$",
+          "C. $X(\\omega - \\omega_0)$",
+          "D. $e^{j\\omega_0 \\omega}X(\\omega)$"
+        ],
+        answer: "C. $X(\\omega - \\omega_0)$",
+        solution: "By the frequency translation theorem (modulation property), multiplying by $e^{j\\omega_0 t}$ in the time domain causes a shift to the right by $\\omega_0$ in the frequency domain: $\\mathcal{F}\\{x(t)e^{j\\omega_0 t}\\} = X(\\omega - \\omega_0)$.",
+        formula: "\\mathcal{F}\\{x(t)e^{j\\omega_0 t}\\} = X(\\omega - \\omega_0)",
+        trap: "Sign error in exponent: $+j\\omega_0 t \\implies -\\omega_0$ in frequency (choice B has $+\\omega_0$)."
+      },
+      {
+        id: 27,
+        topic: "Fourier",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Inverse Fourier Transform of Frequency Impulse",
+        text: "Evaluate the Inverse Fourier Transform of a frequency-domain impulse function located at $f_0$, given by $X(f) = \\delta(f - f_0)$.",
+        options: [
+          "A. $\\cos(2\\pi f_0 t)$",
+          "B. $e^{j 2\\pi f_0 t}$",
+          "C. $1$",
+          "D. $u(t - f_0)$"
+        ],
+        answer: "B. $e^{j 2\\pi f_0 t}$",
+        solution: "Using the inverse Fourier integral: $x(t) = \\int_{-\\infty}^\\infty \\delta(f - f_0) e^{j 2\\pi f t} df$. By the sifting property, this evaluates directly to $e^{j 2\\pi f_0 t}$.",
+        formula: "\\mathcal{F}^{-1}\\{\\delta(f - f_0)\\} = e^{j 2\\pi f_0 t}",
+        trap: "Assuming an impulse transforms into a real cosine (choice A requires TWO symmetric impulses)."
+      },
+      {
+        id: 28,
+        topic: "Fourier",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Convolution Theorem in Continuous Frequency Domain",
+        text: "A system processes a signal using the Convolution Theorem. If signal $x(t)$ is passed through an LTI system with impulse response $h(t)$, what is the equivalent operation in the continuous frequency domain?",
+        options: [
+          "A. $X(f) + H(f)$",
+          "B. $X(f) / H(f)$",
+          "C. $X(f) - H(f)$",
+          "D. $X(f) \\cdot H(f)$"
+        ],
+        answer: "D. $X(f) \\cdot H(f)$",
+        solution: "The Convolution Theorem states that convolution in the time domain corresponds to point-by-point multiplication in the frequency domain: $\\mathcal{F}\\{x(t) * h(t)\\} = X(f) \\cdot H(f)$.",
+        formula: "x(t) * h(t) \\longleftrightarrow X(f) \\cdot H(f)",
+        trap: "Confusing frequency domain multiplication with addition (choice A)."
+      },
+      {
+        id: 29,
+        topic: "Series",
+        priority: "🔵 CONCEPTUAL",
+        priorityClass: "badge-conc",
+        title: "Harmonic Series Definition for p = 1",
+        text: "What is the specific mathematical term used to identify the infinite p-series $\\sum_{n=1}^\\infty \\frac{1}{n^p}$ when the parameter $p$ is equal to exactly 1?",
+        options: [
+          "A. Maclaurin Series",
+          "B. Taylor Series",
+          "C. Harmonic Series",
+          "D. Fourier Series"
+        ],
+        answer: "C. Harmonic Series",
+        solution: "When $p = 1$, the series $\\sum_{n=1}^\\infty \\frac{1}{n} = 1 + \\frac{1}{2} + \\frac{1}{3} + \\dots$ is universally known as the **Harmonic Series**. It is famously divergent.",
+        formula: "\\sum_{n=1}^\\infty \\frac{1}{n} = \\text{Harmonic Series (Diverges)}",
+        trap: "Thinking it converges because $1/n \\to 0$. By the integral test or p-series test ($p \\le 1$), it diverges!"
+      },
+      {
+        id: 30,
+        topic: "Series",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "d'Alembert Ratio Test Conclusion at L = 1",
+        text: "An engineer applies the d'Alembert Ratio Test to an infinite series $\\sum a_n$ to determine its convergence. After evaluating the absolute limit $L = \\lim_{n\\to\\infty} |\\frac{a_{n+1}}{a_n}|$, the output is exactly $L = 1$. What is the strict conclusion?",
+        options: [
+          "A. The series is absolutely convergent.",
+          "B. The series diverges to infinity.",
+          "C. The series is conditionally convergent.",
+          "D. The test fails completely."
+        ],
+        answer: "D. The test fails completely.",
+        solution: "In the Ratio Test:\n• If $L < 1$: series converges absolutely.\n• If $L > 1$: series diverges.\n• If $L = 1$: the test is INCONCLUSIVE / fails completely. Another test (integral, comparison, alternating) must be used.",
+        formula: "L = 1 \\implies \\text{Test Inconclusive / Fails}",
+        trap: "Assuming $L=1$ means conditional convergence (choice C)."
+      },
+      {
+        id: 31,
+        topic: "Series",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Radius of Convergence via Ratio Test",
+        text: "Using the ratio test, determine the exact mathematical Radius of Convergence (R) for the power series $\\sum_{n=1}^\\infty \\frac{x^n}{n \\cdot 4^n}$.",
+        options: [
+          "A. $1/4$",
+          "B. $1$",
+          "C. $4$",
+          "D. $\\infty$"
+        ],
+        answer: "C. $4$",
+        solution: "Form ratio: $\\lim_{n\\to\\infty} \\left|\\frac{x^{n+1}}{(n+1)4^{n+1}} \\cdot \\frac{n 4^n}{x^n}\\right| = \\lim_{n\\to\\infty} \\frac{n}{n+1} \\frac{|x|}{4} = \\frac{|x|}{4}$. For convergence, set $\\frac{|x|}{4} < 1 \\implies |x| < 4$. Therefore, Radius $R = 4$.",
+        formula: "R = \\lim_{n\\to\\infty} \\left|\\frac{c_n}{c_{n+1}}\\right| = \\lim_{n\\to\\infty} \\frac{(n+1)4^{n+1}}{n 4^n} = 4",
+        trap: "Inverting the fraction to get $1/4$ (choice A)."
+      },
+      {
+        id: 32,
+        topic: "Series",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Open Interval of Convergence",
+        text: "An engineer applies the Ratio Test to determine the absolute Radius of Convergence (R) for the power series $\\sum_{n=1}^\\infty \\frac{(x-3)^n}{n \\cdot 2^n}$. What is the radius R and resulting open interval?",
+        options: [
+          "A. $R = 2$, open interval $(1, 5)$",
+          "B. $R = 3$, open interval $(0, 6)$",
+          "C. $R = 1$, open interval $(2, 4)$",
+          "D. $R = \\infty$, converges everywhere"
+        ],
+        answer: "A. $R = 2$, open interval $(1, 5)$",
+        solution: "$\\lim_{n\\to\\infty} \\left|\\frac{(x-3)^{n+1}}{(n+1)2^{n+1}} \\cdot \\frac{n 2^n}{(x-3)^n}\\right| = \\frac{|x-3|}{2} < 1 \\implies |x-3| < 2 \\implies R = 2$. The open interval centered at 3 is $(3-2, 3+2) = (1, 5)$.",
+        formula: "|x - x_0| < R \\implies |x - 3| < 2 \\implies (1, 5)",
+        trap: "Centering at 0 instead of 3 (choice B)."
+      },
+      {
+        id: 33,
+        topic: "Series",
+        priority: "⚠️ EXAM WRITER TRAP",
+        priorityClass: "badge-trap",
+        title: "Manual Boundary Testing for Power Series",
+        text: "For the series $\\sum_{n=1}^\\infty \\frac{(x-3)^n}{n \\cdot 2^n}$, the open interval is (1, 5). What is the true interval of convergence when boundaries are manually tested?",
+        options: [
+          "A. $(1, 5)$",
+          "B. $[1, 5]$",
+          "C. $[1, 5)$",
+          "D. $(1, 5]$"
+        ],
+        answer: "C. $[1, 5)$",
+        solution: "1. Test left boundary $x = 1$:\n$\\sum_{n=1}^\\infty \\frac{(1-3)^n}{n 2^n} = \\sum_{n=1}^\\infty \\frac{(-2)^n}{n 2^n} = \\sum_{n=1}^\\infty \\frac{(-1)^n}{n}$. This is the Alternating Harmonic Series, which **converges** (bracket $[1$).\n2. Test right boundary $x = 5$:\n$\\sum_{n=1}^\\infty \\frac{(5-3)^n}{n 2^n} = \\sum_{n=1}^\\infty \\frac{2^n}{n 2^n} = \\sum_{n=1}^\\infty \\frac{1}{n}$. This is the Harmonic Series, which **diverges** (parenthesis $5)$).\nTrue interval: $[1, 5)$.",
+        formula: "\\text{Endpoint analysis: } x=1 \\implies \\text{converges}; \\ x=5 \\implies \\text{diverges} \\implies [1, 5)",
+        trap: "Assuming both ends converge (choice B) or neither converges (choice A)."
+      },
+      {
+        id: 34,
+        topic: "Series",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Maclaurin Series Expansion of tan(x)",
+        text: "Determine the exact numerical coefficient of the $x^3$ term in the standard Maclaurin series expansion of the function $f(x) = \\tan(x)$.",
+        options: [
+          "A. $1/6$",
+          "B. $1/3$",
+          "C. $1$",
+          "D. $0$"
+        ],
+        answer: "B. $1/3$",
+        solution: "The standard Maclaurin expansion for tangent is $\\tan(x) = x + \\frac{1}{3}x^3 + \\frac{2}{15}x^5 + \\frac{17}{315}x^7 + \\dots$ Thus, the coefficient of $x^3$ is identically $\\frac{1}{3}$.",
+        formula: "\\tan(x) = x + \\frac{1}{3}x^3 + \\frac{2}{15}x^5 + \\dots",
+        trap: "Confusing with $\\sin(x) = x - \\frac{x^3}{6} + \\dots$ where coefficient is $-1/6$."
+      },
+      {
+        id: 35,
+        topic: "Series",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Fast Substitution into Composite Maclaurin Series",
+        text: "Without computing massive derivatives manually, what is the exact numerical coefficient of the $x^4$ term in the Maclaurin series of the composite function $f(x) = x^2\\cos(3x)$?",
+        options: [
+          "A. $9/2$",
+          "B. $-9/2$",
+          "C. $-1/2$",
+          "D. $3$"
+        ],
+        answer: "B. $-9/2$",
+        solution: "Cosine series: $\\cos(u) = 1 - \\frac{u^2}{2!} + \\frac{u^4}{4!} - \\dots$ Substitute $u = 3x$: $\\cos(3x) = 1 - \\frac{(3x)^2}{2} + \\dots = 1 - \\frac{9}{2}x^2 + \\dots$ Multiply by $x^2$: $f(x) = x^2\\left(1 - \\frac{9}{2}x^2 + \\dots\\right) = x^2 - \\frac{9}{2}x^4 + \\dots$ The coefficient of $x^4$ is $-9/2$.",
+        formula: "x^2 \\cos(3x) = x^2\\left(1 - \\frac{9}{2}x^2\\right) = x^2 - \\frac{9}{2}x^4 \\implies -\\frac{9}{2}",
+        trap: "Missing the negative sign in the cosine expansion (choice A)."
+      },
+      {
+        id: 36,
+        topic: "Series",
+        priority: "🟡 IMPORTANT",
+        priorityClass: "badge-imp",
+        title: "Taylor Series Polynomial Evaluation",
+        text: "Given $f(3) = 6, f'(3) = 8, f''(3) = 11$, and all higher-order derivatives are zero at $x = 3$. Assuming continuity between $x=3$ and $x=7$, the value of $f(7)$ is:",
+        options: [
+          "A. $38.000$",
+          "B. $79.500$",
+          "C. $126.00$",
+          "D. $331.50$"
+        ],
+        answer: "C. $126.00$",
+        solution: "Taylor expansion around $x_0 = 3$: $f(x) = f(3) + f'(3)(x-3) + \\frac{f''(3)}{2!}(x-3)^2$. Step $\\Delta x = 7 - 3 = 4$. $f(7) = 6 + 8(4) + \\frac{11}{2}(4^2) = 6 + 32 + \\frac{11}{2}(16) = 6 + 32 + 88 = 126.00$.",
+        formula: "f(7) = 6 + 8(4) + \\frac{11}{2}(16) = 6 + 32 + 88 = 126",
+        trap: "Forgetting the $2! = 2$ in the quadratic denominator, giving $6 + 32 + 176 = 214$."
+      },
+      {
+        id: 37,
+        topic: "Matrices",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Reciprocal Two-Port Network Z-Matrix Property",
+        text: "A passive, reciprocal two-port electronics network is mathematically modeled using an open-circuit impedance matrix (Z-parameters). For the network to be strictly reciprocal, what property must its Z-matrix possess?",
+        options: [
+          "A. It must be an identity matrix ($Z_{11} = Z_{22} = 1$)",
+          "B. It must have a determinant of zero ($|Z| = 0$)",
+          "C. It must be a symmetric matrix ($Z_{12} = Z_{21}$)",
+          "D. The main diagonal must be equal ($Z_{11} = Z_{22}$)"
+        ],
+        answer: "C. It must be a symmetric matrix ($Z_{12} = Z_{21}$)",
+        solution: "By the Reciprocity Theorem for linear passive networks, transfer impedances in forward and reverse directions are equal: $Z_{12} = Z_{21}$. This corresponds directly to a symmetric matrix ($Z = Z^T$).",
+        formula: "\\text{Reciprocal Network} \\iff Z_{12} = Z_{21} \\iff Z^T = Z",
+        trap: "Equal diagonals $Z_{11} = Z_{22}$ indicates a SYMMETRICAL network, not merely a reciprocal one!"
+      },
+      {
+        id: 38,
+        topic: "Matrices",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Skew-Symmetric Matrix Diagonal Mandate",
+        text: "A matrix K is classified as strictly skew-symmetric, satisfying $K^T = -K$. What absolute structural condition is mathematically mandatory for all elements on the main diagonal ($k_{ii}$)?",
+        options: [
+          "A. They must all be equal to exactly 1.",
+          "B. They must form an ascending arithmetic progression.",
+          "C. They must all be exactly equal to 0.",
+          "D. They must be purely imaginary complex conjugates."
+        ],
+        answer: "C. They must all be exactly equal to 0.",
+        solution: "By definition, the transpose condition for diagonal entries requires $k_{ii} = -k_{ii}$. Adding $k_{ii}$ to both sides yields $2k_{ii} = 0 \\implies k_{ii} = 0$. All diagonal elements must be 0.",
+        formula: "k_{ii} = -k_{ii} \\implies 2k_{ii} = 0 \\implies k_{ii} = 0",
+        trap: "Assuming they must be 1 (like an identity matrix)."
+      },
+      {
+        id: 39,
+        topic: "Matrices",
+        priority: "🔵 CONCEPTUAL",
+        priorityClass: "badge-conc",
+        title: "Singular Matrix Definition",
+        text: "A network matrix Y (Admittance) is singular, meaning its determinant $|Y| = 0$. Which of the following physical or mathematical statements MUST be true?",
+        options: [
+          "A. The network has an infinite number of unique solutions for any applied current.",
+          "B. The matrix does not have an inverse.",
+          "C. All eigenvalues of the matrix are zero.",
+          "D. The matrix is purely imaginary."
+        ],
+        answer: "B. The matrix does not have an inverse.",
+        solution: "By fundamental linear algebra, a square matrix is invertible if and only if its determinant is non-zero ($A^{-1} = \\frac{\\text{adj}(A)}{\\det(A)}$). When $\\det(Y) = 0$, division by zero occurs, so the matrix HAS NO INVERSE.",
+        formula: "\\det(A) = 0 \\iff A^{-1} \\text{ does not exist}",
+        trap: "Assuming ALL eigenvalues must be zero; only AT LEAST ONE eigenvalue must be zero for $\\det=0$."
+      },
+      {
+        id: 40,
+        topic: "Matrices",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Determinant Scaling by Scalar k",
+        text: "A $3 \\times 3$ coefficient matrix M has a known determinant $\\det(M) = 5$. If every single element in M is multiplied by a scaling factor $k = 4$ to generate a new matrix $4M$, what is the exact numerical determinant of $4M$?",
+        options: [
+          "A. $120$",
+          "B. $60$",
+          "C. $80$",
+          "D. $320$"
+        ],
+        answer: "D. $320$",
+        solution: "For an $n \\times n$ square matrix, factoring a scalar $k$ out of all $n$ rows yields: $\\det(kA) = k^n \\det(A)$. Here $n = 3, k = 4, \\det(M) = 5$. $\\det(4M) = 4^3 \\cdot \\det(M) = 64 \\times 5 = 320$.",
+        formula: "\\det(kA) = k^n \\det(A) = 4^3 \\times 5 = 64 \\times 5 = 320",
+        trap: "Multiplying $k \\cdot \\det(M) = 4 \\times 5 = 20$, or $4 \\times 3 \\times 5 = 60$ (choice B)."
+      },
+      {
+        id: 41,
+        topic: "Matrices",
+        priority: "🔵 CONCEPTUAL",
+        priorityClass: "badge-conc",
+        title: "State Matrix Characteristic Equation Roots",
+        text: "In evaluating the stability of a state-space control system $\\dot{x} = Ax + Bu$, an engineer must find the roots of the characteristic equation derived from $|sI - A| = 0$. Mathematically, what do the values of $s$ represent with respect to matrix A?",
+        options: [
+          "A. The eigenvectors of A",
+          "B. The eigenvalues of A",
+          "C. The adjoint of A",
+          "D. The determinant of A"
+        ],
+        answer: "B. The eigenvalues of A",
+        solution: "The algebraic definition of eigenvalues $\\lambda$ for matrix $A$ is the solution to $|\\lambda I - A| = 0$. In control theory, replacing $\\lambda$ with the Laplace complex variable $s$ gives the characteristic equation $|sI - A| = 0$. The roots $s$ are the eigenvalues of state matrix A.",
+        formula: "|sI - A| = 0 \\implies s = \\lambda_i \\quad (\\text{Eigenvalues of A})",
+        trap: "Confusing eigenvalues with eigenvectors."
+      },
+      {
+        id: 42,
+        topic: "Matrices",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Sum of Eigenvalues via Matrix Trace",
+        text: "Without computing the characteristic equation, determine the sum of eigenvalues for system matrix $A = \\begin{bmatrix} 7 & -2 \\\\ 4 & 5 \\end{bmatrix}$.",
+        options: [
+          "A. $43$",
+          "B. $12$",
+          "C. $2$",
+          "D. $0$"
+        ],
+        answer: "B. $12$",
+        solution: "By the Trace Theorem: the sum of eigenvalues of any square matrix equals its trace (the sum of main diagonal elements): $\\sum \\lambda_i = \\text{tr}(A) = a_{11} + a_{22} = 7 + 5 = 12$.",
+        formula: "\\sum_{i=1}^n \\lambda_i = \\text{tr}(A) = 7 + 5 = 12",
+        trap: "Computing the determinant ($7\\times 5 - (-8) = 43$, choice A) instead of the trace!"
+      },
+      {
+        id: 43,
+        topic: "Matrices",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Fourth Eigenvalue from 4x4 Diagonal Trace",
+        text: "A complex transformation is mapped by a $4 \\times 4$ matrix A with main diagonal elements 5, -3, 8, and 2. If three eigenvalues are known to be $\\lambda_1 = 1, \\lambda_2 = 4, \\lambda_3 = -2$, what is the fourth eigenvalue $\\lambda_4$?",
+        options: [
+          "A. $9$",
+          "B. $12$",
+          "C. $-8$",
+          "D. $35$"
+        ],
+        answer: "A. $9$",
+        solution: "$\\text{Trace}(A) = 5 + (-3) + 8 + 2 = 12$. Since the sum of eigenvalues equals trace: $\\lambda_1 + \\lambda_2 + \\lambda_3 + \\lambda_4 = \\text{tr}(A) \\implies 1 + 4 + (-2) + \\lambda_4 = 12 \\implies 3 + \\lambda_4 = 12 \\implies \\lambda_4 = 9$.",
+        formula: "\\lambda_4 = \\text{tr}(A) - (\\lambda_1 + \\lambda_2 + \\lambda_3) = 12 - 3 = 9",
+        trap: "Forgetting the negative sign on $-3$ or $-2$."
+      },
+      {
+        id: 44,
+        topic: "Special Functions",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Fibonacci-Lucas Product Identity",
+        text: "An algorithmic state machine calculates an error seed using the relationship between Fibonacci (F) and Lucas (L) sequences. The machine needs to compute $F_{12} \\cdot L_{12}$. What is the exact equivalent sequence term and value?",
+        options: [
+          "A. $L_{24} = 103,682$",
+          "B. $F_{24} = 46,368$",
+          "C. $F_{144} = 3.97 \\times 10^{29}$",
+          "D. $L_{144} = 8.89 \\times 10^{29}$"
+        ],
+        answer: "B. $F_{24} = 46,368$",
+        solution: "The fundamental identity connecting Fibonacci and Lucas sequences is $F_n \\cdot L_n = F_{2n}$. Here $n = 12$, so $F_{12} \\cdot L_{12} = F_{2(12)} = F_{24} = 46,368$.",
+        formula: "F_n \\cdot L_n = F_{2n} \\implies F_{12} \\cdot L_{12} = F_{24} = 46368",
+        trap: "Multiplying indices $12 \\times 12 = 144$ (choice C)."
+      },
+      {
+        id: 45,
+        topic: "Special Functions",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Exact Value of Gamma(1)",
+        text: "Evaluate the exact mathematical value of $\\Gamma(1)$.",
+        options: [
+          "A. $0$",
+          "B. $1$",
+          "C. $\\pi$",
+          "D. Undefined"
+        ],
+        answer: "B. $1$",
+        solution: "By the integral definition, $\\Gamma(1) = \\int_0^\\infty t^{1-1}e^{-t}dt = \\int_0^\\infty e^{-t}dt = [-e^{-t}]_0^\\infty = 0 - (-1) = 1$. Alternatively, for positive integers: $\\Gamma(n) = (n-1)! \\implies \\Gamma(1) = 0! = 1$.",
+        formula: "\\Gamma(1) = 0! = 1",
+        trap: "Mistakenly thinking $\\Gamma(1) = 0$ or confusing with $\\Gamma(1/2) = \\sqrt{\\pi}$."
+      },
+      {
+        id: 46,
+        topic: "Special Functions",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Gamma Function Factorial Ratio",
+        text: "A DSP algorithm applies a fractional operator requiring evaluation of the Gamma function. What is the exact mathematical value of $\\frac{\\Gamma(7)}{\\Gamma(5)}$?",
+        options: [
+          "A. $30$",
+          "B. $42$",
+          "C. $2$",
+          "D. $1.4$"
+        ],
+        answer: "A. $30$",
+        solution: "For integer arguments, $\\Gamma(n) = (n-1)!$. Therefore $\\Gamma(7) = 6!$ and $\\Gamma(5) = 4!$. The ratio is $\\frac{6!}{4!} = \\frac{6 \\times 5 \\times 4!}{4!} = 6 \\times 5 = 30$.",
+        formula: "\\frac{\\Gamma(7)}{\\Gamma(5)} = \\frac{6!}{4!} = 6 \\times 5 = 30",
+        trap: "Evaluating $\\frac{7!}{5!} = 7 \\times 6 = 42$ (choice B) by failing to subtract 1 from the Gamma argument."
+      },
+      {
+        id: 47,
+        topic: "Special Functions",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Gamma Function of Negative Half-Integer",
+        text: "Using the recursive identity $\\Gamma(n+1) = n\\Gamma(n)$ and standard boundary $\\Gamma(1/2) = \\sqrt{\\pi}$, determine the exact analytical value of $\\Gamma(-1/2)$.",
+        options: [
+          "A. $-2\\sqrt{\\pi}$",
+          "B. $-\\frac{1}{2} \\sqrt{\\pi}$",
+          "C. $2\\sqrt{\\pi}$",
+          "D. Undefined"
+        ],
+        answer: "A. $-2\\sqrt{\\pi}$",
+        solution: "Rearrange the recurrence identity: $\\Gamma(n) = \\frac{\\Gamma(n+1)}{n}$. Set $n = -1/2$: $\\Gamma(-1/2) = \\frac{\\Gamma(-1/2 + 1)}{-1/2} = \\frac{\\Gamma(1/2)}{-1/2} = \\frac{\\sqrt{\\pi}}{-1/2} = -2\\sqrt{\\pi}$.",
+        formula: "\\Gamma(-1/2) = \\frac{\\Gamma(1/2)}{-1/2} = -2\\sqrt{\\pi}",
+        trap: "Dropping the negative sign in the denominator to get $+2\\sqrt{\\pi}$ (choice C)."
+      },
+      {
+        id: 48,
+        topic: "Special Functions",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Gamma Function of Positive Half-Integer",
+        text: "A Laplace transform of a polynomial signal $f(t) = t^{3/2}$ requires $\\Gamma(5/2)$. Given $\\Gamma(1/2) = \\sqrt{\\pi}$, what is $\\Gamma(5/2)$?",
+        options: [
+          "A. $\\frac{15}{4} \\sqrt{\\pi}$",
+          "B. $\\frac{3}{4} \\sqrt{\\pi}$",
+          "C. $\\frac{5}{2} \\sqrt{\\pi}$",
+          "D. Undefined"
+        ],
+        answer: "B. $\\frac{3}{4} \\sqrt{\\pi}$",
+        solution: "Apply recurrence $\\Gamma(n+1) = n\\Gamma(n)$ repeatedly: $\\Gamma(5/2) = \\frac{3}{2}\\Gamma(3/2) = \\frac{3}{2}\\left(\\frac{1}{2}\\Gamma(1/2)\\right) = \\frac{3}{4}\\sqrt{\\pi}$.",
+        formula: "\\Gamma(5/2) = \\frac{3}{2} \\times \\frac{1}{2} \\times \\sqrt{\\pi} = \\frac{3}{4}\\sqrt{\\pi}",
+        trap: "Multiplying $5/2 \\times 3/2 \\times 1/2 = 15/8$."
+      },
+      {
+        id: 49,
+        topic: "Special Functions",
+        priority: "🔴 MUST MEMORIZE",
+        priorityClass: "badge-must",
+        title: "Beta Function Integer Evaluation",
+        text: "A discrete signal transmission relies on solving the Beta function $B(4, 3)$. What is the exact numerical equivalent of this Beta function?",
+        options: [
+          "A. $1/60$",
+          "B. $1/30$",
+          "C. $1/12$",
+          "D. $1/144$"
+        ],
+        answer: "A. $1/60$",
+        solution: "The relation to the Gamma function is $B(m, n) = \\frac{\\Gamma(m)\\Gamma(n)}{\\Gamma(m+n)}$. For integers, $B(m, n) = \\frac{(m-1)!(n-1)!}{(m+n-1)!}$. Here $m = 4, n = 3$: $B(4, 3) = \\frac{(4-1)!(3-1)!}{(4+3-1)!} = \\frac{3! \\cdot 2!}{6!} = \\frac{6 \\times 2}{720} = \\frac{12}{720} = \\frac{1}{60}$.",
+        formula: "B(4,3) = \\frac{3! \\times 2!}{6!} = \\frac{12}{720} = \\frac{1}{60}",
+        trap: "Using $4! \\times 3! / 7!$ (choice B)."
+      },
+      {
+        id: 50,
+        topic: "Special Functions",
+        priority: "🟠 HIGH-YIELD",
+        priorityClass: "badge-high",
+        title: "Improper Definite Integral via Gamma Function",
+        text: "Evaluate the exact theoretical expression for the improper definite integral: $\\int_0^\\infty e^{-x^3} dx$.",
+        options: [
+          "A. $\\Gamma(1/3)$",
+          "B. $\\frac{1}{3} \\Gamma(1/3)$",
+          "C. $\\frac{1}{3} \\Gamma(4/3)$",
+          "D. Diverges"
+        ],
+        answer: "B. $\\frac{1}{3} \\Gamma(1/3)$",
+        solution: "Substitute $u = x^3 \\implies x = u^{1/3} \\implies dx = \\frac{1}{3}u^{-2/3}du$. Limits remain $0 \\to \\infty$. Integral becomes $\\int_0^\\infty e^{-u} \\left(\\frac{1}{3}u^{-2/3}\\right)du = \\frac{1}{3}\\int_0^\\infty u^{(1/3)-1}e^{-u}du$. By definition of the Gamma function $\\Gamma(n) = \\int_0^\\infty u^{n-1}e^{-u}du$, with $n = 1/3$, this equals $\\frac{1}{3}\\Gamma(1/3)$.",
+        formula: "\\int_0^\\infty e^{-x^k}dx = \\frac{1}{k}\\Gamma(1/k) \\implies \\frac{1}{3}\\Gamma(1/3)",
+        trap: "Forgetting the factor of $1/3$ from the derivative differential $dx$ (choice A)."
+      }
+    ];
+
+    let currentFilteredQuestions = [...examQuestions];
+
+    function triggerMathRender() {
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        } catch (err) {
+          console.error("KaTeX rendering notice:", err);
+        }
+      }
+    }
+
+    function renderQuestions(list) {
+      const container = document.getElementById('questionListContainer');
+      container.innerHTML = '';
+
+      list.forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'bg-surface rounded-xl p-4 border border-slate-800 shadow-md hover:border-slate-700 transition-all flex flex-col justify-between';
+        
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-2 border-b border-slate-800 pb-2 mb-2.5">
+              <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded bg-slate-800 text-cyan-400 font-mono font-bold text-xs flex items-center justify-center border border-slate-700">#${q.id}</span>
+                <span class="text-xs font-semibold text-slate-300">${q.topic}</span>
+              </div>
+              <span class="${q.priorityClass} text-[10px] font-bold px-2 py-0.5 rounded">${q.priority}</span>
+            </div>
+
+            <h4 class="font-bold text-white text-sm mb-2">${q.title}</h4>
+            <div class="text-xs text-slate-300 mb-3 leading-relaxed bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
+              ${q.text}
+            </div>
+
+            <!-- Multiple Choice Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mb-3 text-xs">
+              ${q.options.map(opt => {
+                const isCorrect = opt.startsWith(q.answer.charAt(0));
+                return `
+                  <div class="p-1.5 rounded bg-slate-900 border ${isCorrect ? 'border-emerald-800/60 bg-emerald-950/20 text-emerald-300 font-semibold' : 'border-slate-800 text-slate-400'}">
+                    ${opt}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Solution Accordion Drawer -->
+          <div class="mt-2 pt-2 border-t border-slate-800/80">
+            <button onclick="toggleSolution(${q.id})" class="w-full py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-medium flex items-center justify-between transition-colors">
+              <span id="sol-label-${q.id}">View Detailed Board Solution & Trap</span>
+              <svg id="sol-icon-${q.id}" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="sol-body-${q.id}" class="hidden mt-2 p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs space-y-2">
+              <div>
+                <strong class="text-emerald-400 block text-[11px] mb-0.5">OFFICIAL ANSWER: ${q.answer}</strong>
+                <p class="text-slate-300 leading-relaxed">${q.solution}</p>
+              </div>
+              <div class="p-2 rounded bg-slate-950 font-mono text-cyan-300 text-[11px] border border-slate-800/80">
+                Formula: $$${q.formula}$$
+              </div>
+              <div class="p-2 rounded bg-rose-950/40 border border-rose-900/60 text-rose-300 text-[11px]">
+                <strong>⚠️ EXAM TRAP:</strong> ${q.trap}
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Trigger KaTeX math render
+      triggerMathRender();
+    }
+
+    function toggleSolution(id) {
+      const body = document.getElementById(`sol-body-${id}`);
+      const icon = document.getElementById(`sol-icon-${id}`);
+      const label = document.getElementById(`sol-label-${id}`);
+      if (body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+        label.innerText = 'Hide Solution';
+      } else {
+        body.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+        label.innerText = 'View Detailed Board Solution & Trap';
+      }
+      triggerMathRender();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
+      
+      const targetView = document.getElementById(`view-${tabId}`);
+      const targetBtn = document.getElementById(`tab-${tabId}`);
+      if (targetView) targetView.classList.remove('hidden');
+      if (targetBtn) targetBtn.classList.add('tab-active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(triggerMathRender, 50);
+    }
+
+    function filterQuestions(topic) {
+      document.querySelectorAll('.topic-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      if (event && event.target) {
+        event.target.classList.remove('bg-slate-800', 'text-slate-300');
+        event.target.classList.add('bg-cyan-600', 'text-white');
+      }
+
+      if (topic === 'all') {
+        currentFilteredQuestions = [...examQuestions];
+      } else {
+        currentFilteredQuestions = examQuestions.filter(q => q.topic.toLowerCase().includes(topic.toLowerCase()));
+      }
+      renderQuestions(currentFilteredQuestions);
+    }
+
+    function filterQuestionsByTopic(topic) {
+      switchTab('questions');
+      const filtered = examQuestions.filter(q => q.topic.toLowerCase().includes(topic.toLowerCase()));
+      renderQuestions(filtered);
+    }
+
+    document.getElementById('globalSearch').addEventListener('input', function(e) {
+      const term = e.target.value.toLowerCase().trim();
+      if (!term) {
+        renderQuestions(examQuestions);
+        return;
+      }
+      switchTab('questions');
+      const results = examQuestions.filter(q => 
+        q.title.toLowerCase().includes(term) ||
+        q.text.toLowerCase().includes(term) ||
+        q.solution.toLowerCase().includes(term) ||
+        q.trap.toLowerCase().includes(term) ||
+        `q${q.id}` === term ||
+        `${q.id}` === term
+      );
+      renderQuestions(results);
+    });
+
+    function expandAllFormulas() {
+      document.querySelectorAll('.formula-card').forEach(c => c.classList.remove('hidden'));
+    }
+    function collapseAllFormulas() {
+      // reserved for toggle state
+    }
+
+    function calculateAdmittance() {
+      const R = parseFloat(document.getElementById('calcR').value) || 0;
+      const X = parseFloat(document.getElementById('calcX').value) || 0;
+      const denom = (R * R) + (X * X);
+      const resEl = document.getElementById('admittanceResult');
+      if (denom === 0) {
+        resEl.innerHTML = "Error: Z cannot be 0";
+        return;
+      }
+      const G = (R / denom).toFixed(4);
+      const B = (-X / denom).toFixed(4);
+      const sign = B >= 0 ? '+' : '';
+      resEl.innerHTML = `$$G = ${G}\\text{ S}, \\quad B = ${sign}${B}\\text{ S} \\implies Y = ${G} ${sign} j${Math.abs(B)}\\text{ S}$$`;
+      triggerMathRender();
+    }
+
+    function calculateGamma() {
+      const A = parseFloat(document.getElementById('calcA').value) || 0;
+      const B = parseFloat(document.getElementById('calcB').value) || 0;
+      const mag = Math.sqrt((A * A) + (B * B));
+      const alpha = Math.sqrt((mag + A) / 2).toFixed(4);
+      const beta = Math.sqrt((mag - A) / 2).toFixed(4);
+      const resEl = document.getElementById('gammaResult');
+      resEl.innerHTML = `$$\\alpha = ${alpha}\\text{ Np/m}, \\quad \\beta = ${beta}\\text{ rad/m}$$`;
+      triggerMathRender();
+    }
+
+    // Modal Events
+    const calcModal = document.getElementById('calcModal');
+    document.getElementById('calcModalBtn').addEventListener('click', () => calcModal.classList.remove('hidden'));
+    document.getElementById('closeCalcBtn').addEventListener('click', () => calcModal.classList.add('hidden'));
+    window.addEventListener('click', (e) => { if (e.target === calcModal) calcModal.classList.add('hidden'); });
+
+    window.addEventListener('load', function() {
+      renderQuestions(examQuestions);
+      setTimeout(triggerMathRender, 100);
+      setTimeout(triggerMathRender, 500);
+    });
+  </script>
+</body>
+</html>
