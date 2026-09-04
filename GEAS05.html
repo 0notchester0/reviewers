@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam High-Density Reviewer | GEAS, Laws & Circuits</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- MathJax Configuration for complete equation formatting -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      startup: {
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            console.log('MathJax initial rendering complete');
+          });
+        }
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ece: {
+              dark: '#080d1a',
+              card: '#0f172a',
+              cardHover: '#131e36',
+              border: '#1e293b',
+              cyan: '#06b6d4',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              rose: '#f43f5e',
+              indigo: '#6366f1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Engineering dark theme aesthetics */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #080d1a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+    .mono-num { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+    .math-callout { background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%); }
+    .trap-glow { box-shadow: 0 0 15px -3px rgba(244, 63, 94, 0.15); }
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .print-expand { display: block !important; }
+      .bg-slate-900, .bg-slate-950 { background: #fff !important; color: #000 !important; border-color: #cbd5e1 !important; }
+      .text-slate-300, .text-slate-400 { color: #334155 !important; }
+      .text-white { color: #0f172a !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- ========================================================================================= -->
+  <!-- TOP STICKY NAVIGATION BAR & SEARCH                                                        -->
+  <!-- ========================================================================================= -->
+  <header class="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 font-black text-white text-sm">
+          ⚡
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2">
+            ECE BOARD EXAM REVIEW COMMAND CENTER
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">GEAS • LAWS • CIRCUITS</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Full Coverage of RA 9292, PEC Vol 1–4, Tech Laws, Physics, AC Circuits & 65-Q Drill</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- Live Content Search -->
+        <div class="relative">
+          <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="Search laws, formulas, keywords..."
+                 class="w-44 sm:w-64 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:border-cyan-500 transition-all">
+          <span class="absolute right-2.5 top-2 text-xs text-slate-400 pointer-events-none">🔍</span>
+        </div>
+
+        <!-- Quick Drill Button -->
+        <button onclick="switchTab('quiz')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-1.5 shadow-sm">
+          <span>🎯</span> 65-Q Drill
+        </button>
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+          🖨️ Print
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="bg-slate-900/90 border-t border-slate-800 px-4 sm:px-6 py-1.5 overflow-x-auto flex gap-1.5 text-xs font-medium">
+      <button onclick="switchTab('all')" id="btn-tab-all" class="tab-btn px-2.5 py-1 rounded-md bg-cyan-600 text-white whitespace-nowrap">All Modules</button>
+      <button onclick="switchTab('mindmap')" id="btn-tab-mindmap" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">🗺️ Master Map</button>
+      <button onclick="switchTab('ra9292')" id="btn-tab-ra9292" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">RA 9292 & Ethics</button>
+      <button onclick="switchTab('pec')" id="btn-tab-pec" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">PEC & FDAS</button>
+      <button onclick="switchTab('techlaws')" id="btn-tab-techlaws" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">ICT & Tech Laws</button>
+      <button onclick="switchTab('physics')" id="btn-tab-physics" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">Electromagnetics</button>
+      <button onclick="switchTab('circuits')" id="btn-tab-circuits" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">AC Circuits & Transients</button>
+      <button onclick="switchTab('traps')" id="btn-tab-traps" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">⚠️ Exam Pitfalls</button>
+      <button onclick="switchTab('constants')" id="btn-tab-constants" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">📐 Constants & Units</button>
+      <button onclick="switchTab('quiz')" id="btn-tab-quiz" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 whitespace-nowrap">📝 65-Q Interactive Quizzer</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+    
+    <!-- Fast KPI & Priority System Bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 text-center">
+      <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl">
+        <span class="text-rose-400 font-bold text-base block">🔴 MUST MEMO</span>
+        <span class="text-[10px] text-slate-400">Strict legal & statutory marks</span>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl">
+        <span class="text-amber-400 font-bold text-base block">🟠 HIGH-YIELD</span>
+        <span class="text-[10px] text-slate-400">Repeated calculation drills</span>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl">
+        <span class="text-emerald-400 font-bold text-base block">🟡 IMPORTANT</span>
+        <span class="text-[10px] text-slate-400">PEC codes & cabling limits</span>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl">
+        <span class="text-cyan-400 font-bold text-base block">8 Art / 43 Sec</span>
+        <span class="text-[10px] text-slate-400">RA 9292 Complete Structure</span>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl">
+        <span class="text-indigo-400 font-bold text-base block">4 PEC Books</span>
+        <span class="text-[10px] text-slate-400">Telecom, FDAS, CATV, DAS</span>
+      </div>
+      <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl">
+        <span class="text-pink-400 font-bold text-base block">65 Board Qs</span>
+        <span class="text-[10px] text-slate-400">Full PDF test items solved</span>
+      </div>
+    </div>
+
+    <!-- ========================================================================================= -->
+    <!-- MASTER OVERVIEW / MIND MAP SECTION                                                        -->
+    <!-- ========================================================================================= -->
+    <section id="sec-mindmap" class="content-section space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <h2 class="text-sm font-bold text-cyan-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+          <span>🗺️</span> ECE Board Exam Review Architecture & Mind Map
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- Branch 1 -->
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-bold text-rose-400 block border-b border-slate-800 pb-1">1. LAWS, ETHICS & CODES</span>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong class="text-white">RA 9292:</strong> 8 Arts, 43 Secs, Approved Apr 17, 2004</li>
+              <li>• <strong class="text-white">Ethics Keystone:</strong> <em>"INTEGRITY"</em></li>
+              <li>• <strong class="text-white">PRB-BECE:</strong> 3 Members (1 Chair, 2 Members), 31yo min, 10yr exp, 5yr IECEP</li>
+              <li>• <strong class="text-white">Tiers:</strong> ECT (voc/3rd yr), ECE (licensed), PECE (7yr exp, sole seal/sign)</li>
+              <li>• <strong class="text-white">PEC:</strong> Adopted Dec 12, 2014; Effective Feb 18, 2016</li>
+              <li>• <strong class="text-white">PEC Volumes:</strong> Vol 1 Telecom, Vol 2 FDAS, Vol 3 CATV, Vol 4 DAS</li>
+            </ul>
+          </div>
+          <!-- Branch 2 -->
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-bold text-amber-400 block border-b border-slate-800 pb-1">2. TECH & ICT LEGISLATION</span>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong class="text-white">RA 7925:</strong> Public Telecom Policy Act (Deregulation)</li>
+              <li>• <strong class="text-white">PD 1096:</strong> National Building Code of the Philippines</li>
+              <li>• <strong class="text-white">RA 10173:</strong> Data Privacy Act of 2012</li>
+              <li>• <strong class="text-white">RA 10175:</strong> Cybercrime Prevention Act of 2012</li>
+              <li>• <strong class="text-white">RA 10844:</strong> DICT Creation (Signed May 23, 2016)</li>
+              <li>• <strong class="text-white">RA 11202:</strong> Mobile Number Portability Act (MNPA)</li>
+              <li>• <strong class="text-white">RA 11337:</strong> Innovative Startup Act (DOST, DICT, DTI)</li>
+              <li>• <strong class="text-white">RA 11363:</strong> Space Act (PhilSA under Pres. Office)</li>
+              <li>• <strong class="text-white">RA 11934:</strong> SIM Registration Act (2022)</li>
+              <li>• <strong class="text-white">RA 12079 / 12254:</strong> Konektadong Pinoy / E-Gov Act</li>
+            </ul>
+          </div>
+          <!-- Branch 3 -->
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-bold text-emerald-400 block border-b border-slate-800 pb-1">3. ELECTROMAGNETICS & CIRCUITS</span>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong class="text-white">Coulomb:</strong> $F_e = k_e \frac{|q_1 q_2|}{r^2}$ (halving $r \to 4\times$ force)</li>
+              <li>• <strong class="text-white">Lorentz:</strong> $F_B = q v B \sin\theta$ ($0^\circ$ line, $90^\circ$ circle, helix)</li>
+              <li>• <strong class="text-white">Induction:</strong> $\mathcal{E} = -N \frac{d\Phi_B}{dt}$ (Lenz = Energy Cons.)</li>
+              <li>• <strong class="text-white">Generator Coil:</strong> EMF max when plane is <em>parallel</em> to field</li>
+              <li>• <strong class="text-white">Series RLC:</strong> $\tan\theta = \frac{X_L - X_C}{R}$ ($+45^\circ$ for $10, 40, 30\,\Omega$)</li>
+              <li>• <strong class="text-white">Series RC:</strong> $V_C = \sqrt{V_S^2 - V_R^2} = \sqrt{120^2 - 72^2} = 96\text{ V}$</li>
+              <li>• <strong class="text-white">RL Transient:</strong> $t_{50\%} = \tau \ln 2 = \frac{0.3}{2} \times 0.693 = 0.104\text{ s}$</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 1: RA 9292 & PROFESSIONAL PRACTICE                                                  -->
+    <!-- ========================================================================================= -->
+    <section id="sec-ra9292" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30">MODULE 1</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">RA 9292: The Electronics Engineering Law of 2004 & Ethics</h2>
+        </div>
+        <span class="text-xs text-slate-400">Date Approved: <strong class="text-cyan-400">April 17, 2004</strong> | SB 2683 & HB 5224</span>
+      </div>
+
+      <!-- Statutory Definitions Card (From handwritten notes & Section 3) -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+        <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center justify-between">
+          <span>Key Statutory Definitions (RA 9292 Section 3)</span>
+          <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800">[NOTES & HANDWRITTEN ANNOTATIONS]</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <span class="font-bold text-white block">Electronics</span>
+            <p class="text-slate-400 mt-1">Science and technology dealing with the flow and control of electrons/carriers in vacuum, gases, conductors, semiconductors, and non-linear dielectrics.</p>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <span class="font-bold text-white block">Telecommunications</span>
+            <p class="text-slate-400 mt-1">Any transmission, emission, or reception of signs, signals, writings, images, sounds, or intelligence of any nature by wire, radio, optical or other systems.</p>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <span class="font-bold text-white block">Broadcasting</span>
+            <p class="text-slate-400 mt-1">Transmission of audio and/or video programs by radio, cable, or other means intended for direct reception by the general public.</p>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <span class="font-bold text-white block">ICT (Info & Comms Tech)</span>
+            <p class="text-slate-400 mt-1">Acquisition, production, processing, storage, and dissemination of vocal, pictorial, textual, and numerical information by microelectronics and telecom.</p>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <span class="font-bold text-white block">Computer System</span>
+            <p class="text-slate-400 mt-1">Any device or collection of devices that performs data processing functions according to pre-programmed instructions.</p>
+          </div>
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <span class="font-bold text-white block">APO (Accredited Prof. Org.)</span>
+            <p class="text-slate-400 mt-1">The officially recognized integrated professional organization for electronics engineering in the Philippines: <strong>IECEP</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete 8 Articles Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <!-- Article I & II -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-cyan-400 text-sm flex items-center justify-between">
+            <span>Articles I & II: Administration</span>
+            <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded">Sec 1–12</span>
+          </h4>
+          <ul class="space-y-1.5 text-slate-300">
+            <li>• <strong class="text-white">Art. I: General Provisions</strong> (Sec 1-5): Policy, scope, definitions of ECT, ECE, PECE.</li>
+            <li>• <strong class="text-white">Art. II: PRB-BECE</strong> (Sec 6-12): Board creation, powers, and governance.</li>
+            <li>• <strong class="text-white">Composition:</strong> 1 Chairman + 2 Members (Total = <strong>3</strong>) appointed by the <strong>President of the Philippines</strong>.</li>
+            <li>• <strong class="text-white">Board Qualifications:</strong> Filipino citizen, at least <strong>31 years old</strong>, active PECE, <strong>10+ years</strong> experience (teaching allowed), <strong>5+ years</strong> active IECEP member, no moral turpitude conviction.</li>
+            <li>• <strong class="text-white">Term:</strong> 3 years per term; max 2 terms (<strong>6 years maximum tenure</strong>).</li>
+            <li>• <strong class="text-white">Grounds for Removal:</strong> Continuous neglect of duty, incompetence, malpractice, or unprofessional conduct.</li>
+            <li>• <strong class="text-white">Custodian of Records:</strong> Professional Regulation Commission (PRC).</li>
+          </ul>
+        </div>
+
+        <!-- Article III: Examination & Licensure -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-amber-400 text-sm flex items-center justify-between">
+            <span>Article III: Exam & Licensure</span>
+            <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded">Sec 13–26</span>
+          </h4>
+          <ul class="space-y-1.5 text-slate-300">
+            <li>• <strong class="text-white">ECE Exam Scope:</strong> Mathematics, GEAS, EST (Electronics Systems & Tech), Electronics.</li>
+            <li>• <strong class="text-white">Passing Grade:</strong> General Weighted Average $\ge \mathbf{70\%}$, with no subject rating below $\mathbf{50\%}$.</li>
+            <li>• <strong class="text-white">Release of Results:</strong> Released within <strong>3 days</strong> (72 hours).</li>
+            <li>• <strong class="text-white">CSC Equivalency:</strong> PRC license automatically confers <strong>Professional Eligibility</strong>.</li>
+            <li>• <strong class="text-white">Revocation / Reinstatement:</strong> Revoked license can be reinstated after <strong>2 years</strong> upon formal petition.</li>
+            <li>• <strong class="text-white">APO Dues Delinquency:</strong> Non-payment of dues results in being listed as <strong>delinquent</strong> in the official roster.</li>
+            <li>• <strong class="text-white">Foreign Special Permit:</strong> Granted for specialized projects, valid for <strong>6 months</strong>.</li>
+          </ul>
+        </div>
+
+        <!-- Articles IV - VIII: Practice & Penalties -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-emerald-400 text-sm flex items-center justify-between">
+            <span>Articles IV–VIII: Practice & Penal</span>
+            <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded">Sec 27–43</span>
+          </h4>
+          <ul class="space-y-1.5 text-slate-300">
+            <li>• <strong class="text-white">Art. IV Practice (Sec 27-30):</strong> Practice is strictly individual. <strong>NO corporate practice permitted</strong> under Sec 28!</li>
+            <li>• <strong class="text-white">Art. V Sundry Provisions (Sec 31-34):</strong> Foreign reciprocity, positions in government, rosters.</li>
+            <li>• <strong class="text-white">Art. VI Penal Provisions (Sec 35-37):</strong> Fines of <strong class="text-rose-400">₱100,000 to ₱1,000,000</strong>, imprisonment from <strong class="text-rose-400">6 months to 6 years</strong>, or both.</li>
+            <li>• <strong class="text-white">Seal Lending Violation:</strong> Borrowing or lending a PECE seal results in criminal liability for <strong>BOTH</strong> parties.</li>
+            <li>• <strong class="text-white">Art. VII Transitory Provisions (Sec 38-40):</strong> Existing licenses grandfathered under old RA 5734.</li>
+            <li>• <strong class="text-white">Art. VIII Final Provisions (Sec 41-43):</strong> Appropriations, repealing clause, effectivity.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Professional Practice Comparison Matrix -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <h3 class="text-xs font-bold text-white mb-2 flex items-center gap-2">
+          <span class="text-cyan-400">⚖️</span> Professional Category Matrix: ECT vs ECE vs PECE
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left text-slate-300">
+            <thead class="text-[11px] uppercase bg-slate-800/80 text-slate-400 border-b border-slate-700">
+              <tr>
+                <th class="py-2 px-3">Professional Tier</th>
+                <th class="py-2 px-3">Prerequisites / Qualification</th>
+                <th class="py-2 px-3">Scope of Practice</th>
+                <th class="py-2 px-3">Sign & Seal Authority</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-3 font-semibold text-cyan-400">Electronics Technician (ECT)</td>
+                <td class="py-2.5 px-3">2-year TESDA vocational course OR completion of min. 3rd year of BS ECE.</td>
+                <td class="py-2.5 px-3">Testing, installation, maintenance, troubleshooting, and repair of equipment.</td>
+                <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800 font-semibold">NO SEAL / SIGN AUTHORITY</span> Cannot sign permits or blueprints.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-3 font-semibold text-indigo-400">Electronics Engineer (ECE)</td>
+                <td class="py-2.5 px-3">BS ECE degree + Passed PRC Licensure Examination.</td>
+                <td class="py-2.5 px-3">Engineering design, consulting, supervision, maintenance, management of electronic systems.</td>
+                <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-800 font-semibold">NO SEAL / SIGN AUTHORITY</span> Must decline signing official permit drawings.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-3 font-semibold text-emerald-400">Professional ECE (PECE)</td>
+                <td class="py-2.5 px-3">ECE license + <strong>7 years</strong> certified practice + 2 PECE recommendations + Board interview.</td>
+                <td class="py-2.5 px-3">Full engineering practice, statutory certifications, technical audits, master designs.</td>
+                <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-semibold">SOLE LEGAL AUTHORITY</span> Full power to seal and sign all electronics plans.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 2: PHILIPPINE ELECTRONICS CODE & FDAS STANDARDS                                    -->
+    <!-- ========================================================================================= -->
+    <section id="sec-pec" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">MODULE 2</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Philippine Electronics Code (PEC) & FDAS Standards</h2>
+        </div>
+        <span class="text-xs text-slate-400">Adopted: <strong class="text-cyan-400">Dec 12, 2014</strong> | Effective: <strong class="text-cyan-400">Feb 18, 2016</strong></span>
+      </div>
+
+      <!-- The 4 Volumes -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 border-t-2 border-t-cyan-500 space-y-1">
+          <span class="text-[10px] font-bold text-cyan-400 uppercase">Volume 1</span>
+          <h4 class="font-bold text-white text-sm">Telecommunications Facilities</h4>
+          <p class="text-slate-400">Distribution systems, OSP/ISP, Demarcation points, TR spaces, and structured cabling links.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 border-t-2 border-t-rose-500 space-y-1">
+          <span class="text-[10px] font-bold text-rose-400 uppercase">Volume 2</span>
+          <h4 class="font-bold text-white text-sm">Fire Detection & Alarm (FDAS)</h4>
+          <p class="text-slate-400">Life-safety alarm architectures governed by <strong>RA 9514</strong> (Revised Fire Code of 2008).</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 border-t-2 border-t-amber-500 space-y-1">
+          <span class="text-[10px] font-bold text-amber-400 uppercase">Volume 3</span>
+          <h4 class="font-bold text-white text-sm">Cable Television (CATV)</h4>
+          <p class="text-slate-400">Headends, coaxial distribution networks, and subscriber drop lines using <strong>RG-6</strong>.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 border-t-2 border-t-emerald-500 space-y-1">
+          <span class="text-[10px] font-bold text-emerald-400 uppercase">Volume 4</span>
+          <h4 class="font-bold text-white text-sm">Distributed Antenna Systems (DAS)</h4>
+          <p class="text-slate-400">In-building wireless distribution and <strong>Passive Intermodulation (PIM)</strong> suppression.</p>
+        </div>
+      </div>
+
+      <!-- Technical Numbers & Specifications Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <!-- Vol 1 Specifications -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2.5">
+          <h3 class="text-xs font-bold text-cyan-400 flex items-center gap-2">
+            <span>🌐</span> Structured Cabling Standards (PEC Vol. 1)
+          </h3>
+          <div class="space-y-1.5 text-slate-300">
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Max Horizontal Distribution Cable (UTP)</span>
+              <strong class="text-white font-mono text-sm">90 meters</strong>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Total Channel Length (with patch cords)</span>
+              <strong class="text-white font-mono text-sm">100 meters</strong>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Standard Floor Area per Work Area (WA)</span>
+              <strong class="text-white font-mono text-sm">10 m² (10 sq.m)</strong>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Minimum Bend Radius (4-pair UTP cable)</span>
+              <strong class="text-white font-mono text-sm">4× Cable Diameter (4D)</strong>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span>Demarcation Point</span>
+              <span class="text-slate-400 text-right">Physical boundary between telco provider and customer wiring</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vol 2 FDAS Specifications -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2.5">
+          <h3 class="text-xs font-bold text-rose-400 flex items-center gap-2">
+            <span>🔥</span> FDAS Standards & Fire Code (PEC Vol. 2 / RA 9514)
+          </h3>
+          <div class="space-y-1.5 text-slate-300">
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Manual Fire Alarm Pull Station Height</span>
+              <strong class="text-white font-mono text-sm">1.1 m to 1.4 m AFF</strong>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Secondary Battery Power Capacity</span>
+              <strong class="text-white font-mono text-sm">24h Standby + 5min Alarm</strong>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Audible Alarm Minimum Sound Level</span>
+              <strong class="text-white font-mono text-sm">Ambient + 15 dBA</strong>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-slate-800">
+              <span>Fire Alarm Control Panel (FACP)</span>
+              <span class="text-slate-400 text-right">Processes inputs $\to$ activates alarm notification outputs</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span>Nuisance Alarm</span>
+              <span class="text-slate-400 text-right">Alarm caused by defect, dust, or improper installation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 3: SPECIAL PHILIPPINE ICT & TECH LEGISLATION                                       -->
+    <!-- ========================================================================================= -->
+    <section id="sec-techlaws" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">MODULE 3</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Philippine ICT, Telecom & Tech Legislation Master Matrix</h2>
+        </div>
+        <span class="text-xs text-slate-400">High-yield board exam questions</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+        <!-- RA 11934 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-cyan-400 text-sm">RA 11934</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">2022</span>
+          </div>
+          <h4 class="font-semibold text-white">SIM Registration Act</h4>
+          <p class="text-slate-400">Mandatory registration of all Subscriber Identity Modules (SIMs) to curb text fraud, spoofing, and mobile-aided crimes.</p>
+        </div>
+
+        <!-- RA 11337 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-amber-400 text-sm">RA 11337</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">April 2019</span>
+          </div>
+          <h4 class="font-semibold text-white">Innovative Startup Act</h4>
+          <p class="text-slate-400">Establishes the Philippine Startup Development Program spearheaded by <strong>DOST, DICT, and DTI</strong> providing subsidies and incentives.</p>
+        </div>
+
+        <!-- RA 11363 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-emerald-400 text-sm">RA 11363</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">Space Act</span>
+          </div>
+          <h4 class="font-semibold text-white">Philippine Space Act (PhilSA)</h4>
+          <p class="text-slate-400">Created the Philippine Space Agency (PhilSA) as an attached agency directly under the <strong>Office of the President</strong>.</p>
+        </div>
+
+        <!-- RA 10173 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-indigo-400 text-sm">RA 10173</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">2012</span>
+          </div>
+          <h4 class="font-semibold text-white">Data Privacy Act of 2012</h4>
+          <p class="text-slate-400">Protects personal and sensitive personal information across private and government ICT systems; enforces National Privacy Commission standards.</p>
+        </div>
+
+        <!-- RA 7925 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-rose-400 text-sm">RA 7925</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">Telecom</span>
+          </div>
+          <h4 class="font-semibold text-white">Public Telecommunications Policy Act</h4>
+          <p class="text-slate-400">Fostered privatization and deregulation of Philippine telecom carriers, defining local exchange and inter-exchange operators.</p>
+        </div>
+
+        <!-- RA 11202 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-cyan-400 text-sm">RA 11202</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">MNPA</span>
+          </div>
+          <h4 class="font-semibold text-white">Mobile Number Portability Act</h4>
+          <p class="text-slate-400">Allows mobile subscribers to retain cellular numbers free of charge when changing telco carriers or switching between prepaid/postpaid.</p>
+        </div>
+
+        <!-- RA 10844 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-yellow-400 text-sm">RA 10844</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">May 23, 2016</span>
+          </div>
+          <h4 class="font-semibold text-white">DICT Act of 2015</h4>
+          <p class="text-slate-400">Created the Department of Information and Communications Technology (DICT), absorbing ICTO, TELOF, and NCC.</p>
+        </div>
+
+        <!-- RA 10175 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-rose-400 text-sm">RA 10175</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">2012</span>
+          </div>
+          <h4 class="font-semibold text-white">Cybercrime Prevention Act</h4>
+          <p class="text-slate-400">Penalizes hacking, illegal interception, computer data interference, cyber-squatting, and digital identity theft.</p>
+        </div>
+
+        <!-- PD 1096, RA 12079 & RA 12254 -->
+        <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 space-y-1 hover:border-cyan-500 transition">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-emerald-400 text-sm">Modern Tech Frameworks</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">2025</span>
+          </div>
+          <h4 class="font-semibold text-white">Building Code & Digital Acts</h4>
+          <p class="text-slate-400"><strong class="text-slate-200">PD 1096:</strong> National Building Code • <strong class="text-slate-200">RA 12079:</strong> Konektadong Pinoy Act • <strong class="text-slate-200">RA 12254:</strong> E-Governance Act (Digital platforms).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 4: ELECTROMAGNETICS & PHYSICS FORMULA SUITE                                         -->
+    <!-- ========================================================================================= -->
+    <section id="sec-physics" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30">MODULE 4</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Electromagnetics & Physics Formula Cards</h2>
+        </div>
+        <span class="text-xs text-slate-400">Formulas rendered via MathJax 3 with step-by-step solutions</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- FORMULA CARD 1: Coulomb's Law -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-wide">1. Coulomb's Law of Electrostatic Force</h3>
+            <span class="text-[10px] bg-rose-950 text-rose-300 px-2 py-0.5 rounded border border-rose-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-lg text-center math-callout text-cyan-300 text-lg border border-slate-800">
+            $$F_e = k_e \frac{|q_1 q_2|}{r^2}$$
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300">
+            <p>• <strong class="text-white">Variables:</strong> $F_e\ [\text{N}]$, $q_1, q_2\ [\text{C}]$, $r\ [\text{m}]$ distance.</p>
+            <p>• <strong class="text-white">Coulomb Constant:</strong> $k_e = \frac{1}{4\pi\varepsilon_0} \approx 9.0 \times 10^9\ \text{N}\cdot\text{m}^2/\text{C}^2$.</p>
+            <p>• <strong class="text-rose-400 font-semibold">Scaling Trap:</strong> If distance is halved ($r \to r/2$), Force quadruples ($F_e \to 4F_e$).</p>
+            <p>• <strong class="text-amber-400 font-semibold">3-Charge Equilibrium:</strong> For two charges $+Q$ at distance $d$, central charge must be:
+              $$q = -\frac{Q}{4}$$
+            </p>
+          </div>
+          <!-- Point Charge E-Field Solver -->
+          <div class="bg-slate-950 p-3 rounded-lg text-xs space-y-2 border border-slate-800">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-slate-200">Point Charge E-Field: $E = \frac{k_e q}{r^2}$</span>
+              <span class="text-[10px] text-cyan-400">Board Exam Problem</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-0.5">Charge $q\ (\mu\text{C})$</label>
+                <input type="number" id="calc-q" value="2.0" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200 font-mono">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400 block mb-0.5">Distance $r\ (\text{meters})$</label>
+                <input type="number" id="calc-r" value="0.5" step="0.1" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200 font-mono">
+              </div>
+            </div>
+            <button onclick="calcEField()" class="w-full py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-medium transition text-xs">Compute Electric Field</button>
+            <div id="calc-efield-result" class="text-cyan-300 font-mono text-center pt-1 font-semibold text-xs">Result: 72,000 N/C (7.2 × 10⁴ N/C)</div>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 2: Lorentz Magnetic Force -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wide">2. Lorentz Magnetic Force & Trajectory</h3>
+            <span class="text-[10px] bg-rose-950 text-rose-300 px-2 py-0.5 rounded border border-rose-800 font-bold">🔴 MUST MEMORIZE</span>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-lg text-center math-callout text-amber-300 text-lg border border-slate-800">
+            $$F_B = q v B \sin\theta$$
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300">
+            <p>• <strong class="text-white">Proton Problem:</strong> $v = 3.0 \times 10^5\ \text{m/s}$, $B = 0.4\ \text{T}$, $\theta = 90^\circ$:
+              $$F_B = (1.602 \times 10^{-19})(3.0 \times 10^5)(0.4) = \mathbf{1.92 \times 10^{-14}\ \text{N}}$$
+            </p>
+            <p>• <strong class="text-white">Particle Trajectories:</strong>
+              <br>&nbsp;&nbsp;• $\theta = 0^\circ \implies F_B = 0 \implies$ <strong class="text-cyan-300">Straight Line</strong>
+              <br>&nbsp;&nbsp;• $\theta = 90^\circ \implies$ <strong class="text-cyan-300">Circular Orbit</strong> ($r = \frac{mv}{qB}$)
+              <br>&nbsp;&nbsp;• $0^\circ < \theta < 90^\circ \implies$ <strong class="text-cyan-300">Helical (Spiral)</strong>
+            </p>
+            <p>• <strong class="text-white">Orbit Scaling:</strong> If velocity $v$ is doubled, orbit radius $r$ is <strong class="text-amber-400">doubled</strong>.</p>
+            <p>• <strong class="text-white">Right Hand Rule:</strong> Velocity $\vec{v}$ UP ($\uparrow$), $\vec{B}$ into page ($\otimes$) $\implies$ Force is <strong class="text-emerald-400">TO THE LEFT</strong>.</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 3: Wire Force & Motional EMF -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">3. Current-Carrying Wire & Motional EMF</h3>
+            <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-center text-emerald-300 text-sm">
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">$$F = I L B \sin\theta$$</div>
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">$$\mathcal{E} = B L v \sin\theta$$</div>
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300">
+            <p>• <strong class="text-white">Conductor Force Problem:</strong> $L = 2.0\ \text{m}$, $I = 5.0\ \text{A}$, $B = 0.1\ \text{T}$, $\theta = 90^\circ$:
+              $$F = (5.0)(2.0)(0.1) = \mathbf{1.0\ \text{N}}$$
+            </p>
+            <p>• <strong class="text-white">Motional EMF Problem:</strong> $L = 0.5\ \text{m}$, $v = 10\ \text{m/s}$, $B = 0.2\ \text{T}$:
+              $$\mathcal{E} = (0.2)(0.5)(10) = \mathbf{1.0\ \text{V}}$$
+            </p>
+            <p>• <strong class="text-white">Electric Work & Voltage:</strong> $W = q \Delta V \implies \Delta V = \frac{20\ \text{J}}{4\ \text{C}} = \mathbf{5.0\ \text{V}}$.</p>
+            <p>• <strong class="text-white">Uniform E-Field Acceleration:</strong> Electron released from rest near negative plate moves toward positive plate with <strong class="text-cyan-300">constant acceleration</strong> ($a = eE/m$).</p>
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 4: Faraday & Lenz Induction -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wide">4. Faraday's Law & Lenz's Law</h3>
+            <span class="text-[10px] bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-lg text-center math-callout text-indigo-300 text-lg border border-slate-800">
+            $$\mathcal{E} = -N \frac{d\Phi_B}{dt} = -N \frac{d(B A \cos\theta)}{dt}$$
+          </div>
+          <div class="text-xs space-y-1.5 text-slate-300">
+            <p>• <strong class="text-white">Lenz's Law Principle:</strong> Opposes the change in magnetic flux; manifestation of <strong class="text-amber-400">Conservation of Energy</strong>.</p>
+            <p>• <strong class="text-rose-400 font-semibold">Resistance Trap:</strong> Using wire of higher resistance does <strong class="text-white">NOT</strong> decrease induced EMF! (It reduces current $I = \mathcal{E}/R$, but $\mathcal{E}$ is unchanged).</p>
+            <p>• <strong class="text-cyan-300 font-semibold">Rotating Generator Coil:</strong> Induced EMF is <strong class="text-white">MAXIMUM when coil plane is PARALLEL to B-field</strong> (normal vector at $90^\circ$, flux is zero, rate $\frac{d\Phi}{dt}$ is peak!).</p>
+            <p>• <strong class="text-white">Adjacent Loops A & B:</strong> If current in Loop A increases suddenly, Loop B experiences a <strong class="text-rose-400">Repulsive Force</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 5: AC CIRCUITS & DC TRANSIENTS                                                     -->
+    <!-- ========================================================================================= -->
+    <section id="sec-circuits" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">MODULE 5</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">AC Circuits & DC Transients Formula Suite</h2>
+        </div>
+        <span class="text-xs text-slate-400">Vector voltages, phase angles, and rise time calculators</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+
+        <!-- Series RLC Phase Angle -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-cyan-400 uppercase">Series RLC Phase Angle</h3>
+            <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800 font-semibold">[SOLVED]</span>
+          </div>
+          <div class="p-2.5 bg-slate-950 rounded-lg text-center text-cyan-300 text-sm border border-slate-800">
+            $$\tan\theta = \frac{X_L - X_C}{R}$$
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <p><strong class="text-white">Board Exam Problem:</strong>
+              <br>$R = 10\ \Omega$, $X_L = 40\ \Omega$, $X_C = 30\ \Omega$
+              $$\tan\theta = \frac{40 - 30}{10} = \frac{10}{10} = 1$$
+              $$\theta = \arctan(1) = \mathbf{+45^\circ}$$
+            </p>
+            <p class="text-cyan-400 font-semibold">Circuit is inductive; voltage leads current by $+45^\circ$.</p>
+          </div>
+        </div>
+
+        <!-- Series RC Vector Voltages -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-amber-400 uppercase">Series RC Vector Triangle</h3>
+            <span class="text-[10px] bg-rose-950 text-rose-300 px-2 py-0.5 rounded border border-rose-800 font-bold">⚠️ VECTOR TRAP</span>
+          </div>
+          <div class="p-2.5 bg-slate-950 rounded-lg text-center text-amber-300 text-sm border border-slate-800">
+            $$V_S = \sqrt{V_R^2 + V_C^2} \implies V_C = \sqrt{V_S^2 - V_R^2}$$
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <p><strong class="text-white">Exam Trap:</strong> NEVER do scalar subtraction ($120 - 72 = 48\ \text{V}$ is wrong!).</p>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 font-mono text-center">
+              $V_S = 120\ \text{V}_{\text{rms}}$, $V_R = 72\ \text{V}_{\text{rms}}$
+              $$V_C = \sqrt{120^2 - 72^2} = \sqrt{9216} = \mathbf{96\ \text{V}_{\text{rms}}}$$
+            </div>
+            <p>• <strong class="text-white">High Frequency Behavior:</strong>
+              $$X_C = \frac{1}{2\pi f C} \to 0 \quad\text{as}\quad f \to \infty$$
+              Capacitor acts as an <strong class="text-cyan-300">AC Short Circuit</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- DC RL Transient Rise Time -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xs font-bold text-emerald-400 uppercase">DC RL Rise Time to 50%</h3>
+            <span class="text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800 font-bold">🟠 HIGH-YIELD</span>
+          </div>
+          <div class="p-2.5 bg-slate-950 rounded-lg text-center text-emerald-300 text-sm border border-slate-800">
+            $$i(t) = I_{\max}(1 - e^{-t/\tau}) \implies t_{50\%} = \tau \ln(2)$$
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <p><strong class="text-white">Board Exam Problem:</strong>
+              <br>$L = 300\ \text{mH} = 0.3\ \text{H}$, $R = 2\ \Omega$, $V = 2\ \text{V}$
+              <br>Time constant: $\tau = \frac{L}{R} = \frac{0.3}{2} = 0.15\ \text{s}$
+              $$t = 0.15 \times \ln(2) = 0.15 \times 0.69315$$
+              <strong class="text-emerald-400 font-mono text-sm block text-center">t = 0.104 seconds</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 6: DON'T CONFUSE THESE! (HIGH-RISK EXAM PITFALLS)                                  -->
+    <!-- ========================================================================================= -->
+    <section id="sec-traps" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30">MODULE 6</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Don't Confuse These! (Board Exam Pitfall Matrix)</h2>
+        </div>
+        <span class="text-xs text-rose-400">High error-rate multiple-choice pairs</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <!-- Trap 1: ECE vs PECE -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2 trap-glow">
+          <h4 class="font-bold text-white text-sm flex items-center justify-between">
+            <span>1. ECE vs. PECE Scope & Seal Authority</span>
+            <span class="text-rose-400 font-mono text-[10px]">RA 9292 Sec 27</span>
+          </h4>
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-indigo-400 block">ECE (Registered)</span>
+              <p class="text-slate-300">• Passed Board Licensure Exam.</p>
+              <p class="text-slate-300">• Designs, supervises, operates.</p>
+              <p class="text-rose-400 font-semibold">• CANNOT seal or sign permit plans!</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-emerald-400 block">PECE (Professional)</span>
+              <p class="text-slate-300">• Valid ECE + 7 years active practice.</p>
+              <p class="text-slate-300">• 2 PECE endorsements + interview.</p>
+              <p class="text-emerald-400 font-semibold">• SOLE legal authority to seal & sign plans!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 2: Nuisance Alarm vs False Alarm -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2 trap-glow">
+          <h4 class="font-bold text-white text-sm flex items-center justify-between">
+            <span>2. Nuisance Alarm vs. False Alarm</span>
+            <span class="text-rose-400 font-mono text-[10px]">PEC Vol 2 / RA 9514</span>
+          </h4>
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-amber-400 block">Nuisance Alarm</span>
+              <p class="text-slate-300">• Triggered by equipment defect, dirt, dust, improper installation, or poor maintenance.</p>
+              <p class="text-slate-400">• Resolved by engineering servicing.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-rose-400 block">False Alarm (Malicious)</span>
+              <p class="text-slate-300">• Triggered by human mischief, malicious pull, or prank without any fire hazard.</p>
+              <p class="text-slate-400">• Governed by penal provisions.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 3: Coil Parallel vs Perpendicular -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2 trap-glow">
+          <h4 class="font-bold text-white text-sm flex items-center justify-between">
+            <span>3. Generator Coil: Parallel vs. Perpendicular to B-Field</span>
+            <span class="text-rose-400 font-mono text-[10px]">Electromagnetics</span>
+          </h4>
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-cyan-400 block">Plane PARALLEL to Field</span>
+              <p class="text-slate-300">• Normal vector at $\theta = 90^\circ$.</p>
+              <p class="text-slate-300">• Flux through coil $\Phi_B = 0$.</p>
+              <p class="text-emerald-400 font-semibold">• Induced EMF is MAXIMUM ($\frac{d\Phi}{dt}$ peak)!</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-indigo-400 block">Plane PERPENDICULAR to Field</span>
+              <p class="text-slate-300">• Normal vector at $\theta = 0^\circ$.</p>
+              <p class="text-slate-300">• Flux through coil is MAXIMUM.</p>
+              <p class="text-rose-400 font-semibold">• Induced EMF is ZERO ($\frac{d\Phi}{dt} = 0$)!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 4: Capacitor vs Inductor at High Frequency -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2 trap-glow">
+          <h4 class="font-bold text-white text-sm flex items-center justify-between">
+            <span>4. Capacitor vs. Inductor at High Frequency</span>
+            <span class="text-rose-400 font-mono text-[10px]">AC Circuit Asymptotes</span>
+          </h4>
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-amber-400 block">Capacitor at High $f$</span>
+              <p class="text-slate-300">• $X_C = \frac{1}{2\pi f C} \to 0\ \Omega$.</p>
+              <p class="text-cyan-300 font-semibold">• Acts as an AC SHORT CIRCUIT.</p>
+              <p class="text-slate-400">• Blocks DC, passes high freq.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+              <span class="font-bold text-emerald-400 block">Inductor at High $f$</span>
+              <p class="text-slate-300">• $X_L = 2\pi f L \to \infty\ \Omega$.</p>
+              <p class="text-rose-400 font-semibold">• Acts as an AC OPEN CIRCUIT.</p>
+              <p class="text-slate-400">• Passes DC, chokes high freq.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 7: MASTER CONSTANTS, UNITS & STANDARDS REFERENCE TABLE                              -->
+    <!-- ========================================================================================= -->
+    <section id="sec-constants" class="content-section space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">MODULE 7</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Constants, Units & Standards Master Cheat Sheet</h2>
+        </div>
+        <span class="text-xs text-slate-400">Standard Board Exam Values</span>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden text-xs">
+        <table class="w-full text-left text-slate-300">
+          <thead class="text-[11px] uppercase bg-slate-800/80 text-slate-400 border-b border-slate-700">
+            <tr>
+              <th class="py-2 px-3">Parameter / Constant</th>
+              <th class="py-2 px-3">Symbol</th>
+              <th class="py-2 px-3">Standard Numerical Value / Codified Specification</th>
+              <th class="py-2 px-3">Subject Domain</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800">
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Coulomb's Constant</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$k_e$</td>
+              <td class="py-2 px-3 font-mono">$8.98755 \times 10^9 \approx 9.0 \times 10^9\ \text{N}\cdot\text{m}^2/\text{C}^2$</td>
+              <td class="py-2 px-3 text-slate-400">Electrostatics</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Elementary Charge (Proton/Electron)</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$e$</td>
+              <td class="py-2 px-3 font-mono">$1.602 \times 10^{-19}\ \text{C}$</td>
+              <td class="py-2 px-3 text-slate-400">Atomic Physics</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Permittivity of Free Space</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$\varepsilon_0$</td>
+              <td class="py-2 px-3 font-mono">$8.854 \times 10^{-12}\ \text{F/m}$</td>
+              <td class="py-2 px-3 text-slate-400">Electromagnetics</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Horizontal UTP Distribution Cable Max</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$L_{\text{horiz}}$</td>
+              <td class="py-2 px-3 font-mono">90 meters (Channel limit: 100 meters)</td>
+              <td class="py-2 px-3 text-slate-400">PEC Vol. 1</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Work Area (WA) Floor Allocation</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$A_{\text{WA}}$</td>
+              <td class="py-2 px-3 font-mono">10 square meters ($10\text{ m}^2$)</td>
+              <td class="py-2 px-3 text-slate-400">PEC Vol. 1</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">4-Pair UTP Minimum Bend Radius</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$R_{\text{bend}}$</td>
+              <td class="py-2 px-3 font-mono">4× Cable Outside Diameter (4D)</td>
+              <td class="py-2 px-3 text-slate-400">PEC Vol. 1</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">FDAS Manual Pull Station Height</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$H_{\text{pull}}$</td>
+              <td class="py-2 px-3 font-mono">Between 1.1 meters and 1.4 meters AFF</td>
+              <td class="py-2 px-3 text-slate-400">PEC Vol. 2 / RA 9514</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">FDAS Secondary Power Supply</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$T_{\text{sec}}$</td>
+              <td class="py-2 px-3 font-mono">24 Hours Standby + 5 Minutes Alarm</td>
+              <td class="py-2 px-3 text-slate-400">PEC Vol. 2</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Audible Notification Sound Level</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$\text{SPL}$</td>
+              <td class="py-2 px-3 font-mono">At least 15 dBA above ambient noise</td>
+              <td class="py-2 px-3 text-slate-400">PEC Vol. 2</td>
+            </tr>
+            <tr class="hover:bg-slate-800/30">
+              <td class="py-2 px-3 font-semibold text-white">Natural Logarithm of 2 (Half-value)</td>
+              <td class="py-2 px-3 font-mono text-cyan-400">$\ln(2)$</td>
+              <td class="py-2 px-3 font-mono">0.693147... $\approx 0.693$</td>
+              <td class="py-2 px-3 text-slate-400">Transients & Physics</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODULE 8: 65-ITEM QUESTION DRILL & INTERACTIVE QUIZZER                                    -->
+    <!-- ========================================================================================= -->
+    <section id="sec-quiz" class="content-section space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 flex-wrap gap-2">
+        <div class="flex items-center space-x-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">MODULE 8</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">65-Question Rapid Board Exam Drill (Aug 31 Geas PDF)</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="quiz-score-badge" class="text-xs px-2.5 py-1 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 font-mono">Answered: 0 / 65</span>
+          <button onclick="revealAllAnswers()" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 transition">Reveal All</button>
+        </div>
+      </div>
+
+      <div id="quiz-container" class="space-y-3.5">
+        <!-- Dynamically rendered 65 questions -->
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Live E-field calculator
+    function calcEField() {
+      const q_uC = parseFloat(document.getElementById('calc-q').value) || 0;
+      const r_m = parseFloat(document.getElementById('calc-r').value) || 0.5;
+      const ke = 9.0e9;
+      const q = q_uC * 1e-6;
+      if (r_m <= 0) return;
+      const E = (ke * q) / (r_m * r_m);
+      document.getElementById('calc-efield-result').innerText = 
+        `Result: ${E.toLocaleString('en-US', {maximumFractionDigits: 0})} N/C (${(E).toExponential(2)} N/C)`;
+      
+      // Request MathJax update if available
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    // Tab Navigation
+    function switchTab(tabKey) {
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-cyan-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      const activeBtn = document.getElementById(`btn-tab-${tabKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-cyan-600', 'text-white');
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+      }
+
+      const sections = document.querySelectorAll('.content-section');
+      if (tabKey === 'all') {
+        sections.forEach(sec => sec.classList.remove('hidden'));
+      } else {
+        sections.forEach(sec => {
+          if (sec.id === `sec-${tabKey}`) {
+            sec.classList.remove('hidden');
+          } else {
+            sec.classList.add('hidden');
+          }
+        });
+      }
+
+      // Re-trigger MathJax to ensure newly shown formulas are rendered
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    // Filter content
+    function filterContent() {
+      const term = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.content-section, .quiz-card');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(term)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 65 Exam Questions with math notation
+    const questionsData = [
+      { id: 1, q: "What is considered the 'keystone' of professional conduct according to the ECE Code of Ethics?", ans: "Integrity", opts: ["Honesty", "Integrity", "Global Competitiveness", "Technical Competence"], exp: "The IECEP Code of Ethics explicitly defines 'INTEGRITY' as the keystone of professional conduct." },
+      { id: 2, q: "You are hired as a consultant for a new broadcasting company. You own a significant number of shares in the equipment manufacturer they are evaluating. How must you handle this?", ans: "Inform your client or employer of your financial interest", opts: ["Recommend the equipment without mentioning your shares", "Inform your client or employer of your financial interest", "Resign from the consulting role immediately", "Sell your shares before the project starts"], exp: "Ethics dictates full transparency regarding potential conflicts of interest." },
+      { id: 3, q: "A government agency requests your firm's proprietary surveillance technology for a national security initiative without a formal contract. Design the most ethical response based on the IECEP Code.", ans: "Comply only through legitimate, formal and legal contracts/channels", opts: ["Reject the request until a multi-million peso contract is signed", "Release only a defective version of the technology", "Comply only through legitimate, formal and legal contracts/channels", "Offer the technology immediately without documentation"], exp: "Professional cooperation with national security must be conducted through proper, lawful, and documented institutional agreements." },
+      { id: 4, q: "A reporter asks you for an opinion on a newly collapsed telecom tower. You are not fully familiar with the structural facts of the incident. What is your ethical obligation?", ans: "Refrain from expressing any public opinion", opts: ["Give an educated guess to maintain public confidence", "Blame the contractor to protect the engineering profession", "Refrain from expressing any public opinion", "Provide a statement if the reporter pays for your time"], exp: "Engineers must not issue public statements on technical matters unless substantiated by verified facts." },
+      { id: 5, q: "How many articles and sections are there in RA 9292?", ans: "8 Articles and 43 Sections", opts: ["7 Articles and 41 Sections", "8 Articles and 43 Sections", "9 Articles and 45 Sections", "8 Articles and 40 Sections"], exp: "RA 9292 consists of exactly 8 Articles and 43 Sections, approved April 17, 2004." },
+      { id: 6, q: "Mark is a vocational student who has completed a two-year course in electronics recognized by TESDA. Which licensure exam under RA 9292 is he qualified to apply for?", ans: "Electronics Technician (ECT)", opts: ["Professional Electronics Engineer (PECE)", "Electronics Engineer (ECE)", "Electronics Technician (ECT)", "Not qualified for any exam until he gets a bachelor's degree"], exp: "ECT requires completion of a 2-year vocational course recognized by TESDA or min 3rd year engineering." },
+      { id: 7, q: "Engr. Dela Cruz wants to upgrade her license to PECE. She has been working as an ECE for exactly 5 years. Can she apply for the PECE registration?", ans: "No, she needs a certified experience record of 7 years", opts: ["Yes, she only needs 3 years of experience", "No, she needs a certified experience record of 7 years", "No, she must be a member of the ACPE first", "Yes, provided she passes a written exam for PECEs"], exp: "RA 9292 Section 18 requires at least 7 years of active certified engineering practice as an ECE." },
+      { id: 8, q: "The Professional Regulatory Board of Electronics Engineering has a vacancy. How is a new member appointed?", ans: "Appointed by the President of the Philippines from recommendees", opts: ["Elected directly by the members of the APO", "Appointed by the President of the Philippines from recommendees", "Appointed by the Chairman of CHED", "Appointed by the outgoing Board Chairman"], exp: "The President of the Philippines appoints the Chairman and members from a list submitted by PRC from the APO." },
+      { id: 9, q: "If an ECE's license is revoked for unprofessional conduct, is it possible for them to ever practice again under RA 9292?", ans: "Yes, the Board may reinstate the validity of a revoked certificate 2 years after revocation", opts: ["No, revocation is permanent and irreversible", "Yes, they can automatically practice again after one year", "Yes, the Board may reinstate the validity of a revoked certificate 2 years after revocation", "Yes, but they must retake the board exam immediately"], exp: "Section 26: The Board may reinstate a revoked certificate after the expiration of 2 years." },
+      { id: 10, q: "A foreign ECE is granted a Special Permit to work on a specialized project in the Philippines. How long is this permit valid before it needs renewal?", ans: "6 months", opts: ["3 years", "1 year", "6 months", "It never expires as long as the project is ongoing"], exp: "Foreign temporary/special permits under RA 9292 are generally valid for 6 months." },
+      { id: 11, q: "Under RA 9292, what is the maximum timeframe for the Board and Commission to release examination results?", ans: "3 days", opts: ["3 days", "10 days", "15 days", "30 days"], exp: "Section 16: The results must be released within 3 days (72 hours) following the conclusion of the exam." },
+      { id: 12, q: "What is the minimum age requirement for a person to be appointed as a member of the Board of Electronics Engineering?", ans: "31 years old", opts: ["21 years old", "28 years old", "30 years old", "31 years old"], exp: "Section 8: A Board member must be at least 31 years of age at the time of appointment." },
+      { id: 13, q: "What is the maximum number of years for the term of office of the members of the Board of ECE according to RA 9292?", ans: "6 years", opts: ["3 years", "6 years", "9 years", "Indefinite"], exp: "Term of office is 3 years per term, with reappointment for one additional term (max 6 years total)." },
+      { id: 14, q: "Under CSC guidelines, a license issued by PRC pursuant to RA 9292 is considered equivalent to which of the following for government employment?", ans: "Professional Eligibility", opts: ["Sub-Professional Eligibility", "Career Executive Service Eligibility", "Professional Eligibility", "Honorary Eligibility"], exp: "A PRC Board license qualifies automatically for CSC Professional Eligibility." },
+      { id: 15, q: "Engr. Lim (ECE) asks his friend Engr. Tan (PECE) to lend him his PECE seal to submit a building permit application. Tan agrees. Who is legally liable under RA 9292?", ans: "Both Lim and Tan", opts: ["Only Lim, for using a seal that isn't his", "Only Tan, for failing to secure his seal", "Both Lim and Tan", "Neither, as long as the design is safe"], exp: "Section 35 (Penal Provisions): Both the unauthorized user and the abetting licensee are criminally liable." },
+      { id: 16, q: "An ECT repairs a marine electronics network, an ECE designs it, but the ECT signs the permit applications. What is the legal violation here?", ans: "Neither the ECT nor the ECE are legally authorized to sign permits", opts: ["The ECT is not allowed to work on watercrafts", "The ECE failed to supervise the repair", "Neither the ECT nor the ECE are legally authorized to sign permits", "There is no violation; an ECT can sign installation permits"], exp: "Only a Professional Electronics Engineer (PECE) has the statutory authority to sign and seal permit plans." },
+      { id: 17, q: "Engr. Diamante has ignored paying his dues to the APO (IECEP) for several years. Evaluate the consequence of this action based on RA 9292.", ans: "He will be listed as delinquent in the roster of professionals", opts: ["He is immediately imprisoned for 6 months", "His ECE license is revoked by the Board of ECE", "He will be listed as delinquent in the roster of professionals", "He is forced to downgrade his license to ECT"], exp: "Failure to maintain APO membership results in delinquent listing in the official roster." },
+      { id: 18, q: "Engr. Permejo (ECE) is approached by a telecommunications company to sign and seal the electronics plans for a cell site tower. What is his legal obligation?", ans: "He must decline the request", opts: ["He can sign and seal as long as active in IECEP", "He can sign if an ECT co-signs", "He must decline the request", "He can sign if he has seven years of active practice"], exp: "An ECE cannot sign or seal plans; he must decline because only a PECE has this legal authority." },
+      { id: 19, q: "Five ECEs and 3 PECEs form 'TechSolutions Corp' to register as a licensed corporate entity for ECE practice. Is this allowed under RA 9292?", ans: "No, because no company may be registered or licensed as such for the practice of ECE", opts: ["Yes, because majority are licensed", "Yes, provided they register with SEC", "No, because no company may be registered or licensed as such for the practice of ECE", "No, unless they employ at least one foreign expert"], exp: "Section 28 explicitly forbids corporations or partnerships from being licensed to practice electronics engineering." },
+      { id: 20, q: "What is the title of Volume 2 of the Philippine Electronics Code (PEC)?", ans: "Fire Detection and Alarm System (FDAS)", opts: ["Telecomm Facilities and Distribution System", "Fire Detection and Alarm System (FDAS)", "Cable TV Systems", "Distributed Antenna System"], exp: "PEC Vol 1 = Telecom; Vol 2 = FDAS; Vol 3 = CATV; Vol 4 = DAS." },
+      { id: 21, q: "The effectivity of the Philippine Electronics Code (consisting of 4 books) is on:", ans: "February 18, 2016", opts: ["February 10, 2016", "February 14, 2016", "February 18, 2016", "February 20, 2016"], exp: "The PEC officially took effect on February 18, 2016." },
+      { id: 22, q: "The BECE adopted the Philippine Electronics Code of 2014 during the Ad Hoc Committee meeting on:", ans: "December 12, 2014", opts: ["December 10, 2014", "December 12, 2014", "December 14, 2014", "December 16, 2014"], exp: "BECE adopted the 2014 PEC on December 12, 2014." },
+      { id: 23, q: "Maximum allowable length for a horizontal Distribution Cable (Cat 5e/Cat 6 UTP) from TR to work area outlet:", ans: "90 meters", opts: ["90 meters", "100 meters", "150 meters", "200 meters"], exp: "Permanent horizontal link limit is 90 m (plus 10 m patch cords = 100 m total channel limit)." },
+      { id: 24, q: "Standard floor area allocated for a single 'Work Area' (WA) to calculate required telecommunications outlets:", ans: "10 square meters", opts: ["5 square meters", "10 square meters", "15 square meters", "20 square meters"], exp: "Structured cabling standards specify 10 m² (approx 100 sq ft) per work area." },
+      { id: 25, q: "Point where the outdoor telecom service provider network ends and indoor customer premises wiring begins:", ans: "Demarcation Point", opts: ["Telecommunications Enclosure", "Equipment Room", "Demarcation Point", "Horizontal Cross-connect"], exp: "The Demarcation Point marks the boundary of provider maintenance responsibility." },
+      { id: 26, q: "Minimum bend radius for a 4-pair UTP cable during installation:", ans: "4 times the cable diameter", opts: ["2 times the cable diameter", "4 times the cable diameter", "8 times the cable diameter", "10 times the cable diameter"], exp: "4-pair UTP requires a minimum bend radius of 4× cable diameter (4D)." },
+      { id: 27, q: "Required mounting height for a manual fire alarm pull station above the finished floor:", ans: "Between 1.1m and 1.4m", opts: ["Between 0.5m and 0.8m", "Between 1.1m and 1.4m", "Exactly 1.5m", "Between 1.6m and 1.8m"], exp: "PEC Vol 2 & RA 9514 specify 1.1 m to 1.4 m above finished floor." },
+      { id: 28, q: "Secondary battery power capacity mandate for an FDAS:", ans: "24 hours standby, 5 minutes alarm", opts: ["12 hours standby, 10 minutes alarm", "24 hours standby, 5 minutes alarm", "48 hours standby, 15 minutes alarm", "72 hours standby, 30 minutes alarm"], exp: "Batteries must sustain the system for 24 hours normal standby followed by 5 minutes full alarm." },
+      { id: 29, q: "Minimum sound pressure level for fire alarm audible notification over ambient noise:", ans: "15 dBA above ambient noise level", opts: ["5 dBA above ambient", "10 dBA above ambient", "15 dBA above ambient noise level", "30 dBA above ambient"], exp: "Audible notification appliances must produce at least 15 dBA above average ambient sound level." },
+      { id: 30, q: "Component with primary & secondary power that receives initiating signals and determines output functions:", ans: "Fire Alarm Control Panel (FACP)", opts: ["Fire Command Center", "Manual Fire Alarm Station", "Fire Alarm Control Panel (FACP)", "Emergency Communications System"], exp: "The FACP is the central processor of the fire detection and alarm system." },
+      { id: 31, q: "A fire alarm caused by malfunction, equipment defect, improper installation, or poor maintenance is a:", ans: "Nuisance Alarm", opts: ["False Alarm", "Nuisance Alarm", "Faulty Alarm", "Dummy Alarm"], exp: "Nuisance alarms result from equipment/environment issues, unlike malicious false alarms." },
+      { id: 32, q: "The Revised Fire Code of the Philippines of 2008 is:", ans: "RA 9514", opts: ["RA 9415", "RA 9514", "RA 9541", "RA 9154"], exp: "RA 9514 is the Revised Fire Code of the Philippines of 2008." },
+      { id: 33, q: "Coaxial cable designated by the code as standard for CATV subscriber drop lines:", ans: "RG 6", opts: ["RG 6", "RG 8", "RG 11", "RG 58"], exp: "RG-6 (75-ohm coaxial) is the standard for subscriber drop lines." },
+      { id: 34, q: "Phenomenon where multiple carrier frequencies combine in passive components generating interfering harmonics:", ans: "Passive Intermodulation (PIM)", opts: ["Free Space Path Loss (FSPL)", "Thermal Noise", "Multipath Fading", "Passive Intermodulation (PIM)"], exp: "PIM occurs when multi-carrier RF signals pass through non-linear passive components." },
+      { id: 35, q: "Which law, signed in 2022, requires registration of all SIM cards to curb mobile crimes?", ans: "RA 11934", opts: ["RA 10844", "RA 10173", "RA 11223", "RA 11934"], exp: "RA 11934 is the SIM Registration Act." },
+      { id: 36, q: "The Innovative Startup Act enacted in April 2019 (DOST, DICT, DTI) is:", ans: "RA 11337", opts: ["RA 11337", "RA 17733", "RA 13177", "RA 17373"], exp: "RA 11337 establishes the Philippine Startup Development Program." },
+      { id: 37, q: "Law that created PhilSA (Philippine Space Agency) under the Office of the President:", ans: "RA 11363", opts: ["RA 16161", "RA 11363", "RA 15323", "RA 13636"], exp: "RA 11363 is the Philippine Space Act." },
+      { id: 38, q: "Law that safeguards individual privacy by regulating handling of personal and sensitive personal data:", ans: "RA 10173", opts: ["RA 10173", "RA 11447", "RA 11844", "RA 9292"], exp: "RA 10173 is the Data Privacy Act of 2012." },
+      { id: 39, q: "Known as the 'Public Telecommunications Policy Act of the Philippines':", ans: "RA 7925", opts: ["RA 7529", "RA 7925", "RA 7295", "RA 7952"], exp: "RA 7925 is the Public Telecom Policy Act." },
+      { id: 40, q: "Known as the Mobile Number Portability Act (MNPA):", ans: "RA 11202", opts: ["RA 11202", "RA 11220", "RA 12012", "RA 10212"], exp: "RA 11202 enables subscribers to keep mobile numbers when switching providers." },
+      { id: 41, q: "Government agency created by Republic Act 10844 on May 23, 2016:", ans: "Department of Information and Communications Technology", opts: ["Philippine Space Agency", "Intellectual Property Office", "Department of Information and Communications Technology", "Climate Change Commission"], exp: "RA 10844 created the DICT." },
+      { id: 42, q: "The Cybercrime Prevention Act of 2012 is:", ans: "RA 10175", opts: ["RA 10751", "RA 10571", "RA 10175", "RA 10715"], exp: "RA 10175 penalizes hacking, illegal interception, and digital fraud." },
+      { id: 43, q: "The National Building Code of the Philippines is Presidential Decree No.:", ans: "1096", opts: ["1000", "1069", "1096", "1156"], exp: "PD 1096 is the National Building Code." },
+      { id: 44, q: "The landmark 'Konektadong Pinoy Act' accelerates digital transformation under:", ans: "RA 12079", opts: ["RA 12079", "RA 12234", "RA 13344", "RA 15566"], exp: "The Konektadong Pinoy / Open Access Act is RA 12079." },
+      { id: 45, q: "The E-Governance Act institutionalizing government digital transition is:", ans: "12254", opts: ["11223", "12254", "14532", "6732"], exp: "RA 12254 establishes the digital transformation framework for government." },
+      { id: 46, q: "Two charges $q_1$ and $q_2$ are separated by $r$. If distance is halved to $r/2$, how does $F_e$ change?", ans: "The force is quadrupled", opts: ["The force is halved", "The force is quadrupled", "The force remains the same", "The force is doubled"], exp: "Coulomb's Law: $F_e \\propto 1/r^2$. When $r \\to r/2$, $F_e \\to 1/(1/2)^2 = 4F_e$." },
+      { id: 47, q: "Magnitude of electric field at 0.5 meters from a point charge of $2.0\\ \\mu\\text{C}$:", ans: "7.2 × 10⁴ N/C", opts: ["3.6 × 10⁴ N/C", "7.2 × 10⁴ N/C", "1.8 × 10⁴ N/C", "7.2 × 10⁵ N/C"], exp: "$E = \\frac{k_e q}{r^2} = \\frac{(9\\times 10^9)(2.0\\times 10^{-6})}{(0.5)^2} = \\frac{18000}{0.25} = 72,000\\ \\text{N/C} = 7.2 \\times 10^4\\ \\text{N/C}$." },
+      { id: 48, q: "Proton moving at $3.0 \\times 10^5\\ \\text{m/s}$ enters a uniform 0.4 T B-field perpendicular to velocity. Magnetic force:", ans: "1.92 × 10⁻¹⁴ N", opts: ["1.92 × 10⁻¹⁴ N", "1.20 × 10⁻¹⁴ N", "2.40 × 10⁻¹⁴ N", "3.84 × 10⁻¹⁴ N"], exp: "$F = qvB = (1.602 \\times 10^{-19})(3.0 \\times 10^5)(0.4) = 1.92 \\times 10^{-14}\\ \\text{N}$." },
+      { id: 49, q: "A 2.0-meter wire carries 5.0 A perpendicular to 0.1 T magnetic field. Magnetic force on wire:", ans: "1.0 N", opts: ["0.5 N", "1.0 N", "2.0 N", "10.0 N"], exp: "$F = ILB \\sin(90^\\circ) = (5.0)(2.0)(0.1) = 1.0\\ \\text{N}$." },
+      { id: 50, q: "A 0.5-m rod moves at 10 m/s perpendicular to 0.2 T field. Motional EMF induced:", ans: "1.0 V", opts: ["0.5 V", "1.0 V", "2.0 V", "5.0 V"], exp: "$\\mathcal{E} = BLv = (0.2)(0.5)(10) = 1.0\\ \\text{V}$." },
+      { id: 51, q: "If it takes 20 J of work to move 4 C charge between points A and B, potential difference is:", ans: "5.0 V", opts: ["80 V", "5.0 V", "0.2 V", "16 V"], exp: "$\\Delta V = W / q = 20\\ \\text{J} / 4\\ \\text{C} = 5.0\\ \\text{V}$." },
+      { id: 52, q: "Electron released from rest near negative plate in uniform E-field. Direction & nature of motion:", ans: "It moves toward the positive plate with constant acceleration", opts: ["Moves toward negative plate with increasing speed", "Moves toward positive plate with constant velocity", "It moves toward the positive plate with constant acceleration", "Remains stationary"], exp: "Uniform electric field exerts constant electrostatic force $F = eE$, causing constant acceleration $a = F/m$ toward the positive plate." },
+      { id: 53, q: "If charged particle enters uniform B-field at angle of 0 degrees (parallel), shape of path:", ans: "A straight line", opts: ["A circular path", "A helical path", "A straight line", "A parabolic path"], exp: "$F = qvB \\sin(0^\\circ) = 0$; without any deflecting force, velocity is unchanged and particle continues in a straight line." },
+      { id: 54, q: "Charge $q$ at center of line joining two equal charges $+Q$ for system equilibrium. Value of $q$:", ans: "-Q/4", opts: ["Q/2", "-Q/2", "Q/4", "-Q/4"], exp: "Net force on outer charge: $\\frac{kQ^2}{d^2} + \\frac{kQq}{(d/2)^2} = 0 \\implies \\frac{Q}{d^2} + \\frac{4q}{d^2} = 0 \\implies q = -Q/4$." },
+      { id: 55, q: "Charged particle moves in circular path in B-field. If velocity is doubled, path radius:", ans: "The radius is doubled", opts: ["The radius is the same", "The radius is halved", "The radius is doubled", "The radius is quadrupled"], exp: "$r = \\frac{mv}{qB}$. Radius is directly proportional to speed $v$; doubling speed doubles radius." },
+      { id: 56, q: "Positive charge moves upward in magnetic field directed into page. Magnetic force points:", ans: "To the left", opts: ["To the right", "To the left", "Downward", "Out of the page"], exp: "Using Right-Hand Rule: $\\vec{v}$ points UP, $\\vec{B}$ points INTO PAGE $\\implies$ thumb/palm points TO THE LEFT." },
+      { id: 57, q: "Which change would NOT increase induced EMF in stationary coil in changing B-field?", ans: "Using a wire with a higher resistance for the coil", opts: ["Increasing turns in the coil", "Using a wire with a higher resistance for the coil", "Increasing rate of B-field change", "Increasing area of coil"], exp: "Faraday's law: $\\mathcal{E} = -N \\frac{d\\Phi_B}{dt}$. Resistance affects induced current ($I = \\mathcal{E}/R$), not the induced EMF." },
+      { id: 58, q: "If coil rotates in uniform B-field, induced EMF is maximum when plane of coil is:", ans: "Parallel to the magnetic field lines", opts: ["Perpendicular to field lines", "Parallel to the magnetic field lines", "At 45 degrees to field lines", "EMF is constant"], exp: "When coil plane is parallel to field, normal vector is at $90^\\circ$; magnetic flux is zero but rate of change of flux $\\frac{d\\Phi}{dt}$ is at its absolute peak." },
+      { id: 59, q: "According to Lenz's Law, induced current creates a magnetic field that:", ans: "Opposes the change in magnetic flux that produced it", opts: ["Always points to North Pole", "Always points in same direction as original field", "Opposes the change in magnetic flux that produced it", "Increases conductor velocity"], exp: "Lenz's Law defines polarity: induced current creates magnetic flux that opposes the primary change in flux." },
+      { id: 60, q: "Lenz's Law is often cited as a physical manifestation of which conservation principle?", ans: "Conservation of Energy", opts: ["Conservation of Momentum", "Conservation of Energy", "Conservation of Charge", "Conservation of Angular Momentum"], exp: "If induced flux reinforced the change, perpetual motion and free energy would result, violating Conservation of Energy." },
+      { id: 61, q: "Two circular loops A and B are near each other. If current in loop A suddenly increases, loop B experiences:", ans: "A repulsive force", opts: ["An attractive force", "A repulsive force", "No force, only torque", "Gravitational force"], exp: "By Lenz's law, loop B induces current opposite to loop A to oppose the flux surge, creating opposing magnetic poles that repel." },
+      { id: 62, q: "Series RLC has $R = 10\\ \\Omega$, $X_L = 40\\ \\Omega$, $X_C = 30\\ \\Omega$. Phase angle of circuit:", ans: "+45 degrees", opts: ["+30 degrees", "+45 degrees", "-45 degrees", "+60 degrees"], exp: "$\\tan\\theta = \\frac{X_L - X_C}{R} = \\frac{40 - 30}{10} = \\frac{10}{10} = 1 \\implies \\theta = \\arctan(1) = +45^\\circ$ (Inductive)." },
+      { id: 63, q: "Series RC connected to $120\\ \\text{V}_{\\text{rms}}$ AC source, resistor voltage is 72 V. RMS voltage across capacitor:", ans: "96 V", opts: ["48 V", "96 V", "105 V", "140 V"], exp: "$V_C = \\sqrt{V_S^2 - V_R^2} = \\sqrt{120^2 - 72^2} = \\sqrt{14400 - 5184} = \\sqrt{9216} = 96\\ \\text{V}$." },
+      { id: 64, q: "Coil with 300 mH and $2\\ \\Omega$ connected to 2 V source. Time to reach half steady-state current:", ans: "0.104 seconds", opts: ["0.052 seconds", "0.104 seconds", "0.150 seconds", "0.300 seconds"], exp: "$\\tau = \\frac{L}{R} = \\frac{0.3}{2} = 0.15\\ \\text{s}$. Time to $50\\%$: $t = \\tau \\ln(2) = 0.15 \\times 0.69315 = 0.104\\ \\text{s}$." },
+      { id: 65, q: "Series RC circuit connected to AC generator. If frequency significantly increases, capacitor:", ans: "It acts more like a short circuit because Xc decreases", opts: ["Acts more like an open circuit", "It acts more like a short circuit because Xc decreases", "Phase angle increases toward 90 deg", "Stores more energy per cycle"], exp: "$X_C = \\frac{1}{2\\pi f C}$. As frequency $f \\to \\infty$, reactance $X_C \\to 0$, causing the capacitor to behave as an AC short circuit." }
+    ];
+
+    let userAnswers = {};
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+      questionsData.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'quiz-card bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2.5';
+        div.id = `qcard-${item.id}`;
+
+        let optsHtml = '';
+        item.opts.forEach(opt => {
+          optsHtml += `
+            <button onclick="selectAnswer(${item.id}, '${opt.replace(/'/g, "\\'")}')" 
+                    id="btn-q${item.id}-${opt.replace(/\W/g, '')}"
+                    class="opt-btn w-full text-left px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 transition">
+              ${opt}
+            </button>
+          `;
+        });
+
+        div.innerHTML = `
+          <div class="flex items-start justify-between gap-2.5">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-slate-800 text-cyan-400 border border-slate-700">Q${item.id}</span>
+            <p class="text-xs font-semibold text-slate-100 flex-1">${item.q}</p>
+          </div>
+          <div class="space-y-1">${optsHtml}</div>
+          <div id="exp-${item.id}" class="hidden p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1">
+            <span class="font-bold text-emerald-400">Correct Answer: ${item.ans}</span>
+            <p class="text-slate-400 text-[11px]">${item.exp}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      // Typeset math in dynamically generated questions
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function selectAnswer(qid, selectedOpt) {
+      const item = questionsData.find(q => q.id === qid);
+      if (!item) return;
+
+      userAnswers[qid] = selectedOpt;
+      const isCorrect = (selectedOpt === item.ans);
+
+      // Disable buttons for this question
+      item.opts.forEach(opt => {
+        const btnId = `btn-q${qid}-${opt.replace(/\W/g, '')}`;
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          if (opt === item.ans) {
+            btn.classList.add('bg-emerald-950', 'border-emerald-600', 'text-emerald-300');
+          } else if (opt === selectedOpt && !isCorrect) {
+            btn.classList.add('bg-rose-950', 'border-rose-600', 'text-rose-300');
+          }
+        }
+      });
+
+      // Show explanation
+      const expDiv = document.getElementById(`exp-${qid}`);
+      if (expDiv) {
+        expDiv.classList.remove('hidden');
+        if (window.MathJax && MathJax.typesetPromise) {
+          MathJax.typesetPromise([expDiv]);
+        }
+      }
+
+      updateScoreBadge();
+    }
+
+    function revealAllAnswers() {
+      questionsData.forEach(item => {
+        selectAnswer(item.id, item.ans);
+      });
+    }
+
+    function updateScoreBadge() {
+      let correct = 0;
+      let total = Object.keys(userAnswers).length;
+      questionsData.forEach(q => {
+        if (userAnswers[q.id] === q.ans) correct++;
+      });
+      document.getElementById('quiz-score-badge').innerText = `Answered: ${total}/65 (Score: ${correct}/${total})`;
+    }
+
+    // Initialize application on load
+    window.onload = function() {
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
