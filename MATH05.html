@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam — Dense Infographic Reviewer & Command Center</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for pristine math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderAllMath()"></script>
+    
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#0d9488',
+              600: '#0f766e',
+              900: '#134e4a',
+            },
+            darkbg: '#0a0f1d',
+            darkcard: '#111827',
+            darkborder: '#1f2937',
+            accentcyan: '#06b6d4',
+            accentamber: '#f59e0b',
+            accentrose: '#f43f5e',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom High-Density Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 2px;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #0d9488;
+    }
+    .glow-border:hover {
+      box-shadow: 0 0 15px -3px rgba(13, 148, 136, 0.3);
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .print-page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+
+  <!-- Top Command Center Bar -->
+  <header class="sticky top-0 z-50 bg-[#0f172a]/95 backdrop-blur border-b border-slate-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3">
+        <div class="h-9 w-9 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white shadow-lg shadow-teal-500/20 font-bold">
+          <i class="fa-solid fa-microchip text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
+              ECE BOARD EXAM <span class="text-teal-400 font-mono text-xs px-2 py-0.5 rounded bg-teal-950/80 border border-teal-800">COMMAND CENTER</span>
+            </h1>
+            <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-950 text-emerald-300 border border-emerald-800">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> 100% PDF COVERAGE (50 PAGES)
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-mono">Adv. Engg Math • Vector Calculus • Electromagnetics • DSP • Control Systems</p>
+        </div>
+      </div>
+
+      <!-- Quick Search & Actions -->
+      <div class="flex items-center gap-2.5 flex-1 max-w-md justify-end">
+        <div class="relative w-full max-w-xs">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          <input type="text" id="masterSearch" placeholder="Search formula, operator, theorem, problem..." 
+            oninput="handleSearch(this.value)"
+            class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-900/90 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono">
+        </div>
+        
+        <button onclick="window.print()" title="Print Reviewer" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg border border-slate-700 text-xs flex items-center gap-1 transition">
+          <i class="fa-solid fa-print"></i>
+          <span class="hidden sm:inline">Print</span>
+        </button>
+
+        <button onclick="toggleAllSolutions()" id="btnToggleSol" title="Toggle Problem Solutions" class="px-2.5 py-1.5 bg-teal-900/40 hover:bg-teal-800/60 text-teal-300 rounded-lg border border-teal-700/50 text-xs flex items-center gap-1 transition font-mono">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span class="hidden sm:inline">Solutions: </span><span id="solStateText">Open</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-[#0b1120] border-t border-slate-800/80 px-4 sm:px-6 overflow-x-auto custom-scroll">
+      <div class="max-w-7xl mx-auto flex space-x-1 sm:space-x-2 py-1 text-xs font-medium whitespace-nowrap">
+        <button onclick="switchTab('tab-overview')" id="nav-overview" class="tab-btn active px-3 py-1.5 rounded-md bg-teal-500 text-white font-semibold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-compass"></i> Master Road Map
+        </button>
+        <button onclick="switchTab('tab-vector')" id="nav-vector" class="tab-btn px-3 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-draw-polygon"></i> 1. Vector Calc & EM
+        </button>
+        <button onclick="switchTab('tab-signals')" id="nav-signals" class="tab-btn px-3 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-wave-square"></i> 2. Signals, Convolution & Z
+        </button>
+        <button onclick="switchTab('tab-control')" id="nav-control" class="tab-btn px-3 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-sliders"></i> 3. Feedback Control Systems
+        </button>
+        <button onclick="switchTab('tab-error')" id="nav-error" class="tab-btn px-3 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-bullseye"></i> 4. Steady-State Error Matrix
+        </button>
+        <button onclick="switchTab('tab-tools')" id="nav-tools" class="tab-btn px-3 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-calculator text-amber-400"></i> Caltech & Solvers
+        </button>
+        <button onclick="switchTab('tab-questions')" id="nav-questions" class="tab-btn px-3 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-clipboard-question text-cyan-400"></i> Full 41 Exam Q&A Drill
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- Priority Legend Alert Bar -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px] font-mono p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 shadow-inner">
+      <div class="flex items-center gap-1.5 px-2 py-1 bg-red-950/50 border border-red-800/60 rounded text-red-300 font-semibold">
+        <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block shadow"></span>
+        <span>🔴 [MUST MEMORIZE]</span>
+      </div>
+      <div class="flex items-center gap-1.5 px-2 py-1 bg-amber-950/50 border border-amber-800/60 rounded text-amber-300 font-semibold">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block shadow"></span>
+        <span>🟠 [HIGH-YIELD]</span>
+      </div>
+      <div class="flex items-center gap-1.5 px-2 py-1 bg-yellow-950/50 border border-yellow-800/60 rounded text-yellow-300 font-semibold">
+        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 inline-block shadow"></span>
+        <span>🟡 [IMPORTANT]</span>
+      </div>
+      <div class="flex items-center gap-1.5 px-2 py-1 bg-blue-950/50 border border-blue-800/60 rounded text-blue-300 font-semibold">
+        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block shadow"></span>
+        <span>🔵 [CONCEPTUAL]</span>
+      </div>
+      <div class="col-span-2 sm:col-span-1 flex items-center gap-1.5 px-2 py-1 bg-rose-950/70 border border-rose-700 rounded text-rose-200 font-bold">
+        <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+        <span>⚠️ [COMMON TRAP]</span>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: MASTER OVERVIEW & ROADMAP                                          -->
+    <!-- ========================================================================= -->
+    <section id="tab-overview" class="tab-content space-y-6">
+      
+      <!-- Top Hero Banner Card -->
+      <div class="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-teal-950 border border-teal-900/60 p-5 shadow-2xl relative overflow-hidden">
+        <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-teal-500/20 text-teal-300 border border-teal-500/30 rounded-md uppercase tracking-wider">ECE Board Exam Command Briefing</span>
+            <h2 class="text-xl sm:text-2xl font-black text-white mt-1 tracking-tight">High-Density Review Architecture</h2>
+            <p class="text-xs text-slate-300 mt-1 max-w-3xl leading-relaxed">
+              Synthesized directly from <span class="text-teal-300 font-mono font-semibold">MATH06.pdf</span> (50 review slides, 41 exact exam-level problems). This command system compresses vector operators, electromagnetic identities, signal transforms, Z-plane digital filtering, Mason's gain formula, Routh-Hurwitz stability, and steady-state error analysis.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="switchTab('tab-questions')" class="px-3.5 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-teal-700/30 flex items-center gap-2 transition">
+              <i class="fa-solid fa-play"></i> Start 41-Q Rapid Drill
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- High-Yield Mind Map Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Module 1 Card -->
+        <div class="rounded-xl bg-slate-900/80 border border-slate-800 hover:border-teal-600/50 p-4 transition-all duration-300 glow-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-teal-400 font-mono tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-cube text-teal-500"></i> MODULE 1
+              </span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Q1 – Q18</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Vector Calculus & Electromagnetics</h3>
+            <p class="text-xs text-slate-400 mb-3 leading-relaxed">Del operations, conservative vs incompressible fields, directional derivatives, tangent planes, Laplace vs Poisson, Stokes, Divergence, and Maxwell's 4 Laws.</p>
+            
+            <ul class="space-y-1.5 text-xs text-slate-300 font-mono">
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$\nabla \cdot (\nabla \times \vec{A}) \equiv 0$ &nbsp; [dco]</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$\nabla \times (\nabla V) \equiv 0$ &nbsp; [cgrado]</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-400">🟠</span>
+                <span>$\text{Directional Deriv: } \nabla f \cdot \hat{u}$</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-teal-400">⚡</span>
+                <span>$\text{Tang. Plane: } N_x(x-x_0)+N_y(y-y_0)+N_z(z-z_0)=0$</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$\text{Maxwell 4: } \nabla \cdot D=\rho_v, \nabla \cdot B=0, \nabla \times E=-\partial B/\partial t$</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="switchTab('tab-vector')" class="mt-4 w-full py-1.5 bg-slate-800 hover:bg-teal-900/50 text-teal-300 text-xs font-semibold rounded border border-slate-700 hover:border-teal-700 transition flex items-center justify-center gap-1">
+            <span>Inspect Module 1</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </div>
+
+        <!-- Module 2 Card -->
+        <div class="rounded-xl bg-slate-900/80 border border-slate-800 hover:border-cyan-600/50 p-4 transition-all duration-300 glow-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-cyan-400 font-mono tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-wave-square text-cyan-500"></i> MODULE 2
+              </span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Q19 – Q30</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Signals, Transforms & DSP</h3>
+            <p class="text-xs text-slate-400 mb-3 leading-relaxed">Parseval's energy theorem, $p$-series energy integrals, continuous/discrete convolution, cross vs auto-correlation, Z-domain stability, and cascaded LTI systems.</p>
+            
+            <ul class="space-y-1.5 text-xs text-slate-300 font-mono">
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$E = \int |x(t)|^2 dt = \int |X(f)|^2 df$</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-400">🟠</span>
+                <span>$A e^{-at}u(t) \implies E = A^2 / (2a)$</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-400">🟠</span>
+                <span>$1/t^p \implies \text{Finite energy if } p > 1/2$</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$N_{\text{total}} = N_1 + N_2 - 1$ (Length)</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-teal-400">⚡</span>
+                <span>$\text{Z-Plane Stable: All poles } |z| < 1$</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="switchTab('tab-signals')" class="mt-4 w-full py-1.5 bg-slate-800 hover:bg-cyan-900/50 text-cyan-300 text-xs font-semibold rounded border border-slate-700 hover:border-cyan-700 transition flex items-center justify-center gap-1">
+            <span>Inspect Module 2</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </div>
+
+        <!-- Module 3 Card -->
+        <div class="rounded-xl bg-slate-900/80 border border-slate-800 hover:border-amber-600/50 p-4 transition-all duration-300 glow-border flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-amber-400 font-mono tracking-wider flex items-center gap-1.5">
+                <i class="fa-solid fa-sliders text-amber-500"></i> MODULE 3
+              </span>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Q31 – Q41</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Feedback Control & Stability</h3>
+            <p class="text-xs text-slate-400 mb-3 leading-relaxed">Laplace initial conditions, closed-loop transfer functions, feedback factor extraction $H(s)$, sensitivity, Mason's gain $\Delta_k$, Routh-Hurwitz, and dominant poles.</p>
+            
+            <ul class="space-y-1.5 text-xs text-slate-300 font-mono">
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$H(s) = \frac{1}{T(s)} - \frac{1}{G(s)}$ (Feedback factor)</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-400">🟠</span>
+                <span>$S_A^T = \frac{1}{1+AB}$ (Sensitivity decreases w/ B)</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-amber-400">🟠</span>
+                <span>$A \to \infty \implies T \to 1/B$ (Ideal Op-Amp)</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-red-400">🔴</span>
+                <span>$\text{Routh-Hurwitz: No sign change in col 1}$</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-rose-400">⚠️</span>
+                <span>$\text{System Type from } G(s) = \frac{\text{Num}}{\text{Den}-\text{Num}}$</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="switchTab('tab-control')" class="mt-4 w-full py-1.5 bg-slate-800 hover:bg-amber-900/50 text-amber-300 text-xs font-semibold rounded border border-slate-700 hover:border-amber-700 transition flex items-center justify-center gap-1">
+            <span>Inspect Module 3</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- 60-Second Flash Recall Sheet -->
+      <div class="rounded-xl bg-slate-900/90 border border-slate-800 overflow-hidden shadow-xl">
+        <div class="px-4 py-3 bg-gradient-to-r from-slate-900 via-teal-950/60 to-slate-900 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-yellow-400"></i>
+            <span>60-SECOND FLASH RECALL: HIGHEST-FREQUENCY BOARD RULES</span>
+          </h3>
+          <span class="text-[10px] font-mono text-teal-400 bg-teal-950/80 px-2 py-0.5 rounded border border-teal-800">Direct Answer Keys</span>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">Exam Keyword / Given Term</th>
+                <th class="py-2.5 px-3">Instant Mathematical Property / Answer</th>
+                <th class="py-2.5 px-3">Physical Meaning / Pitfall</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">$\nabla \cdot (\nabla \times \vec{A})$</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">Always 0 (Identically zero)</td>
+                <td class="py-2 px-3 text-slate-400">A curling/circulating field has no outward expansion ("dco")</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">$\nabla \times (\nabla V)$</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">Always 0 (Identically zero)</td>
+                <td class="py-2 px-3 text-slate-400">A gradient (conservative) field has zero circulation ("cgrado")</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Solenoidal Vector Field</td>
+                <td class="py-2 px-3 text-cyan-300 font-bold">$\nabla \cdot \vec{F} = 0$</td>
+                <td class="py-2 px-3 text-slate-400">Incompressible fluid; magnetic flux density $\vec{B}$ is solenoidal</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Irrotational / Conservative Field</td>
+                <td class="py-2 px-3 text-cyan-300 font-bold">$\nabla \times \vec{F} = 0$</td>
+                <td class="py-2 px-3 text-slate-400">Work over closed path is zero; static electric field $\vec{E} = -\nabla V$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Laplace's Equation $\nabla^2 V = 0$</td>
+                <td class="py-2 px-3 text-amber-300 font-bold">Valid in SOURCE-FREE region ($\rho_v = 0$)</td>
+                <td class="py-2 px-3 text-slate-400">Poisson's eq $\nabla^2 V = -\rho_v/\epsilon$ applies when active charges exist</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Static Electric Curl $\nabla \times \vec{E}$</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">Always 0 (No differentiation needed!)</td>
+                <td class="py-2 px-3 text-slate-400">Even if $V(x,y,z) = \ln(x^2+y^2+z^2)$, $\nabla \times (-\nabla V) = 0$ instantly!</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Gauss's Law for Magnetism $\nabla \cdot \vec{B} = 0$</td>
+                <td class="py-2 px-3 text-yellow-300 font-bold">No isolated magnetic monopoles</td>
+                <td class="py-2 px-3 text-slate-400">Magnetic flux lines are always closed loops (cutting magnet creates 2 dipoles)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Faraday's Law Negative Sign</td>
+                <td class="py-2 px-3 text-yellow-300 font-bold">Enforces Lenz's Law</td>
+                <td class="py-2 px-3 text-slate-400">$\nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$; induced emf opposes change in magnetic flux</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Green's Theorem in Plane</td>
+                <td class="py-2 px-3 text-cyan-300 font-bold">$\hat{k}$-component of 2D curl</td>
+                <td class="py-2 px-3 text-slate-400">$\oint (Mdx + Ndy) = \iint (\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y})dA$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Auto-correlation at Lag 0: $R_{xx}(0)$</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">Total Energy (or Average Power)</td>
+                <td class="py-2 px-3 text-slate-400">$R_{xx}(0) = \int_{-\infty}^{\infty} x^2(t)dt = E$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Convolution Output Sample Length</td>
+                <td class="py-2 px-3 text-amber-300 font-bold">$N_{\text{total}} = N_1 + N_2 - 1$</td>
+                <td class="py-2 px-3 text-slate-400">For 50 and 30 samples: $50 + 30 - 1 = 79$ samples</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Z-Plane Filter Stability</td>
+                <td class="py-2 px-3 text-amber-300 font-bold">All poles inside Unit Circle: $|z| < 1$</td>
+                <td class="py-2 px-3 text-slate-400">Double pole at $z=0.5$ is strictly STABLE</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Laplace Transfer Function Assumption</td>
+                <td class="py-2 px-3 text-yellow-300 font-bold">All initial conditions = STRICTLY 0</td>
+                <td class="py-2 px-3 text-slate-400">$H(s) = Y(s)/X(s)$ assumes system is in zero initial state</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Dominant Pole Identification</td>
+                <td class="py-2 px-3 text-cyan-300 font-bold">Closest to imaginary ($j\omega$) axis</td>
+                <td class="py-2 px-3 text-slate-400">For poles at $-1, -10, -100$, pole at $s=-1$ decays slowest and dominates</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Non-Minimum Phase Flag</td>
+                <td class="py-2 px-3 text-rose-300 font-bold">Any zero residing in RHP ($\text{Re} > 0$)</td>
+                <td class="py-2 px-3 text-slate-400">A zero at $s = +3$ immediately classifies system as Non-Minimum Phase</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-rose-300 font-bold">⚠️ Finding System Type from $T(s)$</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">$G(s) = \frac{\text{Num}}{\text{Den} - \text{Num}}$</td>
+                <td class="py-2 px-3 text-rose-300">NEVER inspect $T(s)$ directly! $T(s) = \frac{10}{s^2+5s+10}$ is TYPE 1!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: VECTOR CALCULUS & ELECTROMAGNETICS (PAGES 1 - 25)                  -->
+    <!-- ========================================================================= -->
+    <section id="tab-vector" class="tab-content hidden space-y-6">
+      
+      <!-- Section Header -->
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono text-teal-400 uppercase tracking-wider font-bold">Module 1 • Lecture Pages 1 to 25</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Vector Differential Operators & Maxwell's Electromagnetics</h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-teal-950 border border-teal-800 text-teal-300 text-xs font-mono font-bold">18 Board Questions Covered</span>
+      </div>
+
+      <!-- Del Operator Master Table -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 shadow-md space-y-4">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-shapes text-teal-400"></i> The Del ($\nabla$) Operator & 4 Primary Differential Forms
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          <!-- Gradient -->
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-teal-400 mb-1">
+                <span class="font-bold">GRADIENT</span>
+                <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">Scalar $\to$ Vector</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mb-2">Direction & rate of maximum steepest ascent.</p>
+              <div class="bg-slate-900 p-2 rounded text-center text-xs font-mono text-emerald-300">
+                $\nabla f = \frac{\partial f}{\partial x}\hat{i} + \frac{\partial f}{\partial y}\hat{j} + \frac{\partial f}{\partial z}\hat{k}$
+              </div>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-slate-400 border-t border-slate-800 pt-1.5">
+              Normal vector to surface $f=C$: $\vec{N} = \nabla f$
+            </div>
+          </div>
+
+          <!-- Divergence -->
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-cyan-400 mb-1">
+                <span class="font-bold">DIVERGENCE</span>
+                <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">Vector $\to$ Scalar</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mb-2">Net outward flux or expansion per unit volume.</p>
+              <div class="bg-slate-900 p-2 rounded text-center text-xs font-mono text-cyan-300">
+                $\nabla \cdot \vec{F} = \frac{\partial F_x}{\partial x} + \frac{\partial F_y}{\partial y} + \frac{\partial F_z}{\partial z}$
+              </div>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-slate-400 border-t border-slate-800 pt-1.5">
+              If $\nabla \cdot \vec{F} = 0 \implies$ <span class="text-cyan-300 font-bold">Solenoidal</span> (Incompressible)
+            </div>
+          </div>
+
+          <!-- Curl -->
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-amber-400 mb-1">
+                <span class="font-bold">CURL</span>
+                <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">Vector $\to$ Vector</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mb-2">Rotational circulation / vorticity at a point.</p>
+              <div class="bg-slate-900 p-2 rounded text-center text-xs font-mono text-amber-300">
+                $\nabla \times \vec{F} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ \frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\ F_x & F_y & F_z \end{vmatrix}$
+              </div>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-slate-400 border-t border-slate-800 pt-1.5">
+              If $\nabla \times \vec{F} = 0 \implies$ <span class="text-amber-300 font-bold">Irrotational</span> (Conservative)
+            </div>
+          </div>
+
+          <!-- Laplacian -->
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono text-rose-400 mb-1">
+                <span class="font-bold">LAPLACIAN</span>
+                <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">Scalar $\to$ Scalar</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mb-2">Divergence of gradient; spatial curvature.</p>
+              <div class="bg-slate-900 p-2 rounded text-center text-xs font-mono text-rose-300">
+                $\nabla^2 f = \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} + \frac{\partial^2 f}{\partial z^2}$
+              </div>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-slate-400 border-t border-slate-800 pt-1.5">
+              $\nabla^2 V = 0$ (Laplace) vs $\nabla^2 V = -\rho_v/\epsilon$ (Poisson)
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- The Two Zero Identities (Must Memorize Box) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <div class="p-4 rounded-xl bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900 border border-red-800/80 shadow-lg">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-red-400 font-mono flex items-center gap-1.5">
+              <i class="fa-solid fa-ban text-red-500"></i> IDENTITY 1: DIVERGENCE OF CURL
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-red-900 text-red-200 font-mono font-bold">dco [div curl = 0]</span>
+          </div>
+          <div class="text-center py-2 text-lg font-mono font-extrabold text-white bg-slate-950/90 rounded-lg border border-slate-800 mb-2">
+            $$\nabla \cdot (\nabla \times \vec{A}) \equiv 0$$
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Physical Reason:</strong> A curl vector field purely represents vortices/circulation around an axis. Circulation loops are naturally continuous and closed; they cannot have a source or sink of expansion, so divergence is identically zero everywhere.
+          </p>
+          <div class="mt-2 text-[11px] text-amber-300 font-mono bg-slate-950/60 p-2 rounded border border-slate-800/80">
+            ⚠️ <strong>Board Question 1:</strong> "Which of the following expressions will always result in a value of zero?" $\to$ <strong>$\nabla \cdot (\nabla \times \vec{A})$</strong>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900 border border-red-800/80 shadow-lg">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-red-400 font-mono flex items-center gap-1.5">
+              <i class="fa-solid fa-ban text-red-500"></i> IDENTITY 2: CURL OF GRADIENT
+            </span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-red-900 text-red-200 font-mono font-bold">cgrado [curl grad = 0]</span>
+          </div>
+          <div class="text-center py-2 text-lg font-mono font-extrabold text-white bg-slate-950/90 rounded-lg border border-slate-800 mb-2">
+            $$\nabla \times (\nabla V) \equiv \vec{0}$$
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Physical Reason:</strong> A gradient vector field points strictly in the direction of maximum change of potential (conservative field). The line integral over any closed path in a conservative field is zero, meaning it cannot possess rotation or curl.
+          </p>
+          <div class="mt-2 text-[11px] text-amber-300 font-mono bg-slate-950/60 p-2 rounded border border-slate-800/80">
+            ⚠️ <strong>Board Question 7:</strong> Given complex potential $V = \ln(x^2+y^2+z^2)$, find $\nabla \times \vec{E}$. Since $\vec{E} = -\nabla V$, $\nabla \times \vec{E} \equiv \vec{0}$ instantly!
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Formula Cards: Directional Derivative & Tangent Plane -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Directional Derivative Card -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-bold text-teal-400 font-mono uppercase">Directional Derivative Formula</h4>
+            <span class="text-[10px] text-teal-300 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">Q3 Master</span>
+          </div>
+          
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-emerald-300">
+            $$D_{\vec{u}} f = \nabla f \cdot \hat{u} = \nabla f \cdot \frac{\vec{A}}{|\vec{A}|}$$
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1">
+            <p><strong>Variables:</strong> $\nabla f$ = gradient evaluated at $P(x_0,y_0,z_0)$; $\vec{A}$ = given direction; $\hat{u}$ = normalized unit direction.</p>
+            <p><strong>Use When:</strong> Asked for rate of change of scalar field in an arbitrary directional vector.</p>
+            <p class="text-rose-300 font-mono text-[11px]"><strong>⚠️ Common Trap:</strong> Forgetting to divide $\vec{A}$ by magnitude $\sqrt{A_x^2+A_y^2+A_z^2}$.</p>
+          </div>
+
+          <div class="bg-slate-950/90 p-2.5 rounded border border-slate-800 text-[11px] font-mono text-slate-300">
+            <span class="text-teal-400 font-bold">Solved Exam Ex (Q3):</span> $V = x^2 y - z^3$, $P(1,1,1)$, $\vec{A} = 2\hat{i} - \hat{j} + 2\hat{k}$<br>
+            1. $\nabla V = 2xy\hat{i} + x^2\hat{j} - 3z^2\hat{k} \implies \text{at } P: \langle 2, 1, -3 \rangle$<br>
+            2. $|\vec{A}| = \sqrt{2^2 + (-1)^2 + 2^2} = 3 \implies \hat{u} = \langle 2/3, -1/3, 2/3 \rangle$<br>
+            3. $D_u V = 2(2/3) + 1(-1/3) - 3(2/3) = 4/3 - 1/3 - 6/3 = \mathbf{-1}$<br>
+            <span class="text-amber-400">Caltech:</span> Vector mode $\to$ [VctA] $\cdot$ ([VctB] / Abs[VctB])
+          </div>
+        </div>
+
+        <!-- Tangent Plane Card -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-2.5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-bold text-teal-400 font-mono uppercase">Tangent Plane to Implicit Surface</h4>
+            <span class="text-[10px] text-teal-300 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">Q4 Master</span>
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-emerald-300">
+            $$\vec{N} = \nabla f = N_x\hat{i} + N_y\hat{j} + N_z\hat{k}$$
+            $$N_x(x - x_0) + N_y(y - y_0) + N_z(z - z_0) = 0$$
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1">
+            <p><strong>Variables:</strong> $(x_0,y_0,z_0)$ = point of tangency; $\vec{N}$ = gradient normal vector.</p>
+            <p><strong>Use When:</strong> Finding the exact plane tangent to a 3D curved surface.</p>
+            <p class="text-rose-300 font-mono text-[11px]"><strong>⚠️ Common Trap:</strong> Forgetting to rewrite $z = g(x,y)$ into implicit form $f(x,y,z) = g(x,y) - z = 0$ to get $N_z = -1$.</p>
+          </div>
+
+          <div class="bg-slate-950/90 p-2.5 rounded border border-slate-800 text-[11px] font-mono text-slate-300">
+            <span class="text-teal-400 font-bold">Solved Exam Ex (Q4):</span> $z = x^2 + 3y^2$ at $P(1,1,4)$<br>
+            1. Implicit form: $f(x,y,z) = x^2 + 3y^2 - z = 0$<br>
+            2. $\vec{N} = \nabla f = 2x\hat{i} + 6y\hat{j} - \hat{k} \implies \text{at } P(1,1,4): \vec{N} = 2\hat{i} + 6\hat{j} - \hat{k}$<br>
+            3. $2(x - 1) + 6(y - 1) - 1(z - 4) = 0$<br>
+            4. $2x - 2 + 6y - 6 - z + 4 = 0 \implies \mathbf{2x + 6y - z = 4}$
+          </div>
+        </div>
+
+      </div>
+
+      <!-- The 3 Integral Theorems Matrix -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-project-diagram text-cyan-400"></i> The Three Master Integral Theorems of Vector Calculus
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          
+          <!-- Divergence Theorem -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-mono font-bold text-teal-400 uppercase bg-teal-950/80 px-2 py-0.5 rounded border border-teal-800">Volume (3D) $\leftrightarrow$ Surface (2D)</span>
+              <h4 class="text-xs font-bold text-white mt-1.5">Divergence Theorem (Gauss)</h4>
+              <div class="my-2 bg-slate-900 p-2 rounded text-center text-xs font-mono text-teal-300">
+                $$\iiint_V (\nabla \cdot \vec{F})\,dV = \oiint_S \vec{F} \cdot d\vec{S}$$
+              </div>
+              <p class="text-[11px] text-slate-300 leading-relaxed">
+                Connects net outward flux through closed surface $S$ to sum of all interior sources/sinks inside volume $V$.
+              </p>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-emerald-400 bg-slate-900 p-1.5 rounded">
+              EM Application: $\oiint \vec{D}\cdot d\vec{S} = \iiint \rho_v dV = Q_{\text{enc}}$
+            </div>
+          </div>
+
+          <!-- Stokes' Theorem -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800">Surface (2D) $\leftrightarrow$ Line (1D)</span>
+              <h4 class="text-xs font-bold text-white mt-1.5">Stokes' Theorem</h4>
+              <div class="my-2 bg-slate-900 p-2 rounded text-center text-xs font-mono text-cyan-300">
+                $$\iint_S (\nabla \times \vec{F}) \cdot d\vec{S} = \oint_C \vec{F} \cdot d\vec{r}$$
+              </div>
+              <p class="text-[11px] text-slate-300 leading-relaxed">
+                Net surface circulation across an open curved surface equals the line circulation along its outer perimeter curve $C$.
+              </p>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-cyan-400 bg-slate-900 p-1.5 rounded">
+              EM Application: $\oint \vec{H}\cdot d\vec{l} = \iint \vec{J}\cdot d\vec{S} = I_{\text{enc}}$
+            </div>
+          </div>
+
+          <!-- Green's Theorem -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-mono font-bold text-amber-400 uppercase bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800">Planar Area (2D) $\leftrightarrow$ Curve (1D)</span>
+              <h4 class="text-xs font-bold text-white mt-1.5">Green's Theorem in the Plane</h4>
+              <div class="my-2 bg-slate-900 p-2 rounded text-center text-xs font-mono text-amber-300">
+                $$\oint_C (M\,dx + N\,dy) = \iint_R \left(\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}\right)dA$$
+              </div>
+              <p class="text-[11px] text-slate-300 leading-relaxed">
+                Planar version of Stokes' Theorem. The integrand is specifically the <span class="text-amber-300 font-bold">$\hat{k}$-component of the 2D curl</span>!
+              </p>
+            </div>
+            <div class="mt-2 text-[10px] font-mono text-amber-400 bg-slate-900 p-1.5 rounded">
+              Exam Trick (Q15): If $\frac{\partial N}{\partial x} = \frac{\partial M}{\partial y}$, integral $= 0$ regardless of area!
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Maxwell's Equations Complete Master Matrix -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
+        <div class="px-4 py-3 bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-atom text-teal-400"></i>
+            <span>MAXWELL'S EQUATIONS MASTER MATRIX (STATIC & TIME-VARYING)</span>
+          </h3>
+          <span class="text-[10px] font-mono text-teal-300 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">🔴 Mandatory Board Memorization</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">Law Name & Domain</th>
+                <th class="py-2.5 px-3">Differential Form</th>
+                <th class="py-2.5 px-3">Integral Form</th>
+                <th class="py-2.5 px-3">Physical Board Exam Principle</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3">
+                  <div class="font-bold text-teal-300">1st: Gauss's Law</div>
+                  <div class="text-[10px] text-slate-400 font-sans">Electrostatics</div>
+                </td>
+                <td class="py-3 px-3 text-emerald-400 font-bold text-sm">$$\nabla \cdot \vec{D} = \rho_v$$</td>
+                <td class="py-3 px-3 text-slate-300">$$\oiint_S \vec{D}\cdot d\vec{S} = \iiint_V \rho_v dV = Q_{\text{enc}}$$</td>
+                <td class="py-3 px-3 text-slate-300 text-[11px] font-sans">
+                  Electric flux lines originate on positive charge and terminate on negative charge.
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3">
+                  <div class="font-bold text-cyan-300">2nd: Gauss's Law for Magnetism</div>
+                  <div class="text-[10px] text-slate-400 font-sans">Magnetostatics</div>
+                </td>
+                <td class="py-3 px-3 text-cyan-400 font-bold text-sm">$$\nabla \cdot \vec{B} = 0$$</td>
+                <td class="py-3 px-3 text-slate-300">$$\oiint_S \vec{B}\cdot d\vec{S} = 0$$</td>
+                <td class="py-3 px-3 text-slate-300 text-[11px] font-sans">
+                  <strong class="text-cyan-300">Isolated magnetic monopoles DO NOT EXIST.</strong> Magnetic flux lines always form continuous closed loops.
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3">
+                  <div class="font-bold text-amber-300">3rd: Faraday's Law</div>
+                  <div class="text-[10px] text-slate-400 font-sans">Electromagnetic Induction</div>
+                </td>
+                <td class="py-3 px-3 text-amber-400 font-bold text-sm">
+                  $$\nabla \times \vec{E} = -\frac{\partial \vec{B}}{\partial t}$$
+                  <span class="text-[10px] text-slate-400 block">[Static: $\nabla \times \vec{E} = 0$]</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300">$$\oint_C \vec{E}\cdot d\vec{l} = -\frac{d\Phi}{dt} = -\frac{d}{dt}\iint \vec{B}\cdot d\vec{S}$$</td>
+                <td class="py-3 px-3 text-slate-300 text-[11px] font-sans">
+                  Time-varying magnetic field produces a circulating, non-conservative electric field. <strong class="text-amber-300">Negative sign enforces Lenz's Law!</strong>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-3">
+                  <div class="font-bold text-rose-300">4th: Ampere-Maxwell Law</div>
+                  <div class="text-[10px] text-slate-400 font-sans">Magnetic Circuital</div>
+                </td>
+                <td class="py-3 px-3 text-rose-400 font-bold text-sm">
+                  $$\nabla \times \vec{H} = \vec{J} + \frac{\partial \vec{D}}{\partial t}$$
+                  <span class="text-[10px] text-slate-400 block">[Static: $\nabla \times \vec{H} = \vec{J}$]</span>
+                </td>
+                <td class="py-3 px-3 text-slate-300">$$\oint_C \vec{H}\cdot d\vec{l} = \iint_S \left(\vec{J} + \frac{\partial \vec{D}}{\partial t}\right)\cdot d\vec{S} = I_{\text{total}}$$</td>
+                <td class="py-3 px-3 text-slate-300 text-[11px] font-sans">
+                  Circulating magnetic field is generated by conduction current density $\vec{J}$ and displacement current density $\partial\vec{D}/\partial t$.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: SIGNALS, TRANSFORMS & CONVOLUTION (PAGES 26 - 37)                  -->
+    <!-- ========================================================================= -->
+    <section id="tab-signals" class="tab-content hidden space-y-6">
+      
+      <!-- Section Header -->
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider font-bold">Module 2 • Lecture Pages 26 to 37</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Signal Energy, Transforms, Convolution & Z-Domain Filtering</h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-cyan-950 border border-cyan-800 text-cyan-300 text-xs font-mono font-bold">12 Board Questions Covered</span>
+      </div>
+
+      <!-- Parseval's Theorem & Signal Energy Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Parseval Card -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-cyan-400 font-mono uppercase">Parseval's Energy Theorem</h3>
+            <span class="text-[10px] text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 font-mono">Q19 & Q20</span>
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-cyan-300">
+            $$E = \int_{-\infty}^{\infty} |x(t)|^2\,dt = \int_{-\infty}^{\infty} |X(f)|^2\,df = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega$$
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Law of Conservation of Energy:</strong> The total energy computed by integrating instantaneous power in the time domain is identical to the area under the energy spectral density curve in frequency domain.
+          </p>
+
+          <div class="p-3 bg-slate-950/80 rounded border border-slate-800 space-y-2 text-xs font-mono">
+            <div class="text-emerald-400 font-bold">Decaying Exponential Energy Formula:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-center text-white">
+              $$x(t) = A e^{-at} u(t) \implies E = \frac{A^2}{2a}\quad\text{[Joules]}$$
+            </div>
+            <div class="text-[11px] text-slate-300">
+              Exam Ex (Q20): $x(t) = 4e^{-3t}u(t) \implies A = 4, a = 3$<br>
+              $$E = \frac{4^2}{2(3)} = \frac{16}{6} = \mathbf{\frac{8}{3}\text{ Joules}}$$
+            </div>
+          </div>
+        </div>
+
+        <!-- p-Series Energy Card -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-cyan-400 font-mono uppercase">Improper Energy Integral & $p$-Series</h3>
+            <span class="text-[10px] text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 font-mono">Q21 Master</span>
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-yellow-300">
+            $$v(t) = \frac{1}{t^p}\quad (t \ge 1) \implies E = \int_1^{\infty} (v(t))^2\,dt = \int_1^{\infty} \frac{1}{t^{2p}}\,dt$$
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1.5">
+            <p><strong>The $p$-Integral Rule:</strong> $\int_1^{\infty} \frac{1}{t^k} dt$ converges to a finite value if and only if exponent $k > 1$.</p>
+            <p>Here, the squared voltage produces an exponent of $k = 2p$.</p>
+            <div class="bg-slate-950 p-2 rounded text-center font-mono text-emerald-400 font-bold">
+              $$2p > 1 \implies \mathbf{p > 1/2}\quad\text{for Finite Energy}$$
+            </div>
+            <p class="text-rose-300 text-[11px] font-mono">⚠️ <strong>Common Trap:</strong> Answering $p > 1$. That applies to voltage itself $\int v(t)dt$, but energy requires squaring $v^2(t)$, resulting in $p > 1/2$!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DON'T CONFUSE THESE: Linear Convolution vs Cross-Correlation vs Auto-Correlation -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden shadow-lg space-y-0">
+        <div class="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-code-compare text-teal-400"></i>
+            <span>DON'T CONFUSE THESE: CONVOLUTION VS. CROSS-CORRELATION VS. AUTO-CORRELATION</span>
+          </h3>
+          <span class="text-[10px] font-mono text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">Q22, Q25, Q26, Q27</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">Metric / Property</th>
+                <th class="py-2.5 px-3">Linear Convolution</th>
+                <th class="py-2.5 px-3">Cross-Correlation</th>
+                <th class="py-2.5 px-3">Auto-Correlation</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Continuous Formula</td>
+                <td class="py-2 px-3 text-emerald-300">$x(t) * h(t) = \int x(\tau)h(t - \tau)d\tau$</td>
+                <td class="py-2 px-3 text-cyan-300">$r_{xy}(t) = \int x(\tau)y(\tau - t)d\tau$</td>
+                <td class="py-2 px-3 text-amber-300">$R_{xx}(\tau) = \int x(t)x(t - \tau)dt$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Key 4 Operations</td>
+                <td class="py-2 px-3 text-rose-300 font-bold">1. Fold (Reverse) $\to$ 2. Shift $\to$ 3. Mult $\to$ 4. Add</td>
+                <td class="py-2 px-3 text-slate-300">1. Shift $\to$ 2. Mult $\to$ 3. Add <strong class="text-red-400">(NO FOLDING)</strong></td>
+                <td class="py-2 px-3 text-slate-300">1. Shift self $\to$ 2. Mult $\to$ 3. Add</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Commutative?</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">YES: $x * h = h * x$</td>
+                <td class="py-2 px-3 text-rose-400 font-bold">NO: $r_{xy}(t) = r_{yx}(-t)$</td>
+                <td class="py-2 px-3 text-emerald-400 font-bold">Symmetric: $R_{xx}(\tau) = R_{xx}(-\tau)$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Evaluation at Lag 0</td>
+                <td class="py-2 px-3 text-slate-400">Total area of product at zero delay</td>
+                <td class="py-2 px-3 text-slate-400">Similarity without delay</td>
+                <td class="py-2 px-3 text-yellow-300 font-bold">TOTAL SIGNAL ENERGY $E$ (or Power)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2 px-3 font-semibold text-teal-300">Core Engineering Purpose</td>
+                <td class="py-2 px-3 text-slate-300">Computes response of LTI system to arbitrary input</td>
+                <td class="py-2 px-3 text-slate-300">Pattern detection, radar target delay, echo timing</td>
+                <td class="py-2 px-3 text-slate-300">Pitch detection, periodicity, random noise identification</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Discrete Convolution Length & Z-Domain Digital Filters -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Discrete Convolution Length & Grid Method -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-cyan-400 font-mono uppercase">Discrete Convolution Rules</h3>
+            <span class="text-[10px] text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 font-mono">Q24 & Q25</span>
+          </div>
+
+          <div class="p-2.5 bg-slate-950 rounded border border-slate-800 text-center font-mono">
+            <span class="text-xs text-slate-400">Output Sample Array Length:</span>
+            <div class="text-emerald-400 font-bold text-sm my-1">
+              $$N_{\text{total}} = N_1 + N_2 - 1$$
+            </div>
+            <span class="text-[11px] text-slate-300">Ex: $N_1 = 50$, $N_2 = 30 \implies N_{\text{total}} = 50 + 30 - 1 = \mathbf{79\text{ samples}}$</span>
+          </div>
+
+          <div class="text-xs text-slate-300 font-mono bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1.5">
+            <div class="text-teal-400 font-bold">Discrete Convolution Tabular Grid (Q24):</div>
+            <div>$x[n] = \{1, -1, 1\}$, $h[n] = \{2, 1\}$</div>
+            <div class="text-[11px] text-slate-400">
+              Row $h=2 \to [2, -2, 2]$<br>
+              Row $h=1 \to [\phantom{2}, \phantom{-}1, -1, 1]$ (shifted by 1)<br>
+              -------------------------------------<br>
+              Sums: $y[0]=2,\ y[1]=-1,\ \mathbf{y[2]=1},\ y[3]=1$<br>
+              Output sequence: $\mathbf{\{2, -1, 1, 1\}}$
+            </div>
+          </div>
+        </div>
+
+        <!-- Z-Domain Filtering & Stability -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-cyan-400 font-mono uppercase">Z-Transform Shifts & Stability</h3>
+            <span class="text-[10px] text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 font-mono">Q28, Q29, Q30</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono text-center">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-slate-400 text-[10px]">Time Delay:</span>
+              <div class="text-cyan-300 font-bold">$x[n-k] \longleftrightarrow z^{-k}X(z)$</div>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-slate-400 text-[10px]">Time Advance:</span>
+              <div class="text-cyan-300 font-bold">$x[n+1] \longleftrightarrow z^{+1}X(z)$</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 font-mono bg-slate-950 p-2.5 rounded border border-slate-800 space-y-1.5">
+            <div class="text-teal-400 font-bold">Digital Filter Pole & Stability (Q28):</div>
+            <div>Eq: $y[n] - y[n-1] + 0.25y[n-2] = x[n]$</div>
+            <div>$H(z) = \frac{1}{1 - z^{-1} + 0.25z^{-2}} = \frac{z^2}{z^2 - z + 0.25} = \frac{z^2}{(z - 0.5)^2}$</div>
+            <div class="text-emerald-400 font-bold">Poles: Double pole at $z = 0.5$ (Multiplicity 2)</div>
+            <div class="text-slate-300">Stability Criterion: $|z_{\text{pole}}| = 0.5 < 1 \implies$ <span class="text-emerald-300 font-bold">STABLE (Inside Unit Circle)</span></div>
+          </div>
+
+          <div class="text-[11px] text-slate-300 font-mono bg-slate-950/80 p-2 rounded border border-slate-800">
+            <span class="text-amber-400 font-bold">Cascaded Systems (Q29):</span> $H_{\text{total}}(z) = H_1(z)H_2(z)$<br>
+            $(1 - 0.5z^{-1})(1 + 0.5z^{-1}) = 1 - 0.25z^{-2} \implies \mathbf{h[n] = \delta[n] - 0.25\delta[n-2]}$
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: FEEDBACK CONTROL SYSTEMS (PAGES 38 - 47)                           -->
+    <!-- ========================================================================= -->
+    <section id="tab-control" class="tab-content hidden space-y-6">
+      
+      <!-- Section Header -->
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono text-amber-400 uppercase tracking-wider font-bold">Module 3 • Lecture Pages 38 to 47</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Feedback Control, Transfer Functions, Mason's Gain & Stability</h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-amber-950 border border-amber-800 text-amber-300 text-xs font-mono font-bold">11 Board Questions Covered</span>
+      </div>
+
+      <!-- Top Control Systems Formula Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Closed-Loop Transfer Function & Extracting H(s) -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400 font-mono uppercase">Closed-Loop TF & Extracting $H(s)$</h3>
+            <span class="text-[10px] text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800 font-mono">Q33 Master</span>
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-amber-300 space-y-1">
+            <div>$$T(s) = \frac{G(s)}{1 + G(s)H(s)}$$</div>
+            <div class="text-emerald-400 font-bold border-t border-slate-800 pt-1">
+              $$H(s) = \frac{1}{T(s)} - \frac{1}{G(s)}$$
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            <strong>Use When:</strong> Given overall closed-loop transfer function $T(s)$ and forward path $G(s)$, solve for the primary feedback ratio $H(s)$.
+          </p>
+
+          <div class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-slate-300 space-y-1">
+            <span class="text-amber-400 font-bold">Solved Exam Ex (Q33):</span><br>
+            $G(s) = \frac{10}{s^2+4s}$, $T(s) = \frac{10}{s^2+4s+20}$<br>
+            $$H(s) = \frac{s^2+4s+20}{10} - \frac{s^2+4s}{10} = \frac{20}{10} = \mathbf{2}$$
+          </div>
+        </div>
+
+        <!-- Sensitivity & Op-Amp Limit Card -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400 font-mono uppercase">Sensitivity & Op-Amp Infinite Gain Limit</h3>
+            <span class="text-[10px] text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800 font-mono">Q34 & Q35</span>
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-emerald-300">
+            $$S_A^T = \frac{\partial T / T}{\partial A / A} = \frac{1}{1 + AB}$$
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-2">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <strong class="text-cyan-300">Cause & Effect (Q34):</strong> Holding forward gain $A$ constant while increasing feedback gain $B$ causes sensitivity $S_A^T$ to <strong class="text-emerald-400">DECREASE</strong> (system becomes far more stable against component variations).
+            </div>
+            
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 font-mono text-[11px]">
+              <strong class="text-amber-300">Ideal Op-Amp Limit ($A \to \infty$) (Q35):</strong><br>
+              $$T = \frac{A}{1 + AB} = \frac{1}{\frac{1}{A} + B} \xrightarrow{A \to \infty} \frac{1}{B}$$
+              If feedback factor $B$ is doubled $\implies$ closed loop gain is <strong class="text-yellow-300">HALVED</strong> ($T_{\text{new}} = \frac{1}{2B} = 0.5 T_{\text{old}}$).
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mason's Gain Formula Breakdown & Routh-Hurwitz Stability Criterion -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Mason's Gain Card -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400 font-mono uppercase">Mason's Gain Formula & $\Delta_k$</h3>
+            <span class="text-[10px] text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800 font-mono">Q36 Master</span>
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded text-center text-xs font-mono text-amber-300">
+            $$T = \frac{1}{\Delta}\sum_k P_k \Delta_k$$
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-2 font-mono text-[11px]">
+            <div>
+              <strong class="text-white">$\Delta$ (System Determinant):</strong><br>
+              $$\Delta = 1 - \sum L_1 + \sum L_2 - \sum L_3 + \dots$$
+              $\sum L_1$: sum of all individual loop gains.<br>
+              $\sum L_2$: sum of gain products of 2 non-touching loops.<br>
+              $\sum L_3$: sum of gain products of 3 non-touching loops.
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-amber-900/50">
+              <strong class="text-amber-300">🟠 What does $\Delta_k$ represent? (Exam Question):</strong><br>
+              The <strong class="text-white">cofactor determinant</strong> of the graph evaluated with <strong class="text-emerald-400">all loops touching the $k$-th forward path eliminated (set to 0)</strong>.
+            </div>
+          </div>
+        </div>
+
+        <!-- Routh-Hurwitz Stability Criterion -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-xs font-bold text-amber-400 font-mono uppercase">Routh-Hurwitz Stability Array</h3>
+            <span class="text-[10px] text-amber-300 bg-amber-950 px-2 py-0.5 rounded border border-amber-800 font-mono">Q37 Master</span>
+          </div>
+
+          <div class="text-xs text-slate-300">
+            <strong>Rule:</strong> Absolute stability requires <strong class="text-emerald-400">NO sign changes</strong> in the entire 1st column. Number of sign changes = number of unstable Right-Half Plane (RHP) poles.
+          </div>
+
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono text-slate-300 space-y-1">
+            <span class="text-amber-400 font-bold">Solved Exam Ex (Q37):</span> $s^3 + K s^2 + 2s + 1 = 0$<br>
+            <table class="w-full text-left my-1 border border-slate-800 text-[11px]">
+              <tr class="border-b border-slate-800"><td class="p-1 font-bold text-teal-400">$s^3$</td><td class="p-1">1</td><td class="p-1">2</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-1 font-bold text-teal-400">$s^2$</td><td class="p-1">K</td><td class="p-1">1</td></tr>
+              <tr class="border-b border-slate-800"><td class="p-1 font-bold text-teal-400">$s^1$</td><td class="p-1 text-yellow-300">$(2K - 1)/K$</td><td class="p-1">0</td></tr>
+              <tr><td class="p-1 font-bold text-teal-400">$s^0$</td><td class="p-1 text-yellow-300">1</td><td class="p-1">0</td></tr>
+            </table>
+            <div>Stability conditions on 1st column:</div>
+            1. $K > 0$<br>
+            2. $\frac{2K - 1}{K} > 0 \implies 2K - 1 > 0 \implies \mathbf{K > 0.5}$
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dominant Poles & Minimum Phase Classifications -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Dominant Pole Concept -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-bold text-cyan-400 font-mono uppercase">Dominant Pole Identification</h4>
+            <span class="text-[10px] text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">Q38</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Given poles at $s = -1$, $s = -10$, $s = -100$:<br>
+            • $s = -1 \implies e^{-t}$ (Decays very slowly)<br>
+            • $s = -10 \implies e^{-10t}$ (Decays 10x faster)<br>
+            • $s = -100 \implies e^{-100t}$ (Decays 100x faster, zeros out almost immediately)
+          </p>
+
+          <div class="p-2 bg-slate-950 rounded border border-teal-800/60 font-mono text-xs text-teal-300">
+            🔴 <strong>Golden Rule:</strong> The <strong class="text-white">Dominant Pole</strong> is the pole located <strong class="text-yellow-300">closest to the imaginary ($j\omega$) axis</strong> because its transient mode decays the slowest!
+          </div>
+        </div>
+
+        <!-- Minimum vs Non-Minimum Phase Systems -->
+        <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-2">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-xs font-bold text-rose-400 font-mono uppercase">Minimum vs. Non-Minimum Phase</h4>
+            <span class="text-[10px] text-rose-300 bg-rose-950 px-2 py-0.5 rounded border border-rose-800">Q39</span>
+          </div>
+
+          <div class="space-y-1.5 text-xs text-slate-300">
+            <p><strong>Minimum Phase:</strong> All poles AND all zeros lie strictly in the Left-Half Plane (LHP) ($\text{Re} < 0$).</p>
+            <p><strong>Non-Minimum Phase:</strong> Any system with at least one <strong class="text-rose-400">zero in the Right-Half Plane (RHP)</strong> ($\text{Re}(z) > 0$).</p>
+          </div>
+
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 font-mono text-xs text-slate-300">
+            <span class="text-amber-400 font-bold">Exam Case (Q39):</span> Transfer function with zero at $s = +3$ and poles at $s = -2 \pm j4$.<br>
+            Because the zero is at $+3$ (RHP), this is classified as a <strong class="text-rose-400">Non-Minimum Phase System</strong>!
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: STEADY-STATE ERROR & EXAM TRAPS (PAGES 48 - 50)                    -->
+    <!-- ========================================================================= -->
+    <section id="tab-error" class="tab-content hidden space-y-6">
+      
+      <!-- Section Header -->
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono text-rose-400 uppercase tracking-wider font-bold">Module 4 • Lecture Pages 48 to 50</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">System Type, Static Error Constants & Steady-State Error ($e_{ss}$)</h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-rose-950 border border-rose-800 text-rose-300 text-xs font-mono font-bold">High-Yield Exam Matrix</span>
+      </div>
+
+      <!-- The #1 Board Exam Trap Warning Callout -->
+      <div class="rounded-xl bg-gradient-to-r from-rose-950/80 via-slate-900 to-rose-950/80 border-2 border-rose-600 p-4 shadow-2xl space-y-2">
+        <div class="flex items-center gap-2 text-rose-400 font-bold text-sm font-mono">
+          <i class="fa-solid fa-triangle-exclamation text-lg animate-bounce"></i>
+          <span>⚠️ THE #1 BOARD EXAM TRAP: EXTRACTING SYSTEM TYPE FROM CLOSED-LOOP $T(s)$</span>
+        </div>
+        <p class="text-xs text-slate-200 leading-relaxed">
+          <strong>NEVER</strong> read the System Type directly from the denominator of closed-loop $T(s)$! System Type is defined <strong>STRICTLY</strong> by the number of pure integrators ($s^N$ at the origin) in the <strong>OPEN-LOOP transfer function $G(s)H(s)$</strong>.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs">
+            <span class="text-teal-400 font-bold">The Conversion Formula (Unity Feedback $H=1$):</span>
+            <div class="text-center my-1.5 text-emerald-300 font-bold">
+              $$G(s) = \frac{T(s)}{1 - T(s)} = \frac{\text{Numerator}(T)}{\text{Denominator}(T) - \text{Numerator}(T)}$$
+            </div>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 font-mono text-xs">
+            <span class="text-amber-400 font-bold">Exam Problem Demo (Q41):</span> Given $T(s) = \frac{10}{s^2 + 5s + 10}$<br>
+            <span class="text-rose-400">Trap intuition:</span> "No lone $s$, so Type 0." <strong class="text-red-500 font-bold">(WRONG!)</strong><br>
+            <span class="text-emerald-400">Correct:</span> $G(s) = \frac{10}{(s^2+5s+10) - 10} = \frac{10}{s^2+5s} = \frac{10}{\mathbf{s^1}(s+5)}$<br>
+            Because of $s^1$, this is a <strong class="text-teal-300 font-bold underline">TYPE 1 SYSTEM</strong>!
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete Steady-State Error Matrix -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
+        <div class="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-table text-teal-400"></i>
+            <span>STEADY-STATE ERROR ($e_{ss}$) INPUT VS. SYSTEM TYPE MATRIX</span>
+          </h3>
+          <span class="text-[10px] font-mono text-teal-300 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">Unity Feedback Assumed</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4">Open-Loop System Type</th>
+                <th class="py-3 px-4">Step Input: $r(t) = u(t)$ $\left[R(s) = \frac{1}{s}\right]$</th>
+                <th class="py-3 px-4">Ramp Input: $r(t) = t\,u(t)$ $\left[R(s) = \frac{1}{s^2}\right]$</th>
+                <th class="py-3 px-4">Parabolic Input: $r(t) = \frac{1}{2}t^2 u(t)$ $\left[R(s) = \frac{1}{s^3}\right]$</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-teal-300">
+                  Type 0 System
+                  <div class="text-[10px] text-slate-400 font-sans">No poles at origin ($N=0$)</div>
+                </td>
+                <td class="py-3 px-4 text-emerald-400 font-bold">
+                  $$e_{ss} = \frac{1}{1 + K_p}$$
+                  <span class="text-[10px] text-slate-400 block">$K_p = \lim_{s\to 0} G(s)$</span>
+                </td>
+                <td class="py-3 px-4 text-rose-400 font-bold text-base">$$\infty$$</td>
+                <td class="py-3 px-4 text-rose-400 font-bold text-base">$$\infty$$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-cyan-300">
+                  Type 1 System
+                  <div class="text-[10px] text-slate-400 font-sans">One pole at origin ($N=1$)</div>
+                </td>
+                <td class="py-3 px-4 text-emerald-400 font-bold text-base">
+                  $$0$$
+                  <span class="text-[10px] text-slate-400 block">($K_p = \infty$)</span>
+                </td>
+                <td class="py-3 px-4 text-amber-300 font-bold">
+                  $$e_{ss} = \frac{1}{K_v}$$
+                  <span class="text-[10px] text-slate-400 block">$K_v = \lim_{s\to 0} s G(s)$</span>
+                </td>
+                <td class="py-3 px-4 text-rose-400 font-bold text-base">$$\infty$$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-amber-300">
+                  Type 2 System
+                  <div class="text-[10px] text-slate-400 font-sans">Two poles at origin ($N=2$)</div>
+                </td>
+                <td class="py-3 px-4 text-emerald-400 font-bold text-base">$$0$$</td>
+                <td class="py-3 px-4 text-emerald-400 font-bold text-base">
+                  $$0$$
+                  <span class="text-[10px] text-slate-400 block">($K_v = \infty$)</span>
+                </td>
+                <td class="py-3 px-4 text-yellow-300 font-bold">
+                  $$e_{ss} = \frac{1}{K_a}$$
+                  <span class="text-[10px] text-slate-400 block">$K_a = \lim_{s\to 0} s^2 G(s)$</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 6: CALTECH & INTERACTIVE SOLVERS                                      -->
+    <!-- ========================================================================= -->
+    <section id="tab-tools" class="tab-content hidden space-y-6">
+      
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono text-amber-400 uppercase tracking-wider font-bold">Problem-Solving Workstation</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Interactive Problem Solvers & Caltech Workflows</h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-amber-950 border border-amber-800 text-amber-300 text-xs font-mono">Live Interactive Tools</span>
+      </div>
+
+      <!-- Tool 1: Closed Loop T(s) to Open Loop G(s) & System Type Extractor -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-calculator text-teal-400"></i>
+          <span>Tool 1: Closed-Loop $T(s) \to G(s)$ System Type & Error Extractor</span>
+        </h3>
+        <p class="text-xs text-slate-300">
+          Enter the closed-loop numerator constant $K$ and polynomial coefficients $s^2 + b s + c$ to instantly extract the open-loop transfer function and system type.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-[11px] font-mono text-slate-400">Numerator Constant K</label>
+            <input type="number" id="inputK" value="10" class="w-full mt-1 px-3 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="block text-[11px] font-mono text-slate-400">Coefficient of s (b)</label>
+            <input type="number" id="inputB" value="5" class="w-full mt-1 px-3 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="block text-[11px] font-mono text-slate-400">Constant term in Den (c)</label>
+            <input type="number" id="inputC" value="10" class="w-full mt-1 px-3 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-white font-mono">
+          </div>
+        </div>
+
+        <button onclick="calculateSystemType()" class="px-4 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded text-xs font-bold font-mono transition">
+          Calculate Open-Loop G(s)
+        </button>
+
+        <div id="resultSystemType" class="p-3 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-slate-200">
+          Click "Calculate Open-Loop G(s)" to view step-by-step extraction.
+        </div>
+      </div>
+
+      <!-- Tool 2: Discrete Convolution Sequence Calculator -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-table-cells text-cyan-400"></i>
+          <span>Tool 2: Discrete Convolution Sequence & Sample Length Calculator</span>
+        </h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-mono text-slate-400">Sequence $x[n]$ (comma-separated)</label>
+            <input type="text" id="seqX" value="1, -1, 1" class="w-full mt-1 px-3 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-white font-mono">
+          </div>
+          <div>
+            <label class="block text-[11px] font-mono text-slate-400">Sequence $h[n]$ (comma-separated)</label>
+            <input type="text" id="seqH" value="2, 1" class="w-full mt-1 px-3 py-1.5 bg-slate-950 border border-slate-700 rounded text-xs text-white font-mono">
+          </div>
+        </div>
+
+        <button onclick="computeConvolution()" class="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-bold font-mono transition">
+          Compute $y[n] = x[n] * h[n]$
+        </button>
+
+        <div id="resultConvolution" class="p-3 bg-slate-950 rounded border border-slate-800 text-xs font-mono text-slate-200">
+          Result will show full convoluted array, sample length $N_1+N_2-1$, and sample index breakdown.
+        </div>
+      </div>
+
+      <!-- Caltech Calculator Techniques from Lecture Slides -->
+      <div class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-calculator text-yellow-400"></i>
+          <span>Casio / Sharp Caltech Techniques from Source Slides</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 space-y-1.5">
+            <div class="text-teal-400 font-bold">1. Directional Derivative via Vector Dot Product:</div>
+            <p class="text-slate-300 font-sans">Slide Page 3 technique for Casio fx-991ES Plus / ClassWiz:</p>
+            <div class="bg-slate-900 p-2 rounded text-[11px] text-emerald-300">
+              1. Mode $\to$ Vector Mode (Mode 8)<br>
+              2. Store evaluated $\nabla V$ as <strong>VctA</strong> = [2, 1, -3]<br>
+              3. Store direction $\vec{A}$ as <strong>VctB</strong> = [2, -1, 2]<br>
+              4. Execute: <code>VctA • (VctB ÷ Abs(VctB))</code><br>
+              5. Direct Screen Output = <strong>-1</strong>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 space-y-1.5">
+            <div class="text-cyan-400 font-bold">2. Continuous Convolution via Test Value Substitution:</div>
+            <p class="text-slate-300 font-sans">Slide Page 29 technique for continuous convolution:</p>
+            <div class="bg-slate-900 p-2 rounded text-[11px] text-cyan-300">
+              Evaluate $y(t) = \int_0^t e^{-3\tau} e^{-2(t-\tau)} d\tau$<br>
+              1. Assume arbitrary test time $t = 2$<br>
+              2. Compute numerical integral on calculator: $\int_0^2 e^{-3x} e^{-2(2-x)} dx$<br>
+              3. Store result: $\approx 0.01583$<br>
+              4. Test multiple choice options at $t = 2$:<br>
+              &nbsp;&nbsp;&nbsp;Choice A: $e^{-2(2)} - e^{-3(2)} = e^{-4} - e^{-6} = \mathbf{0.01583}$ (MATCH!)
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 7: FULL 41 BOARD QUESTIONS & ANSWERS DRILL                            -->
+    <!-- ========================================================================= -->
+    <section id="tab-questions" class="tab-content hidden space-y-4">
+      
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono text-teal-400 uppercase tracking-wider font-bold">Exam Simulator</span>
+          <h2 class="text-lg sm:text-xl font-bold text-white">Full 41 Questions Bank with Step-by-Step Solutions</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="filterQuestions('all')" class="q-filter active px-2.5 py-1 rounded bg-teal-600 text-white text-xs font-mono">All (41)</button>
+          <button onclick="filterQuestions('mod1')" class="q-filter px-2.5 py-1 rounded bg-slate-800 text-slate-300 text-xs font-mono">Mod 1 (1-18)</button>
+          <button onclick="filterQuestions('mod2')" class="q-filter px-2.5 py-1 rounded bg-slate-800 text-slate-300 text-xs font-mono">Mod 2 (19-30)</button>
+          <button onclick="filterQuestions('mod3')" class="q-filter px-2.5 py-1 rounded bg-slate-800 text-slate-300 text-xs font-mono">Mod 3 (31-41)</button>
+        </div>
+      </div>
+
+      <!-- Question Accordion Container -->
+      <div id="questionsContainer" class="space-y-3">
+        <!-- Dynamically rendered via JS below for complete coverage -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#0b1120] border-t border-slate-800 text-slate-400 text-xs py-4 px-4 sm:px-6 text-center font-mono">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>ECE BOARD EXAM COMMAND CENTER • 100% COVERAGE OF MATH06.pdf (50 SLIDES)</div>
+      <div class="text-slate-400 text-[11px]">Designed for Rapid Board Exam Review & High-Yield Memorization</div>
+    </div>
+  </footer>
+
+  <script>
+    const questionBank = [
+      {
+        id: 1,
+        module: 'mod1',
+        title: "Q1. Vector Field Zero Identity",
+        text: "Given a vector field $\\vec{A}$, which of the following expressions will always result in a value of zero?",
+        options: ["A. $\\nabla(\\nabla\\cdot \\vec{A})$", "B. $\\nabla\\times(\\nabla\\times \\vec{A})$", "C. $\\nabla\\cdot(\\nabla\\times \\vec{A})$", "D. $\\nabla^2 \\vec{A}$"],
+        correct: "C. $\\nabla\\cdot(\\nabla\\times \\vec{A})$",
+        solution: "Divergence of a curl is identically zero: $\\nabla\\cdot(\\nabla\\times \\vec{A}) \\equiv 0$. Physical reason: A curling field purely circulates and possesses zero net outward expansion. Memory aid: 'dco' (div-curl-zero) and 'cgrado' (curl-grad-zero)."
+      },
+      {
+        id: 2,
+        module: 'mod1',
+        title: "Q2. Strictly Conservative Vector Field",
+        text: "In the analysis of a fluid flow or an electromagnetic field, a vector field $\\vec{F}$ is described as being strictly conservative. What mathematical condition must this vector satisfy?",
+        options: ["A. $\\nabla\\times \\vec{F}=0$", "B. $\\nabla\\cdot \\vec{F}=0$", "C. $\\nabla^2 \\vec{F}=0$", "D. $\\nabla(\\nabla\\cdot \\vec{A})=0$"],
+        correct: "A. $\\nabla\\times \\vec{F}=0$",
+        solution: "A conservative field is irrotational, satisfying $\\nabla\\times \\vec{F}=0$. The line integral over any closed path is zero (no circulation work). In contrast, $\\nabla\\cdot \\vec{F}=0$ defines a solenoidal (incompressible) field."
+      },
+      {
+        id: 3,
+        module: 'mod1',
+        title: "Q3. Directional Derivative of Potential",
+        text: "A voltage potential in a region is given by $V(x,y,z)=x^2 y - z^3$. What is the directional derivative of the voltage at point $(1,1,1)$ in the direction vector $2\\hat{i}-\\hat{j}+2\\hat{k}$?",
+        options: ["A. -1", "B. -3", "C. -1/3", "D. -5"],
+        correct: "A. -1",
+        solution: "1. $\\nabla V = 2xy\\hat{i} + x^2\\hat{j} - 3z^2\\hat{k}$. At $(1,1,1)$, $\\nabla V = 2\\hat{i} + \\hat{j} - 3\\hat{k}$.<br>2. Normalized direction vector $\\hat{u} = \\frac{2\\hat{i}-\\hat{j}+2\\hat{k}}{\\sqrt{2^2+(-1)^2+2^2}} = \\frac{2}{3}\\hat{i}-\\frac{1}{3}\\hat{j}+\\frac{2}{3}\\hat{k}$.<br>3. $D_{\\vec{u}}V = (2)(2/3) + (1)(-1/3) + (-3)(2/3) = 4/3 - 1/3 - 6/3 = -3/3 = \\mathbf{-1}$."
+      },
+      {
+        id: 4,
+        module: 'mod1',
+        title: "Q4. Tangent Plane to Implicit Surface",
+        text: "Find the exact equation of the tangent plane to the surface $z = x^2 + 3y^2$ at the coordinate point $(1,1,4)$.",
+        options: ["A. $2x + 6y - z = 4$", "B. $2x + 6y + z = 12$", "C. $x + 3y - z = 0$", "D. $4x + y - z = 1$"],
+        correct: "A. $2x + 6y - z = 4$",
+        solution: "1. Implicit function: $f(x,y,z) = x^2 + 3y^2 - z = 0$.<br>2. Normal vector $\\vec{N} = \\nabla f = 2x\\hat{i} + 6y\\hat{j} - \\hat{k}$. At $(1,1,4)$, $\\vec{N} = 2\\hat{i} + 6\\hat{j} - \\hat{k}$.<br>3. Tangent plane: $2(x-1) + 6(y-1) - 1(z-4) = 0 \\implies 2x - 2 + 6y - 6 - z + 4 = 0 \\implies \\mathbf{2x + 6y - z = 4}$."
+      },
+      {
+        id: 5,
+        module: 'mod1',
+        title: "Q5. Zero Divergence Classification",
+        text: "If the divergence of a multivariable vector field $\\vec{F}(x,y,z)$ is calculated to be identically zero everywhere, how is this formally classified?",
+        options: ["A. Irrotational", "B. Incompressible", "C. Non-Conservative", "D. Conservative"],
+        correct: "B. Incompressible",
+        solution: "$\\nabla\\cdot \\vec{F} = 0$ means the field has no net inward or outward flux per unit volume, formally defined as incompressibility in fluid mechanics and solenoidal in electromagnetics."
+      },
+      {
+        id: 6,
+        module: 'mod1',
+        title: "Q6. Laplace's Equation in Source-Free Media",
+        text: "In a source-free region of a dielectric material, the electric potential $V$ must satisfy Laplace's equation $\\nabla^2 V = 0$. Which of the following potential functions is valid?<br>A. $V = x^2 + y^2 + z^2$<br>B. $V = x^2 - y^2 + z$<br>C. $V = 2x^2 + 2y^2 - 4z^2$<br>D. Both B and C",
+        options: ["A. $V=x^2+y^2+z^2$", "B. $V=x^2-y^2+z$", "C. $V=2x^2+2y^2-4z^2$", "D. Both B and C"],
+        correct: "D. Both B and C",
+        solution: "Calculate $\\nabla^2 V = \\frac{\\partial^2 V}{\\partial x^2} + \\frac{\\partial^2 V}{\\partial y^2} + \\frac{\\partial^2 V}{\\partial z^2}$:<br>For B: $2 - 2 + 0 = 0$ (Satisfied).<br>For C: $4 + 4 - 8 = 0$ (Satisfied).<br>For A: $2 + 2 + 2 = 6 \\ne 0$ (Violates Laplace)."
+      },
+      {
+        id: 7,
+        module: 'mod1',
+        title: "Q7. Curl of Electrostatic Field",
+        text: "An electrical potential field is given by $V(x,y,z) = \\ln(x^2+y^2+z^2)$ Volts. What is the value of $\\nabla\\times \\vec{E}$ at $(1,1,1)$?",
+        options: ["A. $\\frac{2}{3}\\hat{i}+\\frac{2}{3}\\hat{j}+\\frac{2}{3}\\hat{k}$", "B. $\\frac{1}{\\sqrt{3}}$", "C. $2\\hat{i}+2\\hat{j}+2\\hat{k}$", "D. 0"],
+        correct: "D. 0",
+        solution: "Since $\\vec{E} = -\\nabla V$, the curl is $\\nabla\\times \\vec{E} = \\nabla\\times(-\\nabla V) \\equiv \\vec{0}$ by the vector null identity ('cgrado'). No manual differentiation of the logarithm is needed!"
+      },
+      {
+        id: 8,
+        module: 'mod1',
+        title: "Q8. Volume to Surface Charge Equivalence",
+        text: "To find total enclosed charge $Q$ in volume $V$ using surface flux density $\\vec{D}$ on surface $S$, which fundamental theorem proves this equivalence?",
+        options: ["A. Stokes' Theorem", "B. Divergence Theorem", "C. Green's Theorem", "D. Parseval's Theorem"],
+        correct: "B. Divergence Theorem",
+        solution: "The Divergence Theorem (Gauss-Ostrogradsky) equates the volume integral of divergence to the outward closed surface flux: $\\iiint_V (\\nabla\\cdot \\vec{D}) dV = \\oiint_S \\vec{D}\\cdot d\\vec{S} = Q_{\\text{enc}}$."
+      },
+      {
+        id: 9,
+        module: 'mod1',
+        title: "Q9. Volume Charge Density Evaluation",
+        text: "Given electric flux density $\\vec{D} = (2xy + z^2)\\hat{i} - x^2\\hat{j} + 2xz\\hat{k}\\ \\mu\\text{C/m}^2$. Determine volume charge density $\\rho_v$ at $(1,2,3)$.",
+        options: ["A. $2\\ \\mu\\text{C/m}^3$", "B. $4\\ \\mu\\text{C/m}^3$", "C. $6\\ \\mu\\text{C/m}^3$", "D. $0\\ \\mu\\text{C/m}^3$"],
+        correct: "C. $6\\ \\mu\\text{C/m}^3$",
+        solution: "Apply Maxwell's 1st Equation: $\\rho_v = \\nabla\\cdot \\vec{D} = \\frac{\\partial D_x}{\\partial x} + \\frac{\\partial D_y}{\\partial y} + \\frac{\\partial D_z}{\\partial z} = 2y + 0 + 2x$. At $(1,2,3)$: $\\rho_v = 2(2) + 2(1) = \\mathbf{6\\ \\mu\\text{C/m}^3}$."
+      },
+      {
+        id: 10,
+        module: 'mod1',
+        title: "Q10. Outward Flux over Unit Sphere",
+        text: "For vector field $\\vec{F} = \\langle x,y,z\\rangle$ and the unit sphere $x^2+y^2+z^2 = 1$, outward flux $\\oiint_S \\vec{F}\\cdot d\\vec{S}$ is:",
+        options: ["A. $4\\pi$", "B. $6\\pi$", "C. $3\\pi$", "D. 0"],
+        correct: "A. $4\\pi$",
+        solution: "By Divergence Theorem: $\\oiint_S \\vec{F}\\cdot d\\vec{S} = \\iiint_V (\\nabla\\cdot \\vec{F}) dV$. $\\nabla\\cdot \\vec{F} = 1 + 1 + 1 = 3$. Total flux $= 3 \\times \\text{Volume of unit sphere} = 3 \\left(\\frac{4}{3}\\pi (1)^3\\right) = \\mathbf{4\\pi}$."
+      },
+      {
+        id: 11,
+        module: 'mod1',
+        title: "Q11. Closed Line to Surface Integral Equivalence",
+        text: "Which theorem establishes that $\\oint \\vec{H}\\cdot d\\vec{l}$ around an open parachute-shaped boundary equals $\\iint (\\nabla\\times \\vec{H})\\cdot d\\vec{S}$?",
+        options: ["A. Stokes' Theorem", "B. Divergence Theorem", "C. Green's Theorem", "D. Ampere's Circuital Law (Scalar)"],
+        correct: "A. Stokes' Theorem",
+        solution: "Stokes' Theorem transitions a surface integral of curl to a line integral of the field around the bounding perimeter curve: $\\iint_S (\\nabla\\times \\vec{F})\\cdot d\\vec{S} = \\oint_C \\vec{F}\\cdot d\\vec{r}$."
+      },
+      {
+        id: 12,
+        module: 'mod1',
+        title: "Q12. Current Density via Differential Ampere's Law",
+        text: "Given $\\vec{H} = (y^2+z)\\hat{i} + (x^2-z)\\hat{j} + (x+y)\\hat{k}\\ \\text{A/m}$. Find current density $\\vec{J}$ at $(1,1,1)$.",
+        options: ["A. $2\\hat{i}-2\\hat{j}-2\\hat{k}$", "B. $2\\hat{i}+\\hat{j}-\\hat{k}$", "C. $2\\hat{i}$", "D. $\\hat{i}-\\hat{j}$"],
+        correct: "C. $2\\hat{i}$",
+        solution: "$\\vec{J} = \\nabla\\times \\vec{H}$. Components:<br>$J_x = \\partial_y H_z - \\partial_z H_y = 1 - (-1) = 2$<br>$J_y = \\partial_z H_x - \\partial_x H_z = 1 - 1 = 0$<br>$J_z = \\partial_x H_y - \\partial_y H_x = 2x - 2y$. At $(1,1,1)$, $J_z = 2(1)-2(1)=0$. Therefore $\\vec{J} = \\mathbf{2\\hat{i}\\ \\text{A/m}^2}$."
+      },
+      {
+        id: 13,
+        module: 'mod1',
+        title: "Q13. Ampere's Law Physical Concept",
+        text: "The line integral of magnetic field intensity $\\vec{H}$ around any closed path is exactly equal to what physical quantity?",
+        options: ["A. Net magnetic flux", "B. Direct current enclosed by the path", "C. Total electric charge", "D. Rate of change of electric flux"],
+        correct: "B. Direct current enclosed by the path",
+        solution: "Ampere's Circuital Law states $\\oint_C \\vec{H}\\cdot d\\vec{l} = I_{\\text{enc}} = \\iint_S \\vec{J}\\cdot d\\vec{S}$."
+      },
+      {
+        id: 14,
+        module: 'mod1',
+        title: "Q14. Operator Inside Green's Theorem",
+        text: "Green's Theorem equates $\\oint_C (Mdx+Ndy)$ to $\\iint_R (\\frac{\\partial N}{\\partial x} - \\frac{\\partial M}{\\partial y})dA$. What specific operator is inside the double integral?",
+        options: ["A. 2D Divergence", "B. The k-component of the 2D Curl", "C. The Laplacian", "D. 2D Gradient"],
+        correct: "B. The k-component of the 2D Curl",
+        solution: "For $\\vec{F} = M\\hat{i} + N\\hat{j}$, the curl is $\\nabla\\times \\vec{F} = \\left(\\frac{\\partial N}{\\partial x} - \\frac{\\partial M}{\\partial y}\\right)\\hat{k}$, which is the $\\hat{k}$-component of the 2D curl."
+      },
+      {
+        id: 15,
+        module: 'mod1',
+        title: "Q15. Complex Polygon Line Integral via Green's Theorem",
+        text: "Evaluate $\\oint_C (xy^2 dx + x^2 y dy)$ where $C$ encloses an irregular polygon of area 50.",
+        options: ["A. 0", "B. 25", "C. 50", "D. 100"],
+        correct: "A. 0",
+        solution: "$M = xy^2$, $N = x^2 y$. Inside Green's theorem: $\\frac{\\partial N}{\\partial x} - \\frac{\\partial M}{\\partial y} = 2xy - 2xy = 0$. Double integral of $0$ over any area is $\\mathbf{0}$."
+      },
+      {
+        id: 16,
+        module: 'mod1',
+        title: "Q16. Time-Varying Magnetic Field Induction",
+        text: "Which mathematical statement describes a time-varying magnetic field producing a non-conservative electric field?",
+        options: ["A. $\\nabla\\cdot \\vec{E} = \\rho/\\epsilon_0$", "B. $\\nabla\\times \\vec{E} = -\\partial \\vec{B}/\\partial t$", "C. $\\nabla\\times \\vec{B} = \\mu_0 \\vec{J} + \\mu_0\\epsilon_0 \\partial\\vec{E}/\\partial t$", "D. $\\nabla\\cdot \\vec{B} = 0$"],
+        correct: "B. $\\nabla\\times \\vec{E} = -\\partial \\vec{B}/\\partial t$",
+        solution: "Faraday's Law of Induction in differential form states that time-varying magnetic flux density creates circulating, non-conservative electric fields."
+      },
+      {
+        id: 17,
+        module: 'mod1',
+        title: "Q17. Negative Sign in Faraday's Law",
+        text: "In $\\nabla\\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}$, what physical principle does the mandatory negative sign enforce?",
+        options: ["A. Biot-Savart Law", "B. Coulomb's Law", "C. Lenz's Law", "D. Ampere's Law"],
+        correct: "C. Lenz's Law",
+        solution: "Lenz's Law dictates that induced currents and fields always oppose the change in magnetic flux that produced them."
+      },
+      {
+        id: 18,
+        module: 'mod1',
+        title: "Q18. Non-Existence of Magnetic Monopoles",
+        text: "$\\nabla\\cdot \\vec{B} = 0$ confirms which physical reality in electromagnetic theory?",
+        options: ["A. Magnetic energy is not conserved", "B. Magnetic field lines originate on positive charges", "C. Isolated magnetic monopoles do not exist", "D. The magnetic field is entirely conservative"],
+        correct: "C. Isolated magnetic monopoles do not exist",
+        solution: "Because magnetic flux lines are closed loops, there are no isolated magnetic poles (monopoles). Cutting a magnet creates two separate north-south dipoles."
+      },
+      {
+        id: 19,
+        module: 'mod2',
+        title: "Q19. Parseval's Energy Theorem Statement",
+        text: "Which of the following is the correct mathematical statement of Parseval's Theorem?",
+        options: ["A. $\\int_{-\\infty}^{\\infty} x(t)dt = \\int_{-\\infty}^{\\infty} X(f)df$", "B. $\\int_{-\\infty}^{\\infty} |x(t)|^2 dt = \\int_{-\\infty}^{\\infty} |X(f)|^2 df$", "C. $\\int_{-\\infty}^{\\infty} x^2(t)dt = \\int_{-\\infty}^{\\infty} \\sqrt{X(f)}df$", "D. $\\int_{-\\infty}^{\\infty} |x(t)|dt = \\frac{1}{2\\pi}\\int_{-\\infty}^{\\infty} X(f)df$"],
+        correct: "B. $\\int_{-\\infty}^{\\infty} |x(t)|^2 dt = \\int_{-\\infty}^{\\infty} |X(f)|^2 df$",
+        solution: "Parseval's theorem equates total energy calculated in time to the integral of squared spectral magnitude in Hertz frequency domain."
+      },
+      {
+        id: 20,
+        module: 'mod2',
+        title: "Q20. Decaying Exponential Pulse Energy",
+        text: "If an antenna emits pulse $x(t) = 4e^{-3t}u(t)$ Volts, what is the total normalized energy in Joules?",
+        options: ["A. 16/3 Joules", "B. 8/3 Joules", "C. 4/3 Joules", "D. 12 Joules"],
+        correct: "B. 8/3 Joules",
+        solution: "Formula: For $A e^{-at}u(t)$, $E = \\frac{A^2}{2a}$. Here $A=4, a=3 \\implies E = \\frac{4^2}{2(3)} = \\frac{16}{6} = \\mathbf{\\frac{8}{3}\\text{ Joules}}$."
+      },
+      {
+        id: 21,
+        module: 'mod2',
+        title: "Q21. Improper Energy Integral & p-Series",
+        text: "Voltage is $v(t) = 1/t^p$ for $t\\ge 1$. For what values of $p$ will total energy $E = \\int_1^\\infty (v(t))^2 dt$ be finite?",
+        options: ["A. $p \\ge 1/2$", "B. $p > 1/2$", "C. $p \\ge 1$", "D. $p > 1$"],
+        correct: "B. $p > 1/2$",
+        solution: "$E = \\int_1^\\infty \\frac{1}{t^{2p}} dt$. The $p$-integral converges when exponent $2p > 1 \\implies \\mathbf{p > 1/2}$."
+      },
+      {
+        id: 22,
+        module: 'mod2',
+        title: "Q22. Continuous-Time Convolution Output",
+        text: "Given $x(t) = e^{-3t}u(t)$ and $h(t) = e^{-2t}u(t)$, evaluate the analytical convolution $y(t) = x(t)*h(t)$ for $t > 0$.",
+        options: ["A. $e^{-2t} - e^{-3t}$", "B. $e^{-5t}$", "C. $t e^{-2t}$", "D. $e^{-3t} - e^{-2t}$"],
+        correct: "A. $e^{-2t} - e^{-3t}$",
+        solution: "Convolution integral: $y(t) = \\int_0^t e^{-3\\tau} e^{-2(t-\\tau)} d\\tau = e^{-2t} \\int_0^t e^{-\\tau} d\\tau = e^{-2t} [1 - e^{-t}] = \\mathbf{e^{-2t} - e^{-3t}}$."
+      },
+      {
+        id: 23,
+        module: 'mod2',
+        title: "Q23. Convolution Four Core Operations",
+        text: "What are the four sequence operations that mathematically define continuous and discrete convolution?",
+        options: ["A. Shift, Multiply, Add, Differentiate", "B. Time-reversal (Fold), Time-shift, Multiplication, Addition (Integration)", "C. Scale, Delay, Invert, Filter", "D. Transform, Multiply, Inverse Transform"],
+        correct: "B. Time-reversal (Fold), Time-shift, Multiplication, Addition (Integration)",
+        solution: "Convolution involves folding the second signal $h(-\\tau)$, shifting by $t$, multiplying with $x(\\tau)$, and integrating."
+      },
+      {
+        id: 24,
+        module: 'mod2',
+        title: "Q24. Discrete Convolution Sample Value y[2]",
+        text: "For $x[n] = \\{1, -1, 1\\}$ ($n=0,1,2$) and $h[n] = \\{2, 1\\}$ ($n=0,1$), what is the value of $y[2]$?",
+        options: ["A. 2", "B. -1", "C. 1", "D. 3"],
+        correct: "C. 1",
+        solution: "Using the convolution sum: $y[2] = x[0]h[2] + x[1]h[1] + x[2]h[0] = (1)(0) + (-1)(1) + (1)(2) = -1 + 2 = \\mathbf{1}$."
+      },
+      {
+        id: 25,
+        module: 'mod2',
+        title: "Q25. Convolution Without Folding (Correlation)",
+        text: "If an examinee accidentally omits the time-reversal (folding) step and evaluates $\\int x(\\tau)h(\\tau-t)d\\tau$, what operation is this?",
+        options: ["A. Auto-correlation", "B. Cross-correlation", "C. Laplace Transform", "D. Parseval's Evaluation"],
+        correct: "B. Cross-correlation",
+        solution: "Omitting the folding operation leaves the signals in their original orientation, evaluating the cross-correlation between the two distinct signals."
+      },
+      {
+        id: 26,
+        module: 'mod2',
+        title: "Q26. Auto-Correlation at Lag Zero",
+        text: "Evaluating the auto-correlation function $R_{xx}(\\tau)$ at zero lag ($\\tau = 0$) calculates which physical metric?",
+        options: ["A. DC offset", "B. Total Energy (or Total Power)", "C. Bandwidth", "D. Fundamental frequency"],
+        correct: "B. Total Energy (or Total Power)",
+        solution: "$R_{xx}(0) = \\int_{-\\infty}^{\\infty} x(t)x(t)dt = \\int_{-\\infty}^{\\infty} |x(t)|^2 dt = E$ (Total signal energy)."
+      },
+      {
+        id: 27,
+        module: 'mod2',
+        title: "Q27. Discrete Cross-Correlation Sample",
+        text: "For $x[n]=\\{2,1,3\\}$ and $y[n]=\\{1,-1,2\\}$ (both starting at $n=0$), what is $r_{xy}[1]$?",
+        options: ["A. -1", "B. 1", "C. 7", "D. -2"],
+        correct: "D. -2",
+        solution: "$r_{xy}[1] = \\sum_n x[n] y[n-1] = x[1]y[0] + x[2]y[1] = (1)(1) + (3)(-1) = 1 - 3 = \\mathbf{-2}$."
+      },
+      {
+        id: 28,
+        module: 'mod2',
+        title: "Q28. Digital Filter Poles & Stability",
+        text: "For $y[n] - y[n-1] + 0.25y[n-2] = x[n]$, where are the poles located and is the filter stable?",
+        options: ["A. Single pole at $z=0.5$, Stable", "B. Double poles at $z=0.5$, Stable", "C. Double poles at $z=-0.5$, Unstable", "D. Complex conjugate poles at $0.5\\pm j0.5$, Stable"],
+        correct: "B. Double poles at $z=0.5$, Stable",
+        solution: "$H(z) = \\frac{1}{1-z^{-1}+0.25z^{-2}} = \\frac{z^2}{z^2-z+0.25} = \\frac{z^2}{(z-0.5)^2}$. Roots of denominator: Double pole at $z=0.5$. Since $|0.5| < 1$, it lies strictly inside the unit circle $\\implies$ Stable."
+      },
+      {
+        id: 29,
+        module: 'mod2',
+        title: "Q29. Cascaded LTI Systems Impulse Response",
+        text: "System 1: $y_1[n] = x[n] - 0.5x[n-1]$. System 2: $y_2[n] = y_1[n] + 0.5y_1[n-1]$. What is overall impulse response $h[n]$?",
+        options: ["A. $\\delta[n] - 0.25\\delta[n-2]$", "B. $\\delta[n] + 0.25\\delta[n-1]$", "C. $\\delta[n] - \\delta[n-2]$", "D. $1 - 0.25^n$"],
+        correct: "A. $\\delta[n] - 0.25\\delta[n-2]$",
+        solution: "$H_1(z) = 1 - 0.5z^{-1}$, $H_2(z) = 1 + 0.5z^{-1}$. Total $H(z) = (1-0.5z^{-1})(1+0.5z^{-1}) = 1 - 0.25z^{-2}$. Taking inverse Z-transform yields $\\mathbf{\\delta[n] - 0.25\\delta[n-2]}$."
+      },
+      {
+        id: 30,
+        module: 'mod2',
+        title: "Q30. System Property Classification",
+        text: "Classify the discrete system $y[n] = x[n] + 0.5x[n-1]$.",
+        options: ["A. Non-linear, Time-Invariant, Causal", "B. Linear, Time-Varying, Causal", "C. Linear, Time-Invariant, Causal", "D. Linear, Time-Invariant, Non-Causal"],
+        correct: "C. Linear, Time-Invariant, Causal",
+        solution: "The system satisfies superposition (Linear), a shift in input shifts output identically (Time-Invariant), and depends only on current and past inputs (Causal)."
+      },
+      {
+        id: 31,
+        module: 'mod3',
+        title: "Q31. Laplace Transform Circuit Advantage",
+        text: "What is the primary advantage of the Laplace Transform in analyzing continuous-time LTI electrical circuits?",
+        options: ["A. Calculates exact physical energy dissipated", "B. Transforms linear integro-differential equations into simple algebraic polynomial equations", "C. Allows non-linear transient events to be solved via superposition", "D. Eliminates the need to know initial conditions"],
+        correct: "B. Transforms linear integro-differential equations into simple algebraic polynomial equations",
+        solution: "Laplace converts time-domain derivatives ($s$) and integrals ($1/s$) into algebraic polynomial manipulation."
+      },
+      {
+        id: 32,
+        module: 'mod3',
+        title: "Q32. Transfer Function Critical Assumption",
+        text: "Which critical condition must be assumed for the Laplace transfer function $H(s) = Y(s)/X(s)$ to be valid?",
+        options: ["A. Perfectly lossless system", "B. All initial conditions must be strictly zero", "C. Input must be a unit impulse function", "D. No complex conjugate poles"],
+        correct: "B. All initial conditions must be strictly zero",
+        solution: "By mathematical definition, the transfer function $H(s)$ relates output to input assuming all initial conditions are zero."
+      },
+      {
+        id: 33,
+        module: 'mod3',
+        title: "Q33. Feedback Factor Extraction",
+        text: "Forward gain $G(s) = \\frac{10}{s^2+4s}$, closed-loop $T(s) = \\frac{10}{s^2+4s+20}$. What is Primary Feedback Ratio $H(s)$?",
+        options: ["A. $H(s) = 2$", "B. $H(s) = 0.5$", "C. $H(s) = 20$", "D. $H(s) = \\frac{20}{s^2+4s}$"],
+        correct: "A. $H(s) = 2$",
+        solution: "$H(s) = \\frac{1}{T(s)} - \\frac{1}{G(s)} = \\frac{s^2+4s+20}{10} - \\frac{s^2+4s}{10} = \\frac{20}{10} = \\mathbf{2}$."
+      },
+      {
+        id: 34,
+        module: 'mod3',
+        title: "Q34. Sensitivity with Respect to Feedback Gain",
+        text: "Sensitivity is $S_A^T = \\frac{1}{1+AB}$. If forward gain $A$ is held constant, what happens when feedback gain $B$ increases?",
+        options: ["A. Sensitivity increases proportionally", "B. Sensitivity remains unaffected", "C. Sensitivity approaches infinity", "D. Sensitivity decreases"],
+        correct: "D. Sensitivity decreases",
+        solution: "As $B$ increases, the denominator $(1+AB)$ increases, causing overall sensitivity $S_A^T$ to decrease (the system becomes more immune to variations)."
+      },
+      {
+        id: 35,
+        module: 'mod3',
+        title: "Q35. Op-Amp Infinite Forward Gain Limit",
+        text: "In closed-loop feedback, if forward gain $A\\to\\infty$, what happens to overall gain $T$ if feedback factor $B$ is doubled?",
+        options: ["A. Closed-loop gain is doubled", "B. Closed-loop gain is halved", "C. Closed-loop gain approaches zero", "D. Closed-loop gain remains constant"],
+        correct: "B. Closed-loop gain is halved",
+        solution: "As $A\\to\\infty$, $T = \\frac{A}{1+AB} \\to \\frac{1}{B}$. Doubling $B$ yields $T_{\\text{new}} = \\frac{1}{2B} = 0.5 T_{\\text{old}}$ (halved)."
+      },
+      {
+        id: 36,
+        module: 'mod3',
+        title: "Q36. Mason's Gain Delta_k Definition",
+        text: "In Mason's Gain Formula $T = \\frac{1}{\\Delta}\\sum P_k \\Delta_k$, what does $\\Delta_k$ specifically represent?",
+        options: ["A. The determinant of the entire signal flow graph", "B. The gain of the k-th forward path", "C. The cofactor determinant with all loops touching the k-th forward path removed", "D. The sum of all non-touching loop gains"],
+        correct: "C. The cofactor determinant with all loops touching the k-th forward path removed",
+        solution: "$\\Delta_k$ is the path factor (cofactor), evaluated from $\\Delta$ by eliminating loops that share nodes with forward path $P_k$."
+      },
+      {
+        id: 37,
+        module: 'mod3',
+        title: "Q37. Routh-Hurwitz Stability Range",
+        text: "Characteristic equation $s^3 + K s^2 + 2s + 1 = 0$. What is required range of gain $K$ for stability?",
+        options: ["A. $K > 0$", "B. $K > 0.5$", "C. $K > 2$", "D. $0 < K < 2$"],
+        correct: "B. $K > 0.5$",
+        solution: "Routh array 1st column: $1, K, \\frac{2K-1}{K}, 1$. For no sign changes: $K>0$ and $2K-1 > 0 \\implies \\mathbf{K > 0.5}$."
+      },
+      {
+        id: 38,
+        module: 'mod3',
+        title: "Q38. Dominant Pole Identification",
+        text: "A system has poles at $s=-1, -10, -100$. Which is the 'Dominant Pole' and why?",
+        options: ["A. $s=-100$, highest magnitude", "B. $s=-100$, high frequency overshoot", "C. $s=-1$, higher steady state gain", "D. $s=-1$, closest to imaginary axis and transient decays slowest"],
+        correct: "D. $s=-1$, closest to imaginary axis and transient decays slowest",
+        solution: "Transient $e^{-t}$ persists much longer than $e^{-10t}$ and $e^{-100t}$, so the pole nearest the $j\\omega$ axis dominates the macroscopic response."
+      },
+      {
+        id: 39,
+        module: 'mod3',
+        title: "Q39. Non-Minimum Phase Zero Location",
+        text: "A system has a zero at $s=+3$ and poles at $s=-2\\pm j4$. Because the zero is in the RHP, it is classified as:",
+        options: ["A. Non-Minimum Phase System", "B. Unstable System", "C. Marginally Stable System", "D. Minimum Phase System"],
+        correct: "A. Non-Minimum Phase System",
+        solution: "A system with any zero in the Right-Half Plane (RHP, $\\text{Re} > 0$) is classified as a Non-Minimum Phase system."
+      },
+      {
+        id: 40,
+        module: 'mod3',
+        title: "Q40. Type 1 System Steady-State Error for Step",
+        text: "A Type 1 control system is subjected to a unit step input. What will be final steady-state error $e_{ss}$?",
+        options: ["A. Infinity", "B. Finite constant", "C. Depends on gain", "D. Zero"],
+        correct: "D. Zero",
+        solution: "A Type 1 system has one pure integrator ($s=0$ pole), giving infinite position error constant $K_p = \\infty$. Steady-state error $e_{ss} = \\frac{1}{1+K_p} = \\frac{1}{\\infty} = \\mathbf{0}$."
+      },
+      {
+        id: 41,
+        module: 'mod3',
+        title: "Q41. System Type from Closed-Loop T(s)",
+        text: "Closed-loop $T(s) = \\frac{10}{s^2+5s+10}$. Assuming unity feedback, what is the System Type?",
+        options: ["A. Type 0", "B. Type 1", "C. Type 2", "D. Cannot be determined"],
+        correct: "B. Type 1",
+        solution: "Do not read Type from $T(s)$! Convert to open-loop $G(s) = \\frac{\\text{Num}}{\\text{Den}-\\text{Num}} = \\frac{10}{(s^2+5s+10)-10} = \\frac{10}{s^2+5s} = \\frac{10}{\\mathbf{s^1}(s+5)}$. Factor $s^1$ in denominator confirms it is a **Type 1 System**."
+      }
+    ];
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-teal-500', 'text-white', 'font-semibold');
+        btn.classList.add('text-slate-300');
+      });
+
+      const activeNavId = 'nav-' + tabId.replace('tab-', '');
+      const activeNav = document.getElementById(activeNavId);
+      if (activeNav) {
+        activeNav.classList.add('bg-teal-500', 'text-white', 'font-semibold');
+        activeNav.classList.remove('text-slate-300');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderAllMath();
+    }
+
+    function populateQuestions(filter = 'all') {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      const filtered = filter === 'all' 
+        ? questionBank 
+        : questionBank.filter(q => q.module === filter);
+
+      filtered.forEach(q => {
+        const card = document.createElement('div');
+        card.className = "p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3 transition glow-border";
+        card.innerHTML = `
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono font-bold text-teal-400 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">${q.title}</span>
+              <span class="text-[10px] font-mono text-slate-400 uppercase">${q.module.toUpperCase()}</span>
+            </div>
+            <button onclick="toggleCardSolution(${q.id})" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+              <i class="fa-solid fa-eye text-[11px]"></i> <span>Solution</span>
+            </button>
+          </div>
+          
+          <div class="text-xs text-slate-200 font-sans leading-relaxed font-medium">
+            ${q.text}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            ${q.options.map(opt => `
+              <div class="p-2 rounded bg-slate-950 border border-slate-800 text-slate-300">
+                ${opt}
+              </div>
+            `).join('')}
+          </div>
+
+          <div id="sol-${q.id}" class="solution-box p-3 rounded bg-slate-950/90 border border-teal-900/60 text-xs font-mono space-y-1.5">
+            <div class="text-emerald-400 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-check-circle"></i> Correct Answer: ${q.correct}
+            </div>
+            <div class="text-slate-300 font-sans text-[11px] leading-relaxed">
+              <strong>Step-by-Step Breakdown:</strong><br>
+              ${q.solution}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      renderAllMath();
+    }
+
+    function toggleCardSolution(id) {
+      const box = document.getElementById(`sol-${id}`);
+      box.classList.toggle('hidden');
+    }
+
+    let allSolutionsOpen = true;
+    function toggleAllSolutions() {
+      allSolutionsOpen = !allSolutionsOpen;
+      document.querySelectorAll('.solution-box').forEach(box => {
+        if (allSolutionsOpen) {
+          box.classList.remove('hidden');
+        } else {
+          box.classList.add('hidden');
+        }
+      });
+      document.getElementById('solStateText').innerText = allSolutionsOpen ? 'Open' : 'Hidden';
+    }
+
+    function filterQuestions(mod) {
+      document.querySelectorAll('.q-filter').forEach(btn => {
+        btn.classList.remove('bg-teal-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      event.target.classList.add('bg-teal-600', 'text-white');
+      event.target.classList.remove('bg-slate-800', 'text-slate-300');
+      populateQuestions(mod);
+    }
+
+    function handleSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) return;
+
+      // Switch to Questions tab if user is searching for specific question or keyword
+      if (q.startsWith('q') || q.includes('question') || q.includes('laplace') || q.includes('stokes') || q.includes('routh') || q.includes('divergence')) {
+        switchTab('tab-questions');
+        const cards = document.querySelectorAll('#questionsContainer > div');
+        cards.forEach(c => {
+          const match = c.innerText.toLowerCase().includes(q);
+          c.style.display = match ? 'block' : 'none';
+        });
+      }
+    }
+
+    function calculateSystemType() {
+      const K = parseFloat(document.getElementById('inputK').value) || 0;
+      const b = parseFloat(document.getElementById('inputB').value) || 0;
+      const c = parseFloat(document.getElementById('inputC').value) || 0;
+      const res = document.getElementById('resultSystemType');
+
+      const cDiff = c - K;
+      let type = 0;
+      let denominatorExpr = "";
+
+      if (cDiff === 0) {
+        if (b !== 0) {
+          type = 1;
+          denominatorExpr = `s^2 + ${b}s = s(s + ${b})`;
+        } else {
+          type = 2;
+          denominatorExpr = `s^2`;
+        }
+      } else {
+        type = 0;
+        denominatorExpr = `s^2 + ${b}s + ${cDiff}`;
+      }
+
+      res.innerHTML = `
+        <div class="text-teal-300 font-bold mb-1">Open-Loop Transformation:</div>
+        1. Closed-loop $T(s) = \\frac{${K}}{s^2 + ${b}s + ${c}}$<br>
+        2. $G(s) = \\frac{T(s)}{1 - T(s)} = \\frac{${K}}{(s^2 + ${b}s + ${c}) - ${K}} = \\frac{${K}}{${denominatorExpr}}$<br>
+        3. Extracted Open-Loop Function: <strong>$G(s) = \\frac{${K}}{${denominatorExpr}}$</strong><br>
+        4. <span class="text-amber-300 font-bold text-sm">System Classification: TYPE ${type} SYSTEM</span><br>
+        5. Steady-State Errors:
+           Step $u(t) \\implies e_{ss} = ${type >= 1 ? '0' : '1/(1+K_p)'}$; 
+           Ramp $t u(t) \\implies e_{ss} = ${type === 1 ? '1/K_v = ' + (b/K).toFixed(4) : (type >= 2 ? '0' : '\\infty')}$
+      `;
+      renderAllMath();
+    }
+
+    function computeConvolution() {
+      const rawX = document.getElementById('seqX').value.split(',').map(v => parseFloat(v.trim()) || 0);
+      const rawH = document.getElementById('seqH').value.split(',').map(v => parseFloat(v.trim()) || 0);
+      const res = document.getElementById('resultConvolution');
+
+      const n1 = rawX.length;
+      const n2 = rawH.length;
+      const nTotal = n1 + n2 - 1;
+      const y = new Array(nTotal).fill(0);
+
+      for (let i = 0; i < n1; i++) {
+        for (let j = 0; j < n2; j++) {
+          y[i + j] += rawX[i] * rawH[j];
+        }
+      }
+
+      res.innerHTML = `
+        <div class="text-cyan-300 font-bold mb-1">Linear Convolution Breakdown:</div>
+        • Input $x[n]$ samples: $N_1 = ${n1}$<br>
+        • Impulse $h[n]$ samples: $N_2 = ${n2}$<br>
+        • Total output sample length: $N_{\\text{total}} = N_1 + N_2 - 1 = ${n1} + ${n2} - 1 = \\mathbf{${nTotal}\\text{ samples}}$<br>
+        • Convolved Array: <strong>y[n] = { ${y.join(', ')} }</strong><br>
+        • Sample Indices:<br>
+        ${y.map((val, idx) => `&nbsp;&nbsp;n=${idx} : y[${idx}] = ${val}`).join('<br>')}
+      `;
+      renderAllMath();
+    }
+
+    function renderAllMath() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // Initialize Question Bank and default math rendering on load
+    window.addEventListener('DOMContentLoaded', () => {
+      populateQuestions('all');
+      renderAllMath();
+    });
+  </script>
+</body>
+</html>
