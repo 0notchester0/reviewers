@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam — Dense Infographic Reviewer & Command Center</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- MathJax for rendering LaTeX equations -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0a0f1d',
+              card: '#111827',
+              border: '#1f293d',
+              gold: '#f59e0b',
+              cyan: '#06b6d4',
+              red: '#ef4444',
+              green: '#10b981',
+              accent: '#3b82f6'
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .break-inside-avoid {
+        page-break-inside: avoid;
+      }
+      .card-print {
+        border: 1px solid #cbd5e1 !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- Top Command Header -->
+  <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 shadow-lg no-print">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center font-bold font-mono text-slate-950 text-xl shadow-md shadow-amber-500/20">
+          EST
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-lg text-white tracking-wide">ECE BOARD EXAM COMMAND CENTER</h1>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">DENSE REVIEWER</span>
+          </div>
+          <p class="text-xs text-slate-400">AM • SSB • FM • PM • Superheterodyne • Antennas & Propagation • PCM (100% Verified Coverage)</p>
+        </div>
+      </div>
+
+      <!-- Live Search & Action Controls -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="relative flex-1 sm:w-64">
+          <input type="text" id="searchInput" placeholder="Quick search concept, formula, trap..." 
+            class="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors">
+          <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <button onclick="window.print()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          Print / PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="max-w-7xl mx-auto mt-2.5 flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs font-medium scrollbar-none">
+      <button onclick="filterCategory('all')" class="tab-btn active px-3 py-1 rounded-md bg-cyan-600 text-white transition">All Systems</button>
+      <button onclick="filterCategory('formulas')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">🔴 Must-Memorize Formulas</button>
+      <button onclick="filterCategory('analog')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">AM & SSB</button>
+      <button onclick="filterCategory('angle')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">FM & PM</button>
+      <button onclick="filterCategory('superhet')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Superheterodyne Receivers</button>
+      <button onclick="filterCategory('antenna')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Antennas & Propagation</button>
+      <button onclick="filterCategory('digital')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:bg-slate-700 transition">PCM & Digital Comms</button>
+      <button onclick="filterCategory('calculator')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-amber-300 border border-amber-500/40 hover:bg-slate-700 transition">🧮 Interactive Solvers</button>
+      <button onclick="filterCategory('traps')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-rose-300 border border-rose-500/40 hover:bg-slate-700 transition">⚠️ Exam Busters & Traps</button>
+      <button onclick="filterCategory('drill')" class="tab-btn px-3 py-1 rounded-md bg-slate-800 text-emerald-300 border border-emerald-500/40 hover:bg-slate-700 transition">⚡ Rapid 58-Q Drill</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
+
+    <!-- Board Exam Priority Legend Banner -->
+    <section class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-slate-200">PRIORITY SYSTEM:</span>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-semibold border border-rose-500/40">🔴 MUST MEMORIZE</span>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/40">🟠 HIGH-YIELD</span>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/40">🔵 CONCEPTUAL</span>
+        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-red-950 text-red-200 font-semibold border border-red-700">⚠️ TRAP AVOIDANCE</span>
+      </div>
+      <div class="text-slate-400 font-mono text-[11px]">
+        Source: NTC / ECE Syllabi • 58 Specific Target Exam Questions
+      </div>
+    </section>
+
+    <!-- SECTION 1: MASTER EQUATION COMMAND DECK -->
+    <section id="sec-formulas" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></div>
+          <h2 class="text-base font-bold text-white uppercase tracking-wider">Master Equation Command Deck (Proper LaTeX Engine)</h2>
+        </div>
+        <span class="text-xs text-slate-400">Strict Variable Definitions & Limiting Conditions</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <!-- Formula 1: AM Power Relations -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">🔴 MUST MEMORIZE</span>
+              <span class="text-xs text-slate-400 font-mono">EST-AM-01</span>
+            </div>
+            <h3 class="font-bold text-sm text-slate-100">AM (DSB-FC) Total Power & Sideband Split</h3>
+            
+            <div class="my-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center overflow-x-auto">
+              <div class="text-base text-cyan-300 font-serif">
+                $$P_t = P_c \left(1 + \frac{m^2}{2}\right)$$
+              </div>
+              <div class="text-xs text-amber-300 mt-1">
+                $$P_{SB} = P_c \left(\frac{m^2}{2}\right), \quad P_{LSB} = P_{USB} = P_c \left(\frac{m^2}{4}\right)$$
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-400">Variables:</strong> $P_t$ = Total power [W], $P_c$ = Carrier power [W], $m$ = Modulation index ($0 \le m \le 1$).</p>
+              <p><strong class="text-slate-400">Proportionality:</strong> Sideband power scales quadratically: $\frac{P_{SB2}}{P_{SB1}} = \left(\frac{m_2}{m_1}\right)^2$.</p>
+              <p><strong class="text-cyan-400">USE WHEN:</strong> Calculating transmitter power changes when modulating audio increases/decreases.</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-rose-300 bg-rose-950/30 p-2 rounded border border-rose-900/50">
+            <strong>⚠️ COMMON TRAP:</strong> For a <em>single</em> sideband (SSB), the denominator is <strong>4</strong>, not 2! When switching DSB-FC to SSB with suppressed carrier, carrier drops to 0 W and only 1 sideband radiates ($P_{SSB} = \frac{m^2 P_c}{4}$).
+          </div>
+        </div>
+
+        <!-- Formula 2: Carson's Rule & Modulation Index -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">🔴 MUST MEMORIZE</span>
+              <span class="text-xs text-slate-400 font-mono">EST-FM-02</span>
+            </div>
+            <h3 class="font-bold text-sm text-slate-100">Carson's Rule & Modulation Index</h3>
+            
+            <div class="my-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center overflow-x-auto">
+              <div class="text-base text-cyan-300 font-serif">
+                $$BW = 2(\Delta f + f_{m(\max)}) = 2f_{m(\max)}(\beta + 1)$$
+              </div>
+              <div class="text-xs text-amber-300 mt-1">
+                $$\beta = \frac{\Delta f}{f_m}, \quad DR = \frac{\Delta f_{\max}}{f_{m(\max)}}$$
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-400">Variables:</strong> $\Delta f$ = Frequency deviation [Hz], $f_m$ = Audio modulating frequency [Hz], $\beta$ = Modulation index [dimensionless / rad].</p>
+              <p><strong class="text-cyan-400">USE WHEN:</strong> Broadcast channel bandwidth allocation, frequency multipliers, Deviation Ratio (DR).</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-rose-300 bg-rose-950/30 p-2 rounded border border-rose-900/50">
+            <strong>⚠️ COMMON TRAP:</strong> Passing an FM wave through a frequency doubler multiplies <strong>both</strong> $f_c$ and $\Delta f$ by 2, causing $\beta$ to double to $2m$. The audio pitch $f_m$ <strong>never</strong> changes!
+          </div>
+        </div>
+
+        <!-- Formula 3: Superheterodyne Image Rejection -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">🔴 MUST MEMORIZE</span>
+              <span class="text-xs text-slate-400 font-mono">EST-RX-03</span>
+            </div>
+            <h3 class="font-bold text-sm text-slate-100">Superhet Frequencies & Image Rejection (IRR)</h3>
+            
+            <div class="my-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center overflow-x-auto">
+              <div class="text-xs text-cyan-300 font-serif">
+                $$f_{LO} = f_s + f_{IF}, \quad f_{si} = f_s + 2f_{IF}$$
+              </div>
+              <div class="text-xs text-amber-300 mt-1">
+                $$IRR = \sqrt{1 + Q^2 \rho^2}, \quad \rho = \frac{f_{si}}{f_s} - \frac{f_s}{f_{si}}$$
+                $$IRR_{\text{dB}} = 20 \log_{10}(IRR)$$
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-400">Variables:</strong> $f_s$ = Desired station, $f_{IF}$ = Standard IF (AM = $455\text{ kHz}$, FM = $10.7\text{ MHz}$), $Q$ = Quality factor of RF pre-selector tank.</p>
+              <p><strong class="text-cyan-400">USE WHEN:</strong> Computing local oscillator tuning frequency and front-end image attenuation.</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-rose-300 bg-rose-950/30 p-2 rounded border border-rose-900/50">
+            <strong>⚠️ COMMON TRAP:</strong> Image rejection occurs <strong>only in the RF pre-selector before the mixer</strong>! The IF amp provides adjacent-channel selectivity, <em>not</em> image rejection.
+          </div>
+        </div>
+
+        <!-- Formula 4: Antenna Efficiency & EIRP -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold">🔴 MUST MEMORIZE</span>
+              <span class="text-xs text-slate-400 font-mono">EST-ANT-04</span>
+            </div>
+            <h3 class="font-bold text-sm text-slate-100">Antenna Efficiency & Link Budget (EIRP)</h3>
+            
+            <div class="my-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center overflow-x-auto">
+              <div class="text-xs text-cyan-300 font-serif">
+                $$\eta = \frac{R_{\text{rad}}}{R_{\text{rad}} + R_{\text{loss}}} = \frac{R_{\text{rad}}}{R_{\text{in}}}$$
+              </div>
+              <div class="text-xs text-amber-300 mt-1">
+                $$G = \eta \cdot D \implies G_{\text{dBi}} = 10\log_{10}(G)$$
+                $$EIRP_{\text{dBm}} = P_{t(\text{dBm})} - L_{\text{cable(dB)}} + G_{\text{ant(dBi)}}$$
+                $$EIRP_{\text{dBW}} = EIRP_{\text{dBm}} - 30$$
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-400">Variables:</strong> $R_{\text{rad}}$ = Radiation resistance [$\Omega$], $R_{\text{loss}}$ = Loss resistance [$\Omega$], $D$ = Directivity, $EIRP$ = Effective Isotropic Radiated Power.</p>
+              <p><strong class="text-cyan-400">USE WHEN:</strong> Transmitter radiated power evaluations and transmitter-antenna match.</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-rose-300 bg-rose-950/30 p-2 rounded border border-rose-900/50">
+            <strong>⚠️ COMMON TRAP:</strong> $0\text{ dBW} = +30\text{ dBm}$. Always subtract 30 when converting from $\text{dBm}$ to $\text{dBW}$. Directivity $D$ equals gain $G$ only if efficiency is 100% ($\eta = 1.0$).
+          </div>
+        </div>
+
+        <!-- Formula 5: Parabolic Dish Beamwidth & Gain -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">🟠 HIGH-YIELD</span>
+              <span class="text-xs text-slate-400 font-mono">EST-ANT-05</span>
+            </div>
+            <h3 class="font-bold text-sm text-slate-100">Parabolic Reflector Beamwidth & Gain</h3>
+            
+            <div class="my-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center overflow-x-auto">
+              <div class="text-xs text-cyan-300 font-serif">
+                $$\theta_{\text{3dB}} \approx \frac{70 \lambda}{D} \quad [\text{degrees}]$$
+              </div>
+              <div class="text-xs text-amber-300 mt-1">
+                $$G = \eta \left(\frac{\pi D}{\lambda}\right)^2, \quad \lambda = \frac{c}{f}$$
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-400">Variables:</strong> $\theta_{\text{3dB}}$ = Half-Power Beamwidth [deg], $D$ = Reflector diameter [m], $\lambda$ = Wavelength [m], $\eta$ = Aperture efficiency ($0.55 - 0.65$ typical).</p>
+              <p><strong class="text-cyan-400">USE WHEN:</strong> Microwave backhaul links, satellite ground stations, radar dish sizing.</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-rose-300 bg-rose-950/30 p-2 rounded border border-rose-900/50">
+            <strong>⚠️ COMMON TRAP:</strong> $D$ and $\lambda$ must be in identical units (meters). Speed of light $c = 3 \times 10^8\text{ m/s}$. If diameter is in centimeters, convert to meters first!
+          </div>
+        </div>
+
+        <!-- Formula 6: Half-Wave Dipole & Dynamic Range -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">🟠 HIGH-YIELD</span>
+              <span class="text-xs text-slate-400 font-mono">EST-RX-06</span>
+            </div>
+            <h3 class="font-bold text-sm text-slate-100">Dipole Cut Length & Receiver Dynamic Range</h3>
+            
+            <div class="my-3 p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-center overflow-x-auto">
+              <div class="text-xs text-cyan-300 font-serif">
+                $$L_{\text{actual}} = k \cdot \frac{\lambda}{2} = (1 - \text{end effect}) \cdot \frac{c}{2f}$$
+              </div>
+              <div class="text-xs text-amber-300 mt-1">
+                $$DR_{\text{dB}} = 10 \log_{10}\left(\frac{P_{\max}}{P_{\min}}\right) \implies P_{\max} = P_{\min} \cdot 10^{\frac{DR}{10}}$$
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-400">Variables:</strong> $k = 0.95$ for standard 5% end effect / velocity shortening factor; $P_{\min}$ = sensitivity threshold; $P_{\max}$ = upper overload limit.</p>
+              <p><strong class="text-cyan-400">USE WHEN:</strong> Practical antenna fabrication cut-lengths and receiver overload threshold.</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-rose-300 bg-rose-950/30 p-2 rounded border border-rose-900/50">
+            <strong>⚠️ COMMON TRAP:</strong> A half-wave dipole at resonance has $Z_{\text{in}} \approx 72\ \Omega$. Operating slightly above resonance makes it <strong>inductive</strong> ($+jX$); operating slightly below makes it <strong>capacitive</strong> ($-jX$).
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: TOPIC BREAKDOWN MATRIX & COMPARISONS -->
+    <section id="sec-analog" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-cyan-400"></div>
+          <h2 class="text-base font-bold text-white uppercase tracking-wider">Analog Modulation Architectures (AM, SSB, FM, PM)</h2>
+        </div>
+        <span class="text-xs text-cyan-400 font-mono">Analog-to-Analog Conversion</span>
+      </div>
+
+      <!-- Core Principle Box -->
+      <div class="bg-gradient-to-r from-cyan-950/40 via-slate-900 to-slate-900 border border-cyan-800/40 rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold uppercase">Fundamental Classification [NOTES: Q1]</span>
+          <h3 class="text-sm font-bold text-white mt-1">AM, FM, and PM are Strictly "Analog to Analog" Conversions</h3>
+          <p class="text-xs text-slate-300 mt-0.5">Continuous-time analog audio baseband ($0\text{--}15\text{ kHz}$) directly alters the amplitude, frequency, or phase of a continuous sinusoidal RF carrier wave ($535\text{ kHz to }108\text{ MHz}$).</p>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-center shrink-0">
+          <span class="text-slate-400">Voice/Audio $m(t)$</span> ➔ <span class="text-amber-400">Modulator</span> ➔ <span class="text-emerald-400">Analog RF $s(t)$</span>
+        </div>
+      </div>
+
+      <!-- Comparison Grid: AM vs SSB vs FM vs PM -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- AM vs SSB Card -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-amber-300 flex items-center gap-2">
+              <span>Standard AM (DSB-FC) vs Single Sideband (SSB-SC)</span>
+            </h3>
+            <span class="text-[10px] font-mono bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">Q2 - Q7</span>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400">
+                  <th class="py-1.5 px-2">Parameter</th>
+                  <th class="py-1.5 px-2">Standard AM (DSB-FC)</th>
+                  <th class="py-1.5 px-2">SSB-SC (Single Sideband)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                <tr>
+                  <td class="py-1.5 px-2 font-mono text-slate-400">Carrier Power</td>
+                  <td class="py-1.5 px-2 text-rose-400 font-semibold">Full Carrier ($P_c \ge 66.7\%$)</td>
+                  <td class="py-1.5 px-2 text-emerald-400 font-semibold">Suppressed to 0 W ($P_c = 0$)</td>
+                </tr>
+                <tr>
+                  <td class="py-1.5 px-2 font-mono text-slate-400">Bandwidth</td>
+                  <td class="py-1.5 px-2">$2 \cdot f_{m(\max)}$</td>
+                  <td class="py-1.5 px-2 text-emerald-400 font-bold">$f_{m(\max)}$ (Reduced by 50%)</td>
+                </tr>
+                <tr>
+                  <td class="py-1.5 px-2 font-mono text-slate-400">Power Split</td>
+                  <td class="py-1.5 px-2">Carrier + LSB + USB</td>
+                  <td class="py-1.5 px-2 text-emerald-400">100% concentrated in active SB</td>
+                </tr>
+                <tr>
+                  <td class="py-1.5 px-2 font-mono text-slate-400">Two-Tone PEP</td>
+                  <td class="py-1.5 px-2">—</td>
+                  <td class="py-1.5 px-2 font-mono text-cyan-300">$P_{\text{ave}} = \frac{1}{2}\text{PEP}$</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-xs space-y-1">
+            <div class="font-bold text-amber-400">Filter Method RF Band Calculation [Q7]:</div>
+            <p class="text-slate-300 text-[11px]">Given $f_c = 5.000\text{ MHz}$, audio $300\text{ Hz to } 3,000\text{ Hz}$:</p>
+            <p class="font-mono text-emerald-400 text-[11px]">USB: $(5.000\text{ MHz} + 300\text{ Hz}) \to (5.000\text{ MHz} + 3000\text{ Hz}) = \mathbf{5,000,300\text{ to }5,003,000\text{ Hz}}$</p>
+            <p class="font-mono text-cyan-400 text-[11px]">LSB: $(5.000\text{ MHz} - 3000\text{ Hz}) \to (5.000\text{ MHz} - 300\text{ Hz}) = \mathbf{4,997,000\text{ to }4,999,700\text{ Hz}}$</p>
+          </div>
+        </div>
+
+        <!-- FM vs PM Deep Dive Card -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-cyan-300 flex items-center gap-2">
+              <span>Frequency Modulation (FM) vs Phase Modulation (PM)</span>
+            </h3>
+            <span class="text-[10px] font-mono bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded">Q8 - Q21</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+              <div class="font-bold text-cyan-400 uppercase text-[10px] tracking-wider">Frequency Modulation (FM)</div>
+              <div class="font-mono text-white text-xs mt-1">$$\Delta f = k_f V_m$$</div>
+              <p class="text-[11px] text-slate-300 mt-1">Peak deviation $\Delta f$ depends <strong>strictly on modulating amplitude $V_m$</strong>.</p>
+              <div class="mt-2 text-[10px] text-slate-400 font-mono">$$\beta = \frac{\Delta f}{f_m}$$</div>
+              <p class="text-[10px] text-amber-300">If audio pitch $f_m$ increases, $\beta$ decreases inversely, but <strong>$\Delta f$ stays constant!</strong></p>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+              <div class="font-bold text-indigo-400 uppercase text-[10px] tracking-wider">Phase Modulation (PM)</div>
+              <div class="font-mono text-white text-xs mt-1">$$\Delta f = k_p V_m \cdot f_m$$</div>
+              <p class="text-[11px] text-slate-300 mt-1">Peak deviation $\Delta f$ is proportional to amplitude $V_m$ <strong>AND audio frequency $f_m$</strong>.</p>
+              <div class="mt-2 text-[10px] text-slate-400 font-mono">$$m_p = \Delta \theta = k_p V_m$$</div>
+              <p class="text-[10px] text-indigo-300">Modulation index $m_p$ is pure phase deviation in radians, <strong>independent of $f_m$</strong>.</p>
+            </div>
+          </div>
+
+          <div class="p-2 rounded bg-rose-950/30 border border-rose-900/40 text-[11px] text-rose-200">
+            <strong>🔴 CRITICAL BOARD EXAM EXPERIMENT [Q19]:</strong><br>
+            Audio frequency $f_m$ increased from $2\text{ kHz} \to 4\text{ kHz}$ at constant audio voltage $V_m$ ($\Delta f_{\text{initial}} = 10\text{ kHz}$):
+            <div class="grid grid-cols-2 mt-1 font-mono text-xs font-semibold">
+              <span class="text-cyan-300">• FM new $\Delta f = \mathbf{10\text{ kHz}}$ (Constant)</span>
+              <span class="text-indigo-300">• PM new $\Delta f = \mathbf{20\text{ kHz}}$ (Doubled!)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: SUPERHETERODYNE RECEIVER COMMAND BLOCK -->
+    <section id="sec-superhet" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+          <h2 class="text-base font-bold text-white uppercase tracking-wider">Superheterodyne Receiver Architectures & Diagnostics</h2>
+        </div>
+        <span class="text-xs text-amber-400 font-mono">Image Frequency & Selectivity Engines</span>
+      </div>
+
+      <!-- Superhet Architecture Block Diagram -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <div class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
+          <span>Signal Processing Stage & Function Matrix</span>
+          <span class="text-[10px] font-mono text-cyan-400">Standard High-Side: $f_{LO} = f_s + f_{IF}$</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          <!-- Stage 1: RF Pre-selector -->
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-amber-400">STAGE 1</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">Q27</span>
+            </div>
+            <h4 class="font-bold text-xs text-white">RF Amplifier / Pre-selector</h4>
+            <ul class="text-[11px] text-slate-300 space-y-1 pt-1">
+              <li>• Sets receiver <strong>Sensitivity</strong> (low NF).</li>
+              <li>• <strong class="text-rose-400">STRICTLY REJECTS Image Freq ($f_{si}$)</strong> before mixing!</li>
+              <li>• Tuned synchronously with Local Oscillator (ganged tuning).</li>
+            </ul>
+          </div>
+
+          <!-- Stage 2: Mixer / Converter -->
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-cyan-400">STAGE 2</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">Q29, Q30</span>
+            </div>
+            <h4 class="font-bold text-xs text-white">Mixer + Local Oscillator</h4>
+            <ul class="text-[11px] text-slate-300 space-y-1 pt-1">
+              <li>• Mixes incoming $f_s$ with $f_{LO}$ to downconvert to fixed $f_{IF}$.</li>
+              <li>• Standard High-Side AM: $f_{LO} = f_s + 455\text{ kHz}$.</li>
+              <li>• Standard FM: $f_{IF} = 10.7\text{ MHz}$.</li>
+              <li>• Non-linear device generates sum & difference components.</li>
+            </ul>
+          </div>
+
+          <!-- Stage 3: IF Amplifier -->
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-emerald-400">STAGE 3</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">Q24, Q26</span>
+            </div>
+            <h4 class="font-bold text-xs text-white">IF Amplifier (Tuned Filter)</h4>
+            <ul class="text-[11px] text-slate-300 space-y-1 pt-1">
+              <li>• Provides bulk of receiver gain ($>60\text{ dB}$).</li>
+              <li>• <strong class="text-emerald-400">Selectivity:</strong> Sharp filter rejects adjacent channels.</li>
+              <li>• Operating frequency is permanently fixed regardless of tuning.</li>
+              <li>• Cannot reject image because image is <em>already converted</em> to $f_{IF}$!</li>
+            </ul>
+          </div>
+
+          <!-- Stage 4: Demodulator / Detector -->
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-purple-400">STAGE 4</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono">Q25, Q28</span>
+            </div>
+            <h4 class="font-bold text-xs text-white">Demodulator & Audio Amp</h4>
+            <ul class="text-[11px] text-slate-300 space-y-1 pt-1">
+              <li>• <strong>AM:</strong> Envelope detector extracts carrier amplitude variations.</li>
+              <li>• <strong>FM:</strong> Discriminator / ratio detector extracts frequency changes.</li>
+              <li>• <strong class="text-purple-300">Capture Effect:</strong> FM receiver suppresses weaker signal on the same frequency.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ANTENNAS & WAVE PROPAGATION -->
+    <section id="sec-antenna" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+          <h2 class="text-base font-bold text-white uppercase tracking-wider">Antennas, Directivity & Wave Propagation</h2>
+        </div>
+        <span class="text-xs text-emerald-400 font-mono">Field Orientation & Geometry Rules</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Antenna Card 1: Polarization Rules -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">POLARIZATION ENGINE</span>
+            <span class="text-xs text-slate-400 font-mono">Q45 - Q49</span>
+          </div>
+          <h3 class="font-bold text-sm text-slate-100">Electric Field Vector ($\vec{E}$) Rules</h3>
+          
+          <div class="text-xs text-slate-300 space-y-2">
+            <p>• <strong>Definition [Q45]:</strong> Polarization is defined by the spatial orientation of the <strong>Electric Field Vector ($\vec{E}$)</strong> relative to Earth.</p>
+            <p>• <strong>Smooth Ground Reflection [Q46]:</strong> Horizontally polarized wave reflecting off smooth flat ground <strong>remains horizontally polarized</strong> (incurs $180^\circ$ phase shift at grazing angles).</p>
+            <p>• <strong>Over Bodies of Water [Q47]:</strong> <strong>Horizontal polarization</strong> is significantly superior for low antenna heights (vertical suffers extreme ground wave tilt and dielectric absorption).</p>
+            <p>• <strong>High Above Ground [Q48]:</strong> <strong>Horizontally polarized antennas</strong> provide maximum signal strength reaching the surface.</p>
+            <p>• <strong>Cross-Polarization [Q49]:</strong> Horizontal transmitter sending to vertical receiver results in <strong>complete signal cancellation (0 Watts / theoretical $\infty\text{ dB}$ loss)</strong>.</p>
+          </div>
+        </div>
+
+        <!-- Antenna Card 2: Resonance & Geometry -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">RESONANCE & IMPEDANCE</span>
+            <span class="text-xs text-slate-400 font-mono">Q34 - Q41</span>
+          </div>
+          <h3 class="font-bold text-sm text-slate-100">Physical Length & Frequency Behavior</h3>
+          
+          <div class="text-xs text-slate-300 space-y-2">
+            <p>• <strong>Resonant Determinant [Q36, Q38]:</strong> Dictated strictly by <strong>wavelength ($\lambda = c/f$)</strong> and physical geometry. Feedline impedance matching does <em>not</em> alter resonant frequency!</p>
+            <p>• <strong>Alter Radiation Pattern [Q35]:</strong> Most effective method is changing the <strong>physical geometry</strong> of the antenna.</p>
+            <p>• <strong>Improper Impedance Match [Q34]:</strong> Severe mismatch causes standing waves and <strong>reduces overall power transfer efficiency</strong>.</p>
+            <p>• <strong>Off-Resonance Impedance [Q39, Q40]:</strong>
+              <span class="block font-mono text-cyan-300 text-[11px] mt-1">Above $f_0$: Physically too long ➔ <strong class="text-amber-400">Inductive (+jX)</strong></span>
+              <span class="block font-mono text-cyan-300 text-[11px]">Below $f_0$: Physically too short ➔ <strong class="text-rose-400">Capacitive (-jX)</strong></span>
+            </p>
+            <p>• <strong>Conductor Thickness [Q41]:</strong> Increasing wire diameter <strong>increases antenna bandwidth</strong> (decreases effective $Q$).</p>
+          </div>
+        </div>
+
+        <!-- Antenna Card 3: Beamwidth & Gain Types -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">TYPES & DIRECTIVITY</span>
+            <span class="text-xs text-slate-400 font-mono">Q33, Q37, Q42 - Q44</span>
+          </div>
+          <h3 class="font-bold text-sm text-slate-100">Antenna Types & Directivity Laws</h3>
+          
+          <div class="text-xs text-slate-300 space-y-2">
+            <p>• <strong>Gain Definition [Q33]:</strong> Ratio of power radiated in a given direction compared to an <strong>isotropic radiator</strong>.</p>
+            <p>• <strong>Directivity vs Beamwidth [Q37, Q43]:</strong> Inverse relationship: <strong>Higher directivity = Narrower beamwidth</strong>.</p>
+            <p>• <strong>Isotropic Radiator [Q42]:</strong> Theoretical lossless point source whose radiation pattern is a <strong>perfect 3D sphere</strong> ($G = 0\text{ dBi}$).</p>
+            <p>• <strong>Yagi-Uda Arrays [Q44]:</strong> Adding more director elements <strong>decreases beamwidth and increases directivity</strong>.</p>
+            <p>• <strong>Front-to-Back Ratio (FBR) [Q55]:</strong>
+              <span class="block font-mono text-cyan-300 text-[11px] mt-0.5">$$\text{FBR} = G_{\text{front}} - G_{\text{back}} = 14\text{ dBi} - (-8\text{ dBi}) = \mathbf{22\text{ dB}}$$</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: DIGITAL COMMS & PCM -->
+    <section id="sec-digital" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-purple-400"></div>
+          <h2 class="text-base font-bold text-white uppercase tracking-wider">Pulse Code Modulation (PCM) & Digital Communications</h2>
+        </div>
+        <span class="text-xs text-purple-400 font-mono">Discretization & Regeneration Laws</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- PCM Pipeline -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-purple-300">The Canonical 3-Step PCM Conversion Pipeline</h3>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Q58</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded bg-slate-950 border-l-4 border-cyan-400">
+              <div class="font-bold text-cyan-300">STEP 1: SAMPLING (PAM) [Q58 Target]</div>
+              <p class="text-slate-300 text-[11px] mt-0.5">Converts continuous-time, continuous-amplitude signal into a <strong>discrete-time, continuous-amplitude</strong> pulse stream. Governed by Nyquist criterion ($f_s \ge 2 f_{\max}$).</p>
+            </div>
+            <div class="p-2.5 rounded bg-slate-950 border-l-4 border-amber-400">
+              <div class="font-bold text-amber-300">STEP 2: QUANTIZATION</div>
+              <p class="text-slate-300 text-[11px] mt-0.5">Converts continuous amplitude to <strong>discrete amplitude levels</strong>. Introduces irreversible Quantization Error / Noise ($Q_e$).</p>
+            </div>
+            <div class="p-2.5 rounded bg-slate-950 border-l-4 border-emerald-400">
+              <div class="font-bold text-emerald-300">STEP 3: ENCODING</div>
+              <p class="text-slate-300 text-[11px] mt-0.5">Assigns a unique binary codeword ($n$ bits) to each quantized voltage level ($L = 2^n$).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regenerative Repeaters vs Amplifiers -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-purple-300">Repeaters vs Amplifiers & Noise Immunity</h3>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Q56, Q57</span>
+          </div>
+
+          <div class="space-y-2.5 text-xs text-slate-300">
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+              <div class="font-bold text-rose-400">Analog Amplifiers (Cascaded Accumulation):</div>
+              <p class="text-[11px] mt-1">Boost signal voltage, but simultaneously amplify incoming line noise and add their own thermal noise. <strong>Noise accumulates monotonically</strong> with distance, severely degrading SNR.</p>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800">
+              <div class="font-bold text-emerald-400">Digital Regenerative Repeaters [Q57 Advantage]:</div>
+              <p class="text-[11px] mt-1">Perform threshold detection, re-timing, and generate completely <strong>brand-new clean pulses</strong>. Channel noise is eliminated at every repeater!</p>
+            </div>
+
+            <div class="p-2 rounded bg-purple-950/30 border border-purple-900/50 text-[11px] text-purple-200">
+              <strong>Noise Immunity Principle [Q56]:</strong> Digital signals are more immune to noise because receivers <strong>distinguish only between discrete voltage states (0 or 1)</strong>, rather than infinitesimally small analog variations.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: INTERACTIVE BOARD EXAM SOLVERS -->
+    <section id="sec-calculator" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></div>
+          <h2 class="text-base font-bold text-amber-300 uppercase tracking-wider">🧮 Interactive Board Exam Solvers</h2>
+        </div>
+        <span class="text-xs text-slate-400 font-mono">Live Verifiers for Exam Math Problems</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <!-- Calculator 1: AM Sideband Power Scaler -->
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white">AM Sideband Power Scaler</span>
+            <span class="text-[10px] font-mono text-amber-400">Target: Q2</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Calculates new sideband power when modulation index changes: $P_{SB2} = P_{SB1} \cdot (m_2 / m_1)^2$</p>
+          
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div>
+              <label class="block text-[10px] text-slate-400">Initial $P_{SB1}$ (W)</label>
+              <input type="number" id="calc_psb1" value="720" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-cyan-300 text-xs font-mono">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">Initial $m_1$ (%)</label>
+              <input type="number" id="calc_m1" value="60" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-cyan-300 text-xs font-mono">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">New $m_2$ (%)</label>
+              <input type="number" id="calc_m2" value="80" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-cyan-300 text-xs font-mono">
+            </div>
+          </div>
+
+          <button onclick="calculateAMPower()" class="w-full py-1.5 text-xs font-bold rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition">
+            Compute New Sideband Power
+          </button>
+          
+          <div id="res_am_power" class="p-2 rounded bg-slate-950 text-xs font-mono text-emerald-400 border border-slate-800 text-center">
+            Result: 1,280.00 Watts
+          </div>
+        </div>
+
+        <!-- Calculator 2: Superhet LO & Image Solver -->
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white">Superhet LO & Image Frequency</span>
+            <span class="text-[10px] font-mono text-cyan-400">Target: Q30, Q31</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Computes High-side LO ($f_{LO} = f_s + f_{IF}$) and Image ($f_{si} = f_s + 2f_{IF}$)</p>
+          
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div>
+              <label class="block text-[10px] text-slate-400">Station $f_s$ (kHz)</label>
+              <input type="number" id="calc_fs" value="630" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-cyan-300 text-xs font-mono">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">IF $f_{IF}$ (kHz)</label>
+              <input type="number" id="calc_fif" value="455" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-cyan-300 text-xs font-mono">
+            </div>
+          </div>
+
+          <button onclick="calculateSuperhet()" class="w-full py-1.5 text-xs font-bold rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 transition">
+            Calculate LO & Image
+          </button>
+          
+          <div id="res_superhet" class="p-2 rounded bg-slate-950 text-xs font-mono text-cyan-300 border border-slate-800 space-y-0.5">
+            <div>$f_{LO}$: <strong>1,085 kHz</strong></div>
+            <div>$f_{si}$: <strong>1,540 kHz</strong></div>
+          </div>
+        </div>
+
+        <!-- Calculator 3: Cellular 5G Sector EIRP -->
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white">5G Sector Antenna EIRP</span>
+            <span class="text-[10px] font-mono text-emerald-400">Target: Q53</span>
+          </div>
+          <p class="text-[11px] text-slate-400">$EIRP_{\text{dBm}} = P_t - L + G_{\text{ant}}$; $EIRP_{\text{dBW}} = EIRP_{\text{dBm}} - 30$</p>
+          
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div>
+              <label class="block text-[10px] text-slate-400">Tx $P_t$ (dBm)</label>
+              <input type="number" id="calc_pt" value="46" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-emerald-300 text-xs font-mono">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">Loss (dB)</label>
+              <input type="number" id="calc_loss" value="2" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-emerald-300 text-xs font-mono">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">Gain (dBi)</label>
+              <input type="number" id="calc_gain" value="18" class="w-full mt-1 p-1.5 rounded bg-slate-950 border border-slate-700 text-emerald-300 text-xs font-mono">
+            </div>
+          </div>
+
+          <button onclick="calculateEIRP()" class="w-full py-1.5 text-xs font-bold rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition">
+            Compute EIRP (dBm & dBW)
+          </button>
+          
+          <div id="res_eirp" class="p-2 rounded bg-slate-950 text-xs font-mono text-emerald-400 border border-slate-800 space-y-0.5">
+            <div>$EIRP_{\text{dBm}}$: <strong>62.00 dBm</strong></div>
+            <div>$EIRP_{\text{dBW}}$: <strong>32.00 dBW</strong> (1,585 W)</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 7: DON'T CONFUSE THESE! (EXAM BUSTERS) -->
+    <section id="sec-traps" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+          <h2 class="text-base font-bold text-rose-300 uppercase tracking-wider">⚠️ DON'T CONFUSE THESE (BOARD EXAM BUSTERS)</h2>
+        </div>
+        <span class="text-xs text-rose-400 font-mono">High-Probability Multiple-Choice Traps</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Trap 1 -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-white border-b border-slate-800 pb-1.5 flex justify-between">
+            <span class="text-amber-400">SELECTIVITY</span>
+            <span class="text-slate-500">vs</span>
+            <span class="text-cyan-400">SENSITIVITY</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div>
+              <strong class="text-amber-300">Selectivity:</strong> Ability to separate closely spaced stations and reject adjacent channels. Governed strictly by the <strong>IF Amplifier filter shape</strong>.
+            </div>
+            <div>
+              <strong class="text-cyan-300">Sensitivity:</strong> Ability to detect extremely weak signals (e.g., remote province). Governed by <strong>RF stage gain and noise figure</strong>.
+            </div>
+            <div class="text-[11px] text-rose-300 font-mono bg-rose-950/30 p-1.5 rounded">
+              Trap: Remoteness requires sensitivity; crowded dials require selectivity!
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 2 -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-white border-b border-slate-800 pb-1.5 flex justify-between">
+            <span class="text-amber-400">RF PRE-SELECTOR</span>
+            <span class="text-slate-500">vs</span>
+            <span class="text-cyan-400">IF AMPLIFIER</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div>
+              <strong class="text-amber-300">RF Pre-selector:</strong> Must reject the <strong>Image Frequency ($f_s + 2f_{IF}$)</strong> prior to the mixer.
+            </div>
+            <div>
+              <strong class="text-cyan-300">IF Amplifier:</strong> Rejects <strong>adjacent channels</strong>. It <em>cannot</em> reject image frequencies because the mixer already converted both to $f_{IF}$!
+            </div>
+            <div class="text-[11px] text-rose-300 font-mono bg-rose-950/30 p-1.5 rounded">
+              Trap: Image rejection is 100% finished before the mixer.
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 3 -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-white border-b border-slate-800 pb-1.5 flex justify-between">
+            <span class="text-amber-400">RESONANCE</span>
+            <span class="text-slate-500">vs</span>
+            <span class="text-cyan-400">IMPEDANCE MATCHING</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div>
+              <strong class="text-amber-300">Resonant Frequency:</strong> Dictated purely by physical antenna length $L \approx \lambda/2$.
+            </div>
+            <div>
+              <strong class="text-cyan-300">Impedance Matching:</strong> Matching cable to antenna optimizes power transfer, but <strong>does NOT alter the natural resonant frequency</strong> of the antenna!
+            </div>
+            <div class="text-[11px] text-rose-300 font-mono bg-rose-950/30 p-1.5 rounded">
+              Trap: Tuning an antenna tuner does not change wire physical resonance.
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 4 -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-white border-b border-slate-800 pb-1.5 flex justify-between">
+            <span class="text-amber-400">FM DEVIATION</span>
+            <span class="text-slate-500">vs</span>
+            <span class="text-cyan-400">PM DEVIATION</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div>
+              <strong class="text-amber-300">In FM:</strong> Deviation $\Delta f$ depends ONLY on modulating audio amplitude $V_m$. Pitch change has <strong>zero effect on $\Delta f$</strong>.
+            </div>
+            <div>
+              <strong class="text-cyan-300">In PM:</strong> Deviation $\Delta f$ is proportional to audio amplitude $V_m$ <strong>AND audio frequency $f_m$</strong>. Doubling audio pitch doubles deviation!
+            </div>
+            <div class="text-[11px] text-rose-300 font-mono bg-rose-950/30 p-1.5 rounded">
+              Trap: Modulation index in PM ($m_p = \Delta \theta$) is constant with frequency.
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 5 -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-white border-b border-slate-800 pb-1.5 flex justify-between">
+            <span class="text-amber-400">FM TRANSMITTED POWER</span>
+            <span class="text-slate-500">vs</span>
+            <span class="text-cyan-400">AM TRANSMITTED POWER</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div>
+              <strong class="text-amber-300">FM Power:</strong> Remains <strong>strictly constant</strong> as modulation increases. Carrier gives energy up to sidebands ($P_t = V_c^2 / 2R$).
+            </div>
+            <div>
+              <strong class="text-cyan-300">AM Power:</strong> Increases quadratically as modulation increases ($P_t = P_c(1 + m^2/2)$).
+            </div>
+            <div class="text-[11px] text-rose-300 font-mono bg-rose-950/30 p-1.5 rounded">
+              Trap: AM ammeter reading rises with voice; FM ammeter remains rock solid!
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 6 -->
+        <div class="searchable-card bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-white border-b border-slate-800 pb-1.5 flex justify-between">
+            <span class="text-amber-400">HIGH IF ADVANTAGE</span>
+            <span class="text-slate-500">vs</span>
+            <span class="text-cyan-400">LOW IF ADVANTAGE</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300">
+            <div>
+              <strong class="text-amber-300">High IF:</strong> Pushes image frequency further away ($2f_{IF}$), dramatically improving <strong>Image Rejection</strong>.
+            </div>
+            <div>
+              <strong class="text-cyan-300">Low IF:</strong> Easier to build high-gain, narrow bandpass filters, improving <strong>Adjacent Channel Selectivity</strong>.
+            </div>
+            <div class="text-[11px] text-rose-300 font-mono bg-rose-950/30 p-1.5 rounded">
+              Trap: Dual-conversion receivers use High IF first (image), then Low IF (selectivity)!
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 8: 58-QUESTION RAPID DRILL & VERIFICATION DECK -->
+    <section id="sec-drill" class="category-block space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+          <h2 class="text-base font-bold text-emerald-300 uppercase tracking-wider">⚡ 58-Question Board Exam Drill Deck</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleAllAnswers()" id="toggleAllBtn" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition">
+            Expand All Answers
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="drillCardsContainer">
+        <!-- Javascript dynamically populates all 58 questions with verified data -->
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Database of all 58 questions extracted directly from the PDF reviewer notes
+    const questionDatabase = [
+      { q: 1, text: "AM, FM, and PM are all examples of _____ conversion.", ans: "Analog to analog", note: "Continuous analog baseband is impressed directly onto a continuous sinusoidal RF carrier wave.", tag: "analog" },
+      { q: 2, text: "Power content of sideband with 60% modulation is 720 W. If increased to 80%, sideband power will become?", ans: "1280 W", note: "Sideband power is proportional to m^2: P2 = 720 * (0.8 / 0.6)^2 = 720 * (16/9) = 1,280 W.", tag: "formulas" },
+      { q: 3, text: "What happens to the bandwidth requirement when using Single Sideband (SSB) instead of traditional AM?", ans: "The bandwidth requirement is reduced", note: "SSB bandwidth is exactly half that of standard AM (BW = fm vs 2*fm).", tag: "analog" },
+      { q: 4, text: "In an SSB modulation system, how is power distributed between carrier and sideband compared to standard AM?", ans: "Carrier power is reduced to zero, and sideband power carries the entire signal", note: "Carrier and one sideband are suppressed; 100% of RF power is in the information-carrying sideband.", tag: "analog" },
+      { q: 5, text: "Transmitter generates DSB-FC AM with Pt = 1200 W at 100% modulation. If modified to transmit LSB with carrier suppressed, what is the new power?", ans: "200 W", note: "Pt = Pc(1 + m^2/2) = 1.5 Pc = 1200 W => Pc = 800 W. Total sideband = 400 W. LSB = 400 / 2 = 200 W.", tag: "formulas" },
+      { q: 6, text: "SSB transmitter has PEP of 250 W. Modulated equally by two tones (400 Hz & 900 Hz) into 50 Ω. Calculate Pave.", ans: "125 W", note: "For two equal sinusoidal tones in SSB: Pave = (1/2) * PEP = 250 W / 2 = 125 W.", tag: "formulas" },
+      { q: 7, text: "SSB transmitter uses filter method with fc = 5.000 MHz and audio from 300 Hz to 3,000 Hz. If using sharp USB filter, what is the exact transmitted range?", ans: "5,000,300 Hz to 5,003,000 Hz (5.0003 MHz to 5.0030 MHz)", note: "USB = fc + fm(min) to fc + fm(max) = 5,000,000 + 300 to 5,000,000 + 3000.", tag: "analog" },
+      { q: 8, text: "Which specific factor influences the modulation index in an FM transmission?", ans: "The frequency deviation of the carrier signal", note: "In FM, beta = delta_f / fm. Frequency deviation directly determines the index.", tag: "angle" },
+      { q: 9, text: "How does an increase in modulation index affect bandwidth of an FM signal?", ans: "It increases the bandwidth in a non-linear fashion", note: "Governed by Bessel functions / Carson's rule BW = 2*fm*(beta + 1).", tag: "angle" },
+      { q: 10, text: "Why is narrowband FM (NBFM) typically chosen for two-way radio systems?", ans: "It requires less bandwidth", note: "NBFM keeps beta <= 0.2, yielding spectrum width comparable to AM (~2*fm) to conserve RF spectrum.", tag: "angle" },
+      { q: 11, text: "What happens to the power of the transmitted FM signal as modulation index increases?", ans: "It remains constant", note: "Pt = Vc^2 / (2R). Power is continuously redistributed among Bessel sidebands, but total energy stays constant.", tag: "angle" },
+      { q: 12, text: "In frequency modulation for a given frequency deviation, the modulation index varies _____ as modulating frequency.", ans: "Inversely", note: "beta = delta_f / fm. When fm increases, beta decreases inversely.", tag: "angle" },
+      { q: 13, text: "'In an FM signal, number of significant sidebands depends upon modulation index.'", ans: "True", note: "Bessel table reveals significant sidebands (Jn(beta) >= 0.01) increase directly with beta.", tag: "angle" },
+      { q: 14, text: "When a signal with modulation index m is passed through a frequency doubler, output will have modulation index of?", ans: "2m", note: "A frequency doubler doubles the carrier and doubles the peak deviation delta_f; modulating frequency fm remains unchanged, so beta' = 2*delta_f / fm = 2m.", tag: "angle" },
+      { q: 15, text: "Max instantaneous frequency = 95.05 MHz on a 95 MHz carrier with 5 kHz audio. What is modulation index?", ans: "10", note: "delta_f = 95.05 - 95.00 = 0.05 MHz = 50 kHz. beta = 50 kHz / 5 kHz = 10.", tag: "formulas" },
+      { q: 16, text: "Max deviation of FM carrier is 2 kHz by max modulating signal of 400 Hz. The deviation ratio is?", ans: "5", note: "Deviation Ratio DR = delta_f(max) / fm(max) = 2000 Hz / 400 Hz = 5.", tag: "formulas" },
+      { q: 17, text: "Phase shift of a PM signal is 86 degrees. What is the modulation index?", ans: "1.50 rad", note: "In PM, mp = delta_theta = 86 * (pi / 180) = 1.5009 rad.", tag: "formulas" },
+      { q: 18, text: "FM transmitter fc = 98.0 MHz, fm = 4 kHz, peak deviation = 20 kHz. What is the modulation index?", ans: "5", note: "beta = delta_f / fm = 20 kHz / 4 kHz = 5.", tag: "formulas" },
+      { q: 19, text: "PM and FM systems have fm = 2 kHz and delta_f = 10 kHz. If fm increased to 4 kHz at constant voltage amplitude, what is the new delta_f?", ans: "FM = 10 kHz (constant); PM = 20 kHz (doubles)", note: "In FM, delta_f = kf*Vm (independent of fm). In PM, delta_f = kp*Vm*fm (directly proportional to fm).", tag: "traps" },
+      { q: 20, text: "By Carson's Rule, calculate commercial FM bandwidth for delta_f = 75 kHz and fm = 15 kHz.", ans: "180 kHz", note: "BW = 2*(delta_f + fm) = 2*(75 + 15) = 2*(90) = 180 kHz.", tag: "formulas" },
+      { q: 21, text: "FM transmitter strictly limited to peak deviation of 50 kHz with audio 50 Hz to 10 kHz. What is Deviation Ratio?", ans: "5", note: "DR = delta_f(max) / fm(max) = 50 kHz / 10 kHz = 5.", tag: "formulas" },
+      { q: 22, text: "To be considered a 'good' radio receiver, which two characteristics must it possess?", ans: "High selectivity and high sensitivity", note: "Selectivity rejects adjacent channels; sensitivity detects weak signals.", tag: "superhet" },
+      { q: 23, text: "Farmer in remote barangay needs to pick up weak signals originating from Baguio City. Which characteristic is critical?", ans: "High sensitivity", note: "Sensitivity is the measure of the weakest signal the receiver can successfully detect.", tag: "superhet" },
+      { q: 24, text: "In radio receivers, which improves the ability to separate two closely spaced stations?", ans: "High selectivity", note: "Selectivity isolates the wanted frequency and suppresses adjacent channel interference.", tag: "superhet" },
+      { q: 25, text: "Inherent ability of FM to diminish interfering signals and capture the stronger of two signals on the same frequency?", ans: "Capture Effect", note: "FM receiver locks onto the stronger signal when there is a difference of only ~1 to 3 dB.", tag: "superhet" },
+      { q: 26, text: "What is the main advantage of using a high Intermediate Frequency (IF) in receiver design?", ans: "It makes the image frequency further away from the signal frequency", note: "Image separation is 2*fIF. Higher IF allows the RF pre-selector to filter out the image much more effectively.", tag: "superhet" },
+      { q: 27, text: "Which block in superheterodyne receiver is primarily responsible for rejecting the Image Frequency?", ans: "The RF amplifier or pre-selector", note: "Image rejection must occur prior to the mixer. Once in the IF stage, image and desired signals are indistinguishable.", tag: "superhet" },
+      { q: 28, text: "What must an AM envelope detector do?", ans: "Demodulate by extracting the amplitude variations of the carrier", note: "A simple diode and low-pass filter follow the peak envelope of the RF carrier to recover baseband audio.", tag: "superhet" },
+      { q: 29, text: "In standard commercial FM radio, IF is fixed at 10.7 MHz. How is this achieved for any tuned station?", ans: "It mixes incoming signal with a local oscillator to convert it to IF", note: "Variable LO tracks input station so that |fs - fLO| = 10.7 MHz always.", tag: "superhet" },
+      { q: 30, text: "AM radio tuned to DZMM at 630 kHz (standard IF = 455 kHz, high-side injection). What is LO frequency?", ans: "1085 kHz", note: "fLO = fs + fIF = 630 kHz + 455 kHz = 1,085 kHz.", tag: "formulas" },
+      { q: 31, text: "AM receiver tuned to 1000 kHz, Q = 50, IF = 455 kHz. Calculate Image Rejection Ratio (IRR) in dB.", ans: "36.82 dB", note: "fsi = 1000 + 2(455) = 1910 kHz. rho = 1910/1000 - 1000/1910 = 1.3864. IRR = sqrt(1 + (50*1.3864)^2) = 69.33 => 20*log10(69.33) = 36.82 dB.", tag: "formulas" },
+      { q: 32, text: "Receiver dynamic range = 81 dB, sensitivity = 0.55 nW. Determine maximum allowable input signal.", ans: "69.24 mW", note: "Pmax = Pmin * 10^(DR/10) = 0.55e-9 * 10^8.1 = 0.55e-9 * 1.2589e8 = 0.06924 W = 69.24 mW.", tag: "formulas" },
+      { q: 33, text: "Ratio of power radiated by antenna in specific direction to theoretical isotropic antenna is?", ans: "Antenna gain", note: "Gain G = eta * Directivity (referenced to isotropic radiator = dBi).", tag: "antenna" },
+      { q: 34, text: "Primary negative consequence when antenna feed-point impedance is NOT matched to line?", ans: "It reduces the overall power transfer efficiency", note: "Mismatch causes signal reflections, high SWR, and loss of radiated power.", tag: "antenna" },
+      { q: 35, text: "Most effective method to fundamentally alter the radiation pattern of an existing antenna system?", ans: "Changing the physical geometry of the antenna", note: "Radiation patterns are dictated by the physical spatial arrangement and lengths of the radiating elements.", tag: "antenna" },
+      { q: 36, text: "Resonant frequency of standard wire antenna is most closely mathematically related to?", ans: "The wavelength of the transmitted signal", note: "Resonance requires physical wire length L to equal a specific fraction of wavelength (e.g. lambda / 2).", tag: "antenna" },
+      { q: 37, text: "Relationship between directivity of an antenna and its beamwidth?", ans: "The higher the directivity, the narrower the beamwidth", note: "Focusing power into a narrow cone increases directive gain.", tag: "antenna" },
+      { q: 38, text: "Which factor does NOT affect the fundamental resonant frequency of an antenna?", ans: "The impedance matching of the antenna", note: "Resonant frequency depends on physical length and velocity factor, not the feedline match or tuner.", tag: "antenna" },
+      { q: 39, text: "Primary effect of operating antenna at frequency far from its resonant frequency?", ans: "The antenna will radiate less efficiently", note: "Large reactive mismatch reflects power back to the transmitter instead of radiating into space.", tag: "antenna" },
+      { q: 40, text: "When antenna operated slightly ABOVE resonant frequency, its input impedance becomes?", ans: "Inductive (positive reactance)", note: "Element is physically too long for the higher frequency => behaves like an inductor (+jX).", tag: "traps" },
+      { q: 41, text: "As physical thickness (diameter) of a wire antenna is increased, what is the general effect?", ans: "The bandwidth increases (becomes wider)", note: "Thicker conductor lowers the Q-factor of the antenna, yielding a flatter impedance curve and wider bandwidth.", tag: "antenna" },
+      { q: 42, text: "What is the antenna radiation pattern for an isotropic radiator?", ans: "A sphere", note: "An isotropic radiator is a theoretical point source radiating uniformly in all 3D directions.", tag: "antenna" },
+      { q: 43, text: "Ability of antenna to converge signal energy in a particular direction during transmit/receive?", ans: "Directivity", note: "Directivity measures directional concentration of electromagnetic energy.", tag: "antenna" },
+      { q: 44, text: "Increasing number of director elements in Yagi-Uda antenna will primarily?", ans: "Decrease the beamwidth and increase the directivity", note: "Directors focus radiation along the forward axis, sharpening the main lobe.", tag: "antenna" },
+      { q: 45, text: "Polarization of an antenna is strictly defined by orientation of its?", ans: "Electric field vector", note: "Linear polarization orientation follows the E-field vector relative to the Earth.", tag: "antenna" },
+      { q: 46, text: "If horizontally polarized signal reflects off smooth ground, how is polarization affected?", ans: "It will remain horizontally polarized", note: "Reflecting from flat ground preserves horizontal alignment (with 180 deg phase reversal at grazing angles).", tag: "antenna" },
+      { q: 47, text: "For transmission over bodies of water, which polarization is much better for lower heights?", ans: "Horizontal", note: "Vertical polarization suffers substantial ground wave attenuation and dielectric surface tilt over water.", tag: "antenna" },
+      { q: 48, text: "Antennas high above ground should be polarized _____ to get greatest signal strength to Earth?", ans: "Horizontally", note: "Horizontally polarized antennas high above ground yield superior field strength down at the surface.", tag: "antenna" },
+      { q: 49, text: "Horizontal transmitting antenna sends signal to vertical receiving antenna. Theoretical result?", ans: "Complete signal cancellation", note: "90-degree cross-polarization gives theoretical 0 W reception (in practice 20 to 30 dB attenuation).", tag: "traps" },
+      { q: 50, text: "Antenna: Rrad = 72 Ω, Rloss = 8 Ω, D = 20, Pin = 100 W. Determine efficiency.", ans: "90% (Power radiated = 90 W, Actual Gain = 12.55 dBi)", note: "eta = 72 / (72 + 8) = 0.90. G = eta * D = 0.9 * 20 = 18 = 10*log10(18) = 12.55 dBi.", tag: "formulas" },
+      { q: 51, text: "Beamwidth of parabolic antenna with diameter = 5 m at 10 GHz?", ans: "0.42 degrees", note: "lambda = 3e8 / 10e9 = 0.03 m. theta = 70 * lambda / D = 70 * 0.03 / 5 = 2.1 / 5 = 0.42 deg.", tag: "formulas" },
+      { q: 52, text: "Wish 107.5 FM broadcasts at 107.5 MHz. Resonant half-wave dipole cut length with 5% end-effect?", ans: "1.326 m (132.6 cm)", note: "lambda = 3e8 / 107.5e6 = 2.7907 m. L = 0.95 * (lambda / 2) = 0.95 * 1.3953 = 1.326 m.", tag: "formulas" },
+      { q: 53, text: "5G site: Tx = 46 dBm, cable loss = 2 dB, antenna gain = 18 dBi. EIRP expressed in dBW?", ans: "32 dBW", note: "EIRP(dBm) = 46 - 2 + 18 = 62 dBm. EIRP(dBW) = 62 - 30 = 32 dBW (equivalent to 1,585 Watts).", tag: "formulas" },
+      { q: 54, text: "Palawan microwave link at 11 GHz, D = 0.6 m dish, aperture efficiency = 60%. Approximate gain?", ans: "34.6 dB (34.57 dBi)", note: "lambda = 3e8 / 11e9 = 0.02727 m. G = 0.60 * (pi * 0.6 / 0.02727)^2 = 0.60 * 4776.9 = 2866 => 10*log10(2866) = 34.57 dBi.", tag: "formulas" },
+      { q: 55, text: "Baguio Yagi-Uda forward gain = +14 dBi, rearward gain (-180 deg) = -8 dBi. Front-to-Back Ratio?", ans: "22 dB", note: "FBR = Gfront - Gback = 14 dBi - (-8 dBi) = 22 dB.", tag: "formulas" },
+      { q: 56, text: "Primary reason digital signals are more immune to noise than analog signals?", ans: "Digital signals distinguish only between discrete states", note: "Noise only causes error if it crosses the decision threshold voltage, whereas analog signals absorb every noise glitch.", tag: "digital" },
+      { q: 57, text: "Main advantage of using digital repeaters over analog amplifiers in long-distance links?", ans: "Amplifiers increase signal but also amplify noise; repeaters clean and regenerate fresh pulses", note: "Repeaters eliminate accumulated noise at every hop, whereas amplifiers accumulate noise monotonically.", tag: "digital" },
+      { q: 58, text: "In PCM process, which step converts continuous-time signal into discrete-time signal?", ans: "Sampling", note: "Sampling takes periodic snapshots at rate fs >= 2*fmax, yielding Pulse Amplitude Modulation (PAM).", tag: "digital" }
+    ];
+
+    // Render Question Cards
+    function renderQuestions() {
+      const container = document.getElementById('drillCardsContainer');
+      container.innerHTML = '';
+      questionDatabase.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `searchable-card bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2 hover:border-slate-700 transition`;
+        card.setAttribute('data-category', item.tag);
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">QUESTION ${item.q}</span>
+            <span class="text-[9px] font-mono text-slate-500 uppercase">${item.tag}</span>
+          </div>
+          <p class="text-xs text-slate-200 font-medium">${item.text}</p>
+          <div class="answer-box hidden mt-2 pt-2 border-t border-slate-800 space-y-1">
+            <div class="text-xs font-bold text-emerald-400 font-mono">✔ Answer: ${item.ans}</div>
+            <div class="text-[11px] text-slate-400 bg-slate-950 p-2 rounded border border-slate-800/80">
+              <strong class="text-slate-300">Exam Note:</strong> ${item.note}
+            </div>
+          </div>
+          <button onclick="toggleAnswer(this)" class="w-full py-1 text-[11px] font-mono text-slate-400 hover:text-cyan-300 transition text-right">
+            [Show Board Answer + Solution]
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Toggle single card answer
+    function toggleAnswer(btn) {
+      const box = btn.previousElementSibling;
+      if (box.classList.contains('hidden')) {
+        box.classList.remove('hidden');
+        btn.textContent = '[Hide Solution]';
+      } else {
+        box.classList.add('hidden');
+        btn.textContent = '[Show Board Answer + Solution]';
+      }
+    }
+
+    // Toggle all card answers
+    let allExpanded = false;
+    function toggleAllAnswers() {
+      const boxes = document.querySelectorAll('.answer-box');
+      const btns = document.querySelectorAll('#drillCardsContainer button');
+      allExpanded = !allExpanded;
+      boxes.forEach(box => {
+        if (allExpanded) box.classList.remove('hidden');
+        else box.classList.add('hidden');
+      });
+      btns.forEach(b => {
+        b.textContent = allExpanded ? '[Hide Solution]' : '[Show Board Answer + Solution]';
+      });
+      document.getElementById('toggleAllBtn').textContent = allExpanded ? 'Collapse All Answers' : 'Expand All Answers';
+    }
+
+    // Category Filter Buttons
+    function filterCategory(cat) {
+      // Update tab active state
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      event.target.classList.add('bg-cyan-600', 'text-white');
+      event.target.classList.remove('bg-slate-800', 'text-slate-300');
+
+      const blocks = document.querySelectorAll('.category-block');
+      if (cat === 'all') {
+        blocks.forEach(b => b.classList.remove('hidden'));
+        return;
+      }
+
+      // Hide all blocks, then display matching section or cards
+      blocks.forEach(b => {
+        if (cat === 'formulas' && b.id === 'sec-formulas') b.classList.remove('hidden');
+        else if (cat === 'analog' && b.id === 'sec-analog') b.classList.remove('hidden');
+        else if (cat === 'angle' && b.id === 'sec-analog') b.classList.remove('hidden');
+        else if (cat === 'superhet' && b.id === 'sec-superhet') b.classList.remove('hidden');
+        else if (cat === 'antenna' && b.id === 'sec-antenna') b.classList.remove('hidden');
+        else if (cat === 'digital' && b.id === 'sec-digital') b.classList.remove('hidden');
+        else if (cat === 'calculator' && b.id === 'sec-calculator') b.classList.remove('hidden');
+        else if (cat === 'traps' && b.id === 'sec-traps') b.classList.remove('hidden');
+        else if (cat === 'drill' && b.id === 'sec-drill') b.classList.remove('hidden');
+        else b.classList.add('hidden');
+      });
+    }
+
+    // Search filter across cards
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.searchable-card');
+      cards.forEach(c => {
+        const text = c.innerText.toLowerCase();
+        if (text.includes(q)) {
+          c.style.display = '';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    });
+
+    // Calculator Functions
+    function calculateAMPower() {
+      const p1 = parseFloat(document.getElementById('calc_psb1').value);
+      const m1 = parseFloat(document.getElementById('calc_m1').value) / 100;
+      const m2 = parseFloat(document.getElementById('calc_m2').value) / 100;
+      if (m1 > 0) {
+        const p2 = p1 * Math.pow(m2 / m1, 2);
+        document.getElementById('res_am_power').innerHTML = `Result: <strong>${p2.toFixed(2)} Watts</strong>`;
+      }
+    }
+
+    function calculateSuperhet() {
+      const fs = parseFloat(document.getElementById('calc_fs').value);
+      const fif = parseFloat(document.getElementById('calc_fif').value);
+      const flo = fs + fif;
+      const fsi = fs + 2 * fif;
+      document.getElementById('res_superhet').innerHTML = `
+        <div>$f_{LO}$: <strong>${flo.toLocaleString()} kHz</strong></div>
+        <div>$f_{si}$: <strong>${fsi.toLocaleString()} kHz</strong></div>
+      `;
+      if (window.MathJax) MathJax.typesetPromise();
+    }
+
+    function calculateEIRP() {
+      const pt = parseFloat(document.getElementById('calc_pt').value);
+      const loss = parseFloat(document.getElementById('calc_loss').value);
+      const gain = parseFloat(document.getElementById('calc_gain').value);
+      const eirp_dbm = pt - loss + gain;
+      const eirp_dbw = eirp_dbm - 30;
+      const watts = Math.pow(10, eirp_dbw / 10);
+      document.getElementById('res_eirp').innerHTML = `
+        <div>$EIRP_{\\text{dBm}}$: <strong>${eirp_dbm.toFixed(2)} dBm</strong></div>
+        <div>$EIRP_{\\text{dBW}}$: <strong>${eirp_dbw.toFixed(2)} dBW</strong> (${watts.toFixed(1)} W)</div>
+      `;
+      if (window.MathJax) MathJax.typesetPromise();
+    }
+
+    // Initial render
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions();
+      if (window.MathJax) {
+        MathJax.typesetPromise();
+      }
+    });
+  </script>
+</body>
+</html>
