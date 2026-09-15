@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECE Board Exam Command Center | Data Communications & Network Systems</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- KaTeX for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              900: '#0c4a6e',
+            },
+            cadet: '#0f172a',
+            navy: '#1e293b',
+            accent: '#38bdf8',
+            warn: '#f59e0b',
+            danger: '#ef4444',
+            success: '#10b981'
+          },
+          fontFamily: {
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: white !important; color: black !important; font-size: 11pt; }
+      .page-break { page-break-before: always; }
+      .shadow-xl, .shadow-2xl, .shadow-md { box-shadow: none !important; }
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    .blueprint-grid {
+      background-image: radial-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 font-sans antialiased blueprint-grid min-h-screen selection:bg-sky-500 selection:text-white">
+
+  <!-- TOP STATUS / NAVIGATION BAR -->
+  <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-sky-900/60 px-4 py-2.5 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <span class="flex h-3 w-3 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+        </span>
+        <div>
+          <h1 class="text-sm md:text-base font-extrabold tracking-wider text-sky-400 uppercase font-mono">
+            ECE BOARD EXAM COMMAND CENTER // EST-DATACOMM
+          </h1>
+          <p class="text-xs text-slate-400 hidden sm:block">PRC ECE Syllabus: Transmission Modes, Topologies, OSI 7-Layers, Error Control, Multiplexing & ISDN</p>
+        </div>
+      </div>
+
+      <!-- Quick Nav Buttons -->
+      <nav class="flex items-center gap-1.5 text-xs font-mono">
+        <a href="#page1" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-sky-700 text-slate-200 border border-slate-700 transition">P1: Topologies</a>
+        <a href="#page2" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-sky-700 text-slate-200 border border-slate-700 transition">P2: Physical & Delay</a>
+        <a href="#page3" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-sky-700 text-slate-200 border border-slate-700 transition">P3: OSI 7-Layers</a>
+        <a href="#page4" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-sky-700 text-slate-200 border border-slate-700 transition">P4: Error & CRC</a>
+        <a href="#page5" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-sky-700 text-slate-200 border border-slate-700 transition">P5: Multiplexing/ISDN</a>
+        <a href="#page6" class="px-2.5 py-1 rounded bg-amber-900/80 hover:bg-amber-600 text-amber-200 border border-amber-600 transition font-bold">P6: Cram Sheet</a>
+        <button onclick="window.print()" class="no-print ml-2 px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold transition flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          Print/PDF
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PRIORITY LEGEND BANNER -->
+  <div class="bg-slate-900/80 border-b border-slate-800 py-1.5 px-4 text-xs font-mono flex flex-wrap justify-center items-center gap-4 text-slate-300">
+    <span class="font-bold text-slate-400">PRIORITY INDEX:</span>
+    <span class="inline-flex items-center gap-1 text-red-400"><span class="h-2 w-2 rounded-full bg-red-500"></span> 🔴 MUST MEMORIZE</span>
+    <span class="inline-flex items-center gap-1 text-amber-400"><span class="h-2 w-2 rounded-full bg-amber-500"></span> 🟠 HIGH-YIELD</span>
+    <span class="inline-flex items-center gap-1 text-yellow-300"><span class="h-2 w-2 rounded-full bg-yellow-400"></span> 🟡 IMPORTANT</span>
+    <span class="inline-flex items-center gap-1 text-sky-400"><span class="h-2 w-2 rounded-full bg-sky-400"></span> 🔵 CONCEPTUAL</span>
+    <span class="inline-flex items-center gap-1 text-rose-300"><span class="h-2 w-2 rounded-full bg-rose-500"></span> ⚠️ COMMON TRAP</span>
+    <span class="inline-flex items-center gap-1 text-emerald-400 ml-2"><span class="text-xs font-mono bg-emerald-950 border border-emerald-500/50 px-1 rounded">[NOTES]</span> Verified Q1–Q71</span>
+  </div>
+
+  <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-10">
+
+    <!-- ========================================================================================================= -->
+    <!-- PAGE 1: MASTER TAXONOMY & TOPOLOGY ARCHITECTURE -->
+    <!-- ========================================================================================================= -->
+    <section id="page1" class="border border-sky-800/60 rounded-xl bg-slate-900/90 p-5 shadow-2xl backdrop-blur">
+      <div class="flex items-center justify-between border-b border-sky-900 pb-3 mb-5">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-400 font-bold">MODULE 01 / 06</span>
+          <h2 class="text-xl md:text-2xl font-black text-white tracking-wide">MASTER TAXONOMY & TOPOLOGY ARCHITECTURE</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-950 text-sky-300 border border-sky-700">PAGE 1</span>
+      </div>
+
+      <!-- VISUAL TAXONOMY MAP -->
+      <div class="bg-slate-950/80 rounded-lg p-4 border border-slate-800 mb-6 font-mono text-xs overflow-x-auto">
+        <div class="text-sky-400 font-bold mb-2">SYSTEM ARCHITECTURAL MAP [NOTES: Q1-Q12, Q55-Q56]</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="border-l-2 border-sky-500 pl-3">
+            <div class="text-slate-200 font-bold text-sm mb-1">TRANSMISSION MODES</div>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <span class="text-white font-semibold">Simplex:</span> 1-way strictly (MRT-3 displays, FM Radio, TV Broadcast)</li>
+              <li>• <span class="text-white font-semibold">Half-Duplex:</span> 2-way, 1 at a time (VHF Marine Radio, Walkie-talkie PTT)</li>
+              <li>• <span class="text-white font-semibold">Full-Duplex:</span> 2-way simultaneous (5G Phone, 4-Wire Trunk lines)</li>
+              <li>• <span class="text-white font-semibold">Isochronous:</span> Exact fixed intervals; guaranteed zero-jitter (VoIP audio)</li>
+            </ul>
+          </div>
+          <div class="border-l-2 border-emerald-500 pl-3">
+            <div class="text-slate-200 font-bold text-sm mb-1">NETWORK TOPOLOGY</div>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <span class="text-white font-semibold">Mesh:</span> Point-to-point dedicated links; $L = \frac{N(N-1)}{2}$; $O(N^2)$ cables</li>
+              <li>• <span class="text-white font-semibold">Star:</span> Central switch/hub; Single point of failure (SPOF) at central hub</li>
+              <li>• <span class="text-white font-semibold">Extended Star:</span> Hierarchical cascading (Floor switches homed to router)</li>
+              <li>• <span class="text-white font-semibold">Ring:</span> Deterministic Token passing; break halts loop (unless dual-ring)</li>
+              <li>• <span class="text-white font-semibold">Bus:</span> Multipoint tapped single line (SM supermarket POS daisy chain)</li>
+            </ul>
+          </div>
+          <div class="border-l-2 border-purple-500 pl-3">
+            <div class="text-slate-200 font-bold text-sm mb-1">GEOGRAPHIC SPAN (SMALLEST &rarr; LARGEST)</div>
+            <div class="bg-slate-900 p-2 rounded text-center text-xs font-bold text-purple-300 border border-purple-800 my-1">
+              PAN &rarr; LAN &rarr; MAN &rarr; WAN &rarr; GAN
+            </div>
+            <ul class="space-y-1 text-slate-300 text-[11px]">
+              <li>• <span class="text-white">PAN:</span> Bluetooth headset to mobile phone</li>
+              <li>• <span class="text-white">LAN:</span> Office or school building (Ethernet 802.3)</li>
+              <li>• <span class="text-white">MAN:</span> City-wide optical metropolitan loop</li>
+              <li>• <span class="text-white">WAN:</span> Worldwide inter-network (The Internet)</li>
+              <li>• <span class="text-white">GAN:</span> Global satellite constellations (Starlink)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOPOLOGY COMPARISON MATRIX -->
+      <h3 class="text-sm font-bold text-sky-300 uppercase tracking-wider mb-2 font-mono flex items-center gap-2">
+        <span>TOPOLOGY COMPARISON & BOARD EXAM METRICS</span>
+        <span class="text-[10px] bg-red-950 text-red-300 border border-red-800 px-1.5 py-0.2 rounded font-mono">HIGH PROBABILITY</span>
+      </h3>
+      <div class="overflow-x-auto rounded-lg border border-slate-800 mb-6">
+        <table class="w-full text-left text-xs border-collapse font-mono">
+          <thead class="bg-slate-950 text-slate-300 uppercase border-b border-slate-800">
+            <tr>
+              <th class="p-3">Topology</th>
+              <th class="p-3">Links Formula</th>
+              <th class="p-3">Ports / Node</th>
+              <th class="p-3">Primary Advantage</th>
+              <th class="p-3">Critical Disadvantage</th>
+              <th class="p-3">Board Exam Problem Context [NOTES]</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 bg-slate-900/60">
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-3 font-bold text-sky-400">Full Mesh</td>
+              <td class="p-3 font-bold text-emerald-400">$$L = \frac{N(N-1)}{2}$$</td>
+              <td class="p-3">$$N - 1$$</td>
+              <td class="p-3 text-slate-300">Dedicated capacity; 100% fault-tolerant; zero traffic contention</td>
+              <td class="p-3 text-rose-400 font-semibold">Quadratic cabling growth ($$O(N^2)$$); hyper-expensive installation</td>
+              <td class="p-3 text-slate-300"><span class="text-amber-300 font-bold">15 Critical DB Servers:</span> Requires $$L = \frac{15(14)}{2} = \mathbf{105\text{ links}}$$ [Q4, Q5, Q6]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-3 font-bold text-sky-400">Star</td>
+              <td class="p-3 font-bold text-emerald-400">$$L = N$$</td>
+              <td class="p-3">$$1$$ (to hub)</td>
+              <td class="p-3 text-slate-300">Cable cut severs <span class="text-emerald-400 font-bold">only 1 node</span>; easy troubleshooting</td>
+              <td class="p-3 text-rose-400 font-semibold">Central Hub/Switch is a Single Point of Failure (SPOF)</td>
+              <td class="p-3 text-slate-300">Hub handles all traffic. A severed station cable leaves rest alive [Q1, Q7]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-3 font-bold text-sky-400">Extended Star</td>
+              <td class="p-3 font-bold text-emerald-400">$$L = \sum N_k + N_{\text{trunks}}$$</td>
+              <td class="p-3">$$1$$ (hierarchical)</td>
+              <td class="p-3 text-slate-300">Modular isolation of departmental broadcast domains</td>
+              <td class="p-3 text-rose-400 font-semibold">Central basement root router failure splits all floors</td>
+              <td class="p-3 text-slate-300">4 floors with 20 PCs each to floor switch &rarr; main basement router [Q8]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-3 font-bold text-sky-400">Ring</td>
+              <td class="p-3 font-bold text-emerald-400">$$L = N$$</td>
+              <td class="p-3">$$2$$ (in/out)</td>
+              <td class="p-3 text-slate-300"><span class="text-emerald-400 font-bold">Deterministic access:</span> Predictable max latency; no packet collisions</td>
+              <td class="p-3 text-rose-400 font-semibold">Single cable break disables entire ring; difficult device add/remove</td>
+              <td class="p-3 text-slate-300">Token passing (IEEE 802.5); Token holding time wait latency calculations [Q2, Q3, Q9]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/50">
+              <td class="p-3 font-bold text-sky-400">Bus / Multipoint</td>
+              <td class="p-3 font-bold text-emerald-400">$$1\text{ trunk} + N\text{ drops}$$</td>
+              <td class="p-3">$$1\text{ tap}$$</td>
+              <td class="p-3 text-slate-300">Minimal copper cabling; simple daisy chaining</td>
+              <td class="p-3 text-rose-400 font-semibold">Backbone severed breaks all; impedance mismatches require terminators</td>
+              <td class="p-3 text-slate-300">SM Supermarket aisle: 10 POS cash registers tapped into 1 central line [Q16]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TRANSMISSION TIMING & SYNCHRONIZATION -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- ASYNC -->
+        <div class="border border-slate-700 bg-slate-950/60 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-amber-400 font-mono">ASYNCHRONOUS MODE</span>
+            <span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-800 px-1 rounded">20-30% OVERHEAD</span>
+          </div>
+          <p class="text-xs text-slate-300 mb-2">Frames characters byte-by-byte using <span class="text-white font-semibold">Start bit (logic 0)</span> and <span class="text-white font-semibold">Stop bit (logic 1)</span>. Transmitter & receiver clocks run independently.</p>
+          <div class="bg-slate-900 p-2 rounded text-[11px] font-mono border border-slate-800 text-slate-400">
+            • Used in low-speed serial (RS-232, POS scanners)<br/>
+            • ⚠️ Huge overhead penalty for large datasets!
+          </div>
+        </div>
+
+        <!-- SYNC -->
+        <div class="border border-slate-700 bg-slate-950/60 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-sky-400 font-mono">SYNCHRONOUS MODE</span>
+            <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-700 px-1 rounded">HIGH EFFICIENCY</span>
+          </div>
+          <p class="text-xs text-slate-300 mb-2">Transmits large continuous blocks framed with preamble/synch flags. Shared clock signal or line-coding PLL synchronizes receiver.</p>
+          <div class="bg-slate-900 p-2 rounded text-[11px] font-mono border border-slate-800 text-rose-300">
+            🔴 <span class="font-bold">Failure Trap [NOTES: Q18]:</span> If sender & receiver clocks drift out of phase, <span class="underline">an entire block of data is corrupted</span>.
+          </div>
+        </div>
+
+        <!-- ISOCHRONOUS -->
+        <div class="border border-slate-700 bg-slate-950/60 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-emerald-400 font-mono">ISOCHRONOUS MODE</span>
+            <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700 px-1 rounded">ZERO JITTER</span>
+          </div>
+          <p class="text-xs text-slate-300 mb-2">Data is strictly guaranteed to arrive at <span class="text-white font-semibold">exact, fixed time intervals</span> without variable delay or buffer fluctuation.</p>
+          <div class="bg-slate-900 p-2 rounded text-[11px] font-mono border border-slate-800 text-emerald-300">
+            🟠 <span class="font-bold">Board Exam App [NOTES: Q19, Q20]:</span> Critical for BPO VoIP softphones & real-time live video streams to eliminate stuttering.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================================= -->
+    <!-- PAGE 2: PHYSICAL LAYER, INTERFACING & TRANSMISSION CIRCUITS -->
+    <!-- ========================================================================================================= -->
+    <section id="page2" class="border border-sky-800/60 rounded-xl bg-slate-900/90 p-5 shadow-2xl backdrop-blur page-break">
+      <div class="flex items-center justify-between border-b border-sky-900 pb-3 mb-5">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-400 font-bold">MODULE 02 / 06</span>
+          <h2 class="text-xl md:text-2xl font-black text-white tracking-wide">PHYSICAL LAYER, INTERFACING & CIRCUIT MATHEMATICS</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-950 text-sky-300 border border-sky-700">PAGE 2</span>
+      </div>
+
+      <!-- 2-WIRE VS 4-WIRE SYSTEM & HYBRID COIL -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-950/80 rounded-lg p-4 border border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-bold text-amber-400 font-mono uppercase">2-WIRE VS 4-WIRE INTERFACING [NOTES: Q13, Q14]</h3>
+            <span class="text-xs bg-red-950 text-red-300 border border-red-800 px-2 py-0.5 rounded font-mono">🔴 HIGH PROBABILITY</span>
+          </div>
+          <div class="text-xs space-y-2 text-slate-300 mb-3">
+            <p><span class="text-sky-300 font-bold">2-Wire Circuits:</span> Carries both Tx and Rx on a single pair of wires. Standard for the <span class="text-white font-semibold">local subscriber loop</span> (PSTN telephone line) to save physical copper infrastructure cost.</p>
+            <p><span class="text-emerald-300 font-bold">4-Wire Circuits:</span> Separates Tx (2 wires) and Rx (2 wires). Used in carrier trunks, toll lines, and long-distance digital facilities. <span class="text-white font-bold">Key advantage: Allows true full-duplex simultaneous transmission without collision.</span></p>
+          </div>
+
+          <!-- Hybrid Circuit Box -->
+          <div class="p-3 bg-slate-900 border-l-4 border-amber-500 rounded text-xs font-mono text-slate-300 space-y-1">
+            <div class="font-bold text-white flex items-center gap-1">
+              <span>⚡ THE HYBRID CIRCUIT (HYBRID COIL)</span>
+            </div>
+            <div>• Converts bidirectional 2-wire local loops &harr; separate 4-wire Tx/Rx circuits.</div>
+            <div>• Operates on balanced transformer bridge principle.</div>
+            <div class="text-amber-300 font-semibold">⚠️ BOARD EXAM TRAP: Impedance mismatch across the hybrid coil reflects energy back to the talker &rarr; produces talker/listener echo, necessitating <span class="underline">Echo Suppressors or Echo Cancellers</span>.</div>
+          </div>
+        </div>
+
+        <!-- SWITCHING PARADIGMS: CIRCUIT VS PACKET -->
+        <div class="bg-slate-950/80 rounded-lg p-4 border border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-bold text-sky-400 font-mono uppercase">SWITCHING PARADIGMS: PACKET VS CIRCUIT [NOTES: Q22]</h3>
+            <span class="text-xs bg-sky-950 text-sky-300 border border-sky-800 px-2 py-0.5 rounded font-mono">🔵 CORE ARCHITECTURE</span>
+          </div>
+          <table class="w-full text-xs text-left font-mono border-collapse mb-2">
+            <thead>
+              <tr class="bg-slate-900 text-slate-400 border-b border-slate-800">
+                <th class="p-1.5">Attribute</th>
+                <th class="p-1.5">Circuit-Switched (PSTN)</th>
+                <th class="p-1.5 text-emerald-400">Packet-Switched (Internet)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+              <tr>
+                <td class="p-1.5 font-bold">Dedicated Path</td>
+                <td class="p-1.5 text-slate-300">Yes (Setup &rarr; Hold &rarr; Teardown)</td>
+                <td class="p-1.5 text-slate-400">No (Dynamic per-packet routing)</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 font-bold">Bandwidth Use</td>
+                <td class="p-1.5 text-rose-400">Wasted when silent</td>
+                <td class="p-1.5 text-emerald-400 font-bold">High efficiency (Statistical multiplexing)</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 font-bold">Latency</td>
+                <td class="p-1.5 text-slate-300">Fixed, zero jitter</td>
+                <td class="p-1.5 text-amber-400">Variable queuing delay & jitter</td>
+              </tr>
+              <tr>
+                <td class="p-1.5 font-bold">Cost Model</td>
+                <td class="p-1.5 text-slate-300">Time / Distance billed</td>
+                <td class="p-1.5 text-emerald-400 font-bold">Volume / Flat-rate bandwidth</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-[11px] text-slate-400 font-mono italic">
+            Primary advantage: Packet switching allows far more efficient utilization of overall network bandwidth across shared transmission lines.
+          </p>
+        </div>
+      </div>
+
+      <!-- FORMULA REFERENCE CARDS -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- FORMULA CARD 1 -->
+        <div class="bg-slate-950 border border-sky-800/80 rounded-lg p-4 font-mono text-xs flex flex-col justify-between">
+          <div>
+            <div class="bg-sky-950 text-sky-300 px-2 py-0.5 rounded text-[10px] inline-block font-bold border border-sky-700 mb-2">FORMULA 01</div>
+            <div class="text-sm font-bold text-white mb-1">TRANSMISSION DELAY ($t_{\text{tx}}$)</div>
+            <div class="text-center my-3 bg-slate-900 py-3 rounded border border-slate-800 text-sky-300 text-sm font-bold">
+              $$t_{\text{tx}} = \frac{L}{R} = \frac{\text{Bytes} \times 8}{R_{\text{bps}}}$$
+            </div>
+            <div class="text-slate-300 space-y-1 text-[11px]">
+              <div>• $L$: Packet length in bits ($1\text{ Byte} = 8\text{ bits}$)</div>
+              <div>• $R$: Physical channel data rate in bits/s</div>
+              <div>• <strong>USE:</strong> Time to push bits onto physical wire.</div>
+            </div>
+          </div>
+          <div class="mt-3 p-2 bg-rose-950/40 border border-rose-800/60 rounded text-[10px] text-rose-300">
+            ⚠️ <strong>TRAP:</strong> Always convert payload Bytes to bits! ($1500\text{ Bytes} = 12,000\text{ bits}$).
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 2 -->
+        <div class="bg-slate-950 border border-sky-800/80 rounded-lg p-4 font-mono text-xs flex flex-col justify-between">
+          <div>
+            <div class="bg-sky-950 text-sky-300 px-2 py-0.5 rounded text-[10px] inline-block font-bold border border-sky-700 mb-2">FORMULA 02</div>
+            <div class="text-sm font-bold text-white mb-1">ASYNC CHARACTER EFFICIENCY</div>
+            <div class="text-center my-3 bg-slate-900 py-3 rounded border border-slate-800 text-emerald-400 text-sm font-bold">
+              $$\eta = \frac{D}{D + P + S_{\text{start}} + S_{\text{stop}}} \times 100\%$$
+            </div>
+            <div class="text-slate-300 space-y-1 text-[11px]">
+              <div>• $D$: Data payload bits (typically 7 or 8)</div>
+              <div>• $P$: Parity bits (0 or 1)</div>
+              <div>• Total Frame $= D + P + \text{Start} + \text{Stop}$</div>
+            </div>
+          </div>
+          <div class="mt-3 p-2 bg-amber-950/40 border border-amber-800/60 rounded text-[10px] text-amber-300">
+            📌 <strong>STANDARD CASES:</strong><br/>
+            8-N-1: $8/10 = 80.0\%$<br/>
+            8-E-1: $8/11 = 72.7\%$ [NOTES: Q21]
+          </div>
+        </div>
+
+        <!-- FORMULA CARD 3 -->
+        <div class="bg-slate-950 border border-sky-800/80 rounded-lg p-4 font-mono text-xs flex flex-col justify-between">
+          <div>
+            <div class="bg-sky-950 text-sky-300 px-2 py-0.5 rounded text-[10px] inline-block font-bold border border-sky-700 mb-2">FORMULA 03</div>
+            <div class="text-sm font-bold text-white mb-1">TOKEN RING MAX LATENCY</div>
+            <div class="text-center my-3 bg-slate-900 py-3 rounded border border-slate-800 text-amber-300 text-sm font-bold">
+              $$t_{\text{wait, max}} = (N - 1) \times T_{\text{holding}}$$
+            </div>
+            <div class="text-slate-300 space-y-1 text-[11px]">
+              <div>• $N$: Total number of stations on ring</div>
+              <div>• $T_{\text{holding}}$: Max token transmit hold limit</div>
+              <div>• Assumes all other $N - 1$ stations seize token</div>
+            </div>
+          </div>
+          <div class="mt-3 p-2 bg-sky-950/40 border border-sky-800/60 rounded text-[10px] text-sky-300">
+            📌 <strong>50 Stations @ $10\,\mu\text{s}$ [NOTES: Q9]:</strong><br/>
+            $$t_{\text{wait}} = (50 - 1) \times 10\,\mu\text{s} = \mathbf{490\,\mu\text{s}}$$
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================================= -->
+    <!-- PAGE 3: THE OSI 7-LAYER ENGINE & INTERCONNECTING HARDWARE -->
+    <!-- ========================================================================================================= -->
+    <section id="page3" class="border border-sky-800/60 rounded-xl bg-slate-900/90 p-5 shadow-2xl backdrop-blur page-break">
+      <div class="flex items-center justify-between border-b border-sky-900 pb-3 mb-5">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-400 font-bold">MODULE 03 / 06</span>
+          <h2 class="text-xl md:text-2xl font-black text-white tracking-wide">THE OSI 7-LAYER ENGINE & INTERCONNECTING HARDWARE</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-950 text-sky-300 border border-sky-700">PAGE 3</span>
+      </div>
+
+      <!-- OSI 7-LAYER MASTER MATRIX -->
+      <div class="overflow-x-auto rounded-lg border border-slate-800 mb-6 font-mono text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-slate-950 text-slate-300 uppercase border-b border-slate-800">
+            <tr>
+              <th class="p-2.5">Layer</th>
+              <th class="p-2.5">PDU Form</th>
+              <th class="p-2.5">Core Function</th>
+              <th class="p-2.5">Key Protocols & Standards</th>
+              <th class="p-2.5">Board Exam Identifier Cases [NOTES: Q38–Q54]</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/80 bg-slate-900/50 text-slate-300">
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-purple-400">L7: Application</td>
+              <td class="p-2.5 text-purple-300">Data</td>
+              <td class="p-2.5">User interface to network services</td>
+              <td class="p-2.5">HTTP, FTP, SMTP, DNS, REST API</td>
+              <td class="p-2.5"><span class="text-amber-300 font-bold">PAGASA API script</span> pulling weather reports via JSON [Q45]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-purple-400">L6: Presentation</td>
+              <td class="p-2.5 text-purple-300">Data</td>
+              <td class="p-2.5">Data format, encryption, compression</td>
+              <td class="p-2.5">TLS / SSL, ASCII, EBCDIC, JPEG, MPEG</td>
+              <td class="p-2.5"><span class="text-amber-300 font-bold">GCash QR app:</span> TLS encryption preventing Mall Wi-Fi snooping [Q43]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-purple-400">L5: Session</td>
+              <td class="p-2.5 text-purple-300">Data</td>
+              <td class="p-2.5">Dialog establishment, maintenance & teardown</td>
+              <td class="p-2.5">RPC, NetBIOS, Sockets, Auth tokens</td>
+              <td class="p-2.5"><span class="text-amber-300 font-bold">BPI Online Banking:</span> 5-minute inactivity security session timeout [Q42]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40 bg-sky-950/20">
+              <td class="p-2.5 font-bold text-emerald-400">L4: Transport</td>
+              <td class="p-2.5 text-emerald-300">Segment (TCP)<br/>Datagram (UDP)</td>
+              <td class="p-2.5 font-semibold text-white">End-to-end reliability, flow control, port addressing</td>
+              <td class="p-2.5">TCP (Seq/ACK/Checksum), UDP</td>
+              <td class="p-2.5">
+                • <span class="text-amber-300 font-bold">5GB PDF Download:</span> Sequenced segmented delivery (TCP) [Q44]<br/>
+                • <span class="text-amber-300 font-bold">Mobile Legends:</span> Fire-and-forget, no retransmit lag (UDP) [Q41, Q47]<br/>
+                • Segment error checking: <strong>Checksum</strong> [Q48]
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-sky-400">L3: Network</td>
+              <td class="p-2.5 text-sky-300">Packet</td>
+              <td class="p-2.5">Logical addressing & global routing path</td>
+              <td class="p-2.5">IPv4 (32-bit), IPv6 (128-bit), ICMP, OSPF</td>
+              <td class="p-2.5">Routers forward packets; IPv4 = Network Prefix + Host ID [Q38, Q50, Q51]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-sky-400">L2: Data Link</td>
+              <td class="p-2.5 text-sky-300">Frame</td>
+              <td class="p-2.5">Hop-to-hop transfer, MAC addressing, framing</td>
+              <td class="p-2.5">IEEE 802.3, 802.1Q VLANs, MAC (48-bit), PPP</td>
+              <td class="p-2.5">
+                • <span class="text-amber-300 font-bold">VLAN segmentation:</span> Isolates HR from Accounting by MAC [Q40]<br/>
+                • Switches/Bridges operate here [Q23, Q26, Q27, Q54]<br/>
+                • 🔴 <strong>Min Ethernet Frame:</strong> 64 Bytes (512 bits) [Q61]
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-sky-400">L1: Physical</td>
+              <td class="p-2.5 text-sky-300">Bits</td>
+              <td class="p-2.5">Signal transmission, voltages, mechanical jacks</td>
+              <td class="p-2.5">UTP/STP Cat6, Submarine Fiber, RJ-45, V.35</td>
+              <td class="p-2.5">
+                • <span class="text-amber-300 font-bold">PLDT Submarine Fiber:</span> Palawan to Luzon grid [Q39]<br/>
+                • Repeaters/Hubs amplify and regenerate bits [Q25]
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRITICAL OSI GROUPINGS & ENCAPSULATION -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Architectural Grouping -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 text-xs font-mono">
+          <div class="text-sky-400 font-bold text-sm mb-2 uppercase">ARCHITECTURAL GROUPING OF THE 7 LAYERS [NOTES: Q52]</div>
+          <div class="space-y-3">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="font-bold text-purple-300 mb-1">LAYERS 5, 6, 7 (APPLICATION SUPPORT LAYERS)</div>
+              <div class="text-slate-300">
+                🔴 <span class="font-semibold text-white">Board Exam Question 52:</span> Responsible for allowing <span class="text-amber-300 font-bold">interoperability among unrelated software systems</span> across heterogeneous operating environments.
+              </div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="font-bold text-emerald-300 mb-1">LAYER 4 (TRANSPORT BOUNDARY)</div>
+              <div class="text-slate-300">
+                The true boundary layer: completely isolates user application software layers from the physical subnet hardware beneath.
+              </div>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <div class="font-bold text-sky-300 mb-1">LAYERS 1, 2, 3 (MEDIA / SUBNET LAYERS)</div>
+              <div class="text-slate-300">
+                Responsible for the physical, electrical, link-level, and routing movement of raw data from one geographic point to another.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Encapsulation Pipeline -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 text-xs font-mono">
+          <div class="text-sky-400 font-bold text-sm mb-2 uppercase">DATA ENCAPSULATION FLOW [NOTES: Q46]</div>
+          <div class="space-y-2 text-slate-300">
+            <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span class="w-20 text-purple-400 font-bold">L7-L5:</span>
+              <span class="flex-1">Application Payload Stream</span>
+              <span class="text-slate-500 text-[10px]">Data</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span class="w-20 text-emerald-400 font-bold">&darr; L4:</span>
+              <span class="flex-1">[L4 Header: Src/Dst Ports + Seq] + Payload</span>
+              <span class="text-emerald-400 text-[10px]">Segment</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span class="w-20 text-sky-400 font-bold">&darr; L3:</span>
+              <span class="flex-1">[L3 Header: Src/Dst IP] + Segment</span>
+              <span class="text-sky-400 text-[10px]">Packet</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span class="w-20 text-amber-400 font-bold">&darr; L2:</span>
+              <span class="flex-1">[L2 Header: MACs] + Packet + [FCS Trailer / CRC]</span>
+              <span class="text-amber-400 text-[10px]">Frame</span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span class="w-20 text-cyan-400 font-bold">&darr; L1:</span>
+              <span class="flex-1">Pulsed Light / Voltages / Radio Waves</span>
+              <span class="text-cyan-400 text-[10px]">Bits</span>
+            </div>
+            <div class="p-2 bg-sky-950/40 border border-sky-800/50 rounded text-[11px] text-sky-300 mt-2">
+              🔴 <span class="font-bold">Key Rule [Q46]:</span> As data travels DOWN the stack at Tx, each layer appends its own specific Protocol Control Information (Header/Trailer). At Rx, each layer strips its corresponding header.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NETWORK DEVICES ECOSYSTEM -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+          <div class="font-bold text-sky-400 text-sm mb-1">REPEATER / HUB</div>
+          <div class="text-[10px] text-slate-500 mb-2 font-bold">OSI LAYER 1 (PHYSICAL)</div>
+          <ul class="text-slate-300 space-y-1 text-[11px]">
+            <li>• Regenerates & amplifies electrical/optical signals [Q25]</li>
+            <li>• Dumb broadcast: mirrors input on port 1 out to ALL other ports</li>
+            <li>• Cannot read MAC or IP addresses</li>
+            <li>• 1 single Collision Domain; 1 Broadcast Domain</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+          <div class="font-bold text-emerald-400 text-sm mb-1">BRIDGE / SWITCH</div>
+          <div class="text-[10px] text-slate-500 mb-2 font-bold">OSI LAYER 2 (DATA LINK)</div>
+          <ul class="text-slate-300 space-y-1 text-[11px]">
+            <li>• Forwards frames based on MAC addresses [Q23, Q54]</li>
+            <li>• Filters traffic between LAN segments [Q26, Q27]</li>
+            <li>• Micro-segments network: <span class="text-emerald-400 font-bold">Isolates collision domains</span> (each port is 1 collision domain)</li>
+            <li>• Still belongs to 1 single Broadcast Domain (unless VLANs)</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+          <div class="font-bold text-amber-400 text-sm mb-1">ROUTER</div>
+          <div class="text-[10px] text-slate-500 mb-2 font-bold">OSI LAYER 3 (NETWORK)</div>
+          <ul class="text-slate-300 space-y-1 text-[11px]">
+            <li>• Connects distinct logical subnets and WANs together [Q24, Q29]</li>
+            <li>• Forwards packets based on IP addresses</li>
+            <li>• Path selection / dynamic routing (OSPF, BGP)</li>
+            <li>• <span class="text-amber-400 font-bold">Isolates broadcast domains</span> (blocks broadcasts from propagating)</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+          <div class="font-bold text-purple-400 text-sm mb-1">GATEWAY</div>
+          <div class="text-[10px] text-slate-500 mb-2 font-bold">OSI LAYERS 4–7 (UPPER)</div>
+          <ul class="text-slate-300 space-y-1 text-[11px]">
+            <li>• Universal <span class="text-purple-300 font-bold">protocol converter</span> [Q28]</li>
+            <li>• Translates between incompatible network architectures (e.g., TCP/IP to IBM SNA mainframe)</li>
+            <li>• Modifies packet payloads, encodings, and command sets across architectures</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================================= -->
+    <!-- PAGE 4: ERROR DETECTION, CHANNEL CODING & COMPUTATIONAL REFERENCE -->
+    <!-- ========================================================================================================= -->
+    <section id="page4" class="border border-sky-800/60 rounded-xl bg-slate-900/90 p-5 shadow-2xl backdrop-blur page-break">
+      <div class="flex items-center justify-between border-b border-sky-900 pb-3 mb-5">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-400 font-bold">MODULE 04 / 06</span>
+          <h2 class="text-xl md:text-2xl font-black text-white tracking-wide">ERROR DETECTION, CHANNEL CODING & COMPUTATIONAL WORKED PROBLEMS</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-950 text-sky-300 border border-sky-700">PAGE 4</span>
+      </div>
+
+      <!-- CORE ERROR PRINCIPLES -->
+      <div class="bg-slate-950/80 rounded-lg p-4 border border-slate-800 mb-6 font-mono text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2 mb-3">
+          <div class="text-sm font-bold text-sky-400 uppercase">THE THREE ERROR CONTROL PILLARS</div>
+          <div class="text-xs bg-red-950 text-red-300 border border-red-800 px-2 py-0.5 rounded">🔴 REDUNDANCY IS THE FOUNDATIONAL PRINCIPLE [Q36]</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-900/70 p-3 rounded border border-slate-800">
+            <div class="font-bold text-amber-400 text-sm mb-1">1. PARITY CHECK [Q37]</div>
+            <p class="text-slate-300 mb-2">Appends 1 extra bit so total count of 1s is consistently even or odd.</p>
+            <div class="bg-slate-950 p-2 rounded text-rose-300 text-[11px] border border-slate-800">
+              🔴 <strong>Strict Rule:</strong> Detects ONLY an <span class="underline font-bold">ODD</span> number of bit errors (1, 3, 5). Completely fails if 2 bits flip simultaneously!
+            </div>
+          </div>
+
+          <div class="bg-slate-900/70 p-3 rounded border border-slate-800">
+            <div class="font-bold text-emerald-400 text-sm mb-1">2. CHECKSUM [Q48]</div>
+            <p class="text-slate-300 mb-2">1's or 2's complement summation of 16-bit payload words. Placed in header.</p>
+            <div class="bg-slate-950 p-2 rounded text-emerald-300 text-[11px] border border-slate-800">
+              Used primarily at the <span class="font-bold text-white">Transport Layer (TCP/UDP)</span> and IP Layer. Very light computational overhead for software implementations.
+            </div>
+          </div>
+
+          <div class="bg-slate-900/70 p-3 rounded border border-slate-800">
+            <div class="font-bold text-sky-400 text-sm mb-1">3. CRC (POLYNOMIAL) [Q35]</div>
+            <p class="text-slate-300 mb-2">Modulo-2 binary division using Linear Feedback Shift Registers (LFSR).</p>
+            <div class="bg-slate-950 p-2 rounded text-sky-300 text-[11px] border border-slate-800">
+              🔴 <strong>Major Strength:</strong> Outstanding ability to detect <span class="underline font-bold">burst errors</span> (corrupted bit sequences in physical lines).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRC ARCHITECTURAL ENGINE -->
+      <div class="bg-slate-950 p-4 rounded-lg border border-sky-800/80 mb-6 font-mono text-xs">
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-sm font-bold text-white uppercase flex items-center gap-2">
+            <span>⚙️ CRC GENERATOR MATHEMATICAL ENGINE</span>
+            <span class="text-[10px] bg-red-950 text-red-300 border border-red-800 px-1.5 py-0.5 rounded">[NOTES: Q32]</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-300">
+          <div class="space-y-1.5 bg-slate-900 p-3 rounded border border-slate-800">
+            <div class="text-amber-400 font-bold">MATHEMATICAL RULES:</div>
+            <div>• Given a Generator Polynomial Divisor $G(x)$ of length $K$ bits:</div>
+            <div class="pl-3 border-l-2 border-amber-500 space-y-1">
+              <div>1. Degree of Divisor Polynomial: $n = K - 1$</div>
+              <div>2. Zeros appended to original data payload: <span class="text-white font-bold">$n\text{ zeros}$ ($K - 1\text{ zeros}$)</span></div>
+              <div>3. Width of FCS Remainder: <span class="text-white font-bold">$n\text{ bits}$ ($K - 1\text{ bits}$)</span></div>
+            </div>
+          </div>
+          <div class="bg-slate-900 p-3 rounded border border-slate-800">
+            <div class="text-sky-300 font-bold">BOARD EXAM CASE (Q32):</div>
+            <div class="text-slate-400 my-1">Generator polynomial length = 6 bits (e.g., $110101_2$, degree $n = 5$):</div>
+            <div class="text-emerald-400 font-semibold">• Data dividend appended with exactly 5 zeros.</div>
+            <div class="text-emerald-400 font-semibold">• Remainder (FCS) produced has width of exactly 5 bits.</div>
+            <div class="text-slate-300 text-[11px] mt-1">Transmitted stream $= [\text{Data Payload}] + [5\text{-bit FCS Remainder}]$.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP-BY-STEP WORKED BOARD EXAM PROBLEMS -->
+      <h3 class="text-sm font-bold text-sky-300 uppercase tracking-wider mb-3 font-mono flex items-center gap-2">
+        <span>STEP-BY-STEP WORKED BOARD EXAM PROBLEMS [Q30, Q31, Q33, Q34]</span>
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+
+        <!-- PROBLEM 1 -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+          <div class="flex items-center justify-between text-sky-400 font-bold border-b border-slate-800 pb-1 mb-2">
+            <span>PROB 1: 10Base-T TRANSMISSION DELAY [Q30]</span>
+            <span class="text-[10px] bg-slate-800 px-1.5 rounded text-slate-300">ETHERNET</span>
+          </div>
+          <div class="text-slate-400 text-[11px] mb-2">
+            <strong>GIVEN:</strong> Payload = 1500 Bytes, Data rate $R = 10\text{ Mbps} = 10 \times 10^6\text{ bps}$.
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <div><strong>Step 1:</strong> Convert Bytes to bits:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-sky-300">
+              $$L = 1500\text{ Bytes} \times 8\text{ bits/Byte} = 12,000\text{ bits}$$
+            </div>
+            <div><strong>Step 2:</strong> Compute packet emission latency:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-sky-300">
+              $$t_{\text{tx}} = \frac{L}{R} = \frac{12,000\text{ bits}}{10 \times 10^6\text{ bps}} = 0.0012\text{ s} = \mathbf{1.2\text{ ms}}$$
+            </div>
+            <div class="text-emerald-400 font-bold text-right pt-1">CORRECT ANSWER: 1.2 ms</div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 2 -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+          <div class="flex items-center justify-between text-amber-400 font-bold border-b border-slate-800 pb-1 mb-2">
+            <span>PROB 2: ASYNC WASTED OVERHEAD [Q31]</span>
+            <span class="text-[10px] bg-slate-800 px-1.5 rounded text-slate-300">SERIAL UART</span>
+          </div>
+          <div class="text-slate-400 text-[11px] mb-2">
+            <strong>GIVEN:</strong> 1,000 characters (8-bit ASCII). Framing: 1 start bit, 1 stop bit, 1 parity bit per char.
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <div><strong>Step 1:</strong> Identify wasted framing overhead per character:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-amber-300">
+              $$\text{Overhead/char} = 1\text{ start} + 1\text{ stop} + 1\text{ parity} = 3\text{ bits}$$
+            </div>
+            <div><strong>Step 2:</strong> Multiply by total characters:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-amber-300">
+              $$\text{Total Wasted Bits} = 1,000\text{ chars} \times 3\text{ bits/char} = \mathbf{3,000\text{ bits}}$$
+            </div>
+            <div class="text-emerald-400 font-bold text-right pt-1">CORRECT ANSWER: 3,000 bits</div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 3 -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+          <div class="flex items-center justify-between text-emerald-400 font-bold border-b border-slate-800 pb-1 mb-2">
+            <span>PROB 3: EVEN PARITY GENERATION [Q33]</span>
+            <span class="text-[10px] bg-slate-800 px-1.5 rounded text-slate-300">ERROR CODING</span>
+          </div>
+          <div class="text-slate-400 text-[11px] mb-2">
+            <strong>GIVEN:</strong> 7-bit ASCII payload = <code class="text-white">1001011</code>. Scheme = Even Parity.
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <div><strong>Step 1:</strong> Count the number of '1' bits in original payload:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-emerald-300">
+              $$\text{Payload } 1001011 \implies \text{Four (4) '1's}$$
+            </div>
+            <div><strong>Step 2:</strong> Determine required parity bit for even sum:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-slate-200">
+              Since 4 is already an even number, appended parity bit $= \mathbf{0}$.<br/>
+              Total number of 1s in final transmitted 8-bit frame $= \mathbf{4\text{ ones}}$.
+            </div>
+            <div class="text-emerald-400 font-bold text-right pt-1">ANSWER: Parity Bit = 0; Total 1s = 4</div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 4 -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+          <div class="flex items-center justify-between text-rose-400 font-bold border-b border-slate-800 pb-1 mb-2">
+            <span>PROB 4: EXPECTED ERRORS FROM BER [Q34]</span>
+            <span class="text-[10px] bg-slate-800 px-1.5 rounded text-slate-300">BIT ERROR RATE</span>
+          </div>
+          <div class="text-slate-400 text-[11px] mb-2">
+            <strong>GIVEN:</strong> 8 packets, each 512 Bytes. System $\text{BER} = 2 \times 10^{-4}$.
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <div><strong>Step 1:</strong> Calculate total transmitted bits ($N_{\text{bits}}$):</div>
+            <div class="bg-slate-900 p-1.5 rounded text-rose-300">
+              $$N_{\text{bits}} = 8 \times 512\text{ Bytes} \times 8\text{ bits/Byte} = 32,768\text{ bits}$$
+            </div>
+            <div><strong>Step 2:</strong> Compute expected bit errors:</div>
+            <div class="bg-slate-900 p-1.5 rounded text-rose-300">
+              $$\text{Errors} = N_{\text{bits}} \times \text{BER} = 32,768 \times (2 \times 10^{-4}) = \mathbf{6.5536 \approx 6.55}$$
+            </div>
+            <div class="text-emerald-400 font-bold text-right pt-1">CORRECT ANSWER: 6.55 errors</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- HAMMING CODE SPECIAL SUMMARY -->
+      <div class="mt-4 p-3 bg-slate-950 border border-slate-800 rounded-lg font-mono text-xs flex flex-col md:flex-row items-center justify-between gap-3">
+        <div>
+          <span class="text-sky-400 font-bold">HAMMING CODE SEC-DED [NOTES: Q49]:</span>
+          <span class="text-slate-300 ml-1">Provides <span class="text-emerald-400 font-bold">Single-Error Correction</span> and <span class="text-amber-400 font-bold">Double-Error Detection</span>.</span>
+        </div>
+        <div class="text-slate-400 text-[11px]">
+          Redundant bit rule: $2^r \ge m + r + 1$ | Parity bit positions: Powers of 2 ($1, 2, 4, 8, 16\dots$)
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================================= -->
+    <!-- PAGE 5: MULTIPLEXING SYSTEMS & DIGITAL HIERARCHY -->
+    <!-- ========================================================================================================= -->
+    <section id="page5" class="border border-sky-800/60 rounded-xl bg-slate-900/90 p-5 shadow-2xl backdrop-blur page-break">
+      <div class="flex items-center justify-between border-b border-sky-900 pb-3 mb-5">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-sky-400 font-bold">MODULE 05 / 06</span>
+          <h2 class="text-xl md:text-2xl font-black text-white tracking-wide">MULTIPLEXING SYSTEMS, ISDN ARCHITECTURE & BROADBAND CARRIER</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-mono bg-sky-950 text-sky-300 border border-sky-700">PAGE 5</span>
+      </div>
+
+      <!-- MULTIPLEXING TAXONOMY & COMPARISON TABLE -->
+      <div class="overflow-x-auto rounded-lg border border-slate-800 mb-6 font-mono text-xs">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-slate-950 text-slate-300 uppercase border-b border-slate-800">
+            <tr>
+              <th class="p-2.5">Multiplexing Technique</th>
+              <th class="p-2.5">Domain</th>
+              <th class="p-2.5">Separation Mechanism</th>
+              <th class="p-2.5">Key Advantage</th>
+              <th class="p-2.5">Board Exam Applications [NOTES: Q62–Q69]</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/80 bg-slate-900/50 text-slate-300">
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-amber-400">FDM (Frequency Division)</td>
+              <td class="p-2.5 text-amber-300">Analog</td>
+              <td class="p-2.5"><span class="text-rose-400 font-bold">Guard Bands</span> (prevent crosstalk) [Q66]</td>
+              <td class="p-2.5">Continuous simultaneous broadcast</td>
+              <td class="p-2.5">
+                • <span class="text-white font-semibold">SkyCable:</span> 100+ TV channels over single coax [Q62]<br/>
+                • Commercial FM broadcast (800 kHz station gaps)
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-sky-400">TDM (Synchronous)</td>
+              <td class="p-2.5 text-sky-300">Digital</td>
+              <td class="p-2.5">Fixed repetitive <span class="text-sky-300 font-bold">Time Slots</span></td>
+              <td class="p-2.5">Zero jitter; guaranteed bandwidth [Q69]</td>
+              <td class="p-2.5">PSTN telephony PCM trunks, T1/E1 carrier systems</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-purple-400">WDM (Wavelength Division)</td>
+              <td class="p-2.5 text-purple-300">Optical</td>
+              <td class="p-2.5">Distinct light wavelengths (colors/$\lambda$)</td>
+              <td class="p-2.5">Massive terabit capacity on 1 fiber strand</td>
+              <td class="p-2.5"><span class="text-white font-semibold">PLDT DFON:</span> Transmitting multi-color beams Luzon &rarr; Visayas [Q65]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40 bg-sky-950/20">
+              <td class="p-2.5 font-bold text-emerald-400">OFDM (Orthogonal FDM)</td>
+              <td class="p-2.5 text-emerald-300">Hybrid</td>
+              <td class="p-2.5">Closely spaced orthogonal subcarriers ($\Delta f = \frac{1}{T}$)</td>
+              <td class="p-2.5">Eliminates multipath delay spread/ghosting</td>
+              <td class="p-2.5">
+                • <span class="text-amber-300 font-bold">Philippine ISDB-T DTT:</span> Mandated digital TV standard [Q63]<br/>
+                • Wi-Fi 6, 4G LTE, 5G NR
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-2.5 font-bold text-cyan-400">Hybrid FDM + TDM</td>
+              <td class="p-2.5 text-cyan-300">Cellular</td>
+              <td class="p-2.5">Resource Blocks (Time slot & Frequency block)</td>
+              <td class="p-2.5">Flexible dynamic resource allocation [Q68]</td>
+              <td class="p-2.5"><span class="text-white font-semibold">Smart & DITO 4G/5G:</span> Cellular Resource Block scheduling [Q64]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- WORKED MULTIPLEXING PROBLEMS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 font-mono text-xs">
+        <!-- FDM BANDWIDTH PROBLEM -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-amber-800/60">
+          <div class="flex items-center justify-between text-amber-400 font-bold border-b border-slate-800 pb-1 mb-2">
+            <span>FDM BANDWIDTH CALCULATION [NOTES: Q71]</span>
+            <span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-800 px-1 rounded">GUARD BANDS</span>
+          </div>
+          <div class="text-slate-400 text-[11px] mb-2">
+            <strong>GIVEN:</strong> 10 voice channels, each $B_c = 4\text{ kHz}$. Guard band $B_g = 500\text{ Hz} = 0.5\text{ kHz}$.
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <div><strong>Rule:</strong> $N$ multiplexed channels require exactly $N - 1$ guard bands:</div>
+            <div class="bg-slate-900 p-2 rounded text-amber-300">
+              $$N_{\text{guard}} = 10 - 1 = 9\text{ guard bands}$$
+            </div>
+            <div><strong>Compute Aggregate Bandwidth:</strong></div>
+            <div class="bg-slate-900 p-2 rounded text-amber-300">
+              $$B_{\text{total}} = (N \times B_c) + ((N - 1) \times B_g)$$
+              $$B_{\text{total}} = (10 \times 4\text{ kHz}) + (9 \times 0.5\text{ kHz}) = 40 + 4.5 = \mathbf{44.5\text{ kHz}}$$
+            </div>
+            <div class="text-emerald-400 font-bold text-right pt-1">CORRECT ANSWER: 44.5 kHz</div>
+          </div>
+        </div>
+
+        <!-- TDM AGGREGATE BIT RATE PROBLEM -->
+        <div class="bg-slate-950 p-4 rounded-lg border border-sky-800/60">
+          <div class="flex items-center justify-between text-sky-400 font-bold border-b border-slate-800 pb-1 mb-2">
+            <span>TDM AGGREGATE BIT RATE [NOTES: Q70]</span>
+            <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-700 px-1 rounded">FRAME EFFICIENCY</span>
+          </div>
+          <div class="text-slate-400 text-[11px] mb-2">
+            <strong>GIVEN:</strong> 6 digital voice channels @ $128\text{ kbps}$ each. Frame efficiency $\eta = 80\% = 0.80$.
+          </div>
+          <div class="space-y-1.5 text-slate-300">
+            <div><strong>Step 1:</strong> Calculate net useful payload bit rate:</div>
+            <div class="bg-slate-900 p-2 rounded text-sky-300">
+              $$R_{\text{payload}} = 6 \times 128\text{ kbps} = 768\text{ kbps}$$
+            </div>
+            <div><strong>Step 2:</strong> Solve for total gross link transmission rate:</div>
+            <div class="bg-slate-900 p-2 rounded text-sky-300">
+              $$\eta = \frac{R_{\text{payload}}}{R_{\text{aggregate}}} \implies R_{\text{aggregate}} = \frac{768\text{ kbps}}{0.80} = \mathbf{960\text{ kbps}}$$
+            </div>
+            <div class="text-emerald-400 font-bold text-right pt-1">CORRECT ANSWER: 960 kbps</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ISDN COMPLETE ARCHITECTURAL BREAKDOWN -->
+      <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 font-mono text-xs">
+        <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-2 mb-3">
+          <div class="text-sm font-bold text-emerald-400 uppercase flex items-center gap-2">
+            <span>ISDN (INTEGRATED SERVICES DIGITAL NETWORK) ARCHITECTURE</span>
+            <span class="text-[10px] bg-red-950 text-red-300 border border-red-800 px-1.5 py-0.5 rounded">🔴 CRITICAL MUST-MEMORIZE</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-slate-900 p-3 rounded border border-slate-800">
+            <div class="font-bold text-white mb-1">B CHANNEL (BEARER)</div>
+            <div class="text-sky-300 text-sm font-bold mb-1">64 kbps</div>
+            <div class="text-slate-300 text-[11px]">Carries user speech, data, or video digitized via PCM.</div>
+          </div>
+          <div class="bg-slate-900 p-3 rounded border border-slate-800">
+            <div class="font-bold text-white mb-1">D CHANNEL (DELTA) [Q58]</div>
+            <div class="text-amber-300 text-sm font-bold mb-1">16 kbps (BRI) / 64 kbps (PRI)</div>
+            <div class="text-slate-300 text-[11px]">Carries out-of-band signaling, call setup, teardown, & packet telemetry.</div>
+          </div>
+          <div class="bg-slate-900 p-3 rounded border border-slate-800">
+            <div class="font-bold text-white mb-1">FDM TELEPHONY GROUP [Q67]</div>
+            <div class="text-emerald-400 text-sm font-bold mb-1">12 Channels = 48 kHz</div>
+            <div class="text-slate-300 text-[11px]">12 voice channels (4 kHz each) form a standard Basic Group ($60 - 108\text{ kHz}$).</div>
+          </div>
+        </div>
+
+        <!-- BRI METRICS MATRIX -->
+        <div class="bg-slate-900/80 p-3 rounded border border-emerald-900/60 text-slate-300">
+          <div class="text-xs font-bold text-emerald-300 uppercase mb-2">ISDN BRI (BASIC RATE INTERFACE: 2B + D) BIT-RATE BREAKDOWN [NOTES: Q57, Q59, Q60]:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">MAX USER PAYLOAD RATE (2B)</div>
+              <div class="text-base font-bold text-sky-400">$$2 \times 64 = \mathbf{128\text{ kbps}}$$</div>
+              <div class="text-[10px] text-slate-400">[NOTES: Q59]</div>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">RAW CHANNEL SUM (2B + D)</div>
+              <div class="text-base font-bold text-amber-400">$$64 + 64 + 16 = \mathbf{144\text{ kbps}}$$</div>
+              <div class="text-[10px] text-slate-400">[NOTES: Q60]</div>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <div class="text-[10px] text-slate-400">GROSS LINE RATE (WITH FRAMING)</div>
+              <div class="text-base font-bold text-emerald-400">$$144 + 48\text{ framing} = \mathbf{192\text{ kbps}}$$</div>
+              <div class="text-[10px] text-slate-400">Physical transmission speed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================================================= -->
+    <!-- PAGE 6: ULTIMATE RAPID-RECALL BOARD EXAM CRAM SHEET -->
+    <!-- ========================================================================================================= -->
+    <section id="page6" class="border-2 border-amber-500/80 rounded-xl bg-slate-900/95 p-5 shadow-2xl backdrop-blur page-break">
+      <div class="flex items-center justify-between border-b border-amber-500/50 pb-3 mb-5">
+        <div>
+          <span class="text-xs font-mono uppercase tracking-widest text-amber-400 font-bold">MODULE 06 / 06 // CRITICAL REVIEW</span>
+          <h2 class="text-xl md:text-2xl font-black text-amber-300 tracking-wide">ULTIMATE RAPID-RECALL BOARD EXAM CRAM SHEET</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-xs font-mono bg-amber-950 text-amber-300 border border-amber-600 font-bold">COMMAND CENTER</span>
+      </div>
+
+      <!-- DON'T CONFUSE THESE! HIGH-RISK BOARD EXAM TRAPS -->
+      <h3 class="text-sm font-bold text-amber-300 uppercase tracking-wider mb-3 font-mono flex items-center gap-2">
+        <span>⚠️ DON'T CONFUSE THESE! (HIGH-RISK EXAM DISTINCTIONS)</span>
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 font-mono text-xs">
+
+        <!-- TRAP 1 -->
+        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div class="text-center font-bold text-amber-400 border-b border-slate-800 pb-1 mb-2">TCP VS UDP [Q41, Q44, Q47]</div>
+          <div class="space-y-2 text-[11px]">
+            <div class="bg-slate-900 p-2 rounded">
+              <span class="text-sky-400 font-bold">TCP:</span> Connection-oriented (3-way SYN handshake), guaranteed sequencing, ACK, retransmission. Used for <span class="text-white font-semibold">PDF downloads, Web, Email</span>.
+            </div>
+            <div class="bg-slate-900 p-2 rounded">
+              <span class="text-rose-400 font-bold">UDP:</span> Connectionless, "fire-and-forget", low overhead (8 bytes), NO retransmission. Used for <span class="text-white font-semibold">VoIP, Mobile Legends</span> to eliminate latency.
+            </div>
+          </div>
+        </div>
+
+        <!-- TRAP 2 -->
+        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div class="text-center font-bold text-amber-400 border-b border-slate-800 pb-1 mb-2">SWITCH (L2) VS ROUTER (L3) [Q23, Q24]</div>
+          <div class="space-y-2 text-[11px]">
+            <div class="bg-slate-900 p-2 rounded">
+              <span class="text-emerald-400 font-bold">Switch (Layer 2):</span> Forwards <span class="text-white font-semibold">Frames</span> by <span class="text-emerald-300 font-semibold">MAC address</span>. Isolates <span class="text-white font-bold">Collision Domains</span>. Shares 1 Broadcast Domain.
+            </div>
+            <div class="bg-slate-900 p-2 rounded">
+              <span class="text-sky-400 font-bold">Router (Layer 3):</span> Forwards <span class="text-white font-semibold">Packets</span> by <span class="text-sky-300 font-semibold">IP address</span>. Isolates <span class="text-white font-bold">Broadcast Domains</span>. Connects different subnets.
+            </div>
+          </div>
+        </div>
+
+        <!-- TRAP 3 -->
+        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div class="text-center font-bold text-amber-400 border-b border-slate-800 pb-1 mb-2">SYNC TDM VS ASYNC/STAT TDM [Q69]</div>
+          <div class="space-y-2 text-[11px]">
+            <div class="bg-slate-900 p-2 rounded">
+              <span class="text-purple-400 font-bold">Synchronous TDM:</span> Fixed dedicated time slot per channel. Slot sent empty if channel idle. Zero jitter. Ideal for <span class="text-white font-semibold">uncompressed voice/PCM</span>.
+            </div>
+            <div class="bg-slate-900 p-2 rounded">
+              <span class="text-amber-400 font-bold">Statistical TDM:</span> Dynamically assigns slots on demand. Carries address header. High efficiency for <span class="text-white font-semibold">bursty data networks</span>.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MASTER EQUATION MATRIX -->
+      <h3 class="text-sm font-bold text-sky-300 uppercase tracking-wider mb-2 font-mono flex items-center gap-2">
+        <span>⚡ RAPID FORMULA REFERENCE SHEET</span>
+      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-6 font-mono text-xs">
+        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400">MESH LINKS</div>
+          <div class="text-sky-400 font-bold my-1">$$L = \frac{N(N-1)}{2}$$</div>
+          <div class="text-[10px] text-slate-500">Ports/node: $N - 1$</div>
+        </div>
+        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400">TX DELAY</div>
+          <div class="text-emerald-400 font-bold my-1">$$t_{\text{tx}} = \frac{L}{R}$$</div>
+          <div class="text-[10px] text-slate-500">Bytes $\times 8$ / bps</div>
+        </div>
+        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400">ASYNC EFFICIENCY</div>
+          <div class="text-amber-400 font-bold my-1">$$\eta = \frac{D}{\text{Total}}$$</div>
+          <div class="text-[10px] text-slate-500">8-N-1: $80\%$, 8-E-1: $72.7\%$</div>
+        </div>
+        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400">FDM BANDWIDTH</div>
+          <div class="text-purple-400 font-bold my-1">$$N B_c + (N-1)B_g$$</div>
+          <div class="text-[10px] text-slate-500">Guard bands $= N - 1$</div>
+        </div>
+        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400">TDM GROSS RATE</div>
+          <div class="text-rose-400 font-bold my-1">$$R_{\text{gross}} = \frac{R_{\text{payload}}}{\eta}$$</div>
+          <div class="text-[10px] text-slate-500">Payload / Efficiency</div>
+        </div>
+        <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-center">
+          <div class="text-[10px] text-slate-400">CRC REMAINDER</div>
+          <div class="text-cyan-400 font-bold my-1">$$n = K - 1$$</div>
+          <div class="text-[10px] text-slate-500">Divisor bits $- 1$</div>
+        </div>
+      </div>
+
+      <!-- CRITICAL CONSTANTS & STANDARD VALUES -->
+      <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 font-mono text-xs mb-6">
+        <div class="text-xs font-bold text-slate-300 uppercase mb-2">CRITICAL CONSTANTS, SPECIFICATIONS & STANDARDS:</div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-300">
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">MIN ETHERNET FRAME [Q61]</span>
+            <span class="text-white font-bold text-sm">64 Bytes (512 bits)</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">ETHERNET MTU</span>
+            <span class="text-white font-bold text-sm">1500 Bytes</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">ISDN BRI USER RATE [Q59]</span>
+            <span class="text-sky-400 font-bold text-sm">128 kbps (2 × 64k)</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">ISDN BRI RAW CHANNEL [Q60]</span>
+            <span class="text-amber-400 font-bold text-sm">144 kbps (2B + D)</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">ISDN BRI GROSS LINE</span>
+            <span class="text-emerald-400 font-bold text-sm">192 kbps</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">BASIC FDM GROUP [Q67]</span>
+            <span class="text-white font-bold text-sm">12 Voice Ch. (48 kHz)</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">IPv4 ADDRESS WIDTH [Q50, Q51]</span>
+            <span class="text-white font-bold text-sm">32 bits (4 octets)</span>
+          </div>
+          <div class="p-2 bg-slate-900 rounded border border-slate-800">
+            <span class="text-slate-400 block text-[10px]">IPv6 ADDRESS WIDTH [Q51]</span>
+            <span class="text-white font-bold text-sm">128 bits (16 octets)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRIORITY MEMORIZATION SUMMARY -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+        <div class="p-3 bg-red-950/40 border border-red-800/80 rounded-lg">
+          <div class="text-red-400 font-bold mb-1 flex items-center gap-1">
+            <span>🔴 TOP 5 MUST-MEMORIZE FACTS:</span>
+          </div>
+          <ul class="text-slate-300 space-y-1 text-[11px]">
+            <li>1. <strong>Full Mesh link formula:</strong> $L = N(N - 1) / 2$. Number of links grows quadratically ($O(N^2)$).</li>
+            <li>2. <strong>Minimum Ethernet frame size:</strong> Strictly <strong>64 Bytes</strong>. Frames smaller than 64B are runt collision fragments.</li>
+            <li>3. <strong>ISDN BRI channel breakdown:</strong> 2 B channels (64k each) + 1 D channel (16k) $= 144\text{ kbps}$ net, $192\text{ kbps}$ gross.</li>
+            <li>4. <strong>Synchronous clock drift:</strong> A phase shift corrupts an <strong>entire data block</strong> (not just 1 character).</li>
+            <li>5. <strong>Parity check detection:</strong> Strictly detects only an <strong>odd</strong> number of bit flips.</li>
+          </ul>
+        </div>
+
+        <div class="p-3 bg-amber-950/40 border border-amber-800/80 rounded-lg">
+          <div class="text-amber-300 font-bold mb-1 flex items-center gap-1">
+            <span>🟠 TOP 5 HIGH-YIELD CONCEPTS:</span>
+          </div>
+          <ul class="text-slate-300 space-y-1 text-[11px]">
+            <li>1. <strong>Layer 2 vs Layer 3:</strong> Switches forward frames by MAC; Routers forward packets by IP and isolate broadcast domains.</li>
+            <li>2. <strong>Hybrid circuit:</strong> Connects 2-wire bidirectional local loop to 4-wire separate Tx/Rx trunks; causes impedance reflection echo.</li>
+            <li>3. <strong>Why UDP for VoIP/Gaming:</strong> Much lower header overhead (8B vs 20B) and strictly no retransmission lag.</li>
+            <li>4. <strong>FDM Guard Bands:</strong> $N - 1$ guard bands are required between $N$ adjacent frequency channels.</li>
+            <li>5. <strong>CRC Divisor degree:</strong> A generator polynomial of $K$ bits has degree $n = K - 1$, appends $K - 1$ zeros, and yields an FCS of $K - 1$ bits.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-12 py-6 border-t border-slate-900 bg-slate-950/80 text-center text-xs font-mono text-slate-500">
+    <div>PRC ECE LICENSURE EXAMINATION • ELECTRONICS SYSTEMS AND TECHNOLOGIES (EST) REVIEW SYSTEM</div>
+    <div class="text-slate-600 mt-1">Compiled from September 15 EST Examination Notes (Questions 1–71) • Mathematical notation powered by KaTeX</div>
+  </footer>
+
+</body>
+</html>
