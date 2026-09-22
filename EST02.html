@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam — Dense Infographic Reviewer & Command Center</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#0c4a6e',
+              900: '#082f49',
+              950: '#031726'
+            },
+            trap: '#ef4444',
+            must: '#f43f5e',
+            high: '#f97316',
+            imp: '#eab308',
+            conc: '#3b82f6'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- KaTeX for High-Precision Mathematical Typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" 
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false
+    });">
+  </script>
+
+  <style>
+    /* Custom scrollbars for technical density */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b1120; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    
+    .formula-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    }
+    .trap-card {
+      background: linear-gradient(135deg, rgba(30, 10, 15, 0.9), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.25rem 0;
+    }
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .formula-card, .trap-card { border: 1px solid #999 !important; background: none !important; color: black !important; }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Top Command HUD -->
+  <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20 text-sm">
+          ECE
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
+            BOARD EXAM REVIEWER <span class="text-xs px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-700/50 font-mono">EST / DSP / COMMS</span>
+          </h1>
+          <p class="text-[11px] text-slate-400">Source: Sep 18 (EST) Lecture & Board Problem Breakdown</p>
+        </div>
+      </div>
+
+      <!-- Quick Section Jump Links -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 text-xs font-medium overflow-x-auto py-1 max-w-full no-print">
+        <a href="#overview" class="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-cyan-900/50 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">Overview</a>
+        <a href="#signals" class="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-cyan-900/50 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">Signals & Sampling</a>
+        <a href="#dsp" class="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-cyan-900/50 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">DSP & Z-Plane</a>
+        <a href="#noise" class="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-cyan-900/50 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">Noise & Sensitivity</a>
+        <a href="#am" class="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-cyan-900/50 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">AM & RF Power</a>
+        <a href="#cheatsheet" class="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-cyan-900/50 text-slate-300 hover:text-cyan-300 border border-slate-700 transition">Cheat Sheet</a>
+        <a href="#calculators" class="px-2.5 py-1 rounded-md bg-cyan-700 hover:bg-cyan-600 text-white font-semibold transition shadow-md shadow-cyan-900/30">Solvers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
+
+    <!-- Board Priority Legend Bar -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 shadow-md backdrop-blur">
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+          <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          Priority Index:
+        </div>
+        <div class="flex flex-wrap items-center gap-2 font-mono">
+          <span class="px-2.5 py-1 rounded-md bg-rose-950/80 text-rose-300 border border-rose-800/80 font-bold">🔴 [MUST MEMORIZE]</span>
+          <span class="px-2.5 py-1 rounded-md bg-amber-950/80 text-amber-300 border border-amber-800/80 font-bold">🟠 [HIGH-YIELD]</span>
+          <span class="px-2.5 py-1 rounded-md bg-yellow-950/80 text-yellow-300 border border-yellow-800/80 font-bold">🟡 [IMPORTANT]</span>
+          <span class="px-2.5 py-1 rounded-md bg-blue-950/80 text-blue-300 border border-blue-800/80 font-bold">🔵 [CONCEPTUAL]</span>
+          <span class="px-2.5 py-1 rounded-md bg-red-950 text-red-400 border border-red-700 font-bold">⚠️ [COMMON TRAP]</span>
+        </div>
+        <div class="flex items-center gap-2 text-[11px] text-slate-400">
+          <span class="border-b border-cyan-500/60 text-cyan-300 font-semibold">[NOTES]</span> Direct From PDF
+          <span class="text-slate-600">•</span>
+          <span class="border-b border-purple-500/60 text-purple-300 font-semibold">[CLARIFICATION]</span> Errata / Derivation
+        </div>
+      </div>
+    </section>
+
+    <section id="overview" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Page 1 of Reviewer</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">MASTER OVERVIEW & HIGH-LEVEL SYSTEM TOPOLOGY</h2>
+        </div>
+        <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-mono border border-slate-700">CORE ROADMAP</span>
+      </div>
+
+      <!-- High-Level Topology Mind Map Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Branch 1 -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-cyan-900/40 rounded-xl p-5 relative overflow-hidden group hover:border-cyan-500/50 transition">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition"></div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded bg-cyan-900/60 text-cyan-300 font-mono text-xs flex items-center justify-center font-bold">01</span>
+            <h3 class="font-bold text-white text-base">Signals & Systems</h3>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li class="flex items-start gap-1.5"><span class="text-cyan-400">▸</span> Continuous ($t \in \mathbb{R}$) vs Discrete ($n \in \mathbb{Z}$)</li>
+            <li class="flex items-start gap-1.5"><span class="text-cyan-400">▸</span> Deterministic (Math equation) vs Stochastic (Noise)</li>
+            <li class="flex items-start gap-1.5"><span class="text-cyan-400">▸</span> Energy ($0 < E < \infty, P=0$) vs Power ($0 < P < \infty, E=\infty$)</li>
+            <li class="flex items-start gap-1.5"><span class="text-cyan-400">▸</span> Linearity (Superposition) & Causality ($t \le t_0$)</li>
+            <li class="flex items-start gap-1.5"><span class="text-cyan-400">▸</span> Nyquist Sampling: $f_s \ge 2 f_{\max}$, Aliasing Folding</li>
+          </ul>
+        </div>
+
+        <!-- Branch 2 -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-purple-900/40 rounded-xl p-5 relative overflow-hidden group hover:border-purple-500/50 transition">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/10 transition"></div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded bg-purple-900/60 text-purple-300 font-mono text-xs flex items-center justify-center font-bold">02</span>
+            <h3 class="font-bold text-white text-base">Digital Signal Processing</h3>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li class="flex items-start gap-1.5"><span class="text-purple-400">▸</span> FIR (Feedforward, All-Zero, Linear Phase, Stable)</li>
+            <li class="flex items-start gap-1.5"><span class="text-purple-400">▸</span> IIR (Feedback, Pole-Zero, Sharp Cutoff, Unstable risk)</li>
+            <li class="flex items-start gap-1.5"><span class="text-purple-400">▸</span> FIR Filter Order $n$ vs Tap Length $L = n + 1$</li>
+            <li class="flex items-start gap-1.5"><span class="text-purple-400">▸</span> Linear Convolution & Parseval Energy Conservation</li>
+            <li class="flex items-start gap-1.5"><span class="text-purple-400">▸</span> Z-Plane: Poles boost, Zeros block (Unit Circle $|z|=1$)</li>
+          </ul>
+        </div>
+
+        <!-- Branch 3 -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-amber-900/40 rounded-xl p-5 relative overflow-hidden group hover:border-amber-500/50 transition">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition"></div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded bg-amber-900/60 text-amber-300 font-mono text-xs flex items-center justify-center font-bold">03</span>
+            <h3 class="font-bold text-white text-base">Communications & Noise</h3>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300 font-medium">
+            <li class="flex items-start gap-1.5"><span class="text-amber-400">▸</span> Thermal Noise ($P_n = kTB, V_n = \sqrt{4kTBR}$)</li>
+            <li class="flex items-start gap-1.5"><span class="text-amber-400">▸</span> Noise Factor $F$, Figure $NF$ & Temp $T_e = T_0(F-1)$</li>
+            <li class="flex items-start gap-1.5"><span class="text-amber-400">▸</span> Friis' Cascaded Formula (Linear conversion warning!)</li>
+            <li class="flex items-start gap-1.5"><span class="text-amber-400">▸</span> AM Index $m$, Transmitted Power $P_T = P_c(1 + m^2/2)$</li>
+            <li class="flex items-start gap-1.5"><span class="text-amber-400">▸</span> SSB-SC Power Savings (83.33%) & ITU Codes (A3E-J3E)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Master Comparative Matrix Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-5 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wide font-mono flex items-center gap-2">
+            <span class="text-cyan-400">📊</span> Core Engineering Dichotomy Matrix
+          </h3>
+          <span class="text-xs text-slate-400 font-mono">Direct Board Exam Traps</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4">Classification Metric</th>
+                <th class="py-3 px-4 text-cyan-300">Category Alpha</th>
+                <th class="py-3 px-4 text-amber-300">Category Beta</th>
+                <th class="py-3 px-4">Core Deciding Condition</th>
+                <th class="py-3 px-4 text-emerald-300">High-Yield Board Keyword</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-sans text-slate-300">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-4 font-semibold text-white">Predictability <span class="text-[10px] text-cyan-400 font-mono">[NOTES]</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-cyan-300">Deterministic</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-amber-300">Stochastic (Random)</span></td>
+                <td class="py-2.5 px-4">Explicit math equation exists vs statistical uncertainty</td>
+                <td class="py-2.5 px-4 font-mono text-emerald-400">"Thermal agitation in resistor" = Stochastic</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-4 font-semibold text-white">Signal Energy/Power <span class="text-[10px] text-cyan-400 font-mono">[NOTES]</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-cyan-300">Energy Signal</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-amber-300">Power Signal</span></td>
+                <td class="py-2.5 px-4">$0 < E < \infty,\ P = 0$ versus $0 < P < \infty,\ E = \infty$</td>
+                <td class="py-2.5 px-4 font-mono text-emerald-400">"Decaying / Pulse" = Energy; "Sustained Sine" = Power</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-4 font-semibold text-white">Time Domain <span class="text-[10px] text-cyan-400 font-mono">[NOTES]</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-cyan-300">Continuous-Time (CT)</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-amber-300">Discrete-Time (DT)</span></td>
+                <td class="py-2.5 px-4">Continuous $t \in \mathbb{R}$ vs Indexed sequence $n \in \mathbb{Z}$</td>
+                <td class="py-2.5 px-4 font-mono text-emerald-400">"Capacitor discharging" = CT; "Stock price" = DT</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-4 font-semibold text-white">Digital Filter Topology <span class="text-[10px] text-cyan-400 font-mono">[NOTES]</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-cyan-300">FIR Filter</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-amber-300">IIR Filter</span></td>
+                <td class="py-2.5 px-4">Feedforward only ($x[n-k]$) vs Feedback ($y[n-k]$)</td>
+                <td class="py-2.5 px-4 font-mono text-emerald-400">"Linear Phase / Stable" = FIR; "Sharp cutoff" = IIR</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-2.5 px-4 font-semibold text-white">RF Modulation <span class="text-[10px] text-cyan-400 font-mono">[NOTES]</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-cyan-300">DSB-FC ($A3E$)</span></td>
+                <td class="py-2.5 px-4"><span class="font-bold text-amber-300">SSB-SC ($J3E$)</span></td>
+                <td class="py-2.5 px-4">Carrier + 2 Sidebands vs Single Sideband Only</td>
+                <td class="py-2.5 px-4 font-mono text-emerald-400">"83.33% power saved" at $m=1$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="signals" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Page 2 of Reviewer</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">SIGNALS, SYSTEM PROPERTIES & NYQUIST SAMPLING</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 HIGH CALCULATION FREQUENCY</span>
+      </div>
+
+      <!-- Grid for Signal Classifications & Visual Decision Tree -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left: Energy vs Power Decision Engine -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold text-white text-sm uppercase tracking-wide font-mono flex items-center gap-2">
+                <span class="text-rose-400">⚡</span> Energy vs. Power Signal Decision Engine
+              </h3>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/40 text-rose-300 border border-rose-800 font-mono">🔴 [MUST MEMORIZE]</span>
+            </div>
+            
+            <!-- Handnote Memory Quote Banner -->
+            <div class="p-3 bg-amber-950/40 border-l-4 border-amber-500 rounded-r-md mb-4 text-xs">
+              <span class="text-amber-400 font-bold block mb-0.5 font-mono">💡 STUDENT BOARD MNEMONIC [NOTES]:</span>
+              <p class="italic text-amber-200">"Kung anong signal siya, yun yung finite sa kanya!"</p>
+              <p class="text-slate-400 mt-1 text-[11px]">(If Energy signal $\to$ Energy is finite. If Power signal $\to$ Power is finite.)</p>
+            </div>
+
+            <!-- Visual Decision Blocks -->
+            <div class="space-y-3 text-xs">
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-md bg-cyan-950 border border-cyan-800 text-cyan-400 flex items-center justify-center font-bold font-mono shrink-0">E</div>
+                <div>
+                  <div class="font-bold text-cyan-300 text-sm">Energy Signal</div>
+                  <div class="text-slate-300 mt-0.5">Finite Total Energy ($0 < E < \infty$), Zero Average Power ($P = 0$)</div>
+                  <div class="text-[11px] text-slate-400 mt-1"><span class="text-slate-200 font-semibold">Examples:</span> Single rectangular pulse, decaying exponential $e^{-\alpha t}u(t)$, unit impulse $\delta(t)$.</div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-md bg-amber-950 border border-amber-800 text-amber-400 flex items-center justify-center font-bold font-mono shrink-0">P</div>
+                <div>
+                  <div class="font-bold text-amber-300 text-sm">Power Signal</div>
+                  <div class="text-slate-300 mt-0.5">Finite Average Power ($0 < P < \infty$), Infinite Energy ($E = \infty$)</div>
+                  <div class="text-[11px] text-slate-400 mt-1"><span class="text-slate-200 font-semibold">Examples:</span> Sustained pure sine wave $A\sin(\omega t)$, periodic square wave, sustained random noise, constant DC.</div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-lg bg-red-950/30 border border-red-900/60 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-md bg-red-950 border border-red-700 text-red-400 flex items-center justify-center font-bold font-mono shrink-0">⚠️</div>
+                <div>
+                  <div class="font-bold text-red-300 text-sm">Neither Energy Nor Power Signal</div>
+                  <div class="text-slate-300 mt-0.5">Energy = $\infty$, Average Power = $\infty$ (Signal explodes or grows unboundedly)</div>
+                  <div class="text-[11px] text-slate-400 mt-1"><span class="text-slate-200 font-semibold">Examples:</span> Unit ramp function $r(t) = t \cdot u(t)$, growing exponential $e^{+at}$.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Linearity & Causality Case Studies -->
+        <div class="lg:col-span-6 space-y-4">
+          <!-- System Properties Card -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold text-white text-sm uppercase tracking-wide font-mono flex items-center gap-2">
+                <span class="text-blue-400">⚙️</span> Linearity & Causality Verification
+              </h3>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-800 font-mono">🟠 [HIGH-YIELD]</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mb-4">
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="font-bold text-cyan-300 block mb-1">Principle of Superposition</span>
+                <p class="text-slate-300">1. <strong>Additivity:</strong> $T\{x_1 + x_2\} = T\{x_1\} + T\{x_2\}$</p>
+                <p class="text-slate-300 mt-1">2. <strong>Homogeneity (Scaling):</strong> $T\{a \cdot x\} = a \cdot T\{x\}$</p>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="font-bold text-amber-300 block mb-1">Causality Analogies [NOTES]</span>
+                <p class="text-slate-300"><strong>Causal:</strong> Depends on present / past inputs only. <em class="text-amber-200">"Straight payment / Cash-on-hand"</em></p>
+                <p class="text-slate-300 mt-1"><strong>Non-Causal:</strong> Depends on future inputs ($t > t_0$). <em class="text-rose-300">"Home Credit / Post-dated check"</em></p>
+              </div>
+            </div>
+
+            <!-- Board Exam Trap Case Study -->
+            <div class="trap-card rounded-lg p-3.5 text-xs">
+              <div class="flex items-center gap-2 text-rose-400 font-bold mb-1.5 font-mono">
+                <span>⚠️</span> BOARD EXAM TRAP CASE STUDY [QUESTION 12]:
+              </div>
+              <p class="text-slate-200 font-mono mb-2">Given system: $y(t) = x(\sin(t))$</p>
+              <div class="space-y-1.5 text-slate-300">
+                <p>• <strong>Test Causality at $t = -\frac{\pi}{2} \approx -1.57\text{ s}$</strong>:</p>
+                <p class="font-mono text-cyan-300 pl-3">$$y(-1.57) = x(\sin(-1.57)) = x(-1)$$</p>
+                <p>• Since $-1 > -1.57$, the system requires an input from the <strong>FUTURE</strong>! $\implies$ <span class="text-rose-400 font-bold">NON-CAUSAL</span>.</p>
+                <p>• Linearity Check: $T\{a x_1 + b x_2\} = a x_1(\sin t) + b x_2(\sin t)$ satisfies superposition $\implies$ <span class="text-emerald-400 font-bold">LINEAR</span>.</p>
+                <p class="text-[11px] text-amber-300 font-semibold mt-1">Final Result: The system is LINEAR and NON-CAUSAL.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Scaling & Signal Types -->
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5">
+              <span class="text-cyan-400 font-bold font-mono block mb-1">TIME SCALING $x(at)$</span>
+              <p class="text-slate-300"><strong>$a > 1$ (e.g. $x(2t)$):</strong> Time <em>compression</em> (factor of $a$). Downsampling analogy.</p>
+              <p class="text-slate-300 mt-1"><strong>$0 < a < 1$ (e.g. $x(t/2)$):</strong> Time <em>expansion / stretching</em> (factor $1/a$). Upsampling analogy.</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5">
+              <span class="text-amber-400 font-bold font-mono block mb-1">POLARITY DEFINITIONS</span>
+              <p class="text-slate-300"><strong>Unipolar:</strong> Amplitude $\ge 0$ at all times (never drops below zero ground).</p>
+              <p class="text-slate-300 mt-1"><strong>Bipolar:</strong> Alternates between positive and negative voltage rails.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formula Card: Nyquist Sampling & Aliasing -->
+      <div class="formula-card rounded-xl p-5 border-l-4 border-l-cyan-500">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 text-xs font-mono font-bold">FORMULA CARD</span>
+            <h3 class="font-bold text-white text-base font-mono">NYQUIST SAMPLING THEOREM & ALIASING FOLD-OVER</h3>
+          </div>
+          <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 [MUST MEMORIZE]</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <!-- Equation 1 -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-slate-800 text-center">
+            <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Nyquist Rate ($f_{s,\min}$)</span>
+            <div class="text-cyan-300 text-lg font-mono font-bold">$$f_s \ge 2 \cdot f_{\max}$$</div>
+            <p class="text-[11px] text-slate-400 mt-1">Minimum sampling frequency to prevent spectrum overlap.</p>
+          </div>
+          <!-- Equation 2 -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-slate-800 text-center">
+            <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Nyquist Frequency ($f_{\text{Nyquist}}$)</span>
+            <div class="text-cyan-300 text-lg font-mono font-bold">$$f_{\text{Nyquist}} = \frac{f_s}{2}$$</div>
+            <p class="text-[11px] text-slate-400 mt-1">Maximum signal frequency faithfully captured by rate $f_s$.</p>
+          </div>
+          <!-- Equation 3 -->
+          <div class="bg-slate-950/80 p-3.5 rounded-lg border border-slate-800 text-center">
+            <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Principal Alias Frequency ($f_{\text{alias}}$)</span>
+            <div class="text-rose-300 text-lg font-mono font-bold">$$f_{\text{alias}} = |f_{\text{sig}} - k \cdot f_s|$$</div>
+            <p class="text-[11px] text-slate-400 mt-1">Where $k \cdot f_s$ is the nearest integer harmonic multiple.</p>
+          </div>
+        </div>
+
+        <!-- Problem Solving Workflow: Step-by-Step -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-2">
+          <div class="bg-slate-900/80 p-3.5 rounded-lg border border-slate-800">
+            <div class="font-bold text-amber-300 mb-1.5 font-mono">WORKED EXAMPLE A [QUESTION 13]: NYQUIST RATE</div>
+            <p class="text-slate-300 font-mono mb-1">Given: $x(t) = 3\cos(2000\pi t) + 5\sin(6000\pi t)$</p>
+            <ol class="list-decimal list-inside space-y-1 text-slate-300">
+              <li>Extract component frequencies:
+                <br>&nbsp;&nbsp;$\omega_1 = 2000\pi \implies f_1 = \frac{2000\pi}{2\pi} = 1000\text{ Hz}$
+                <br>&nbsp;&nbsp;$\omega_2 = 6000\pi \implies f_2 = \frac{6000\pi}{2\pi} = 3000\text{ Hz}$
+              </li>
+              <li>Highest frequency present: $f_{\max} = 3000\text{ Hz}$</li>
+              <li>Nyquist Rate: $f_N = 2 \cdot f_{\max} = 2 \cdot (3000) = \mathbf{6000\text{ Hz}}$</li>
+            </ol>
+          </div>
+
+          <div class="bg-slate-900/80 p-3.5 rounded-lg border border-slate-800">
+            <div class="font-bold text-rose-300 mb-1.5 font-mono">WORKED EXAMPLE B [QUESTION 14]: ALIASING CALCULATION</div>
+            <p class="text-slate-300 font-mono mb-1">Given: $f_{\text{sig}} = 7\text{ kHz}$, sampled at rate $f_s = 10\text{ kHz}$</p>
+            <ol class="list-decimal list-inside space-y-1 text-slate-300">
+              <li>Check Nyquist condition: Required $f_s \ge 2(7) = 14\text{ kHz}$.</li>
+              <li>Actual rate $10\text{ kHz} < 14\text{ kHz} \implies$ <strong>Aliasing occurs!</strong></li>
+              <li>Nearest multiple of $f_s$ to $7\text{ kHz}$ is $10\text{ kHz}$ ($k=1$).</li>
+              <li>Alias frequency:
+                <br>&nbsp;&nbsp;$f_{\text{alias}} = |7\text{ kHz} - 10\text{ kHz}| = \mathbf{3\text{ kHz}}$
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Oversampling Note -->
+        <div class="mt-3 p-2.5 rounded bg-cyan-950/40 border border-cyan-800/60 text-xs flex items-center justify-between">
+          <span class="text-slate-300"><strong class="text-cyan-300 font-mono">Oversampling [NOTES]:</strong> Sampling a $5\text{ kHz}$ signal at $100\text{ kHz}$ ($f_s \gg 2f_{\max}$) relaxes anti-aliasing analog filter design requirements.</span>
+          <span class="font-mono text-cyan-400 font-bold px-2 py-0.5 rounded bg-cyan-900/60 text-[11px]">$f_s \gg 2 f_{\max}$</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="dsp" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Page 3 of Reviewer</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">DIGITAL SIGNAL PROCESSING, FILTERS & Z-TRANSFORMS</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-xs font-mono font-bold">🟠 CORE FILTER THEORY</span>
+      </div>
+
+      <!-- Comprehensive FIR vs IIR Architecture Comparison -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-5 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wide font-mono flex items-center gap-2">
+            <span class="text-purple-400">🎛️</span> Master FIR vs. IIR Filter Taxonomy [NOTES]
+          </h3>
+          <span class="text-xs text-rose-400 font-mono font-bold">🔴 [MUST MEMORIZE]</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4">Feature / Metric</th>
+                <th class="py-3 px-4 text-cyan-300">FIR (Finite Impulse Response)</th>
+                <th class="py-3 px-4 text-amber-300">IIR (Infinite Impulse Response)</th>
+                <th class="py-3 px-4">Board Exam Significance</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-sans text-slate-300">
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-white">Topology</td>
+                <td class="py-3 px-4 font-semibold text-cyan-300">Feedforward only (Non-recursive)</td>
+                <td class="py-3 px-4 font-semibold text-amber-300">Feedback present (Recursive)</td>
+                <td class="py-3 px-4 font-mono text-[11px] text-slate-400">"Kapag may past $y[n-k]$, IIR yan!"</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-white">Phase Response</td>
+                <td class="py-3 px-4 font-bold text-emerald-400">Strictly Linear Phase (Perfect Timing)</td>
+                <td class="py-3 px-4 text-rose-300">Non-linear Phase (Phase distortion occurs)</td>
+                <td class="py-3 px-4 text-[11px]">FIR is mandatory for audio/biomedical where shape matters</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-white">Transfer Function</td>
+                <td class="py-3 px-4 font-mono text-cyan-300">$H(z) = \sum_{k=0}^{M} a_k z^{-k}$ (All-Zero)</td>
+                <td class="py-3 px-4 font-mono text-amber-300">$H(z) = \frac{\sum a_k z^{-k}}{1 + \sum b_k z^{-k}}$ (Pole-Zero)</td>
+                <td class="py-3 px-4 text-[11px]">IIR denominator contains feedback coefficients</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-white">System Stability</td>
+                <td class="py-3 px-4 font-bold text-emerald-400">Inherently Stable (Poles at origin $z=0$)</td>
+                <td class="py-3 px-4 text-amber-300">Conditionally Stable (Poles must remain in unit circle)</td>
+                <td class="py-3 px-4 text-[11px]">Rounding coefficients can push IIR poles outside $|z|=1$</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-white">Order Efficiency</td>
+                <td class="py-3 px-4 text-slate-300">Requires higher order (Many taps / more math)</td>
+                <td class="py-3 px-4 font-bold text-emerald-400">Achieves sharp cutoff with few taps / less math</td>
+                <td class="py-3 px-4 text-[11px]">IIR is preferred for low-memory microcontrollers</td>
+              </tr>
+              <tr class="hover:bg-slate-800/40">
+                <td class="py-3 px-4 font-bold text-white">Analog Conversion</td>
+                <td class="py-3 px-4 text-slate-300">Windowing / Frequency Sampling</td>
+                <td class="py-3 px-4 font-semibold text-purple-300">Bilinear Transform / Impulse Invariance</td>
+                <td class="py-3 px-4 font-mono text-[11px] text-emerald-400">Question 24 board answer: "Bilinear Transform"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FIR Order vs Length and Linear Convolution Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left: FIR Order vs Length Rules -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <h3 class="font-bold text-white text-sm uppercase tracking-wide font-mono flex items-center gap-2">
+              <span class="text-cyan-400">📏</span> FIR Filter Order vs. Tap Length [NOTES]
+            </h3>
+            <span class="text-xs text-rose-400 font-mono font-bold">$$L = n + 1$$</span>
+          </div>
+
+          <p class="text-xs text-slate-300">
+            <strong>Order ($n$):</strong> Defined strictly by the <em>maximum delay index</em> in the difference equation ($z^{-n}$).
+            <br><strong>Length ($L$):</strong> Total number of impulse response samples/taps ($L = n + 1$).
+          </p>
+
+          <div class="space-y-2 text-xs font-mono">
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <span class="text-slate-400 block text-[11px]">Question 20</span>
+                <span class="text-white">$y[n] = 2x[n] + 0.5x[n-1] - x[n-4]$</span>
+              </div>
+              <div class="text-right">
+                <span class="text-cyan-400 font-bold">Order = 4</span>
+                <span class="text-emerald-400 font-bold block text-sm">Length = 5</span>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <span class="text-slate-400 block text-[11px]">Question 21</span>
+                <span class="text-white">$y[n] = x[n-2] + 3x[n-7]$</span>
+              </div>
+              <div class="text-right">
+                <span class="text-cyan-400 font-bold">Order = 7</span>
+                <span class="text-emerald-400 font-bold block text-sm">Length = 8</span>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <span class="text-slate-400 block text-[11px]">Question 21 Example 2</span>
+                <span class="text-white">$y[n] = \sum_{k=2}^{6} k \cdot x[n-k]$</span>
+              </div>
+              <div class="text-right">
+                <span class="text-cyan-400 font-bold">Order = 6</span>
+                <span class="text-emerald-400 font-bold block text-sm">Length = 7</span>
+              </div>
+            </div>
+
+            <!-- Cascaded Stages Calculation -->
+            <div class="p-2.5 rounded bg-purple-950/30 border border-purple-800/50">
+              <span class="text-purple-300 font-bold block text-[11px] mb-1">CASCADED DIFFERENCE EQUATION [QUESTION 22]:</span>
+              <div class="text-slate-300 text-[11px] font-mono space-y-0.5">
+                <p>Filter 1: $w[n] = x[n] + 0.5x[n-1]$</p>
+                <p>Filter 2: $y[n] = w[n] - 0.2w[n-1]$</p>
+                <p class="text-cyan-300 pt-1">$$\implies y[n] = x[n] + 0.3x[n-1] - 0.1x[n-2]$$</p>
+                <p class="text-emerald-400 font-bold">Result: 2nd Order FIR Filter, Tap Length = 3</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Linear Convolution & Parseval's Theorem -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+            <h3 class="font-bold text-white text-sm uppercase tracking-wide font-mono flex items-center gap-2">
+              <span class="text-emerald-400">✖️</span> Linear Convolution & Parseval's Law
+            </h3>
+            <span class="text-xs text-cyan-400 font-mono font-bold">$$L_y = L_x + L_h - 1$$</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <span class="text-cyan-300 font-bold font-mono block mb-1">CONVOLUTION THEOREM</span>
+              <p class="text-slate-300">Convolution in time is <strong>point-wise multiplication</strong> in frequency:</p>
+              <p class="font-mono text-cyan-400 mt-1 text-center">$$x(t) * h(t) \iff X(f) \cdot H(f)$$</p>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+              <span class="text-amber-300 font-bold font-mono block mb-1">PARSEVAL'S THEOREM</span>
+              <p class="text-slate-300">Total energy in time equals total energy in frequency (<strong>Conservation</strong>):</p>
+              <p class="font-mono text-amber-400 mt-1 text-center">$$\int |x(t)|^2 dt = \int |X(f)|^2 df$$</p>
+            </div>
+          </div>
+
+          <!-- Discrete Convolution Table Method -->
+          <div class="p-3.5 bg-slate-950 rounded-lg border border-slate-800 text-xs">
+            <span class="text-slate-200 font-bold font-mono block mb-1">DISCRETE CONVOLUTION MATRIX METHOD [QUESTION 27]:</span>
+            <p class="text-slate-400 mb-2">Convolve $x[n] = \{1, 2\}$ ($L_x=2$) with $h[n] = \{1, -1\}$ ($L_h=2$):</p>
+            <div class="flex items-center justify-center gap-6 font-mono">
+              <table class="border-collapse text-center">
+                <tr><th class="p-1 border border-slate-800 text-slate-500">*</th><th class="p-1 border border-slate-800 text-cyan-400">1</th><th class="p-1 border border-slate-800 text-cyan-400">2</th></tr>
+                <tr><th class="p-1 border border-slate-800 text-amber-400">1</th><td class="p-1 border border-slate-800 bg-slate-900 text-white">1</td><td class="p-1 border border-slate-800 bg-slate-900 text-white">2</td></tr>
+                <tr><th class="p-1 border border-slate-800 text-amber-400">-1</th><td class="p-1 border border-slate-800 bg-slate-900 text-white">-1</td><td class="p-1 border border-slate-800 bg-slate-900 text-white">-2</td></tr>
+              </table>
+              <div class="text-[11px] text-slate-300 space-y-1">
+                <p>Diagonal 1: $y[0] = 1$</p>
+                <p>Diagonal 2: $y[1] = 2 + (-1) = \mathbf{1}$</p>
+                <p>Diagonal 3: $y[2] = \mathbf{-2}$</p>
+                <p class="text-emerald-400 font-bold font-mono">Result: $y[n] = \{1, 1, -2\}$</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-800/60 border border-slate-700 text-xs text-slate-300">
+            <span class="font-bold text-white">Auto-Correlation [NOTES]:</span> Measures similarity of a signal with a <em>time-delayed version of itself</em>. Primary application: Detecting periodic signals heavily corrupted by noise.
+          </div>
+        </div>
+      </div>
+
+      <!-- Z-Transform Stability & Pole-Zero Mechanics -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 text-xs font-mono font-bold">Z-PLANE ENGINE</span>
+            <h3 class="font-bold text-white text-base font-mono">Z-PLANE POLE-ZERO FREQUENCY ENGINE & ROC STABILITY</h3>
+          </div>
+          <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 [MUST MEMORIZE]</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <!-- Card 1: Core Axioms -->
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-bold text-cyan-300 font-mono block text-sm">1. STABILITY & ROC RULES</span>
+            <p class="text-slate-300">• <strong>BIBO Stable:</strong> Region of Convergence (ROC) <em>MUST INCLUDE THE UNIT CIRCLE</em> ($|z| = 1$).</p>
+            <p class="text-slate-300">• <strong>Causal + Stable:</strong> All poles must reside strictly <strong>INSIDE the unit circle</strong>: $|p_k| < 1$.</p>
+            <p class="text-slate-300">• <strong>ROC Direction:</strong></p>
+            <div class="pl-2 border-l border-slate-700 font-mono text-[11px]">
+              <span class="text-emerald-400 block">Causal: Outward from outermost pole ($|z| > r_{\max}$)</span>
+              <span class="text-amber-400 block">Anti-Causal: Inward from innermost pole ($|z| < r_{\min}$)</span>
+            </div>
+            <p class="text-slate-300">• <strong>Minimum Phase System [NOTES]:</strong> ALL poles AND ALL zeros lie strictly inside the unit circle.</p>
+          </div>
+
+          <!-- Card 2: Frequency Response Engine -->
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-bold text-amber-300 font-mono block text-sm">2. POLES VS. ZEROS DYNAMICS</span>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800 font-mono text-center">
+              <span class="text-rose-400 font-bold block">POLES ($\times$) $\longrightarrow$ BOOST Frequencies</span>
+              <span class="text-cyan-400 font-bold block mt-0.5">ZEROS ($\circ$) $\longrightarrow$ BLOCK Frequencies</span>
+            </div>
+            <p class="text-slate-300 font-bold mt-2">Unit Circle Angle Mapping:</p>
+            <ul class="space-y-1 text-slate-300 font-mono text-[11px]">
+              <li>$\omega = 0 \iff z = 1$ (DC / Low Frequency)</li>
+              <li>$\omega = \pi \iff z = -1$ (Nyquist Frequency $f_s/2$)</li>
+            </ul>
+            <div class="p-2 bg-blue-950/40 rounded border border-blue-800 text-[11px] text-blue-200">
+              <strong>Unit Circle Zero Blocking Rules [NOTES]:</strong>
+              <br>• Zero at $z = +1 \implies$ Completely blocks <strong>DC (0 Hz)</strong>
+              <br>• Zero at $z = -1 \implies$ Completely blocks <strong>Nyquist ($f_s/2$)</strong>
+            </div>
+          </div>
+
+          <!-- Card 3: Board Calculation Cases -->
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-bold text-purple-300 font-mono block text-sm">3. BOARD EXAM CASE STUDIES</span>
+            
+            <div class="p-2 rounded bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 font-mono text-[10px] block">CASE STUDY 1 [QUESTION 34]:</span>
+              <p class="text-slate-200 font-mono">$$H(z) = \frac{z - 0.5}{z^2 + 0.25}$$</p>
+              <p class="text-slate-300 text-[11px]">Poles: $z^2 + 0.25 = 0 \implies z = \pm j0.5$</p>
+              <p class="text-slate-300 text-[11px]">Magnitude: $|z| = \mathbf{0.5} < 1 \implies$ <span class="text-emerald-400 font-bold">STABLE</span>.</p>
+            </div>
+
+            <div class="p-2 rounded bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 font-mono text-[10px] block">CASE STUDY 2 [QUESTION 37]:</span>
+              <p class="text-slate-300 text-[11px]">Given: Pole at $z = 0.9$, Zero at $z = -1$.</p>
+              <p class="text-slate-300 text-[11px]">• Pole at $z=0.9$ boosts low freq ($\omega=0$).</p>
+              <p class="text-slate-300 text-[11px]">• Zero at $z=-1$ blocks high freq ($\omega=\pi$).</p>
+              <p class="text-cyan-400 font-bold text-xs mt-0.5 font-mono">$\implies$ LOW-PASS FILTER (LPF)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="noise" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Page 4 of Reviewer</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">COMMUNICATIONS NOISE & RECEIVER SENSITIVITY</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 CRITICAL RF CALCULATIONS</span>
+      </div>
+
+      <!-- Noise Taxonomy Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Internal Noise -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2 font-mono">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wide">INTERNAL NOISE (Device Generated)</h3>
+          </div>
+          <div class="space-y-2 text-xs text-slate-300">
+            <p>• <strong class="text-cyan-300">Thermal Noise (Johnson-Nyquist):</strong> Random thermal agitation of electrons inside conductors. <em>White noise spectrum</em> (flat power spectral density across all frequencies).</p>
+            <p>• <strong class="text-cyan-300">Shot Noise (Poisson / Schottky):</strong> Discrete arrival/emission of carriers across potential barriers / pn junctions in semiconductor devices.</p>
+            <p>• <strong class="text-cyan-300">Flicker Noise ($1/f$):</strong> Dominates at low frequencies ($< 1\text{ kHz}$) due to surface state traps.</p>
+            <p>• <strong class="text-cyan-300">Transit-Time Noise:</strong> High-frequency carriers taking finite duration to cross device channels.</p>
+          </div>
+        </div>
+
+        <!-- External Noise -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="flex items-center gap-2 mb-2 font-mono">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <h3 class="text-sm font-bold text-white uppercase tracking-wide">EXTERNAL NOISE (Environment)</h3>
+          </div>
+          <div class="space-y-2 text-xs text-slate-300">
+            <p>• <strong class="text-amber-300">Atmospheric Noise [Question 49]:</strong> Naturally occurring electrical static disturbances from lightning discharges. Dominates below $30\text{ MHz}$.</p>
+            <p>• <strong class="text-amber-300">Extraterrestrial Noise:</strong> Solar noise (radiation from sun) and Cosmic noise (deep space star emission).</p>
+            <p>• <strong class="text-amber-300">Industrial / Man-Made Noise:</strong> Ignition sparks, electric motors, switching power supplies.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formula Card: Thermal Noise & Friis Cascade -->
+      <div class="formula-card rounded-xl p-5 border-l-4 border-l-amber-500">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 text-xs font-mono font-bold">FORMULA CARD</span>
+            <h3 class="font-bold text-white text-base font-mono">THERMAL NOISE, NOISE FACTOR & FRIIS' CASCADE</h3>
+          </div>
+          <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 [MUST MEMORIZE]</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4 font-mono text-center">
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">Available Noise Power</span>
+            <div class="text-amber-300 text-base font-bold">$$P_n = k \cdot T \cdot B$$</div>
+            <span class="text-[10px] text-slate-500">[Watts]</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">RMS Noise Voltage</span>
+            <div class="text-amber-300 text-base font-bold">$$V_n = \sqrt{4 k T B R}$$</div>
+            <span class="text-[10px] text-slate-500">[Volts RMS]</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">Equivalent Noise Temp</span>
+            <div class="text-cyan-300 text-base font-bold">$$T_e = T_0(F - 1)$$</div>
+            <span class="text-[10px] text-slate-500">$T_0 = 290\text{ K}$</span>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">Friis' Cascaded Formula</span>
+            <div class="text-emerald-400 text-sm font-bold">$$F_T = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2}$$</div>
+            <span class="text-[10px] text-rose-400 font-bold">ALL LINEAR RATIOS!</span>
+          </div>
+        </div>
+
+        <!-- Trap Callout Box -->
+        <div class="trap-card rounded-lg p-3.5 text-xs mb-4">
+          <div class="flex items-center gap-2 text-rose-400 font-bold mb-1 font-mono">
+            <span>⚠️</span> HIGH-RISK COMPUTATIONAL TRAPS & NOTE ERRATA CORRECTION:
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-300">
+            <div>
+              <p>• <strong>Conversion Trap:</strong> In Friis' Formula, $F_n$ and $G_n$ MUST be <strong>LINEAR RATIOS</strong>, never decibels!</p>
+              <p class="font-mono text-cyan-300 text-[11px] mt-0.5">$G_{\text{linear}} = 10^{G_{\text{dB}}/10}, \quad F_{\text{linear}} = 10^{NF_{\text{dB}}/10}$</p>
+            </div>
+            <div>
+              <p class="text-amber-200">• <strong>ERRATA IN HANDWRITTEN NOTES [QUESTION 40]:</strong></p>
+              <p class="text-[11px]">Given $T=290\text{ K}, B=10\text{ MHz} \implies P_n = 4.004 \times 10^{-14}\text{ W}$.</p>
+              <p class="font-mono text-emerald-400 text-[11px]">$P_n(\text{dBm}) = 10\log_{10}(P_n / 1\text{ mW}) = \mathbf{-103.98\text{ dBm}}$ (Notes recorded $-107.98$).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step-by-Step Computational Examples Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <span class="font-bold text-cyan-300 font-mono block mb-1">NOISE FIGURE CALC [Q41]</span>
+            <p class="text-slate-300">$\text{SNR}_{\text{in}} = 45\text{ dB}$, $\text{SNR}_{\text{out}} = 38\text{ dB}$</p>
+            <p class="font-mono text-emerald-400 mt-1 font-bold">$$NF = 45\text{ dB} - 38\text{ dB} = \mathbf{7\text{ dB}}$$</p>
+            <p class="text-[10px] text-slate-400">Ideal noiseless device: $F = 1, NF = 0\text{ dB}$.</p>
+          </div>
+
+          <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <span class="font-bold text-amber-300 font-mono block mb-1">EQUIV NOISE TEMP [Q42]</span>
+            <p class="text-slate-300">$NF = 6\text{ dB} \implies F = 10^{0.6} \approx 3.981$</p>
+            <p class="font-mono text-slate-200">$$T_e = 290(3.981 - 1)$$</p>
+            <p class="font-mono text-emerald-400 font-bold text-center">$$T_e = \mathbf{864.51\text{ K}}$$</p>
+          </div>
+
+          <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <span class="font-bold text-purple-300 font-mono block mb-1">FRIIS' CASCADE [Q43]</span>
+            <p class="text-slate-300">$G_1 = 10\text{ dB} \implies G_1 = 10$; $F_1 = 2$; $F_2 = 5$</p>
+            <p class="font-mono text-slate-200">$$F_T = 2 + \frac{5 - 1}{10} = 2 + 0.4$$</p>
+            <p class="font-mono text-emerald-400 font-bold text-center">$$F_T = \mathbf{2.4} \quad (\approx 3.80\text{ dB})$$</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="am" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Page 5 of Reviewer</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">AMPLITUDE MODULATION (AM) & RF POWER TRANSMISSION</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 CORE TRANSMITTER DRILL</span>
+      </div>
+
+      <!-- Modulation Envelope States Diagram -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center">
+          <span class="text-cyan-400 font-bold block mb-1">UNDERMODULATED ($m < 1$)</span>
+          <span class="text-slate-400 text-[11px] block mb-2">$V_m < V_c \implies V_{\min} > 0\text{ V}$</span>
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 text-cyan-300">
+            [ Clean Sinusoidal Envelope ]<br>No distortion; carrier retains envelope profile
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-emerald-900/60 rounded-xl p-4 text-center">
+          <span class="text-emerald-400 font-bold block mb-1">CRITICAL / 100% ($m = 1$)</span>
+          <span class="text-slate-400 text-[11px] block mb-2">$V_m = V_c \implies V_{\min} = 0\text{ V}$</span>
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 text-emerald-300">
+            [ Maximum Undistorted Power ]<br>Envelope just touches zero baseline
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-rose-900/60 rounded-xl p-4 text-center">
+          <span class="text-rose-400 font-bold block mb-1">OVERMODULATED ($m > 1$)</span>
+          <span class="text-slate-400 text-[11px] block mb-2">$V_m > V_c \implies$ Envelope Inversion</span>
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 text-rose-300">
+            [ Crossover Distortion ]<br>Severe sideband splatter & harmonic emissions
+          </div>
+        </div>
+      </div>
+
+      <!-- Formula Card: AM Power & Current Distribution -->
+      <div class="formula-card rounded-xl p-5 border-l-4 border-l-rose-500">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">FORMULA CARD</span>
+            <h3 class="font-bold text-white text-base font-mono">AM TRANSMISSION POWER, ANTENNA CURRENT & SAVINGS</h3>
+          </div>
+          <span class="px-2.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 text-xs font-mono font-bold">🔴 [MUST MEMORIZE]</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 font-mono text-center">
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">Modulation Index ($m$)</span>
+            <div class="text-rose-300 text-base font-bold">$$m = \frac{V_m}{V_c} = \frac{V_{\max} - V_{\min}}{V_{\max} + V_{\min}}$$</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">Total Transmitted Power</span>
+            <div class="text-rose-300 text-base font-bold">$$P_T = P_c \left(1 + \frac{m^2}{2}\right)$$</div>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800">
+            <span class="text-[11px] text-slate-400 block mb-0.5">Total Antenna Current</span>
+            <div class="text-cyan-300 text-base font-bold">$$I_T = I_c \sqrt{1 + \frac{m^2}{2}}$$</div>
+          </div>
+        </div>
+
+        <!-- AM Numerical Problem Proofs Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <!-- Proof A -->
+          <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <span class="font-bold text-cyan-300 font-mono block mb-1">TOTAL POWER CALC [Q52]</span>
+            <p class="text-slate-300">Given: $P_c = 400\text{ W}$, $m = 0.8$ ($80\%$)</p>
+            <p class="font-mono text-slate-200">$$P_T = 400\left(1 + \frac{0.8^2}{2}\right) = 400(1.32)$$</p>
+            <p class="font-mono text-emerald-400 font-bold text-center">$$P_T = \mathbf{528\text{ W}}$$</p>
+          </div>
+
+          <!-- Proof B -->
+          <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <span class="font-bold text-amber-300 font-mono block mb-1">CURRENT TO MODULATION [Q53]</span>
+            <p class="text-slate-300">Given: $I_c = 10\text{ A}$, $I_T = 10.86\text{ A}$</p>
+            <p class="font-mono text-slate-200">$$\frac{10.86}{10} = \sqrt{1 + \frac{m^2}{2}} \implies 1.1794 = 1 + \frac{m^2}{2}$$</p>
+            <p class="font-mono text-emerald-400 font-bold text-center">$$m = \sqrt{0.3588} \approx \mathbf{0.6 \ (60\%)}$$</p>
+          </div>
+
+          <!-- Proof C -->
+          <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800">
+            <span class="font-bold text-purple-300 font-mono block mb-1">MODULATION HIKE [Q54]</span>
+            <p class="text-slate-300">Modulation changes from $m = 0 \longrightarrow m = 1$:</p>
+            <p class="font-mono text-slate-200">$$P_T(0) = P_c \longrightarrow P_T(1) = 1.5 P_c$$</p>
+            <p class="font-mono text-emerald-400 font-bold text-center">Transmitted Power Increases by <span class="underline">50%</span>!</p>
+          </div>
+        </div>
+
+        <!-- Power Savings in SSB-SC & DSB-SC Breakdown -->
+        <div class="mt-4 p-4 rounded-lg bg-slate-950 border border-slate-800 text-xs">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2 font-mono">
+            <span class="text-amber-300 font-bold">⚡ POWER DISTRIBUTION & SSB-SC POWER SAVINGS BREAKDOWN [QUESTION 55]</span>
+            <span class="text-emerald-400 font-bold text-sm">83.33% SAVED</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-slate-300 font-mono text-center">
+            <div class="p-2 rounded bg-slate-900 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Total Power ($m=1$)</span>
+              <span class="text-white font-bold">$P_T = 1.5 P_c$</span>
+              <span class="text-[10px] text-slate-500 block">100% of Total</span>
+            </div>
+            <div class="p-2 rounded bg-slate-900 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Carrier Power ($P_c$)</span>
+              <span class="text-amber-300 font-bold">$\frac{P_c}{1.5 P_c} = \mathbf{66.67\%}$</span>
+              <span class="text-[10px] text-slate-500 block">($2/3$ of total power)</span>
+            </div>
+            <div class="p-2 rounded bg-slate-900 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Both Sidebands ($P_{SB}$)</span>
+              <span class="text-cyan-300 font-bold">$\frac{0.5 P_c}{1.5 P_c} = \mathbf{33.33\%}$</span>
+              <span class="text-[10px] text-slate-500 block">($1/3$ of total power)</span>
+            </div>
+            <div class="p-2 rounded bg-slate-900 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">One Sideband Only ($P_{USB}$)</span>
+              <span class="text-emerald-300 font-bold">$\frac{0.25 P_c}{1.5 P_c} = \mathbf{16.67\%}$</span>
+              <span class="text-[10px] text-slate-500 block">($1/6$ of total power)</span>
+            </div>
+          </div>
+          <p class="mt-2.5 text-slate-300 text-[11px]">
+            • In <strong>SSB-SC ($J3E$)</strong>, the carrier and one sideband are suppressed. Transmitting only 1 sideband requires $\frac{1}{6}$ power $\implies \mathbf{100\% - 16.67\% = 83.33\%\ (5/6)\ \text{SAVED}}$!
+            <br>• If upgrading to <strong>DSB-SC</strong> (suppressing carrier only): Saves $66.67\%\ (2/3)$ of total power.
+          </p>
+        </div>
+
+        <!-- ITU Emission Codes Card -->
+        <div class="mt-4 p-3.5 bg-slate-900 rounded-lg border border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold font-mono text-cyan-300 uppercase">📻 ITU Standard AM Emission Codes [NOTES Question 50]</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">Alphabetical Progression</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs font-mono">
+            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+              <span class="text-cyan-400 font-bold text-sm block">A3E</span>
+              <span class="text-[11px] text-slate-300">DSB-FC</span>
+              <span class="text-[9px] text-slate-500 block">Standard AM</span>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+              <span class="text-cyan-400 font-bold text-sm block">H3E</span>
+              <span class="text-[11px] text-slate-300">SSB-FC</span>
+              <span class="text-[9px] text-slate-500 block">Full Carrier</span>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+              <span class="text-amber-400 font-bold text-sm block">R3E</span>
+              <span class="text-[11px] text-slate-300">SSB-RC</span>
+              <span class="text-[9px] text-amber-500/80 block">Reduced (10%)</span>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+              <span class="text-emerald-400 font-bold text-sm block">J3E</span>
+              <span class="text-[11px] text-slate-300">SSB-SC</span>
+              <span class="text-[9px] text-emerald-500/80 block">Suppressed</span>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800">
+              <span class="text-purple-400 font-bold text-sm block">B8E</span>
+              <span class="text-[11px] text-slate-300">ISB</span>
+              <span class="text-[9px] text-slate-500 block">Independent SB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cheatsheet" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Page 6 of Reviewer</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">ULTIMATE RAPID REVIEW & BOARD EXAM CHEAT SHEET</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-xs font-mono font-bold">⚡ 60-SECOND RECALL</span>
+      </div>
+
+      <!-- Don't Confuse These Traps Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Trap 1 -->
+        <div class="trap-card rounded-xl p-4 space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-rose-400 font-bold font-mono">
+            <span>⚠️</span> NYQUIST RATE VS. NYQUIST FREQUENCY
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-slate-300 font-mono text-[11px]">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-cyan-300 font-bold block">Nyquist Rate</span>
+              $$f_N = 2 \cdot f_{\max}$$
+              <span class="text-slate-400 text-[10px]">Min sampling speed to prevent aliasing.</span>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-amber-300 font-bold block">Nyquist Frequency</span>
+              $$f_{\text{Nyq}} = f_s / 2$$
+              <span class="text-slate-400 text-[10px]">Highest analog freq safely recorded.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 2 -->
+        <div class="trap-card rounded-xl p-4 space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-rose-400 font-bold font-mono">
+            <span>⚠️</span> FIR ORDER ($n$) VS. TAP LENGTH ($L$)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-slate-300 font-mono text-[11px]">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-cyan-300 font-bold block">Order ($n$)</span>
+              <span class="text-slate-200">Maximum delay index</span>
+              <span class="text-slate-400 text-[10px] block mt-1">E.g., $x[n-4] \implies n = 4$.</span>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-amber-300 font-bold block">Length ($L$)</span>
+              $$L = n + 1$$
+              <span class="text-slate-400 text-[10px] block mt-1">Always 1 greater than the order!</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 3 -->
+        <div class="trap-card rounded-xl p-4 space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-rose-400 font-bold font-mono">
+            <span>⚠️</span> Z-PLANE ZEROES VS. POLES
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-slate-300 font-mono text-[11px]">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-cyan-300 font-bold block">Poles ($\times$)</span>
+              <span class="text-slate-200">BOOST frequencies</span>
+              <span class="text-slate-400 text-[10px] block mt-1">Pull transfer function to $\infty$.</span>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-amber-300 font-bold block">Zeros ($\circ$)</span>
+              <span class="text-slate-200">BLOCK frequencies</span>
+              <span class="text-slate-400 text-[10px] block mt-1">$z=1$ blocks DC; $z=-1$ blocks Nyquist.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trap 4 -->
+        <div class="trap-card rounded-xl p-4 space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-rose-400 font-bold font-mono">
+            <span>⚠️</span> NOISE FACTOR ($F$) VS. NOISE FIGURE ($NF$)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-slate-300 font-mono text-[11px]">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-cyan-300 font-bold block">Noise Factor ($F$)</span>
+              <span class="text-slate-200">Linear Ratio $\ge 1$</span>
+              <span class="text-slate-400 text-[10px] block mt-1">Ideal noiseless $= 1.0$.</span>
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800">
+              <span class="text-amber-300 font-bold block">Noise Figure ($NF$)</span>
+              $$NF = 10\log_{10}(F)$$
+              <span class="text-slate-400 text-[10px] block mt-1">Ideal noiseless $= 0\text{ dB}$.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Constants Table & 60-Second Formula Drill -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Constants Reference -->
+        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wide font-mono flex items-center gap-2">
+            <span class="text-cyan-400">🌐</span> Standard Physical Constants & Decibel Benchmarks
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs font-mono">
+              <tbody class="divide-y divide-slate-800 text-slate-300">
+                <tr>
+                  <td class="py-2 text-slate-400">Boltzmann ($k$)</td>
+                  <td class="py-2 text-white font-bold">$1.3806 \times 10^{-23}\text{ J/K}$</td>
+                  <td class="py-2 text-[10px] text-cyan-400">Calc: CONST 25</td>
+                </tr>
+                <tr>
+                  <td class="py-2 text-slate-400">Room Temp ($T_0$)</td>
+                  <td class="py-2 text-white font-bold">$290\text{ K}$ ($16.85^\circ\text{C} \approx 17^\circ\text{C}$)</td>
+                  <td class="py-2 text-[10px] text-slate-500">IEEE Standard</td>
+                </tr>
+                <tr>
+                  <td class="py-2 text-slate-400">Thermal Density</td>
+                  <td class="py-2 text-white font-bold">$-174\text{ dBm/Hz}$</td>
+                  <td class="py-2 text-[10px] text-emerald-400">$k T_0$ in $1\text{ Hz}$</td>
+                </tr>
+                <tr>
+                  <td class="py-2 text-slate-400">$0\text{ dBm}$ Reference</td>
+                  <td class="py-2 text-white font-bold">$1\text{ mW} = 10^{-3}\text{ W}$</td>
+                  <td class="py-2 text-[10px] text-slate-500">Across $50\Omega$ / $600\Omega$</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 60-Second Formula Drill -->
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wide font-mono flex items-center gap-2">
+            <span class="text-rose-400">⚡</span> 60-Second Board Exam Formula Drill Sheet
+          </h3>
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-cyan-300">
+              $$f_s \ge 2 f_{\max}$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-cyan-300">
+              $$f_{\text{alias}} = |f_{\text{sig}} - k f_s|$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-amber-300">
+              $$L_{\text{FIR}} = n + 1$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-amber-300">
+              $$L_y = L_x + L_h - 1$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-rose-300">
+              $$P_n = k T B$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-rose-300">
+              $$V_n = \sqrt{4 k T B R}$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-emerald-300">
+              $$NF = \text{SNR}_{\text{in,dB}} - \text{SNR}_{\text{out,dB}}$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-emerald-300">
+              $$T_e = T_0(F - 1)$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-purple-300">
+              $$P_T = P_c\left(1 + \frac{m^2}{2}\right)$$
+            </div>
+            <div class="p-2 bg-slate-950 rounded border border-slate-800 text-purple-300">
+              $$I_T = I_c\sqrt{1 + \frac{m^2}{2}}$$
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculators" class="space-y-6">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-cyan-400 text-xs font-mono font-semibold uppercase tracking-wider">Interactive Command Modules</span>
+          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white">BOARD EXAM RAPID COMPUTATIONAL SOLVERS</h2>
+        </div>
+        <span class="px-3 py-1 rounded bg-cyan-900/60 text-cyan-300 border border-cyan-700 text-xs font-mono font-bold">REAL-TIME VERIFICATION</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Calculator 1: Nyquist & Aliasing Solver -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm font-mono flex items-center gap-1.5">
+              <span class="text-cyan-400">1.</span> Nyquist & Alias Solver
+            </h3>
+            <span class="text-[10px] text-cyan-300 font-mono">ADC Module</span>
+          </div>
+
+          <div class="space-y-3 text-xs font-mono">
+            <div>
+              <label class="text-slate-400 block mb-1">Signal Frequency $f_{\text{sig}}$ (kHz):</label>
+              <input type="number" id="calc-fsig" value="7" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-1.5 text-cyan-300 focus:outline-none focus:border-cyan-500">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Sampling Frequency $f_s$ (kHz):</label>
+              <input type="number" id="calc-fs" value="10" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-1.5 text-cyan-300 focus:outline-none focus:border-cyan-500">
+            </div>
+            <button onclick="solveAliasing()" class="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded transition text-xs">
+              Calculate Sampling Dynamics
+            </button>
+          </div>
+
+          <div id="alias-result" class="p-3 bg-slate-950 rounded border border-slate-800 text-xs font-mono space-y-1">
+            <span class="text-slate-400 block text-[11px]">Output Verdict:</span>
+            <p class="text-amber-300">Required Nyquist Rate: <strong id="out-nyquist">14 kHz</strong></p>
+            <p class="text-rose-400">Aliasing Occurs: <strong id="out-status">YES</strong></p>
+            <p class="text-emerald-400">Principal Alias: <strong id="out-alias">3 kHz</strong></p>
+          </div>
+        </div>
+
+        <!-- Calculator 2: Thermal Noise Solver -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm font-mono flex items-center gap-1.5">
+              <span class="text-amber-400">2.</span> Thermal Noise Solver
+            </h3>
+            <span class="text-[10px] text-amber-300 font-mono">kTB Engine</span>
+          </div>
+
+          <div class="space-y-3 text-xs font-mono">
+            <div>
+              <label class="text-slate-400 block mb-1">Bandwidth $B$ (MHz):</label>
+              <input type="number" id="calc-bw" value="10" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-1.5 text-amber-300 focus:outline-none focus:border-amber-500">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Temperature $T$ (Kelvin):</label>
+              <input type="number" id="calc-temp" value="290" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-1.5 text-amber-300 focus:outline-none focus:border-amber-500">
+            </div>
+            <button onclick="solveNoise()" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded transition text-xs">
+              Compute Noise Power & dBm
+            </button>
+          </div>
+
+          <div id="noise-result" class="p-3 bg-slate-950 rounded border border-slate-800 text-xs font-mono space-y-1">
+            <span class="text-slate-400 block text-[11px]">Output Verdict:</span>
+            <p class="text-slate-300">Linear Power: <strong id="out-pwatts">4.00e-14 W</strong></p>
+            <p class="text-emerald-400">Noise in dBm: <strong id="out-pdbm">-103.98 dBm</strong></p>
+            <p class="text-[10px] text-amber-400 italic">Matches corrected PDF errata!</p>
+          </div>
+        </div>
+
+        <!-- Calculator 3: AM Power & Modulation Solver -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm font-mono flex items-center gap-1.5">
+              <span class="text-rose-400">3.</span> AM Power & Current
+            </h3>
+            <span class="text-[10px] text-rose-300 font-mono">RF Transmitter</span>
+          </div>
+
+          <div class="space-y-3 text-xs font-mono">
+            <div>
+              <label class="text-slate-400 block mb-1">Carrier Power $P_c$ (Watts):</label>
+              <input type="number" id="calc-pc" value="400" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-1.5 text-rose-300 focus:outline-none focus:border-rose-500">
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Modulation Index $m$ (0.0 to 1.0):</label>
+              <input type="number" step="0.1" id="calc-m" value="0.8" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-1.5 text-rose-300 focus:outline-none focus:border-rose-500">
+            </div>
+            <button onclick="solveAM()" class="w-full py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded transition text-xs">
+              Compute Power Distribution
+            </button>
+          </div>
+
+          <div id="am-result" class="p-3 bg-slate-950 rounded border border-slate-800 text-xs font-mono space-y-1">
+            <span class="text-slate-400 block text-[11px]">Output Verdict:</span>
+            <p class="text-white">Total Power $P_T$: <strong id="out-pt" class="text-emerald-400">528.00 W</strong></p>
+            <p class="text-slate-300">Total Sideband Power: <strong id="out-psb">128.00 W</strong></p>
+            <p class="text-cyan-400">Current Scale: <strong id="out-iratio">1.149 x Ic</strong></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="border-t border-slate-800 pt-6 pb-12 text-center text-xs text-slate-500 space-y-2">
+      <div class="flex items-center justify-center gap-2 font-mono text-slate-400">
+        <span>ECE LICENSURE EXAMINATION COMMAND CENTER</span>
+        <span>•</span>
+        <span>ELECTRONICS SYSTEMS & TECHNOLOGIES</span>
+      </div>
+      <p>Prepared for intensive rapid recall. All formulas verified against IEEE standards and Board Exam Lecture Notes.</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Solver 1: Aliasing & Nyquist
+    function solveAliasing() {
+      const fsig = parseFloat(document.getElementById('calc-fsig').value);
+      const fs = parseFloat(document.getElementById('calc-fs').value);
+      if (isNaN(fsig) || isNaN(fs) || fs <= 0) return;
+
+      const nyquistRate = 2 * fsig;
+      document.getElementById('out-nyquist').innerText = nyquistRate.toFixed(2) + ' kHz';
+
+      if (fs < nyquistRate) {
+        document.getElementById('out-status').innerText = 'YES (f_s < 2*f_max)';
+        document.getElementById('out-status').className = 'text-rose-400 font-bold';
+        
+        // Find closest harmonic of fs
+        const k = Math.round(fsig / fs);
+        const alias = Math.abs(fsig - k * fs);
+        document.getElementById('out-alias').innerText = alias.toFixed(2) + ' kHz';
+      } else {
+        document.getElementById('out-status').innerText = 'NO (Clean Recovery)';
+        document.getElementById('out-status').className = 'text-emerald-400 font-bold';
+        document.getElementById('out-alias').innerText = 'None (0 kHz)';
+      }
+    }
+
+    // Solver 2: Thermal Noise
+    function solveNoise() {
+      const bwMHz = parseFloat(document.getElementById('calc-bw').value);
+      const tempK = parseFloat(document.getElementById('calc-temp').value);
+      if (isNaN(bwMHz) || isNaN(tempK)) return;
+
+      const k = 1.380649e-23;
+      const bwHz = bwMHz * 1e6;
+      const pWatts = k * tempK * bwHz;
+      const pdBm = 10 * Math.log10(pWatts / 1e-3);
+
+      document.getElementById('out-pwatts').innerText = pWatts.toExponential(3) + ' W';
+      document.getElementById('out-pdbm').innerText = pdBm.toFixed(2) + ' dBm';
+    }
+
+    // Solver 3: AM Power & Current
+    function solveAM() {
+      const pc = parseFloat(document.getElementById('calc-pc').value);
+      const m = parseFloat(document.getElementById('calc-m').value);
+      if (isNaN(pc) || isNaN(m)) return;
+
+      const pt = pc * (1 + (m * m) / 2);
+      const psb = pc * ((m * m) / 2);
+      const iratio = Math.sqrt(1 + (m * m) / 2);
+
+      document.getElementById('out-pt').innerText = pt.toFixed(2) + ' W';
+      document.getElementById('out-psb').innerText = psb.toFixed(2) + ' W';
+      document.getElementById('out-iratio').innerText = iratio.toFixed(3) + ' x Ic';
+    }
+  </script>
+</body>
+</html>

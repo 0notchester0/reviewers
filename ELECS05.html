@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam — Industrial Electronics & Automation Command Center</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for crisp LaTeX formula rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0f19;
+      color: #e2e8f0;
+      scroll-behavior: smooth;
+    }
+
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background-color: #ffffff;
+        color: #000000;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .card-box {
+        border-color: #cbd5e1 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+    }
+
+    .glass-nav {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .card-box {
+      background: #111827;
+      border: 1px solid #1f2937;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .card-box:hover {
+      border-color: #374151;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-200 antialiased selection:bg-cyan-500 selection:text-black">
+
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-800 shadow-xl px-4 py-3">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20">
+          <i data-lucide="zap" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-mono-code font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">ELECS 5 Command Center</span>
+            <span class="text-xs text-slate-400 hidden sm:inline">• Dense Infographic Reviewer</span>
+          </div>
+          <h1 class="text-lg font-bold text-white tracking-tight">ECE Board Exam — Industrial Electronics, Transducers & BMS</h1>
+        </div>
+      </div>
+
+      <!-- Quick Search & Actions -->
+      <div class="flex items-center space-x-2 w-full sm:w-auto">
+        <div class="relative flex-1 sm:w-64">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+          <input type="text" id="quickSearch" placeholder="Search concept, formula, or trap..." 
+            class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg bg-slate-900 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition">
+        </div>
+        <button onclick="window.print()" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition flex items-center gap-1.5">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span class="hidden md:inline">Print / PDF</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Jump Tabs -->
+    <div class="max-w-7xl mx-auto mt-2.5 flex items-center gap-2 overflow-x-auto pb-1 text-xs font-mono-code scrollbar-none">
+      <a href="#page1" class="px-3 py-1 rounded bg-slate-800/80 hover:bg-cyan-900/40 text-cyan-300 border border-slate-700 hover:border-cyan-500/50 whitespace-nowrap transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-cyan-400"></span> PAGE 1: Thyristors & Power Switches
+      </a>
+      <a href="#page2" class="px-3 py-1 rounded bg-slate-800/80 hover:bg-emerald-900/40 text-emerald-300 border border-slate-700 hover:border-emerald-500/50 whitespace-nowrap transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> PAGE 2: Sensors, Transducers & Opto
+      </a>
+      <a href="#page3" class="px-3 py-1 rounded bg-slate-800/80 hover:bg-amber-900/40 text-amber-300 border border-slate-700 hover:border-amber-500/50 whitespace-nowrap transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-amber-400"></span> PAGE 3: Industrial Automation, BMS & PLC
+      </a>
+      <a href="#page4" class="px-3 py-1 rounded bg-slate-800/80 hover:bg-rose-900/40 text-rose-300 border border-slate-700 hover:border-rose-500/50 whitespace-nowrap transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-rose-400"></span> PAGE 4: Formula Calculators & Traps
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-12">
+
+    <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+        <i data-lucide="shield-alert" class="w-4 h-4 text-cyan-400"></i> Board Exam Priority Notation:
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-rose-950/70 border border-rose-800/80 text-rose-300 font-bold">
+          🔴 MUST MEMORIZE
+        </span>
+        <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-950/70 border border-amber-800/80 text-amber-300 font-semibold">
+          🟠 HIGH-YIELD
+        </span>
+        <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-yellow-950/70 border border-yellow-800/80 text-yellow-300">
+          🟡 IMPORTANT
+        </span>
+        <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-950/70 border border-blue-800/80 text-blue-300">
+          🔵 CONCEPTUAL
+        </span>
+        <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-red-950/70 border border-red-700 text-red-200 font-bold">
+          ⚠️ TRAP WARNING
+        </span>
+        <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-800 border border-slate-600 text-slate-400 font-mono-code text-[11px]">
+          [NOTES] Source Material
+        </span>
+      </div>
+    </div>
+
+    <!-- ========================================================================================= -->
+    <!-- PAGE 1: POWER SEMICONDUCTORS & THYRISTORS -->
+    <!-- ========================================================================================= -->
+    <section id="page1" class="space-y-6 pt-2">
+      <div class="border-b border-cyan-500/30 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono-code text-cyan-400 tracking-wider font-bold uppercase">Section 1.0</span>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            PAGE 1 — MASTER OVERVIEW & POWER SEMICONDUCTORS (THYRISTORS)
+          </h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-cyan-950 border border-cyan-800 text-cyan-300 text-xs font-mono-code">Q1 to Q21 Review</span>
+      </div>
+
+      <!-- Family Tree Diagram (ASCII + Modern Cards) -->
+      <div class="card-box rounded-xl p-5 border-l-4 border-l-cyan-500 shadow-lg">
+        <h3 class="text-sm font-bold uppercase text-cyan-400 tracking-wider mb-4 flex items-center gap-2">
+          <i data-lucide="git-fork" class="w-4 h-4"></i> Thyristor & Solid-State Switching Family Tree
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- SCR -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono-code font-bold text-cyan-300 text-base">SCR</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-950 border border-rose-800 text-rose-300 font-bold">UNIDIRECTIONAL</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-100">Layers/Terminals:</strong> 4-layer (P-N-P-N), 3 pins: <strong>A, K, G</strong></p>
+              <p><strong class="text-slate-100">Native State:</strong> Normally <strong>OFF</strong> (blocks forward & reverse)</p>
+              <p><strong class="text-slate-100">Gate Behavior:</strong> Gate turns <strong>ON only</strong>; loses control immediately after latching!</p>
+            </div>
+          </div>
+
+          <!-- SCS -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono-code font-bold text-cyan-300 text-base">SCS</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-950 border border-blue-800 text-blue-300 font-bold">DUAL-GATE</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-100">Layers/Terminals:</strong> 4-layer (P-N-P-N), 4 pins: <strong>A, K, G_A, G_K</strong></p>
+              <p><strong class="text-slate-100">Key Feature:</strong> Can be turned <strong>ON OR OFF</strong> via either gate terminal!</p>
+              <p><strong class="text-slate-100">Turn-OFF:</strong> Positive pulse to $G_A$ OR Negative pulse to $G_K$.</p>
+            </div>
+          </div>
+
+          <!-- DIAC -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono-code font-bold text-emerald-300 text-base">DIAC</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold">BIDIRECTIONAL TRIGGER</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-100">Layers/Terminals:</strong> 2 terminals ($MT_1, MT_2$), <strong>NO GATE</strong> terminal</p>
+              <p><strong class="text-slate-100">Firing:</strong> Begins conducting heavily when voltage reaches <strong>$V_{BO}$</strong></p>
+              <p><strong class="text-slate-100">Function:</strong> Generates symmetric gate pulses to trigger a TRIAC.</p>
+            </div>
+          </div>
+
+          <!-- TRIAC & QUADRAC -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-cyan-500/60 transition">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono-code font-bold text-amber-300 text-base">TRIAC / QUADRAC</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-300 font-bold">AC SWITCH</span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1">
+              <p><strong class="text-slate-100">TRIAC:</strong> 2 anti-parallel PNPN switches with <strong>single control gate</strong> ($MT_1, MT_2, G$).</p>
+              <p><strong class="text-slate-100">QUADRAC:</strong> Monolithic package internally combining a <strong>TRIAC + DIAC</strong>.</p>
+              <p><strong class="text-slate-100">App:</strong> Full-wave AC phase control, light dimmers, AC motor speed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Column 1: SCR Core Mechanisms -->
+        <div class="card-box rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="cpu" class="w-4 h-4 text-cyan-400"></i> SCR Turn-ON & Operating Regions
+            </h3>
+            <span class="text-[10px] bg-rose-900/50 text-rose-300 px-2 py-0.5 rounded font-mono-code">Q1, Q8, Q11</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <span class="text-rose-400 font-bold">🔴 4 Turn-ON Mechanisms:</span>
+              <ol class="list-decimal list-inside text-slate-300 mt-1 space-y-1">
+                <li><strong class="text-white">Gate Triggering:</strong> Normal mode. $\uparrow$ Gate Pulse Magnitude $\longrightarrow$ <strong>$\downarrow$ time required to inject charges</strong> (faster turn-on).</li>
+                <li><strong class="text-white">Forward Breakover ($V_{BO}$ or $V_{FBO}$):</strong> Applied voltage exceeds $V_{BO}$ when $I_G = 0$.</li>
+                <li><strong class="text-white">$dv/dt$ Triggering:</strong> High rate of voltage rise induces junction capacitance current $i = C_j \frac{dv}{dt}$.</li>
+                <li><strong class="text-white">Thermal / Temperature:</strong> High temp increases leakage to regenerative threshold.</li>
+              </ol>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <span class="text-blue-400 font-bold">🔵 Operating Regions:</span>
+              <p class="text-slate-300 mt-1">When forward biased below $V_{BO}$ with <strong>no gate signal applied</strong>, the SCR operates in the <strong class="text-cyan-300">Forward Blocking Region</strong> (leakage current only).</p>
+            </div>
+
+            <div class="p-2.5 rounded bg-red-950/40 border border-red-800 text-red-200">
+              <strong class="flex items-center gap-1 text-red-400 font-bold">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> SCR Failure Mode during High Frequency:
+              </strong>
+              <p class="mt-1 text-[11px] leading-relaxed">
+                Localized overheating and failure near the gate junction occurs when the rate of anode current rise <strong>exceeds the critical $di/dt$ rating</strong>. Reason: initial current concentrates near the gate contact before conduction spreads over the full junction area.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: SCR Conduction, Commutation & Crowbar -->
+        <div class="card-box rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="power-off" class="w-4 h-4 text-amber-400"></i> Latching, Commutation & Crowbar
+            </h3>
+            <span class="text-[10px] bg-amber-900/50 text-amber-300 px-2 py-0.5 rounded font-mono-code">Q2, Q3, Q5, Q6</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <span class="text-amber-400 font-bold">🟠 Latching Independence:</span>
+              <p class="text-slate-300 mt-1">
+                Once triggered, the gate completely <strong>loses control</strong>. If gate current drops to zero or cut to $\frac{1}{4} I_G$, the anode current $I_A$ <strong>remains unchanged</strong> (governed purely by supply voltage and external load impedance; e.g. stays 10 A).
+              </p>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <span class="text-emerald-400 font-bold">🟢 Turning the SCR OFF (Commutation):</span>
+              <ul class="list-disc list-inside text-slate-300 mt-1 space-y-1">
+                <li><strong>Anode Current Interruption:</strong> Opening the circuit line.</li>
+                <li><strong>Forced Commutation:</strong> In DC chopper circuits, an LC resonant or auxiliary circuit forces current to flow in the reverse direction to bring $I_A < I_H$.</li>
+              </ul>
+            </div>
+
+            <div class="p-2.5 rounded bg-purple-950/40 border border-purple-800 text-purple-200">
+              <strong class="text-purple-300 font-bold flex items-center gap-1">
+                <i data-lucide="shield" class="w-3.5 h-3.5"></i> Crowbar Overvoltage Protection Circuit:
+              </strong>
+              <p class="mt-1 text-[11px] leading-relaxed">
+                If an overvoltage spike triggers the gate, the SCR turns ON instantaneously, creating a dead short across the power rail to ground. This quickly blows a fuse or trips a circuit breaker, clamping the voltage and protecting downstream delicate DC electronics. (Bleeder resistor is paired across capacitor).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: Multimeter Testing & SCS Truth Logic -->
+        <div class="card-box rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> Multimeter Diode Test & SCS Logic
+            </h3>
+            <span class="text-[10px] bg-emerald-900/50 text-emerald-300 px-2 py-0.5 rounded font-mono-code">Q10, Q19</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <span class="text-emerald-400 font-bold">🔍 DMM Diode Test Evaluation [NOTES]:</span>
+              <table class="w-full mt-2 text-[11px] text-left border-collapse">
+                <tbody>
+                  <tr class="border-b border-slate-800">
+                    <td class="py-1 font-mono-code text-cyan-300">Anode to Cathode (Both dirs)</td>
+                    <td class="py-1 text-slate-300 font-bold">OPEN CIRCUIT (Normal)</td>
+                  </tr>
+                  <tr class="border-b border-slate-800">
+                    <td class="py-1 font-mono-code text-cyan-300">Gate to Anode</td>
+                    <td class="py-1 text-slate-300 font-bold">OPEN CIRCUIT (Normal)</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 font-mono-code text-cyan-300">Gate to Cathode</td>
+                    <td class="py-1 text-slate-300">Behaves as ordinary PN Diode</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-[11px] text-slate-400 mt-2">Conclusion: Open A-K in both polarities + Open G-A indicates <strong>normal operational behavior for an untriggered SCR</strong>.</p>
+            </div>
+
+            <div class="p-2.5 rounded bg-rose-950/40 border border-rose-800">
+              <span class="text-rose-400 font-bold">🔴 SCS (Silicon Controlled Switch) Truth Matrix:</span>
+              <div class="grid grid-cols-2 gap-2 mt-2 font-mono-code text-[11px]">
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <div class="text-emerald-400 font-bold">TO TURN ON:</div>
+                  <div>• <span class="text-cyan-400">(+) pulse</span> on Cathode Gate ($G_K$)</div>
+                  <div>• <span class="text-amber-400">(-) pulse</span> on Anode Gate ($G_A$)</div>
+                </div>
+                <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                  <div class="text-rose-400 font-bold">TO TURN OFF:</div>
+                  <div>• <span class="text-cyan-400">(+) pulse</span> on Anode Gate ($G_A$)</div>
+                  <div>• <span class="text-amber-400">(-) pulse</span> on Cathode Gate ($G_K$)</div>
+                </div>
+              </div>
+              <div class="mt-2 text-rose-300 text-[11px] font-semibold">
+                ⚠️ Board Question: Applying a <strong>positive pulse to Anode Gate ($G_A$)</strong> will turn the SCS OFF!
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- UJT vs PUT Comparison -->
+        <div class="card-box rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="split" class="w-4 h-4 text-cyan-400"></i> Relaxation Transistors: UJT vs. PUT
+            </h3>
+            <span class="text-[10px] bg-cyan-900/50 text-cyan-300 px-2 py-0.5 rounded font-mono-code">Q13, Q14</span>
+          </div>
+
+          <div class="overflow-x-auto text-xs">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 text-slate-400 font-mono-code">
+                  <th class="py-1.5">Parameter</th>
+                  <th class="py-1.5 text-cyan-300">Conventional UJT</th>
+                  <th class="py-1.5 text-amber-300">Programmable UJT (PUT)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300">
+                <tr>
+                  <td class="py-2 font-semibold">Construction</td>
+                  <td>Single PN junction on N-type silicon bar</td>
+                  <td>4-layer PNPN thyristor-like device</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-semibold">Terminals</td>
+                  <td>3: Emitter ($E$), Base 1 ($B_1$), Base 2 ($B_2$)</td>
+                  <td>3: Anode ($A$), Cathode ($K$), Gate ($G$)</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-semibold">Intrinsic Standoff Ratio $\eta$</td>
+                  <td class="text-rose-400 font-bold">FIXED by internal geometry</td>
+                  <td class="text-emerald-400 font-bold">PROGRAMMABLE externally via $R_1, R_2$</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-semibold">Formula for $\eta$</td>
+                  <td>$\eta = \frac{R_{B1}}{R_{B1} + R_{B2}} = \frac{R_{B1}}{R_{BB}}$</td>
+                  <td>$\eta = \frac{R_1}{R_1 + R_2}$, Gate voltage $V_G = \eta V_{BB}$</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Formula Card: UJT Peak Firing Voltage -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-rose-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono-code text-rose-400 font-bold uppercase tracking-wider">🔴 MUST MEMORIZE FORMULA</span>
+            <span class="text-[10px] bg-rose-950 px-2 py-0.5 rounded text-rose-300 font-mono-code">Q14 Solved</span>
+          </div>
+          <h4 class="text-base font-bold text-white">UJT Peak Triggering / Firing Voltage ($V_P$)</h4>
+          
+          <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 text-center text-lg text-cyan-300 font-mono-code">
+            $$V_P = \eta V_{BB} + V_D$$
+          </div>
+
+          <div class="text-xs text-slate-300 grid grid-cols-2 gap-2">
+            <div>
+              <p>• <strong>$V_P$:</strong> Peak firing voltage $[V]$</p>
+              <p>• <strong>$\eta$:</strong> Intrinsic standoff ratio ($0.5 - 0.85$)</p>
+            </div>
+            <div>
+              <p>• <strong>$V_{BB}$:</strong> Interbase voltage across $B_2 - B_1$ $[V]$</p>
+              <p>• <strong>$V_D$:</strong> Forward emitter diode drop ($\approx 0.7\text{ V}$)</p>
+            </div>
+          </div>
+
+          <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-xs">
+            <span class="text-amber-400 font-bold">Board Exam Example:</span> $V_{BB} = 20\text{ V}$, $\eta = 0.65$, $V_D = 0.7\text{ V}$
+            <div class="mt-1 font-mono-code text-emerald-400 font-bold">
+              $$V_P = (0.65 \times 20\text{ V}) + 0.7\text{ V} = 13 + 0.7 = \mathbf{13.7\text{ V}}$$
+            </div>
+            <div class="text-[11px] text-red-300 mt-1">⚠️ TRAP: Don't forget to add the $0.7\text{ V}$ diode drop!</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- PAGE 2: FORMULAS, THERMAL DYNAMICS & TRANSDUCERS -->
+    <!-- ========================================================================================= -->
+    <div class="page-break"></div>
+    <section id="page2" class="space-y-6 pt-4">
+      <div class="border-b border-emerald-500/30 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono-code text-emerald-400 tracking-wider font-bold uppercase">Section 2.0</span>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            PAGE 2 — FORMULAS, THERMAL DYNAMICS & TRANSDUCERS
+          </h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-800 text-emerald-300 text-xs font-mono-code">Q4, Q9, Q21 to Q34</span>
+      </div>
+
+      <!-- Core Formula Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- SCR Full-Wave Phase Controlled Rectifier -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-rose-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono-code text-rose-400 font-bold uppercase">🔴 MUST MEMORIZE</span>
+            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono-code">Q4 Solved</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">SCR Phase-Controlled Full-Wave Rectifier</h4>
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-center text-emerald-400 text-sm font-mono-code">
+            $$V_{ave} = \frac{V_m}{\pi} (1 + \cos\alpha) = \frac{V_{rms}\sqrt{2}}{\pi} (1 + \cos\alpha)$$
+          </div>
+          <div class="text-xs text-slate-300 space-y-1">
+            <p>• <strong>$V_m$:</strong> Peak AC input voltage $= V_{rms}\sqrt{2}$</p>
+            <p>• <strong>$\alpha$:</strong> Firing delay angle (e.g. $90^{\circ}$)</p>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-xs">
+            <span class="text-amber-300 font-semibold">At $\alpha = 90^{\circ}$, $V_{rms} = 220\text{ V}$ (Resistive Load):</span>
+            <p class="font-mono-code text-cyan-300 mt-0.5">$$V_m = 220\sqrt{2} \approx 311.13\text{ V}$$</p>
+            <p class="font-mono-code text-emerald-300">$$V_{ave} = \frac{311.13}{\pi}(1 + 0) \approx \mathbf{99.03\text{ V} \approx 99\text{ V}}$$</p>
+            <p class="text-[10px] text-rose-300 mt-1">⚠️ TRAP: If problem does not state HW or FW, assume FULL-WAVE!</p>
+          </div>
+        </div>
+
+        <!-- Power Semiconductor Thermal Dissipation -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-amber-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono-code text-amber-400 font-bold uppercase">🟠 HIGH-YIELD</span>
+            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono-code">Q9 Solved</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Thermal Resistance & Max Dissipation</h4>
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-center text-amber-400 text-sm font-mono-code">
+            $$\theta_{JA} = \frac{T_J - T_A}{P_D} \implies P_D = \frac{T_J - T_A}{\theta_{JA}}$$
+          </div>
+          <div class="text-xs text-slate-300 space-y-1">
+            <p>• <strong>$T_J$:</strong> Max junction temp $[^{\circ}\text{C}]$ (e.g., $120^{\circ}\text{C}$)</p>
+            <p>• <strong>$T_A$:</strong> Ambient temp $[^{\circ}\text{C}]$ (e.g., $40^{\circ}\text{C}$)</p>
+            <p>• <strong>$\theta_{JA}$:</strong> Thermal resistance $[^{\circ}\text{C/W}]$ (e.g., $1.6^{\circ}\text{C/W}$)</p>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-xs">
+            <span class="text-amber-300 font-semibold">Calculated Internal Dissipation:</span>
+            <p class="font-mono-code text-emerald-300 mt-1">$$P_D = \frac{120^{\circ}\text{C} - 40^{\circ}\text{C}}{1.6^{\circ}\text{C/W}} = \frac{80}{1.6} = \mathbf{50\text{ W}}$$</p>
+          </div>
+        </div>
+
+        <!-- Piezoelectric Dynamic Crystal Voltage -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-cyan-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono-code text-cyan-400 font-bold uppercase">🟠 HIGH-YIELD</span>
+            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono-code">Q25 Solved</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Piezoelectric Generated Output Voltage</h4>
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-center text-cyan-300 text-sm font-mono-code">
+            $$Q = d \cdot F \quad \text{and} \quad V = \frac{Q}{C}$$
+          </div>
+          <div class="text-xs text-slate-300 space-y-1">
+            <p>• <strong>$d$:</strong> Charge sensitivity coefficient $[pC/N]$</p>
+            <p>• <strong>$F$:</strong> Applied dynamic force $[N]$</p>
+            <p>• <strong>$C$:</strong> Crystal terminal capacitance $[pF]$</p>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-xs">
+            <span class="text-amber-300 font-semibold">Given: $d = 2\text{ pC/N}$, $F = 150\text{ N}$, $C = 600\text{ pF}$</span>
+            <p class="font-mono-code text-emerald-300 mt-1">$$V = \frac{(2\text{ pC/N})(150\text{ N})}{600\text{ pF}} = \frac{300\text{ pC}}{600\text{ pF}} = \mathbf{0.5\text{ V}}$$</p>
+            <p class="text-[10px] text-cyan-300 mt-1">Note: Matching prefixes cancel ($pC / pF = V$).</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-box rounded-xl p-5 space-y-4">
+        <h3 class="text-sm font-bold uppercase text-emerald-400 tracking-wider flex items-center gap-2">
+          <i data-lucide="layers" class="w-4 h-4"></i> Transducer Classification & Sensor Engine
+        </h3>
+
+        <div class="overflow-x-auto text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-700 text-slate-400 font-mono-code">
+                <th class="py-2">Measurand / Physical Quantity</th>
+                <th class="py-2 text-cyan-300">Sensor / Transducer</th>
+                <th class="py-2">Operational Principle & Physical Effect</th>
+                <th class="py-2 text-amber-300">Key Formula / Relationship</th>
+                <th class="py-2 text-right">Exam Item</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr>
+                <td class="py-2.5 font-semibold text-white">Temperature Difference</td>
+                <td class="font-mono-code text-cyan-300">Thermocouple</td>
+                <td><strong>Seebeck Effect:</strong> EMF generated across two dissimilar conductors when junctions are held at differing temperatures.</td>
+                <td class="font-mono-code text-amber-300">$$V = k \cdot \Delta T$$</td>
+                <td class="text-right font-mono-code text-slate-500">Q21</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 font-semibold text-white">Mechanical Elongation / Compression</td>
+                <td class="font-mono-code text-cyan-300">Strain Gauge</td>
+                <td><strong>Piezoresistive Effect:</strong> Passive transducer; electrical resistance changes with physical strain (tensile or compressive).</td>
+                <td class="font-mono-code text-amber-300">$$\frac{\Delta R}{R} = GF \cdot \epsilon$$</td>
+                <td class="text-right font-mono-code text-slate-500">Q22</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 font-semibold text-white">Dynamic Force / Acceleration</td>
+                <td class="font-mono-code text-cyan-300">Piezoelectric Crystal</td>
+                <td><strong>Direct Piezoelectric Effect:</strong> Active transducer; mechanical stress creates electrical charge separation across faces.</td>
+                <td class="font-mono-code text-amber-300">$$Q = d \cdot F$$</td>
+                <td class="text-right font-mono-code text-slate-500">Q25</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 font-semibold text-white">Perpendicular Magnetic Field</td>
+                <td class="font-mono-code text-cyan-300">Hall Effect Sensor</td>
+                <td><strong>Lorentz Force:</strong> Deflects charge carriers in a current-carrying conductor, generating transverse Hall voltage $V_H$.</td>
+                <td class="font-mono-code text-amber-300">$$V_H = \frac{I B}{n q t}$$</td>
+                <td class="text-right font-mono-code text-slate-500">Q23</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 font-semibold text-white">Light Intensity (Photoconductive)</td>
+                <td class="font-mono-code text-cyan-300">LDR (Photoresistor)</td>
+                <td>Photoconductive effect: incident photons elevate electrons to conduction band; $\uparrow$ Light $\longrightarrow$ $\downarrow$ Resistance.</td>
+                <td class="font-mono-code text-amber-300">$$R_{LDR} \propto \frac{1}{\text{Lux}}$$</td>
+                <td class="text-right font-mono-code text-slate-500">Q24, Q26</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 font-semibold text-white">Light Detection (Fast Switching)</td>
+                <td class="font-mono-code text-cyan-300">Photodiode</td>
+                <td>Operated in <strong>Reverse-Biased Mode</strong>; photons generate minority electron-hole pairs, producing reverse photocurrent.</td>
+                <td class="font-mono-code text-amber-300">$$I_{photo} \propto \Phi_{optical}$$</td>
+                <td class="text-right font-mono-code text-slate-500">Q32</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- LED vs LASER Diode Comparison Table -->
+        <div class="card-box rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="sun" class="w-4 h-4 text-amber-400"></i> Optoelectronics: LED vs. LASER Diode
+            </h3>
+            <span class="text-[10px] bg-amber-950 border border-amber-800 text-amber-300 px-2 py-0.5 rounded font-mono-code">Q29, Q31</span>
+          </div>
+
+          <div class="overflow-x-auto text-xs">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-700 text-slate-400 font-mono-code">
+                  <th class="py-1.5">Parameter</th>
+                  <th class="py-1.5 text-yellow-300">LED (Light Emitting Diode)</th>
+                  <th class="py-1.5 text-rose-300">Semiconductor LASER Diode</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300">
+                <tr>
+                  <td class="py-2 font-semibold">Emission Process</td>
+                  <td><strong>Spontaneous Emission</strong></td>
+                  <td class="text-emerald-400 font-bold">Stimulated Emission</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-semibold">Coherence</td>
+                  <td class="text-rose-400 font-bold">Incoherent (Random phase)</td>
+                  <td class="text-emerald-400 font-bold">Coherent (In-phase, parallel)</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-semibold">Monochromaticity</td>
+                  <td>Broad spectral linewidth</td>
+                  <td class="text-emerald-400 font-bold">Strictly Monochromatic</td>
+                </tr>
+                <tr>
+                  <td class="py-2 font-semibold">Semiconductor Type</td>
+                  <td colspan="2" class="text-center font-bold text-cyan-300 bg-slate-900/60">
+                    Must use <strong>DIRECT BANDGAP</strong> (e.g., Gallium Arsenide - GaAs)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-2.5 rounded bg-red-950/40 border border-red-800 text-[11px] text-red-200">
+            <strong class="text-red-400">⚠️ CRITICAL EXAM TRAP [Q31]:</strong> Silicon is an <strong>indirect bandgap</strong> semiconductor. In silicon, electron-hole recombinations emit energy as crystal lattice vibrations (phonons/heat), not photons! Hence, pure Silicon cannot be used for LEDs.
+          </div>
+        </div>
+
+        <!-- Radiometry vs Photometry Master Card -->
+        <div class="card-box rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="eye" class="w-4 h-4 text-cyan-400"></i> Radiometry (Physical) vs. Photometry (Visual)
+            </h3>
+            <span class="text-[10px] bg-cyan-950 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded font-mono-code">Q28 Reference</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <!-- Radiometry -->
+            <div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+              <div class="text-cyan-400 font-bold border-b border-slate-800 pb-1">RADIOMETRY (Watts)</div>
+              <div>
+                <span class="text-slate-400 block text-[10px]">Radiant Intensity ($I_e$):</span>
+                <span class="font-mono-code text-white">$$\frac{\Phi_e}{\Omega} \quad [\text{W / steradian}]$$</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px]">Irradiance ($E_e$):</span>
+                <span class="font-mono-code text-white">$$\frac{\Phi_e}{A} \quad [\text{W / m}^2]$$</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px]">Radiance ($L_e$):</span>
+                <span class="font-mono-code text-white">$$\frac{I_e}{A} \quad [\text{W / (sr}\cdot\text{m}^2\text{)}]$$</span>
+              </div>
+            </div>
+
+            <!-- Photometry -->
+            <div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+              <div class="text-amber-400 font-bold border-b border-slate-800 pb-1">PHOTOMETRY (Lumens)</div>
+              <div>
+                <span class="text-slate-400 block text-[10px]">Luminous Intensity ($I_v$):</span>
+                <span class="font-mono-code text-white">$$\frac{\Phi_v}{\Omega} \quad [\text{Candela (cd)}]$$</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px]">Illuminance ($E_v$):</span>
+                <span class="font-mono-code text-white">$$\frac{\Phi_v}{A} \quad [\text{Lux = lm/m}^2]$$</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block text-[10px]">Luminance ($L_v$):</span>
+                <span class="font-mono-code text-white">$$\frac{I_v}{A} \quad [\text{cd/m}^2\text{ (Nit)}]$$</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- LDR Circuit -->
+        <div class="card-box rounded-xl p-4 text-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white">LDR Voltage Divider [Q26]</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono-code">V-Divider</span>
+          </div>
+          <p class="text-slate-400">Dark $R = 100\text{ k}\Omega$; at 100 lux $R = 1\text{ k}\Omega$. Series resistor $R_L = 9\text{ k}\Omega$, $V_S = 10\text{ V}$.</p>
+          <div class="p-2 rounded bg-slate-950 font-mono-code text-emerald-400">
+            $$V_{out} = 10\text{ V} \times \left(\frac{9\text{ k}\Omega}{9\text{ k}\Omega + 1\text{ k}\Omega}\right) = \mathbf{9.0\text{ V}}$$
+          </div>
+        </div>
+
+        <!-- LED Ballast Resistor -->
+        <div class="card-box rounded-xl p-4 text-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white">LED Ballast Resistor [Q33]</span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono-code">Ohm's Law</span>
+          </div>
+          <p class="text-slate-400">$V_S = 5\text{ V}$, Forward drop $V_F = 2\text{ V}$, Current $I_F = 20\text{ mA}$.</p>
+          <div class="p-2 rounded bg-slate-950 font-mono-code text-emerald-400">
+            $$R = \frac{V_S - V_F}{I_F} = \frac{5\text{ V} - 2\text{ V}}{0.02\text{ A}} = \mathbf{150\ \Omega}$$
+          </div>
+        </div>
+
+        <!-- 7-Segment Display CA vs CC -->
+        <div class="card-box rounded-xl p-4 text-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white">Common Anode vs Cathode [Q27]</span>
+            <span class="text-[10px] bg-rose-950 text-rose-300 px-1.5 py-0.5 rounded font-mono-code">TRAP</span>
+          </div>
+          <p class="text-slate-300">
+            In <strong>Common Anode (CA)</strong>, anodes tied to $+5\text{ V}$. Segments are <strong>ACTIVE LOW (Logic 0)</strong>.
+          </p>
+          <div class="p-1.5 rounded bg-slate-950 text-cyan-300 font-mono-code text-[11px]">
+            If all 7 data inputs are logic "0" $\implies$ all segments light up, displaying <strong class="text-emerald-400 text-sm">"8"</strong>!
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- PAGE 3: INDUSTRIAL AUTOMATION, BMS, AND PLC CONTROL -->
+    <!-- ========================================================================================= -->
+    <div class="page-break"></div>
+    <section id="page3" class="space-y-6 pt-4">
+      <div class="border-b border-amber-500/30 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono-code text-amber-400 tracking-wider font-bold uppercase">Section 3.0</span>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            PAGE 3 — INDUSTRIAL AUTOMATION, BMS & PLC CONTROL
+          </h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-amber-950 border border-amber-800 text-amber-300 text-xs font-mono-code">Q35 to Q50 Review</span>
+      </div>
+
+      <!-- PLC Instructions & Traffic Sequencer -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Ladder Logic Core Instructions -->
+        <div class="card-box rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="binary" class="w-4 h-4 text-cyan-400"></i> PLC Ladder Logic Symbols
+            </h3>
+            <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded font-mono-code">Q43, Q47, Q48</span>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-start gap-3">
+              <span class="font-mono-code text-cyan-400 font-bold text-sm bg-slate-950 px-2 py-1 rounded">[ / ]</span>
+              <div>
+                <strong class="text-white">Examine If Open (XIO):</strong>
+                <p class="text-slate-400 text-[11px]">Parallel vertical bars with a diagonal line. Normally Closed (NC) contact; evaluates TRUE when bit is 0 (un-energized).</p>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-start gap-3">
+              <span class="font-mono-code text-cyan-400 font-bold text-sm bg-slate-950 px-2 py-1 rounded">[ &nbsp; ]</span>
+              <div>
+                <strong class="text-white">Examine If Closed (XIC):</strong>
+                <p class="text-slate-400 text-[11px]">Normally Open (NO) contact; evaluates TRUE when bit is 1.</p>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-start gap-3">
+              <span class="font-mono-code text-amber-400 font-bold text-sm bg-slate-950 px-2 py-1 rounded">[LIM]</span>
+              <div>
+                <strong class="text-white">Limit Test Instruction:</strong>
+                <p class="text-slate-400 text-[11px]">Used in <strong>single-timer 3-stage traffic lights</strong> to activate Green (0-30s), Yellow (30-35s), Red (35-60s) based on timer accumulated value!</p>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <strong class="text-emerald-400">Night-Mode Flashing (1s ON / 1s OFF):</strong>
+              <p class="text-slate-300 text-[11px] mt-1">
+                Best implemented using <strong>Two Cascading On-Delay Timers (TON)</strong> cross-wired so each timer toggles/resets the other! [Q48]
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLC Architecture & Timing Rules -->
+        <div class="card-box rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
+              <i data-lucide="cpu" class="w-4 h-4 text-amber-400"></i> Architecture, Scan Time & Isolation
+            </h3>
+            <span class="text-[10px] bg-amber-950 text-amber-300 px-2 py-0.5 rounded font-mono-code">Q45, Q49, Q50</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <strong class="text-amber-400">Monolithic / Fixed PLC [Q49]:</strong>
+              <p class="text-slate-300 text-[11px] mt-1">
+                CPU, DC power supply, and a <strong>fixed number of I/O points</strong> are all enclosed within a single compact chassis (as opposed to a Modular PLC with expandable chassis slots).
+              </p>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <strong class="text-cyan-400">Standard PLC Scan Time [Q50]:</strong>
+              <p class="text-slate-300 text-[11px] mt-1">
+                Typical scan cycle for moderate-sized ladder programs: <strong class="text-emerald-400 text-xs">1 to 20 milliseconds</strong>.<br>
+                (Fast-switching industrial loops: $1-5\text{ ms}$).
+              </p>
+            </div>
+
+            <div class="p-2.5 rounded bg-slate-900 border border-slate-800">
+              <strong class="text-purple-400">Optocoupler Galvanic Isolation [Q45]:</strong>
+              <p class="text-slate-300 text-[11px] mt-1">
+                Built into PLC input cards to provide <strong>complete galvanic isolation</strong> between noisy high-voltage field wiring (24VDC / 120VAC) and sensitive 5V logic/CPU buses, suppressing transient noise.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formula: PLC ADC Quantization -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-rose-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono-code text-rose-400 font-bold uppercase">🔴 MUST MEMORIZE</span>
+            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono-code">Q46 Solved</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">PLC ADC Module Quantization Count</h4>
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-center text-rose-400 text-sm font-mono-code">
+            $$\text{Dec Value} = \frac{V_{in}}{V_{max}} \times (2^n - 1)$$
+          </div>
+          <div class="text-xs text-slate-300 space-y-1">
+            <p>• <strong>$n$:</strong> ADC resolution in bits (e.g., $11\text{ bits}$)</p>
+            <p>• <strong>$V_{in}$:</strong> Analog input voltage (e.g., $3.75\text{ V}$)</p>
+            <p>• <strong>$V_{max}$:</strong> Full-scale span (e.g., $10\text{ V}$)</p>
+          </div>
+          <div class="p-2.5 rounded bg-slate-900 border border-slate-800 text-xs">
+            <span class="text-amber-300 font-semibold">11-bit ADC Calculation:</span>
+            <div class="mt-1 font-mono-code text-slate-300 text-[11px] space-y-0.5">
+              <p>$\text{Max Count} = 2^{11} - 1 = 2048 - 1 = \mathbf{2047}$</p>
+              <p class="text-emerald-400 font-bold">$$\text{Dec Value} = \frac{3.75}{10} \times 2047 = 0.375 \times 2047 = \mathbf{767.6} \approx \mathbf{768}$$</p>
+            </div>
+            <p class="text-[10px] text-red-300 mt-1">⚠️ TRAP: You MUST use $(2^n - 1)$ for ADC digital counts, NOT $2^n$!</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- High Speed Counter (HSC) Formula Card -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-cyan-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono-code text-cyan-400 font-bold uppercase">🟠 HIGH-YIELD FORMULA</span>
+            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono-code">Q44 Solved</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">High-Speed Counter (HSC) Optical Shaft Frequency</h4>
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-center text-cyan-300 text-sm font-mono-code">
+            $$f_{pulse} = \frac{\text{PPR} \times N_{\text{RPM}}}{60}$$
+          </div>
+          <div class="text-xs text-slate-300 space-y-1">
+            <p>• <strong>PPR:</strong> Pulses Per Revolution generated by encoder disk</p>
+            <p>• <strong>$N_{\text{RPM}}$:</strong> Shaft rotational speed in revolutions/minute</p>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-xs">
+            <span class="text-amber-300 font-semibold">Given: $\text{PPR} = 1000\text{ pulses/rev}$, $N = 1200\text{ RPM}$:</span>
+            <p class="font-mono-code text-emerald-400 font-bold mt-1">
+              $$f = \frac{1000 \times 1200}{60} = 1000 \times 20 = \mathbf{20,000\text{ Hz} = 20\text{ kHz}}$$
+            </p>
+          </div>
+        </div>
+
+        <!-- Video Management System (VMS) Storage Capacity -->
+        <div class="card-box rounded-xl p-5 border-l-4 border-l-amber-500 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono-code text-amber-400 font-bold uppercase">🟠 HIGH-YIELD FORMULA</span>
+            <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300 font-mono-code">Q42 Solved</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">CCTV / VMS Surveillance Video Storage Retention</h4>
+          <div class="p-2.5 rounded bg-slate-950 border border-slate-800 text-center text-amber-300 text-sm font-mono-code">
+            $$\text{Storage} = \frac{\text{Total Bitrate (bps)}}{8} \times \text{Seconds in Period}$$
+          </div>
+          <div class="text-xs text-slate-300 space-y-1">
+            <p>• 16 cameras @ $4\text{ Mbps}$ continuous 1080p, 30 days retention:</p>
+            <p class="font-mono-code text-slate-300 text-[11px]">• Total rate $= 16 \times 4\text{ Mbps} = 64\text{ Mbps} = 8\text{ MB/s}$</p>
+            <p class="font-mono-code text-slate-300 text-[11px]">• $30\text{ days} = 30 \times 24 \times 3600 = 2,592,000\text{ s}$</p>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800 text-xs">
+            <p class="font-mono-code text-emerald-400 font-bold">
+              $$\text{Total MB} = 8\text{ MB/s} \times 2,592,000\text{ s} = 20,736,000\text{ MB} \approx \mathbf{20.74\text{ TB}}$$
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Building Management System (BMS) Multi-System Integration Matrix -->
+      <div class="card-box rounded-xl p-5 space-y-4">
+        <h3 class="text-sm font-bold uppercase text-amber-400 tracking-wider flex items-center gap-2">
+          <i data-lucide="building-2" class="w-4 h-4"></i> BMS & Auxiliary Systems Integration Table
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <!-- HVAC Control -->
+          <div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-cyan-400 font-bold border-b border-slate-800 pb-1">
+              <span>HVAC Modulating Valve</span>
+              <span class="text-[10px] font-mono-code text-slate-500">Q37, Q41</span>
+            </div>
+            <p class="text-slate-300">
+              <strong>Actuator:</strong> Converts analog electrical control signal into mechanical motion to position fluid valves.
+            </p>
+            <div class="p-2 rounded bg-slate-950 text-[11px] font-mono-code text-cyan-300">
+              $0-10\text{ V}$ Signal ($40\%$ cooling):<br>
+              $V = 0 + 0.40(10 - 0) = \mathbf{4.0\text{ V}}$
+            </div>
+          </div>
+
+          <!-- CCTV / PoE -->
+          <div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-emerald-400 font-bold border-b border-slate-800 pb-1">
+              <span>PoE Switch Port</span>
+              <span class="text-[10px] font-mono-code text-slate-500">Q40</span>
+            </div>
+            <p class="text-slate-300">
+              <strong>IEEE 802.3at (PoE+):</strong> Delivers up to <strong class="text-white">30.0 W</strong> from the switch port to power motorized PTZ cameras with heaters & IR illuminators.
+            </p>
+            <p class="text-[10px] text-slate-400 font-mono-code">(Standard 802.3af delivers 15.4 W).</p>
+          </div>
+
+          <!-- FDAS Smoke Detectors -->
+          <div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-rose-400 font-bold border-b border-slate-800 pb-1">
+              <span>FDAS Smoke Sensing</span>
+              <span class="text-[10px] font-mono-code text-slate-500">Q39</span>
+            </div>
+            <p class="text-slate-300">
+              <strong>Ionization Detector:</strong> Uses radioactive <strong class="text-white">Americium-241</strong> to detect ultra-fine, invisible combustion particles.
+            </p>
+            <p class="text-[10px] text-slate-400 font-mono-code">(Photoelectric detects visible smoldering smoke).</p>
+          </div>
+
+          <!-- Access Control Safety -->
+          <div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-yellow-400 font-bold border-b border-slate-800 pb-1">
+              <span>Emergency Life Safety</span>
+              <span class="text-[10px] font-mono-code text-slate-500">Q36</span>
+            </div>
+            <p class="text-slate-300">
+              In hospital emergency fire alarm trips, fire relays must <strong class="text-white">automatically release/unlock electronic door locks</strong> to guarantee unhindered egress.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- PAGE 4: FORMULA CALCULATORS & BOARD TRAPS -->
+    <!-- ========================================================================================= -->
+    <div class="page-break"></div>
+    <section id="page4" class="space-y-6 pt-4">
+      <div class="border-b border-rose-500/30 pb-3 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-mono-code text-rose-400 tracking-wider font-bold uppercase">Section 4.0</span>
+          <h2 class="text-2xl font-black text-white flex items-center gap-2">
+            PAGE 4 — INTERACTIVE FORMULA VERIFIER & EXAM TRAP MATRIX
+          </h2>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-rose-950 border border-rose-800 text-rose-300 text-xs font-mono-code">Rapid Verification Suite</span>
+      </div>
+
+      <!-- Live Interactive Calculators Grid -->
+      <div class="card-box rounded-xl p-5 space-y-4">
+        <h3 class="text-sm font-bold uppercase text-cyan-400 tracking-wider flex items-center gap-2">
+          <i data-lucide="calculator" class="w-4 h-4"></i> Live Board Exam Calculation Verifier
+        </h3>
+        <p class="text-xs text-slate-400">Test and verify sample problems instantly using the exact parameters from the board exam notes.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          
+          <!-- Calc 1: SCR Full Wave -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <span class="font-bold text-white block">1. SCR FW Rectifier $V_{ave}$</span>
+            <div class="space-y-1">
+              <label class="text-[11px] text-slate-400">V_rms [V]:</label>
+              <input type="number" id="calc_vrms" value="220" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] text-slate-400">Delay Angle $\alpha$ [deg]:</label>
+              <input type="number" id="calc_alpha" value="90" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+            </div>
+            <button onclick="calcSCR()" class="w-full py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-semibold text-xs mt-1 transition">Compute $V_{ave}$</button>
+            <div id="res_scr" class="p-1.5 rounded bg-slate-950 font-mono-code text-cyan-300 text-center text-xs">V_ave: 99.03 V</div>
+          </div>
+
+          <!-- Calc 2: Thermal Dissipation -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <span class="font-bold text-white block">2. Thermal Dissipation $P_D$</span>
+            <div class="grid grid-cols-2 gap-1">
+              <div>
+                <label class="text-[10px] text-slate-400">T_J [°C]:</label>
+                <input type="number" id="calc_tj" value="120" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400">T_A [°C]:</label>
+                <input type="number" id="calc_ta" value="40" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+              </div>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] text-slate-400">$\theta_{JA}$ [°C/W]:</label>
+              <input type="number" step="0.1" id="calc_theta" value="1.6" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+            </div>
+            <button onclick="calcThermal()" class="w-full py-1 rounded bg-amber-700 hover:bg-amber-600 text-white font-semibold text-xs mt-1 transition">Compute $P_D$</button>
+            <div id="res_thermal" class="p-1.5 rounded bg-slate-950 font-mono-code text-amber-300 text-center text-xs">P_D: 50.00 W</div>
+          </div>
+
+          <!-- Calc 3: UJT Firing -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <span class="font-bold text-white block">3. UJT Peak Firing $V_P$</span>
+            <div class="grid grid-cols-2 gap-1">
+              <div>
+                <label class="text-[10px] text-slate-400">V_BB [V]:</label>
+                <input type="number" id="calc_vbb" value="20" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400">$\eta$:</label>
+                <input type="number" step="0.01" id="calc_eta" value="0.65" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+              </div>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] text-slate-400">V_D [V]:</label>
+              <input type="number" step="0.1" id="calc_vd" value="0.7" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+            </div>
+            <button onclick="calcUJT()" class="w-full py-1 rounded bg-rose-700 hover:bg-rose-600 text-white font-semibold text-xs mt-1 transition">Compute $V_P$</button>
+            <div id="res_ujt" class="p-1.5 rounded bg-slate-950 font-mono-code text-rose-300 text-center text-xs">V_P: 13.70 V</div>
+          </div>
+
+          <!-- Calc 4: ADC Quantization -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <span class="font-bold text-white block">4. PLC ADC Scaling</span>
+            <div class="grid grid-cols-2 gap-1">
+              <div>
+                <label class="text-[10px] text-slate-400">Bits (n):</label>
+                <input type="number" id="calc_bits" value="11" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+              </div>
+              <div>
+                <label class="text-[10px] text-slate-400">V_in [V]:</label>
+                <input type="number" step="0.01" id="calc_vin" value="3.75" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+              </div>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] text-slate-400">V_max [V]:</label>
+              <input type="number" id="calc_vmax" value="10" class="w-full px-2 py-1 text-xs rounded bg-slate-950 border border-slate-700 text-white">
+            </div>
+            <button onclick="calcADC()" class="w-full py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs mt-1 transition">Compute Count</button>
+            <div id="res_adc" class="p-1.5 rounded bg-slate-950 font-mono-code text-emerald-300 text-center text-xs">Dec Count: 768</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-box rounded-xl p-5 border-l-4 border-l-red-500 space-y-4">
+        <h3 class="text-sm font-bold uppercase text-red-400 tracking-wider flex items-center gap-2">
+          <i data-lucide="alert-octagon" class="w-4 h-4"></i> DON'T CONFUSE THESE! — High-Risk Board Exam Distinctions
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          
+          <!-- Trap 1: Latching vs Holding Current -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <div class="font-bold text-white border-b border-slate-800 pb-1 flex justify-between">
+              <span>LATCHING CURRENT ($I_L$)</span>
+              <span class="text-rose-400">HOLDING CURRENT ($I_H$)</span>
+            </div>
+            <ul class="text-slate-300 space-y-1 text-[11px]">
+              <li>• <strong class="text-cyan-300">$I_L$:</strong> Associated with device <strong>TURN-ON</strong>. Minimum anode current required to transition from OFF to ON.</li>
+              <li>• <strong class="text-rose-300">$I_H$:</strong> Associated with device <strong>TURN-OFF</strong>. Minimum anode current required to maintain conduction.</li>
+              <li>• <strong>Golden Rule:</strong> <span class="font-mono-code text-emerald-400 font-bold">$I_L > I_H$</span> (typically $I_L \approx 2 \text{ to } 3 \times I_H$).</li>
+            </ul>
+          </div>
+
+          <!-- Trap 2: UJT vs PUT -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <div class="font-bold text-white border-b border-slate-800 pb-1 flex justify-between">
+              <span>CONVENTIONAL UJT</span>
+              <span class="text-amber-400">PROGRAMMABLE UJT (PUT)</span>
+            </div>
+            <ul class="text-slate-300 space-y-1 text-[11px]">
+              <li>• <strong>UJT:</strong> Fixed standoff ratio $\eta$ set internally during wafer fabrication ($R_{B1}, R_{B2}$).</li>
+              <li>• <strong>PUT:</strong> Standoff ratio $\eta$ programmed externally using two standard voltage-divider resistors ($R_1, R_2$).</li>
+              <li>• <strong>PUT Structure:</strong> 4 layers ($P-N-P-N$), with Gate tied to internal N-region adjacent to Anode.</li>
+            </ul>
+          </div>
+
+          <!-- Trap 3: Direct vs Indirect Bandgap -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <div class="font-bold text-white border-b border-slate-800 pb-1 flex justify-between">
+              <span>DIRECT BANDGAP (GaAs)</span>
+              <span class="text-cyan-400">INDIRECT BANDGAP (Silicon)</span>
+            </div>
+            <ul class="text-slate-300 space-y-1 text-[11px]">
+              <li>• <strong>Direct Bandgap (GaAs, InP):</strong> Direct recombination emits <strong>photons (light)</strong>. Mandatory for LEDs & Lasers!</li>
+              <li>• <strong>Indirect Bandgap (Si, Ge):</strong> Recombination requires phonon lattice momentum transfer, releasing <strong>heat</strong>. Ineffective for optical emission.</li>
+            </ul>
+          </div>
+
+          <!-- Trap 4: Radiance vs Irradiance -->
+          <div class="p-3.5 rounded-lg bg-slate-900 border border-slate-800 space-y-2">
+            <div class="font-bold text-white border-b border-slate-800 pb-1 flex justify-between">
+              <span>IRRADIANCE ($E_e$)</span>
+              <span class="text-yellow-400">RADIANT INTENSITY ($I_e$)</span>
+            </div>
+            <ul class="text-slate-300 space-y-1 text-[11px]">
+              <li>• <strong>Irradiance ($E_e$):</strong> Radiant flux incident on a surface per unit <strong>AREA</strong> ($\text{Watts/m}^2$).</li>
+              <li>• <strong>Radiant Intensity ($I_e$):</strong> Radiant flux emitted per unit <strong>SOLID ANGLE</strong> ($\text{Watts/steradian}$).</li>
+              <li>• <strong>Radiance ($L_e$):</strong> Flux emitted per unit area per unit solid angle ($\text{W/(sr}\cdot\text{m}^2\text{)}$).</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-box rounded-xl p-5 space-y-4">
+        <h3 class="text-sm font-bold uppercase text-emerald-400 tracking-wider flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Rapid Recall Flash Cards (Click to Reveal)
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+          
+          <div onclick="toggleAnswer(this)" class="cursor-pointer p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500 transition">
+            <span class="text-cyan-400 font-bold block mb-1">Q: How do you turn OFF an SCS via the Anode Gate?</span>
+            <span class="text-slate-400 select-none block">[Click to reveal answer]</span>
+            <div class="hidden mt-2 p-1.5 rounded bg-slate-950 font-bold text-emerald-400 font-mono-code">
+              Apply a POSITIVE (+) pulse to the Anode Gate ($G_A$).
+            </div>
+          </div>
+
+          <div onclick="toggleAnswer(this)" class="cursor-pointer p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500 transition">
+            <span class="text-cyan-400 font-bold block mb-1">Q: What component internally combines a TRIAC and a DIAC?</span>
+            <span class="text-slate-400 select-none block">[Click to reveal answer]</span>
+            <div class="hidden mt-2 p-1.5 rounded bg-slate-950 font-bold text-emerald-400 font-mono-code">
+              A QUADRAC.
+            </div>
+          </div>
+
+          <div onclick="toggleAnswer(this)" class="cursor-pointer p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500 transition">
+            <span class="text-cyan-400 font-bold block mb-1">Q: What radioisotope powers ionization smoke detectors?</span>
+            <span class="text-slate-400 select-none block">[Click to reveal answer]</span>
+            <div class="hidden mt-2 p-1.5 rounded bg-slate-950 font-bold text-emerald-400 font-mono-code">
+              Americium-241 ($^{241}\text{Am}$).
+            </div>
+          </div>
+
+          <div onclick="toggleAnswer(this)" class="cursor-pointer p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500 transition">
+            <span class="text-cyan-400 font-bold block mb-1">Q: What is the maximum delivered PoE power under IEEE 802.3at?</span>
+            <span class="text-slate-400 select-none block">[Click to reveal answer]</span>
+            <div class="hidden mt-2 p-1.5 rounded bg-slate-950 font-bold text-emerald-400 font-mono-code">
+              30.0 Watts per switch port.
+            </div>
+          </div>
+
+          <div onclick="toggleAnswer(this)" class="cursor-pointer p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500 transition">
+            <span class="text-cyan-400 font-bold block mb-1">Q: What instruction tests a timer between high/low bounds in PLCs?</span>
+            <span class="text-slate-400 select-none block">[Click to reveal answer]</span>
+            <div class="hidden mt-2 p-1.5 rounded bg-slate-950 font-bold text-emerald-400 font-mono-code">
+              The Limit Test [LIM] instruction.
+            </div>
+          </div>
+
+          <div onclick="toggleAnswer(this)" class="cursor-pointer p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500 transition">
+            <span class="text-cyan-400 font-bold block mb-1">Q: What is the typical scan time for a moderate-sized industrial PLC?</span>
+            <span class="text-slate-400 select-none block">[Click to reveal answer]</span>
+            <div class="hidden mt-2 p-1.5 rounded bg-slate-950 font-bold text-emerald-400 font-mono-code">
+              1 to 20 milliseconds (fast loops: 1-5 ms).
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <footer class="border-t border-slate-800 pt-6 pb-12 text-center text-xs text-slate-500 space-y-2">
+      <p class="font-mono-code">ECE BOARD EXAM HIGH-DENSITY COMMAND CENTER REVIEWER — INDUSTRIAL ELECTRONICS & BMS</p>
+      <p>Prepared for comprehensive board licensure examination mastery. Equations rendered dynamically via KaTeX.</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Initialize KaTeX Auto-Render
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      }
+      lucide.createIcons();
+    });
+
+    // Re-render math dynamically inside specific elements
+    function reRenderMath(el) {
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(el, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // 1. SCR Calculator
+    function calcSCR() {
+      const vrms = parseFloat(document.getElementById('calc_vrms').value) || 0;
+      const alphaDeg = parseFloat(document.getElementById('calc_alpha').value) || 0;
+      const alphaRad = (alphaDeg * Math.PI) / 180;
+      const vm = vrms * Math.SQRT2;
+      const vave = (vm / Math.PI) * (1 + Math.cos(alphaRad));
+      const res = document.getElementById('res_scr');
+      res.innerHTML = `$$V_{ave} = \\mathbf{${vave.toFixed(2)}\\text{ V}}$$`;
+      reRenderMath(res);
+    }
+
+    // 2. Thermal Calculator
+    function calcThermal() {
+      const tj = parseFloat(document.getElementById('calc_tj').value) || 0;
+      const ta = parseFloat(document.getElementById('calc_ta').value) || 0;
+      const theta = parseFloat(document.getElementById('calc_theta').value) || 1;
+      const pd = (tj - ta) / theta;
+      const res = document.getElementById('res_thermal');
+      res.innerHTML = `$$P_D = \\mathbf{${pd.toFixed(2)}\\text{ W}}$$`;
+      reRenderMath(res);
+    }
+
+    // 3. UJT Calculator
+    function calcUJT() {
+      const vbb = parseFloat(document.getElementById('calc_vbb').value) || 0;
+      const eta = parseFloat(document.getElementById('calc_eta').value) || 0;
+      const vd = parseFloat(document.getElementById('calc_vd').value) || 0;
+      const vp = (eta * vbb) + vd;
+      const res = document.getElementById('res_ujt');
+      res.innerHTML = `$$V_P = \\mathbf{${vp.toFixed(2)}\\text{ V}}$$`;
+      reRenderMath(res);
+    }
+
+    // 4. ADC Calculator
+    function calcADC() {
+      const n = parseInt(document.getElementById('calc_bits').value) || 11;
+      const vin = parseFloat(document.getElementById('calc_vin').value) || 0;
+      const vmax = parseFloat(document.getElementById('calc_vmax').value) || 10;
+      const maxCount = Math.pow(2, n) - 1;
+      const decVal = (vin / vmax) * maxCount;
+      const res = document.getElementById('res_adc');
+      res.innerHTML = `$$\\text{Count} = \\mathbf{${Math.round(decVal)}} \\quad (${decVal.toFixed(1)})$$`;
+      reRenderMath(res);
+    }
+
+    // Flashcard Toggle
+    function toggleAnswer(card) {
+      const answer = card.querySelector('div');
+      const hint = card.querySelector('span.text-slate-400');
+      if (answer) {
+        answer.classList.toggle('hidden');
+        if (hint) {
+          hint.textContent = answer.classList.contains('hidden') ? '[Click to reveal answer]' : '[Click to hide answer]';
+        }
+        reRenderMath(answer);
+      }
+    }
+
+    // Live Search Filter
+    document.getElementById('quickSearch').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.card-box, .card-box > div');
+      
+      if (!query) {
+        cards.forEach(card => card.style.opacity = '1');
+        return;
+      }
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.opacity = '1';
+        } else {
+          card.style.opacity = '0.3';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

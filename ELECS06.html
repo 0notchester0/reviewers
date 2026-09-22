@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam — Dense Command Center Reviewer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+            },
+            board: {
+              dark: '#0f172a',
+              card: '#1e293b',
+              border: '#334155',
+              accent: '#38bdf8',
+              warn: '#f59e0b',
+              danger: '#ef4444',
+              purple: '#a855f7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- KaTeX for Beautiful Math Equation Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathWhenReady()"></script>
+
+  <!-- Google Font: JetBrains Mono & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    code, pre, .mono {
+      font-family: 'Fira Code', monospace;
+    }
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 2px;
+    }
+    /* Custom Scrollbar for dense cards */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-slate-950">
+
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <span class="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </span>
+        <div>
+          <h1 class="text-lg md:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            ECE BOARD EXAM <span class="text-cyan-400 font-extrabold">COMMAND CENTER</span>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Sep 22 Set</span>
+          </h1>
+          <p class="text-xs text-slate-400">Dense Visual Study Guide • Electromagnetics • Inductance • LTI Signals • Feedback Control</p>
+        </div>
+      </div>
+      
+      <!-- Quick Navigation Tabs -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto py-1 text-xs font-medium">
+        <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn px-3 py-1.5 rounded-md bg-cyan-600 text-white font-semibold shadow-sm transition">Overview & Fields</button>
+        <button onclick="switchTab('magnetics')" id="tab-magnetics" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Magnetics & Cores</button>
+        <button onclick="switchTab('control')" id="tab-control" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Signals & Control</button>
+        <button onclick="switchTab('questions')" id="tab-questions" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Exam Q&A Drill (40)</button>
+        <button onclick="switchTab('traps')" id="tab-traps" class="tab-btn px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Traps & Constants</button>
+        <button onclick="switchTab('calculators')" id="tab-calculators" class="tab-btn px-3 py-1.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30 transition flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          Lab Tools
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-6">
+
+    <!-- TAB 1: OVERVIEW & FIELDS -->
+    <section id="panel-overview" class="space-y-6">
+      
+      <!-- Key Metric Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg shadow-inner">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Priority 1: Maxwell</div>
+          <div class="text-base font-bold text-cyan-400 mt-0.5">4 Field Equations</div>
+          <div class="text-[11px] text-slate-500">Differential & Integral forms</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg shadow-inner">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Core Principle</div>
+          <div class="text-base font-bold text-emerald-400 mt-0.5">\(\nabla \cdot \mathbf{B} = 0\)</div>
+          <div class="text-[11px] text-slate-500">No magnetic monopoles; closed loops</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg shadow-inner">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Static Conductor</div>
+          <div class="text-base font-bold text-amber-400 mt-0.5">\(E_{\text{interior}} = 0\)</div>
+          <div class="text-[11px] text-slate-500">Zero electric field in equilibrium</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-3 rounded-lg shadow-inner">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Air-Gap Design</div>
+          <div class="text-base font-bold text-rose-400 mt-0.5">\(\mathcal{R} \uparrow \implies L \downarrow\)</div>
+          <div class="text-[11px] text-slate-500">Prevents heavy DC saturation</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-4 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+          <h2 class="text-sm font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            🔴 MUST MEMORIZE: Maxwell's 4 Equations & Fundamental Field Laws
+          </h2>
+          <span class="text-[11px] text-slate-400 font-mono">Q5, Q11, Q12, Q13</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/60 text-slate-300 font-semibold border-b border-slate-700/50">
+              <tr>
+                <th class="p-3">Law Name</th>
+                <th class="p-3">Differential Form</th>
+                <th class="p-3">Integral / Circuit Form</th>
+                <th class="p-3">Physical Board Definition</th>
+                <th class="p-3 text-amber-400">Exam Trap / Catch ⚠️</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 font-mono text-slate-200">
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-white font-sans">
+                  Gauss's Law for Electricity
+                  <span class="block text-[10px] text-slate-400">1st Maxwell Equation</span>
+                </td>
+                <td class="p-3 text-cyan-300">\(\nabla \cdot \mathbf{D} = \rho_v\)</td>
+                <td class="p-3 text-cyan-200">\(\oint_S \mathbf{D} \cdot d\mathbf{S} = Q_{\text{enc}}\)</td>
+                <td class="p-3 font-sans text-slate-300 text-xs">Net outward electric flux through any closed surface equals total enclosed free charge.</td>
+                <td class="p-3 font-sans text-amber-300/90 text-xs">Inside a solid conductor in static equilibrium, \(E = 0\) everywhere! (Q4)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-white font-sans">
+                  Gauss's Law for Magnetism
+                  <span class="block text-[10px] text-slate-400">2nd Maxwell Equation</span>
+                </td>
+                <td class="p-3 text-cyan-300">\(\nabla \cdot \mathbf{B} = 0\)</td>
+                <td class="p-3 text-cyan-200">\(\oint_S \mathbf{B} \cdot d\mathbf{S} = 0\)</td>
+                <td class="p-3 font-sans text-slate-300 text-xs">No isolated magnetic monopoles exist in nature; magnetic field lines <strong>always form continuous closed loops</strong>. (Q5, Q11)</td>
+                <td class="p-3 font-sans text-amber-300/90 text-xs">Surface integral over <em>any</em> closed surface is <strong>strictly ZERO</strong>.</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-white font-sans">
+                  Faraday's Law of Induction
+                  <span class="block text-[10px] text-slate-400">3rd Maxwell Equation</span>
+                </td>
+                <td class="p-3 text-cyan-300">\(\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}\)</td>
+                <td class="p-3 text-cyan-200">\(\text{emf} = -N\frac{d\Phi}{dt} = -L\frac{di}{dt}\)</td>
+                <td class="p-3 font-sans text-slate-300 text-xs">A <strong>time-varying magnetic field</strong> induces an electric field and EMF in a closed circuit. (Q12, Q13)</td>
+                <td class="p-3 font-sans text-amber-300/90 text-xs">Static fields induce ZERO EMF! Direction determined by Lenz's Law (opposes flux change).</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-white font-sans">
+                  Ampere's Circuital Law
+                  <span class="block text-[10px] text-slate-400">4th Maxwell Equation</span>
+                </td>
+                <td class="p-3 text-cyan-300">\(\nabla \times \mathbf{H} = \mathbf{J} + \frac{\partial \mathbf{D}}{\partial t}\)</td>
+                <td class="p-3 text-cyan-200">\(\oint_C \mathbf{H} \cdot d\mathbf{L} = I_{\text{enc}} = \text{mmf}\)</td>
+                <td class="p-3 font-sans text-slate-300 text-xs">Conduction current and displacement current (\(\partial\mathbf{D}/\partial t\)) generate circulating magnetic fields.</td>
+                <td class="p-3 font-sans text-amber-300/90 text-xs">For static DC current, \(\partial\mathbf{D}/\partial t = 0\), leaving simple \(\oint \mathbf{H}\cdot d\mathbf{L} = I\).</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-white font-sans">
+                  Biot-Savart Law
+                  <span class="block text-[10px] text-slate-400">Magnetostatic Source</span>
+                </td>
+                <td class="p-3 text-cyan-300">\(d\mathbf{H} = \frac{I \, d\mathbf{L} \times \hat{\mathbf{a}}_r}{4\pi R^2}\)</td>
+                <td class="p-3 text-cyan-200">\(\mathbf{H} = \int \frac{I \, d\mathbf{L}}{4\pi R^2}\)</td>
+                <td class="p-3 font-sans text-slate-300 text-xs">Calculates the magnetic field intensity generated by a <strong>steady DC current element</strong>. (Q3)</td>
+                <td class="p-3 font-sans text-amber-300/90 text-xs">Inverse-square law with distance \(R^2\); does NOT calculate electric fields!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <!-- Divergence Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-cyan-500/5 rounded-bl-full pointer-events-none"></div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">Operator 1</span>
+          <h3 class="text-sm font-bold text-white mt-2">Divergence</h3>
+          <div class="my-2 p-2 bg-slate-950 rounded border border-slate-800 text-center font-mono text-cyan-300">
+            \(\nabla \cdot \mathbf{A} = \frac{\partial A_x}{\partial x} + \frac{\partial A_y}{\partial y} + \frac{\partial A_z}{\partial z}\)
+          </div>
+          <p class="text-xs text-slate-300"><strong>Physical Essence:</strong> Scalar representing the <em>net outward flux per unit volume</em> from an infinitesimal volume around a point.</p>
+          <div class="mt-2 text-[11px] text-emerald-300 bg-emerald-950/40 p-1.5 rounded border border-emerald-800/40">
+            <strong>Board Exam Clue:</strong> Source (+), Sink (-), or Incompressible (\(\nabla\cdot\mathbf{A}=0\)). (Q10)
+          </div>
+        </div>
+
+        <!-- Curl Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-purple-500/5 rounded-bl-full pointer-events-none"></div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-800/50">Operator 2</span>
+          <h3 class="text-sm font-bold text-white mt-2">Curl</h3>
+          <div class="my-2 p-2 bg-slate-950 rounded border border-slate-800 text-center font-mono text-purple-300">
+            \(\nabla \times \mathbf{A} = \det\begin{bmatrix} \hat{\mathbf{i}} & \hat{\mathbf{j}} & \hat{\mathbf{k}} \\ \partial_x & \partial_y & \partial_z \\ A_x & A_y & A_z \end{bmatrix}\)
+          </div>
+          <p class="text-xs text-slate-300"><strong>Physical Essence:</strong> Vector representing the <em>circulation or net rotation</em> per unit area around an infinitesimal loop.</p>
+          <div class="mt-2 text-[11px] text-purple-300 bg-purple-950/40 p-1.5 rounded border border-purple-800/40">
+            <strong>Board Exam Clue:</strong> "Rotational / Vortex field". If \(\nabla\times\mathbf{E}=0\), field is <em>conservative</em>.
+          </div>
+        </div>
+
+        <!-- Gradient Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-500/5 rounded-bl-full pointer-events-none"></div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50">Operator 3</span>
+          <h3 class="text-sm font-bold text-white mt-2">Gradient</h3>
+          <div class="my-2 p-2 bg-slate-950 rounded border border-slate-800 text-center font-mono text-emerald-300">
+            \(\nabla V = \frac{\partial V}{\partial x}\hat{\mathbf{i}} + \frac{\partial V}{\partial y}\hat{\mathbf{j}} + \frac{\partial V}{\partial z}\hat{\mathbf{k}}\)
+          </div>
+          <p class="text-xs text-slate-300"><strong>Physical Essence:</strong> Vector pointing in the direction of the <em>maximum spatial rate of increase</em> (steepest ascent) of a scalar field.</p>
+          <div class="mt-2 text-[11px] text-emerald-300 bg-emerald-950/40 p-1.5 rounded border border-emerald-800/40">
+            <strong>Board Relation:</strong> \(\mathbf{E} = -\nabla V\) (Electric field points toward decreasing potential).
+          </div>
+        </div>
+
+        <!-- Laplacian Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-amber-500/5 rounded-bl-full pointer-events-none"></div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/50">Operator 4</span>
+          <h3 class="text-sm font-bold text-white mt-2">Laplacian</h3>
+          <div class="my-2 p-2 bg-slate-950 rounded border border-slate-800 text-center font-mono text-amber-300">
+            \(\nabla^2 V = \nabla \cdot (\nabla V) = \frac{\partial^2 V}{\partial x^2} + \frac{\partial^2 V}{\partial y^2} + \frac{\partial^2 V}{\partial z^2}\)
+          </div>
+          <p class="text-xs text-slate-300"><strong>Physical Essence:</strong> Divergence of the gradient. Represents the difference between potential at a point and average of surroundings.</p>
+          <div class="mt-2 text-[11px] text-amber-300 bg-amber-950/40 p-1.5 rounded border border-amber-800/40">
+            <strong>Governing Equations:</strong> Laplace: \(\nabla^2 V = 0\); Poisson: \(\nabla^2 V = -\rho_v / \epsilon\).
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Infinite Line Charge Formula Box -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="text-cyan-400">⚡</span> Infinite Line Charge Electric Field Intensity
+            </h4>
+            <span class="text-[10px] bg-cyan-900/50 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700/50">Q14 Core</span>
+          </div>
+          <div class="my-3 p-3 bg-slate-950 rounded-lg text-center font-mono text-cyan-300 border border-slate-800">
+            \(E = \frac{\rho_L}{2\pi \epsilon_0 r} = \frac{2 k \rho_L}{r}\)
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+            <div>• \(\rho_L\): linear charge density \([\text{C/m}]\)</div>
+            <div>• \(r\): radial perpendicular distance \([\text{m}]\)</div>
+            <div>• \(\epsilon_0 \approx 8.854 \times 10^{-12} \text{ F/m}\)</div>
+            <div>• \(k = \frac{1}{4\pi\epsilon_0} \approx 8.99 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2\)</div>
+          </div>
+          <div class="mt-3 p-2 bg-amber-950/30 rounded border border-amber-800/40 text-xs text-amber-300">
+            ⚠️ <strong>Common Board Trap:</strong> Do NOT square \(r\)! Coulomb's point charge is \(\propto 1/r^2\), but an infinite line charge is strictly \(\propto 1/r\)!
+          </div>
+        </div>
+
+        <!-- RF Capacitor & Dielectric Selector -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="text-emerald-400">🔬</span> Capacitor Selection Guide & RF Tuning
+            </h4>
+            <span class="text-[10px] bg-emerald-900/50 text-emerald-300 px-2 py-0.5 rounded border border-emerald-700/50">Q20, Q22</span>
+          </div>
+          <ul class="mt-3 space-y-2 text-xs text-slate-300">
+            <li class="p-2 bg-slate-950 rounded border border-slate-800/60 flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">✓ C0G / NP0 Ceramic:</span>
+              <span><strong>Gold standard for RF resonant tanks & tuning</strong>. Features ultra-low ESR/losses and a zero temperature coefficient (\(\pm 30\text{ ppm/}^\circ\text{C}\)) over -55°C to +125°C.</span>
+            </li>
+            <li class="p-2 bg-slate-950 rounded border border-slate-800/60 flex items-start gap-2">
+              <span class="text-slate-400 font-bold">• Aluminum Electrolytic:</span>
+              <span>High bulk capacitance, but high ESR, polarized, and degrades drastically at RF frequencies.</span>
+            </li>
+            <li class="p-2 bg-slate-950 rounded border border-slate-800/60 flex items-start gap-2">
+              <span class="text-cyan-400 font-bold">• Multi-Plate Capacitor Formula:</span>
+              <span>\(C = \frac{\epsilon_0 \epsilon_r A (n - 1)}{d}\). Increasing active plate count \(n\) linearly increases capacitance!</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-magnetics" class="hidden space-y-6">
+      
+      <!-- Magnetic Ohm's Law and Formula Strip -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Reluctance Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
+          <div class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Magnetic Circuit Ohm's Law</div>
+          <div class="my-2 p-2 bg-slate-950 rounded border border-slate-800 text-center font-mono text-cyan-300 text-sm">
+            \(\Phi = \frac{\mathcal{F}}{\mathcal{R}} \implies \mathcal{R} = \frac{N I}{\Phi} = \frac{l}{\mu_0 \mu_r A}\)
+          </div>
+          <p class="text-xs text-slate-300"><strong>Reluctance \(\mathcal{R}\):</strong> Opposes setup of magnetic flux. Unit: \([\text{At/Wb}]\) or \([\text{H}^{-1}]\). Analogous to resistance \(R\), but does NOT consume continuous energy as heat.</p>
+          <div class="mt-2 text-[11px] text-slate-400">Permeance: \(\mathcal{P} = 1/\mathcal{R}\) \([\text{Wb/At}]\) or \([\text{Henries}]\). (Q1, Q16)</div>
+        </div>
+
+        <!-- Solenoid & Lorentz Force -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
+          <div class="text-xs font-bold text-amber-400 uppercase tracking-wider">Solenoid & Lorentz Force</div>
+          <div class="my-2 p-2 bg-slate-950 rounded border border-slate-800 text-center font-mono text-amber-300 text-sm">
+            \(H = \frac{NI}{l} \quad \text{and} \quad F = q(\mathbf{v} \times \mathbf{B}) = qvB\sin\theta\)
+          </div>
+          <p class="text-xs text-slate-300"><strong>Field Intensity \(H\):</strong> Axial strength in solenoid \([\text{At/m}]\).<br>
+          <strong>Lorentz Force:</strong> Force on charge \(q\) moving at velocity \(v\) through flux density \(B\).</p>
+          <div class="mt-2 text-[11px] text-amber-300 bg-amber-950/40 p-1 rounded">⚠️ If charge is stationary (\(v=0\)) or \(\mathbf{v} \parallel \mathbf{B}\), \(F = 0\)! (Q15, Q17)</div>
+        </div>
+
+        <!-- Coupled Inductor Formulas -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Coupled Inductor Configurations</div>
+          <div class="my-1 space-y-1 font-mono text-xs">
+            <div class="p-1.5 bg-slate-950 rounded border border-slate-800 text-emerald-300">
+              Parallel-Aiding: \(L_{\text{eq}} = \frac{L_1 L_2 - M^2}{L_1 + L_2 - 2M}\)
+            </div>
+            <div class="p-1.5 bg-slate-950 rounded border border-slate-800 text-emerald-300">
+              Parallel-Opposing: \(L_{\text{eq}} = \frac{L_1 L_2 - M^2}{L_1 + L_2 + 2M}\)
+            </div>
+          </div>
+          <div class="mt-2 text-[11px] text-slate-300">
+            Series: Aiding = \(L_1 + L_2 + 2M\); Opposing = \(L_1 + L_2 - 2M\).
+            <span class="block text-cyan-400">Notice numerator is <em>identical</em> for parallel! (Q29)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-4 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            🧲 Magnetic Classification of Materials Matrix
+          </h3>
+          <span class="text-xs font-mono text-cyan-400">\(\mu = \mu_0(1 + \chi_m) \iff \chi_m = \mu_r - 1\)</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/60 text-slate-300 font-semibold border-b border-slate-700/50">
+              <tr>
+                <th class="p-3">Category</th>
+                <th class="p-3">Relative Permeability \(\mu_r\)</th>
+                <th class="p-3">Magnetic Susceptibility \(\chi_m\)</th>
+                <th class="p-3">Physical Behavior in Applied Field</th>
+                <th class="p-3">Classic Material Examples</th>
+                <th class="p-3">Notes Ref</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200">
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-cyan-300">Non-Magnetic</td>
+                <td class="p-3 font-mono">\(\mu_r = 1\)</td>
+                <td class="p-3 font-mono">\(\chi_m = 0\)</td>
+                <td class="p-3">Completely unaffected by external magnetic field.</td>
+                <td class="p-3 font-sans">Vacuum, Free Space</td>
+                <td class="p-3 font-mono text-cyan-400">Q9</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-purple-300">Diamagnetic</td>
+                <td class="p-3 font-mono">\(\mu_r < 1\) (slightly)</td>
+                <td class="p-3 font-mono">\(\chi_m < 0\) (small negative)</td>
+                <td class="p-3"><strong>Weakly repelled</strong> from regions of higher magnetic field strength.</td>
+                <td class="p-3 font-sans">Copper (Cu), Bismuth, Gold, Water, Silicon</td>
+                <td class="p-3 font-mono text-purple-400">Q8</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-emerald-300">Paramagnetic</td>
+                <td class="p-3 font-mono">\(\mu_r > 1\) (slightly)</td>
+                <td class="p-3 font-mono">\(\chi_m > 0\) (small positive)</td>
+                <td class="p-3"><strong>Weakly attracted</strong> toward regions of higher magnetic field strength.</td>
+                <td class="p-3 font-sans">Aluminum (Al), Platinum, Titanium, Air</td>
+                <td class="p-3 font-mono text-emerald-400">Q9 Notes</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-semibold text-rose-300">Ferromagnetic</td>
+                <td class="p-3 font-mono">\(\mu_r \gg 1\) (hundreds/thousands)</td>
+                <td class="p-3 font-mono">\(\chi_m \gg 0\) (large positive)</td>
+                <td class="p-3"><strong>Strongly attracted</strong>; forms spontaneous magnetic domains with high hysteresis.</td>
+                <td class="p-3 font-sans">Iron (Fe), Nickel (Ni), Cobalt (Co), Ferrite, Permalloy</td>
+                <td class="p-3 font-mono text-rose-400">Q2, Q18</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+        <h4 class="text-sm font-bold text-white flex items-center gap-2 mb-3">
+          <span class="text-amber-400">⚙️</span> Engineering Decision Tree: Preventing Magnetic Core Saturation
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+            <span class="text-rose-400 font-bold block mb-1">1. The Problem</span>
+            High DC bias current drives core into the nonlinear knee of the B-H curve (\(B_{\text{sat}}\)). \(\mu_r\) plunges rapidly, causing inductance to collapse.
+          </div>
+          <div class="p-3 bg-slate-950 rounded-lg border border-cyan-800/50 bg-cyan-950/10">
+            <span class="text-cyan-400 font-bold block mb-1">2. The Solution (Q18)</span>
+            Introduce a <strong>precisely calculated air gap (\(l_g\))</strong> into the magnetic circuit path.
+          </div>
+          <div class="p-3 bg-slate-950 rounded-lg border border-amber-800/50 bg-amber-950/10">
+            <span class="text-amber-400 font-bold block mb-1">3. Direct Effect (Q6)</span>
+            Total reluctance increases drastically:
+            <div class="mt-1 font-mono text-[11px] text-amber-200">\(\mathcal{R}_{\text{total}} = \frac{l_{\text{core}}}{\mu_r\mu_0 A} + \frac{l_{\text{gap}}}{\mu_0 A}\)</div>
+          </div>
+          <div class="p-3 bg-slate-950 rounded-lg border border-emerald-800/50 bg-emerald-950/10">
+            <span class="text-emerald-400 font-bold block mb-1">4. Net Engineering Result</span>
+            Inductance \(L = \frac{N^2}{\mathcal{R}}\) decreases, but remains <strong>linear and stable</strong> without saturating under fluctuating DC currents!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-control" class="hidden space-y-6">
+      
+      <!-- LTI Systems & Transfer Function Header -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Transfer Function & Time Invariance -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="text-cyan-400">📈</span> LTI Systems & Transfer Function
+            </h3>
+            <span class="text-[10px] bg-cyan-900/50 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700/50">Q31, Q32</span>
+          </div>
+          <div class="my-3 p-3 bg-slate-950 rounded border border-slate-800 text-center font-mono text-cyan-300">
+            \(H(s) = \mathcal{L}\{h(t)\} \Big|_{\text{zero initial conditions}} = \frac{Y(s)}{X(s)}\)
+          </div>
+          <div class="space-y-2 text-xs text-slate-300">
+            <p><strong>Transfer Function \(H(s)\):</strong> Laplace transform of impulse response \(h(t)\) under <em>strictly zero initial conditions</em>. (Q31)</p>
+            <p><strong>Time-Invariance Principle:</strong> If \(x(t) \to y(t)\), then delayed input \(x(t - T) \to y(t - T)\). The output is delayed by the <strong>exact same time interval \(T\) without shape distortion or amplitude change</strong>. (Q32)</p>
+          </div>
+        </div>
+
+        <!-- Final Value Theorem (FVT) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="text-emerald-400">🎯</span> Final Value Theorem (FVT) Walkthrough
+            </h3>
+            <span class="text-[10px] bg-emerald-900/50 text-emerald-300 px-2 py-0.5 rounded border border-emerald-700/50">Q33</span>
+          </div>
+          <div class="my-3 p-3 bg-slate-950 rounded border border-slate-800 text-center font-mono text-emerald-300">
+            \(y(\infty) = \lim_{t \to \infty} y(t) = \lim_{s \to 0} s Y(s)\)
+          </div>
+          <div class="text-xs text-slate-300 space-y-1.5">
+            <p>For input \(x(t) = u(t) \implies X(s) = \frac{1}{s}\):</p>
+            <div class="p-2 bg-slate-950 rounded font-mono text-slate-200 text-xs">
+              \(Y(s) = H(s) \cdot \frac{1}{s} \implies y(\infty) = \lim_{s \to 0} s \left[H(s) \frac{1}{s}\right] = \lim_{s \to 0} H(s)\)
+            </div>
+            <p class="text-[11px] text-amber-300">⚠️ <strong>FVT Condition:</strong> All poles of \(sY(s)\) must lie strictly in the open Left-Half of the s-plane (LHP). Invalid for unstable or oscillating systems!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-4 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            📊 Steady-State Error Constants for Unity Feedback Systems \(G(s)\)
+          </h3>
+          <span class="text-xs font-mono text-cyan-400">Q34 Drill</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/60 text-slate-300 font-semibold border-b border-slate-700/50">
+              <tr>
+                <th class="p-3">Input Type \(r(t)\)</th>
+                <th class="p-3">Laplace \(R(s)\)</th>
+                <th class="p-3">Error Constant Definition</th>
+                <th class="p-3 text-center">Type 0 System</th>
+                <th class="p-3 text-center">Type 1 System</th>
+                <th class="p-3 text-center">Type 2 System</th>
+                <th class="p-3">Steady-State Error Formula</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 font-mono text-slate-200">
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-semibold text-cyan-300">Step: \(u(t)\)</td>
+                <td class="p-3">\(1/s\)</td>
+                <td class="p-3 text-slate-300 font-sans"><strong>Position:</strong> \(K_p = \lim_{s \to 0} G(s)\)</td>
+                <td class="p-3 text-center text-amber-300">\(\frac{1}{1 + K_p}\)</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">0</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">0</td>
+                <td class="p-3 font-sans text-xs">\(e_{ss} = \frac{1}{1 + K_p}\) (Q34)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-semibold text-purple-300">Ramp: \(t \cdot u(t)\)</td>
+                <td class="p-3">\(1/s^2\)</td>
+                <td class="p-3 text-slate-300 font-sans"><strong>Velocity:</strong> \(K_v = \lim_{s \to 0} s G(s)\)</td>
+                <td class="p-3 text-center text-rose-400 font-bold">\(\infty\)</td>
+                <td class="p-3 text-center text-amber-300">\(\frac{1}{K_v}\)</td>
+                <td class="p-3 text-center text-emerald-400 font-bold">0</td>
+                <td class="p-3 font-sans text-xs">\(e_{ss} = \frac{1}{K_v}\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-semibold text-amber-300">Parabolic: \(\frac{1}{2}t^2 u(t)\)</td>
+                <td class="p-3">\(1/s^3\)</td>
+                <td class="p-3 text-slate-300 font-sans"><strong>Acceleration:</strong> \(K_a = \lim_{s \to 0} s^2 G(s)\)</td>
+                <td class="p-3 text-center text-rose-400 font-bold">\(\infty\)</td>
+                <td class="p-3 text-center text-rose-400 font-bold">\(\infty\)</td>
+                <td class="p-3 text-center text-amber-300">\(\frac{1}{K_a}\)</td>
+                <td class="p-3 font-sans text-xs">\(e_{ss} = \frac{1}{K_a}\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Block Diagram Rules -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="text-cyan-400">🔲</span> Block Diagram Algebra Transformation Rules
+            </h4>
+            <span class="text-[10px] bg-cyan-900/50 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700/50">Q35, Q36, Q37</span>
+          </div>
+          <div class="mt-3 space-y-3 text-xs text-slate-300">
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">
+              <strong class="text-amber-300 block mb-1">Rule 1: Moving a Summing Point Ahead of (Before) \(G(s)\) (Q35)</strong>
+              When moving a summing junction upstream/before a block \(G(s)\), the entering branch signal must be <strong>DIVIDED by \(G(s)\)</strong> to preserve the output!
+            </div>
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">
+              <strong class="text-cyan-300 block mb-1">Rule 2: Multi-Input Linear Systems (Q37)</strong>
+              Use the <strong>Principle of Superposition</strong>: set all other reference/disturbance inputs to zero, solve transfer function for each input individually, then sum the responses: \(Y_{\text{total}}(s) = \sum Y_i(s)\).
+            </div>
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">
+              <strong class="text-emerald-300 block mb-1">Rule 3: Summing Point Symbol (Q36)</strong>
+              A circle with algebraic signs (\(+\) or \(-\)) representing algebraic combination of incoming signals.
+            </div>
+          </div>
+        </div>
+
+        <!-- Signal Flow Graphs (SFG) & Mason's Rule -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="text-purple-400">🕸️</span> Signal Flow Graphs (SFG) & Mason's Rule
+            </h4>
+            <span class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded border border-purple-700/50">Q38, Q40</span>
+          </div>
+          <div class="mt-3 space-y-3 text-xs text-slate-300">
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">
+              <strong class="text-purple-300 block mb-1">Core Architecture Difference (Q40):</strong>
+              Block diagrams use <em>physical functional blocks and summing junctions</em>; SFGs use <em>directed branches with gains (transmittances) and summing nodes</em>.
+            </div>
+            <div class="p-2.5 bg-slate-950 rounded-lg border border-slate-800">
+              <strong class="text-pink-300 block mb-1">Self-Loop Definition (Q38):</strong>
+              A directed branch that <strong>originates and terminates at the very same node</strong> without passing through any other intermediate nodes.
+            </div>
+            <div class="p-2 bg-slate-950 rounded-lg border border-slate-800 font-mono text-center text-xs text-cyan-300">
+              \(T = \frac{\sum_k P_k \Delta_k}{\Delta}, \quad \Delta = 1 - \sum L_1 + \sum L_2 - \dots\)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-questions" class="hidden space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900 p-4 rounded-xl border border-slate-800">
+        <div>
+          <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            📝 Complete 40-Question Exam Bank & Explanatory Walkthroughs
+          </h2>
+          <p class="text-xs text-slate-400">Directly transcribed and rigorously annotated from your September 22 Elecs Board Review Set</p>
+        </div>
+        
+        <!-- Filter Controls -->
+        <div class="flex items-center gap-2">
+          <input type="text" id="questionSearch" placeholder="Search keywords, formulas, Q#..." 
+            oninput="filterQuestions()" 
+            class="px-3 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
+          <select id="topicFilter" onchange="filterQuestions()" 
+            class="px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-slate-300 focus:outline-none focus:border-cyan-400">
+            <option value="all">All Topics</option>
+            <option value="fields">Electromagnetics & Fields</option>
+            <option value="magnetics">Magnetic Circuits & Cores</option>
+            <option value="circuits">Circuits & Passive Elements</option>
+            <option value="control">Signals & Control Systems</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Question Cards Grid (Generated Dynamically via JS for speed & searchability) -->
+      <div id="questionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <!-- Injected via script below -->
+      </div>
+    </section>
+
+    <section id="panel-traps" class="hidden space-y-6">
+      
+      <!-- DON'T CONFUSE THESE! High-Yield Tripwires -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-4 py-3 bg-rose-950/30 border-b border-rose-900/40 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-rose-300 uppercase tracking-wider flex items-center gap-2">
+            ⚡ DON'T CONFUSE THESE! Board Exam Tripwires & Trap Matrix
+          </h3>
+          <span class="text-xs text-rose-400 font-semibold">Critical Distinction Points</span>
+        </div>
+        <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          
+          <!-- Tripwire 1 -->
+          <div class="p-3.5 bg-slate-950 rounded-lg border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2">
+              <span class="font-bold text-amber-300">Retentivity vs. Coercivity (Q2)</span>
+              <span class="text-[10px] text-slate-500 font-mono">B-H Curve</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-cyan-400">Retentivity (Remanence \(B_r\)):</strong> The ability of a magnetic core material to <em>retain residual magnetism</em> after the external magnetizing force \(H\) is turned off.</li>
+              <li><strong class="text-rose-400">Coercivity (Coercive Force \(H_c\)):</strong> The reverse external magnetic field intensity required to completely reduce residual flux back to <strong>zero</strong>.</li>
+            </ul>
+          </div>
+
+          <!-- Tripwire 2 -->
+          <div class="p-3.5 bg-slate-950 rounded-lg border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2">
+              <span class="font-bold text-amber-300">Ratio \(B/H\) vs. Ratio \(D/E\) (Q30)</span>
+              <span class="text-[10px] text-slate-500 font-mono">Constitutive Relations</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-cyan-400">\(\frac{B}{H} = \mu\) (Permeability):</strong> Unit is <strong>Henries per meter (\(\text{H/m}\))</strong>. Relates magnetic flux density to magnetic field intensity.</li>
+              <li><strong class="text-emerald-400">\(\frac{D}{E} = \epsilon\) (Permittivity):</strong> Unit is <strong>Farads per meter (\(\text{F/m}\))</strong>. Relates electric displacement to electric field intensity.</li>
+            </ul>
+          </div>
+
+          <!-- Tripwire 3 -->
+          <div class="p-3.5 bg-slate-950 rounded-lg border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2">
+              <span class="font-bold text-amber-300">Air Gap Effects on Core (Q6, Q18)</span>
+              <span class="text-[10px] text-slate-500 font-mono">Inductance vs. Reluctance</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li>Adding an air gap <strong>INCREASES total reluctance \(\mathcal{R}\)</strong> (\(\mathcal{R}_{\text{gap}} = \frac{l_g}{\mu_0 A}\) is huge because \(\mu_0 \ll \mu_{\text{core}}\)).</li>
+              <li>Since \(L = \frac{N^2}{\mathcal{R}}\), adding an air gap <strong>DECREASES self-inductance \(L\)</strong>.</li>
+              <li><em>Purpose:</em> Extends the saturation threshold under heavy DC bias!</li>
+            </ul>
+          </div>
+
+          <!-- Tripwire 4 -->
+          <div class="p-3.5 bg-slate-950 rounded-lg border border-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2">
+              <span class="font-bold text-amber-300">Phase Lead/Lag: ELI the ICE man (Q25)</span>
+              <span class="text-[10px] text-slate-500 font-mono">Passive AC</span>
+            </div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-cyan-400">ELI:</strong> In an Inductor (\(L\)), <strong>Voltage (\(E\)) leads Current (\(I\))</strong> by \(90^\circ\).</li>
+              <li><strong class="text-emerald-400">ICE:</strong> In a Capacitor (\(C\)), <strong>Current (\(I\)) leads Voltage (\(E\))</strong> by \(90^\circ\).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="px-4 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            📌 ECE Board Exam Constants & Units Master Sheet
+          </h3>
+          <span class="text-xs text-slate-400">Standard Physical Values</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-800/60 text-slate-300 font-semibold border-b border-slate-700/50">
+              <tr>
+                <th class="p-3">Physical Constant / Quantity</th>
+                <th class="p-3">Symbol</th>
+                <th class="p-3">Standard SI Value</th>
+                <th class="p-3">Alternative / Approximate Value</th>
+                <th class="p-3">Dimension / Derived Unit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 font-mono text-slate-200">
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Permittivity of Free Space</td>
+                <td class="p-3 text-cyan-300">\(\epsilon_0\)</td>
+                <td class="p-3">\(8.854187 \times 10^{-12} \text{ F/m}\)</td>
+                <td class="p-3">\(\approx \frac{10^{-9}}{36\pi} \text{ F/m}\)</td>
+                <td class="p-3">\(\text{C}^2/(\text{N}\cdot\text{m}^2)\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Permeability of Free Space</td>
+                <td class="p-3 text-cyan-300">\(\mu_0\)</td>
+                <td class="p-3">\(4\pi \times 10^{-7} \text{ H/m}\)</td>
+                <td class="p-3">\(\approx 1.2566 \times 10^{-6} \text{ H/m}\)</td>
+                <td class="p-3">\(\text{T}\cdot\text{m/A} = \text{Wb}/(\text{A}\cdot\text{m})\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Coulomb's Constant</td>
+                <td class="p-3 text-cyan-300">\(k = \frac{1}{4\pi\epsilon_0}\)</td>
+                <td class="p-3">\(8.98755 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2\)</td>
+                <td class="p-3">\(\approx 9.0 \times 10^9 \text{ N}\cdot\text{m}^2/\text{C}^2\)</td>
+                <td class="p-3">\(\text{m/F}\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Intrinsic Impedance of Free Space</td>
+                <td class="p-3 text-cyan-300">\(\eta_0 = \sqrt{\frac{\mu_0}{\epsilon_0}}\)</td>
+                <td class="p-3">\(376.73\,\Omega\)</td>
+                <td class="p-3">\(\approx 120\pi \approx 377\,\Omega\)</td>
+                <td class="p-3">Ohms (\(\Omega\))</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Speed of Light in Vacuum</td>
+                <td class="p-3 text-cyan-300">\(c = \frac{1}{\sqrt{\mu_0\epsilon_0}}\)</td>
+                <td class="p-3">\(2.99792 \times 10^8 \text{ m/s}\)</td>
+                <td class="p-3">\(\approx 3.0 \times 10^8 \text{ m/s}\)</td>
+                <td class="p-3">\(\text{m/s}\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Magnetic Flux Conversion</td>
+                <td class="p-3 text-cyan-300">\(\Phi\)</td>
+                <td class="p-3">\(1 \text{ Weber (Wb)}\)</td>
+                <td class="p-3">\(= 10^8 \text{ Maxwell (lines)}\)</td>
+                <td class="p-3">\(\text{V}\cdot\text{s}\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Magnetic Flux Density Conversion</td>
+                <td class="p-3 text-cyan-300">\(B\)</td>
+                <td class="p-3">\(1 \text{ Tesla (T)}\)</td>
+                <td class="p-3">\(= 10^4 \text{ Gauss (G)}\)</td>
+                <td class="p-3">\(\text{Wb/m}^2\)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-sans font-medium text-white">Magnetomotive Force Conversion</td>
+                <td class="p-3 text-cyan-300">\(\text{mmf}\)</td>
+                <td class="p-3">\(1 \text{ Ampere-turn (At)}\)</td>
+                <td class="p-3">\(= 1.257 \text{ Gilbert (Gb)}\)</td>
+                <td class="p-3">\(\text{At}\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-calculators" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm">
+        <h3 class="text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2 mb-1">
+          🧮 Interactive Formula Verification Lab
+        </h3>
+        <p class="text-xs text-slate-400">Test equations from your reviewer live with your custom values or default exam question parameters.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Calculator 1: Line Charge Electric Field (Q14) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-white">Infinite Line Charge \(E\) (Q14)</span>
+              <span class="text-[10px] font-mono text-cyan-400">\(E = \frac{\rho_L}{2\pi\epsilon_0 r}\)</span>
+            </div>
+            <div class="space-y-2.5 text-xs">
+              <div>
+                <label class="block text-slate-400 mb-1">Line Charge Density \(\rho_L\) (nC/m):</label>
+                <input type="number" id="calc1_rho" value="10" step="0.1" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1">Radial Distance \(r\) (m):</label>
+                <input type="number" id="calc1_r" value="2" step="0.1" class="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800">
+            <button onclick="computeLineCharge()" class="w-full py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-medium text-xs transition">Calculate \(E\)</button>
+            <div class="mt-2 text-center text-xs font-mono">
+              <span class="text-slate-400">Result:</span> <span id="calc1_res" class="text-cyan-300 font-bold">89.88 V/m</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator 2: Lorentz Magnetic Force (Q15) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-white">Lorentz Force \(F\) (Q15)</span>
+              <span class="text-[10px] font-mono text-amber-400">\(F = qvB\sin\theta\)</span>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Charge \(q\) (\(\mu\text{C}\)):</label>
+                  <input type="number" id="calc2_q" value="2" step="0.1" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Velocity \(v\) (\(10^6\text{ m/s}\)):</label>
+                  <input type="number" id="calc2_v" value="3" step="0.1" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Density \(B\) (T):</label>
+                  <input type="number" id="calc2_b" value="0.5" step="0.05" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Angle \(\theta\) (deg):</label>
+                  <input type="number" id="calc2_theta" value="30" step="1" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800">
+            <button onclick="computeLorentzForce()" class="w-full py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded font-medium text-xs transition">Calculate \(F\)</button>
+            <div class="mt-2 text-center text-xs font-mono">
+              <span class="text-slate-400">Result:</span> <span id="calc2_res" class="text-amber-300 font-bold">1.50 N</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator 3: Parallel-Aiding Inductors (Q29) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-white">Coupled Inductors (Q29)</span>
+              <span class="text-[10px] font-mono text-emerald-400">\(L_{\text{eq}} = \frac{L_1L_2 - M^2}{L_1+L_2-2M}\)</span>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">\(L_1\) (mH):</label>
+                  <input type="number" id="calc3_l1" value="10" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">\(L_2\) (mH):</label>
+                  <input type="number" id="calc3_l2" value="10" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Mutual \(M\) (mH):</label>
+                  <input type="number" id="calc3_m" value="2" step="0.1" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white font-mono text-xs focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-slate-400 mb-0.5">Config Mode:</label>
+                  <select id="calc3_mode" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white text-xs focus:border-cyan-400 focus:outline-none">
+                    <option value="parallel-aiding">Parallel Aiding</option>
+                    <option value="parallel-opposing">Parallel Opposing</option>
+                    <option value="series-aiding">Series Aiding</option>
+                    <option value="series-opposing">Series Opposing</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800">
+            <button onclick="computeCoupledInductors()" class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-medium text-xs transition">Calculate \(L_{\text{eq}}\)</button>
+            <div class="mt-2 text-center text-xs font-mono">
+              <span class="text-slate-400">Result:</span> <span id="calc3_res" class="text-emerald-300 font-bold">6.00 mH</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-800/80 bg-slate-900/60 mt-10 py-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>ECE Board Exam Command Center • Built for rapid mastery of Electromagnetics, Inductors & Control Systems</div>
+      <div class="font-mono text-slate-400">Sep 22 Elecs Reference Set • Accurate to PRB-ECE Standards</div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      const tabs = ['overview', 'magnetics', 'control', 'questions', 'traps', 'calculators'];
+      tabs.forEach(t => {
+        const panel = document.getElementById(`panel-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (panel) panel.classList.add('hidden');
+        if (btn) {
+          btn.classList.remove('bg-cyan-600', 'text-white', 'font-semibold', 'shadow-sm');
+          btn.classList.add('bg-slate-800', 'text-slate-300');
+        }
+      });
+
+      const activePanel = document.getElementById(`panel-${tabId}`);
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      if (activePanel) activePanel.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.add('bg-cyan-600', 'text-white', 'font-semibold', 'shadow-sm');
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+      }
+
+      // Re-trigger KaTeX rendering on the newly visible panel
+      renderMathInElement(activePanel, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+
+    // Comprehensive 40 Questions Dataset directly from the PDF
+    const examQuestions = [
+      {
+        qNum: 1,
+        topic: "magnetics",
+        question: "What is the opposition offered by a magnetic circuit to the setting up of magnetic flux called?",
+        options: ["A. Permeability", "B. Reluctance", "C. Susceptibility", "D. Inductance"],
+        answer: "B. Reluctance",
+        formula: "\\Phi = \\frac{\\text{mmf}}{\\mathcal{R}} \\implies \\mathcal{R} = \\frac{N I}{\\Phi} = \\frac{l}{\\mu A}",
+        explanation: "Reluctance \\(\\mathcal{R}\\) [At/Wb] is the magnetic analog to electrical resistance. Permeability is ease of conducting flux; susceptibility is response to field."
+      },
+      {
+        qNum: 2,
+        topic: "magnetics",
+        question: "The ability of ferromagnetic material to retain residual magnetization after an external magnetizing force is removed is known as:",
+        options: ["A. Permeability", "B. Reluctance", "C. Retentivity", "D. Coercivity"],
+        answer: "C. Retentivity",
+        formula: "\\text{Retentivity} = B_r \\text{ (Remanence)}; \\quad H_c = \\text{Coercive force}",
+        explanation: "Retentivity (or remanence) measures residual flux retained. Coercivity \\(H_c\\) is the reverse field required to reduce this residual flux to zero."
+      },
+      {
+        qNum: 3,
+        topic: "fields",
+        question: "The Biot-Savart Law is used to determine:",
+        options: ["A. The electric field due to a charge distribution", "B. The magnetic field due to a steady current", "C. The displacement current in a capacitor", "D. The potential difference in an electric circuit"],
+        answer: "B. The magnetic field due to a steady current",
+        formula: "d\\mathbf{H} = \\frac{I \\, d\\mathbf{L} \\times \\hat{\\mathbf{a}}_r}{4\\pi R^2}",
+        explanation: "Biot-Savart computes the differential magnetic field intensity \\(d\\mathbf{H}\\) or flux density \\(d\\mathbf{B}\\) generated by an infinitesimal steady current element."
+      },
+      {
+        qNum: 4,
+        topic: "fields",
+        question: "What happens to the internal static electric field inside a solid copper conductor when it reaches electrostatic equilibrium?",
+        options: ["A. It equals zero throughout the entire internal volume.", "B. It varies linearly with distance from the central axis.", "C. It increases continuously toward the outer surface.", "D. It reaches its maximum value at the geometric center."],
+        answer: "A. It equals zero throughout the entire internal volume.",
+        formula: "\\mathbf{E}_{\\text{interior}} = 0 \\quad \\text{at static equilibrium}",
+        explanation: "Free mobile electrons in a conductor rearrange instantly until the net interior field is identically zero. All net charge resides strictly on the outer boundary."
+      },
+      {
+        qNum: 5,
+        topic: "fields",
+        question: "Which of the following statements about steady magnetic fields is correct?",
+        options: ["A. Magnetic monopoles exist in nature", "B. Magnetic field lines always form closed loops", "C. Magnetic field lines originate from positive charges", "D. A steady magnetic field can do work on a stationary charge"],
+        answer: "B. Magnetic field lines always form closed loops",
+        formula: "\\nabla \\cdot \\mathbf{B} = 0 \\iff \\oint_S \\mathbf{B}\\cdot d\\mathbf{S} = 0",
+        explanation: "Gauss's law for magnetism dictates magnetic lines form continuous closed loops because monopoles do not exist. Steady B fields do NO work because \\(\\mathbf{F} \\perp \\mathbf{v}\\)."
+      },
+      {
+        qNum: 6,
+        topic: "magnetics",
+        question: "How does increasing the physical air gap length in an iron-core magnetic circuit affect its total reluctance and self-inductance?",
+        options: ["A. Increases reluctance and increases inductance", "B. Decreases reluctance and increases inductance", "C. Increases reluctance and decreases inductance", "D. Decreases reluctance and decreases inductance"],
+        answer: "C. Increases reluctance and decreases inductance",
+        formula: "\\mathcal{R} = \\frac{l}{\\mu A}, \\quad L = \\frac{N^2}{\\mathcal{R}}",
+        explanation: "Since \\(\\mu_{\\text{air}} = \\mu_0 \\ll \\mu_{\\text{core}}\\), air gap introduces high reluctance: \\(\\mathcal{R} \\uparrow\\). Inductance is inverse to reluctance, so \\(L \\downarrow\\)."
+      },
+      {
+        qNum: 7,
+        topic: "fields",
+        question: "The relative permittivity of a dielectric material is defined as the ratio of:",
+        options: ["A. Electric field to displacement field", "B. Charge to potential difference", "C. Permittivity of the material to the permittivity of free space", "D. Magnetic flux to magnetic field intensity"],
+        answer: "C. Permittivity of the material to the permittivity of free space",
+        formula: "\\epsilon_r = \\frac{\\epsilon}{\\epsilon_0}",
+        explanation: "Relative permittivity (dielectric constant \\(k\\) or \\(\\epsilon_r\\)) is dimensionless: the ratio of absolute permittivity \\(\\epsilon\\) to free-space permittivity \\(\\epsilon_0\\)."
+      },
+      {
+        qNum: 8,
+        topic: "magnetics",
+        question: "A material exhibiting a small, negative magnetic susceptibility (\\(\\chi_m < 0\\)) will behave in what manner when placed inside an applied magnetic field?",
+        options: ["A. It will be strongly attracted toward higher field strength", "B. It will be weakly repelled by the magnetic field", "C. It will maintain permanent domain alignment", "D. It will absorb field lines and act as shield"],
+        answer: "B. It will be weakly repelled by the magnetic field",
+        formula: "\\chi_m < 0 \\implies \\mu_r = 1 + \\chi_m < 1 \\text{ (Diamagnetic)}",
+        explanation: "Diamagnetic materials (e.g. copper, bismuth, water) produce a weak opposing internal field, causing slight repulsion from external magnetic fields."
+      },
+      {
+        qNum: 9,
+        topic: "magnetics",
+        question: "A material with zero magnetic susceptibility is classified as:",
+        options: ["A. Diamagnetic", "B. Paramagnetic", "C. Non-magnetic", "D. Ferromagnetic"],
+        answer: "C. Non-magnetic",
+        formula: "\\chi_m = 0 \\implies \\mu_r = 1 \\text{ (Vacuum/Free Space)}",
+        explanation: "Non-magnetic materials (ideal free space) have \\(\\chi_m = 0\\), meaning applied fields create zero net atomic magnetic dipoles."
+      },
+      {
+        qNum: 10,
+        topic: "fields",
+        question: "Which vector operator represents the net outward flux per unit volume from an infinitesimal volume around a point in an electric field?",
+        options: ["A. Curl", "B. Gradient", "C. Divergence", "D. Laplacian"],
+        answer: "C. Divergence",
+        formula: "\\text{div } \\mathbf{A} = \\nabla \\cdot \\mathbf{A} = \\lim_{\\Delta V \\to 0} \\frac{\\oint_S \\mathbf{A}\\cdot d\\mathbf{S}}{\\Delta V}",
+        explanation: "Divergence represents net flux outflow per unit volume (source/sink). Curl is rotation/circulation; Gradient is steepest slope; Laplacian is divergence of gradient."
+      },
+      {
+        qNum: 11,
+        topic: "fields",
+        question: "The surface integral of the magnetic flux density over any closed surface always evaluates to:",
+        options: ["A. Total enclosed magnetic charge", "B. Permeability times enclosed current", "C. Zero", "D. Infinite magnitude"],
+        answer: "C. Zero",
+        formula: "\\oint_S \\mathbf{B} \\cdot d\\mathbf{S} = \\int_V (\\nabla \\cdot \\mathbf{B}) dV = 0",
+        explanation: "Because isolated magnetic monopoles do not exist, any magnetic line entering a closed surface must also exit it."
+      },
+      {
+        qNum: 12,
+        topic: "fields",
+        question: "According to Faraday's Law, an electromotive force (EMF) is induced in a circuit when:",
+        options: ["A. A constant magnetic field is applied to a conductor", "B. The magnetic flux through the circuit changes with time", "C. The conductor is at rest in a uniform magnetic field", "D. The electric field inside the conductor is zero"],
+        answer: "B. The magnetic flux through the circuit changes with time",
+        formula: "\\text{emf} = -N \\frac{d\\Phi}{dt}",
+        explanation: "EMF is generated by rate of change of magnetic flux linkages over time. Static constant fields yield \\(d\\Phi/dt = 0\\), producing no induced EMF."
+      },
+      {
+        qNum: 13,
+        topic: "fields",
+        question: "According to Maxwell's Equations, which of the following laws states that a time-varying magnetic field induces an electric field?",
+        options: ["A. Gauss's Law for Electricity", "B. Gauss's Law for Magnetism", "C. Faraday's Law of Induction", "D. Ampere's Law"],
+        answer: "C. Faraday's Law of Induction",
+        formula: "\\nabla \\times \\mathbf{E} = -\\frac{\\partial \\mathbf{B}}{\\partial t}",
+        explanation: "This is the third Maxwell equation: dynamic magnetic flux density creates a circulation (curl) of electric field."
+      },
+      {
+        qNum: 14,
+        topic: "fields",
+        question: "Calculate the magnitude of the electric field intensity (E) at a radial distance of 2 m from an infinitely long line charge in free space with a uniform line charge density of 10 nC/m.",
+        options: ["A. 44.9 V/m", "B. 89.9 V/m", "C. 179.8 V/m", "D. 359.6 V/m"],
+        answer: "B. 89.9 V/m",
+        formula: "E = \\frac{\\rho_L}{2\\pi \\epsilon_0 r} = \\frac{2 k \\rho_L}{r}",
+        explanation: "E = (2 * 8.98755e9 * 10e-9) / 2 = 89.88 V/m ≈ 89.9 V/m."
+      },
+      {
+        qNum: 15,
+        topic: "fields",
+        question: "A point charge +2 μC moves with a velocity of 3×10^6 m/s at an angle of 30° relative to a uniform magnetic field B = 0.5 T. Determine the magnitude of the magnetic force acting on the charge.",
+        options: ["A. 0.75 N", "B. 1.50 N", "C. 3.00 N", "D. 6.00 N"],
+        answer: "B. 1.50 N",
+        formula: "F = q v B \\sin\\theta",
+        explanation: "F = (2e-6 C) * (3e6 m/s) * (0.5 T) * sin(30°) = 6 * 0.5 * 0.5 = 1.50 N."
+      },
+      {
+        qNum: 16,
+        topic: "magnetics",
+        question: "There is 900 mA of current through a wire with 40 turns. What is the reluctance of the circuit if the flux is 400 μWb?",
+        options: ["A. 14,400 At/Wb", "B. 1,440 At/Wb", "C. 9,000 At/Wb", "D. 90,000 At/Wb"],
+        answer: "D. 90,000 At/Wb",
+        formula: "\\mathcal{R} = \\frac{\\text{mmf}}{\\Phi} = \\frac{N I}{\\Phi}",
+        explanation: "mmf = 40 * 0.9 A = 36 At. Reluctance R = 36 / (400e-6 Wb) = 90,000 At/Wb."
+      },
+      {
+        qNum: 17,
+        topic: "magnetics",
+        question: "An air-core solenoid of length 0.25 m is wound uniformly with 500 turns of wire. If a steady current of 2 A flows through the coil, calculate the magnetic field intensity (H) inside the solenoid.",
+        options: ["A. 1,000 At/m", "B. 2,000 At/m", "C. 4,000 At/m", "D. 8,000 At/m"],
+        answer: "C. 4,000 At/m",
+        formula: "H = \\frac{N I}{l}",
+        explanation: "H = (500 * 2) / 0.25 = 1000 / 0.25 = 4,000 At/m."
+      },
+      {
+        qNum: 18,
+        topic: "magnetics",
+        question: "Engineer Tiong must select a core modification for a power inductor to prevent magnetic saturation while maintaining stable inductance under fluctuating high DC currents. Which design strategy is most effective?",
+        options: ["A. Increasing core relative permeability while removing gaps", "B. Introducing a precisely calculated air gap into the magnetic path", "C. Replacing soft magnetic core with a high-retentivity hard magnet", "D. Increasing wire turns while keeping core constant"],
+        answer: "B. Introducing a precisely calculated air gap into the magnetic path",
+        formula: "\\mathcal{R}_{\\text{total}} = \\mathcal{R}_{\\text{core}} + \\frac{l_{\\text{gap}}}{\\mu_0 A}",
+        explanation: "An air gap flattens the B-H curve slope and stores magnetic energy, preventing core flux density from reaching knee saturation under heavy DC bias."
+      },
+      {
+        qNum: 19,
+        topic: "circuits",
+        question: "A coil with 1000 turns produces a magnetic flux of 20 mWb when carrying a steady current of 4 A. Calculate the energy stored in its magnetic field and the magnitude of average induced EMF if the current drops to zero in 0.10 s.",
+        options: ["A. 20 J and 100 V", "B. 40 J and 200 V", "C. 80 J and 400 V", "D. 10 J and 50 V"],
+        answer: "B. 40 J and 200 V",
+        formula: "L = \\frac{N\\Phi}{I} = 5\\text{ H}; \\quad W = \\frac{1}{2}LI^2; \\quad |e| = L\\frac{\\Delta I}{\\Delta t}",
+        explanation: "L = (1000 * 0.02) / 4 = 5 H. Energy W = 0.5 * 5 * 4^2 = 40 J. EMF = 5 * (4 / 0.10) = 200 V."
+      },
+      {
+        qNum: 20,
+        topic: "circuits",
+        question: "An engineer needs to select a capacitor for a high-frequency RF tuning circuit where minimal power loss and stable performance over temperature variations are required. Which type is most suitable?",
+        options: ["A. Aluminum Electrolytic", "B. Tantalum", "C. C0G / NP0 Ceramic Capacitor", "D. Mica Capacitor"],
+        answer: "C. C0G / NP0 Ceramic Capacitor",
+        formula: "\\text{C0G} \\implies 0 \\pm 30\\text{ ppm/}^\\circ\\text{C}",
+        explanation: "Class 1 C0G/NP0 ceramic dielectric provides near-zero temperature drift and negligible dielectric loss at radio frequencies."
+      },
+      {
+        qNum: 21,
+        topic: "fields",
+        question: "When an electric current flows into the page, what is the direction of the magnetic field?",
+        options: ["A. Clockwise", "B. Anti-clockwise", "C. Cannot be determined", "D. Parallel to current"],
+        answer: "A. Clockwise",
+        formula: "\\text{Right-Hand Rule: Thumb inward} \\implies \\text{Fingers curl Clockwise}",
+        explanation: "By the right-hand grip rule, pointing the right thumb into the page (cross symbol ⊗) causes the fingers to curl clockwise."
+      },
+      {
+        qNum: 22,
+        topic: "circuits",
+        question: "What happens to the capacitance of a multi-plate capacitor when the number of plates increases?",
+        options: ["A. Increases", "B. Decreases", "C. Remains constant", "D. Becomes zero"],
+        answer: "A. Increases",
+        formula: "C = \\frac{\\epsilon A (n - 1)}{d}",
+        explanation: "Each additional plate adds an active parallel dielectric layer. Capacitance is directly proportional to (n - 1)."
+      },
+      {
+        qNum: 23,
+        topic: "circuits",
+        question: "What property of an inductor causes it to oppose any sudden change in current passing through it?",
+        options: ["A. Capacitive tolerance", "B. Self-induced back EMF", "C. Dielectric hysteresis", "D. Leakage conductance"],
+        answer: "B. Self-induced back EMF",
+        formula: "v(t) = -L \\frac{di}{dt}",
+        explanation: "Lenz's law and self-induction generate a counter-EMF opposing instantaneous current transitions."
+      },
+      {
+        qNum: 24,
+        topic: "circuits",
+        question: "The current flowing through a 0.5 H inductor is described by i(t) = 4t² A. What is the induced voltage across the inductor at time t = 2 seconds?",
+        options: ["A. 2 V", "B. 4 V", "C. 8 V", "D. 16 V"],
+        answer: "C. 8 V",
+        formula: "v(t) = L \\frac{di}{dt}",
+        explanation: "di/dt = d/dt (4t²) = 8t. v(t) = 0.5 * 8t = 4t. At t = 2s: v(2) = 4 * 2 = 8 V."
+      },
+      {
+        qNum: 25,
+        topic: "circuits",
+        question: "In ideal passive circuit elements, what is the ideal phase angle difference between voltage and current in a purely capacitive circuit?",
+        options: ["A. Current leads voltage by 90°", "B. Voltage leads current by 90°", "C. Current leads voltage by 180°", "D. Voltage and current are in phase"],
+        answer: "A. Current leads voltage by 90°",
+        formula: "\\text{ICE: In Capacitors, } I \\text{ leads } E \\text{ by } 90^\\circ",
+        explanation: "In purely capacitive circuits, current leads the applied voltage by 90 electrical degrees (current lags voltage in pure inductors)."
+      },
+      {
+        qNum: 26,
+        topic: "circuits",
+        question: "The voltage across a 50 μF capacitor increases linearly at a rate of 400 V/s. Calculate the instantaneous charging current entering the capacitor.",
+        options: ["A. 20 mA", "B. 200 mA", "C. 2 mA", "D. 8 mA"],
+        answer: "A. 20 mA",
+        formula: "i(t) = C \\frac{dv}{dt}",
+        explanation: "i = (50e-6 F) * (400 V/s) = 20,000e-6 A = 20 mA."
+      },
+      {
+        qNum: 27,
+        topic: "circuits",
+        question: "A coil stores 90 J of energy when carrying a steady 5 A current. What is its inductance and induced EMF if current collapses in 0.2 s?",
+        options: ["A. 7.2 H and 180 V", "B. 3.6 H and 90 V", "C. 7.2 H and 90 V", "D. 14.4 H and 360 V"],
+        answer: "A. 7.2 H and 180 V",
+        formula: "W = \\frac{1}{2}LI^2 \\implies L = \\frac{2W}{I^2} = \\frac{180}{25} = 7.2\\text{ H}; \\quad |e| = L\\frac{\\Delta I}{\\Delta t}",
+        explanation: "L = 2(90)/25 = 7.2 H. EMF = 7.2 * (5 / 0.2) = 180 V."
+      },
+      {
+        qNum: 28,
+        topic: "magnetics",
+        question: "What are the properties that determine the inductance of a coil?",
+        options: ["A. Length of wire, turns, wire type, core length", "B. Turns, wire type, core length, core area", "C. Type of core material, number of turns, cross-sectional area, and length of core", "D. Wire type, core material, turns, core area"],
+        answer: "C. Type of core material, number of turns, cross-sectional area, and length of core",
+        formula: "L = \\mu_0 \\mu_r \\frac{N^2 A}{l}",
+        explanation: "Inductance depends strictly on core geometry (A, l), turns squared (N²), and core permeability (μ). It does not depend on the wire metal."
+      },
+      {
+        qNum: 29,
+        topic: "circuits",
+        question: "Two identical inductors having self-inductance of 10 mH with mutual inductance of 2 mH are connected in parallel-aiding configuration. Calculate total equivalent inductance.",
+        options: ["A. 4 mH", "B. 6 mH", "C. 8 mH", "D. 12 mH"],
+        answer: "B. 6 mH",
+        formula: "L_{\\text{eq}} = \\frac{L_1 L_2 - M^2}{L_1 + L_2 - 2M}",
+        explanation: "Numerator = 10*10 - 2^2 = 96. Denominator = 10 + 10 - 2(2) = 16. Leq = 96 / 16 = 6 mH."
+      },
+      {
+        qNum: 30,
+        topic: "magnetics",
+        question: "Through unit analysis, dividing magnetic flux density (B) by magnetic field intensity (H) yields which physical quantity and unit?",
+        options: ["A. Permittivity in F/m", "B. Permeability in H/m", "C. Reluctance in At/Wb", "D. Conductance in S"],
+        answer: "B. Permeability in H/m",
+        formula: "\\frac{B}{H} = \\mu \\quad [\\text{Henries per meter, H/m}]",
+        explanation: "B = μ H => B/H = μ [H/m]. Contrast with D/E = ε [F/m]."
+      },
+      {
+        qNum: 31,
+        topic: "control",
+        question: "What is the Laplace transform of the impulse response h(t) of an LTI system under zero initial conditions called?",
+        options: ["A. Characteristic equation", "B. Transfer function", "C. State space matrix", "D. Frequency response function"],
+        answer: "B. Transfer function",
+        formula: "H(s) = \\mathcal{L}\\{h(t)\\}",
+        explanation: "By definition, the transfer function H(s) is the Laplace transform of the system's unit impulse response with zero initial stored energy."
+      },
+      {
+        qNum: 32,
+        topic: "control",
+        question: "What happens to the time-domain input-output relationship of a time-invariant system when the input signal is delayed by T seconds?",
+        options: ["A. Output amplitude scales by T", "B. Output is delayed by the same time interval T without shape distortion", "C. System internal parameters double", "D. System output becomes non-causal"],
+        answer: "B. Output is delayed by the same time interval T without shape distortion",
+        formula: "x(t - T) \\implies y(t - T)",
+        explanation: "Time invariance guarantees that time shifts in the input map directly to identical time shifts in the output without waveform alteration."
+      },
+      {
+        qNum: 33,
+        topic: "control",
+        question: "An LTI system has impulse response h(t) = 5e^(-2t) u(t). Calculate the steady-state final value of system output y(t) when subjected to unit step input x(t) = u(t).",
+        options: ["A. 1.0", "B. 2.5", "C. 5.0", "D. 10.0"],
+        answer: "B. 2.5",
+        formula: "y(\\infty) = \\lim_{s \\to 0} s Y(s) = \\lim_{s \\to 0} H(s)",
+        explanation: "H(s) = 5/(s+2). Y(s) = H(s)*(1/s). By Final Value Theorem: y(∞) = lim_{s->0} [s * 5/(s(s+2))] = 5/2 = 2.5."
+      },
+      {
+        qNum: 34,
+        topic: "control",
+        question: "An open loop LTI system has transfer function G(s) = 10 / (s + 2). Determine position error constant Kp and resulting steady-state error ess for unit step input.",
+        options: ["A. Kp = 5, ess = 0.167", "B. Kp = 10, ess = 0.091", "C. Kp = 2, ess = 0.333", "D. Kp = 0.5, ess = 0.667"],
+        answer: "A. Kp = 5, ess = 0.167",
+        formula: "K_p = \\lim_{s\\to 0} G(s) = \\frac{10}{2} = 5; \\quad e_{ss} = \\frac{1}{1 + K_p} = \\frac{1}{6} \\approx 0.1667",
+        explanation: "Type 0 system step error constant Kp = 5. ess = 1 / (1 + 5) = 1/6 = 0.167."
+      },
+      {
+        qNum: 35,
+        topic: "control",
+        question: "When moving a summing junction ahead of (before) a block G(s), how must the input signal entering that summing junction be modified to keep output unchanged?",
+        options: ["A. Multiply entering signal by G(s)", "B. Divide entering signal by G(s)", "C. Subtract G(s) from entering signal", "D. Pass signal directly without modification"],
+        answer: "B. Divide entering signal by G(s)",
+        formula: "W_{\\text{new}}(s) = \\frac{W(s)}{G(s)}",
+        explanation: "To maintain the same term in the output Y(s) = G(s)X(s) + W(s), placing the summing junction upstream requires scaling W(s) by 1/G(s)."
+      },
+      {
+        qNum: 36,
+        topic: "control",
+        question: "In block diagrams, what symbol is used to represent a point where signals are added or combined?",
+        options: ["A. Transfer function", "B. Branch", "C. Pick-off point", "D. Summing point"],
+        answer: "D. Summing point",
+        formula: "\\text{Symbol: Circle with } + / - \\text{ signs}",
+        explanation: "A summing point (or junction) combines multiple incoming signals algebraically into a single outgoing signal."
+      },
+      {
+        qNum: 37,
+        topic: "control",
+        question: "Engr Legayada needs to simplify a complicated multi-input block diagram with non-interacting feedback loops. Which method is most effective?",
+        options: ["A. Apply Routh-Hurwitz stability test", "B. Apply Principle of Superposition by setting all other inputs to zero at a time", "C. Convert all feedback into open-loop derivative blocks", "D. Replace summing junctions with unity pick-off nodes"],
+        answer: "B. Apply Principle of Superposition by setting all other inputs to zero at a time",
+        formula: "Y_{\\text{total}}(s) = \\sum_{i} H_i(s) R_i(s)",
+        explanation: "In linear time-invariant systems, superposition allows evaluating each independent input's response in isolation."
+      },
+      {
+        qNum: 38,
+        topic: "control",
+        question: "What is a branch in a signal flow graph that originates and terminates at the very same node called?",
+        options: ["A. Forward path", "B. Self-loop", "C. Non-touching branch", "D. Sink path"],
+        answer: "B. Self-loop",
+        formula: "\\text{Loop gain } L_i \\text{ touching only a single node}",
+        explanation: "A self-loop starts and finishes on identical node coordinates without traversing any other node in the graph."
+      },
+      {
+        qNum: 39,
+        topic: "control",
+        question: "For a control block system with forward path G1 and parallel path G2 feeding into an output summing node with unity feedforward, the overall transfer function C(s)/R(s) is:",
+        options: ["A. G1 + G2 + 1", "B. G1 G2 + 1", "C. G1 G2 + G2 + 1", "D. G1 G2 + G1 + 1"],
+        answer: "A. G1 + G2 + 1",
+        formula: "\\frac{C(s)}{R(s)} = G_1 + G_2 + 1",
+        explanation: "Parallel forward branches algebraically sum at the final summing node: C(s) = R(s)[G1 + G2 + 1]."
+      },
+      {
+        qNum: 40,
+        topic: "control",
+        question: "What is the fundamental difference between a block diagram and a signal flow graph (SFG)?",
+        options: ["A. Block diagrams represent non-linear systems while SFGs represent linear systems", "B. Block diagrams use physical blocks, while SFGs use nodes and branches", "C. SFGs can only analyze time-domain differential equations", "D. Block diagrams cannot be converted into equivalent transfer functions"],
+        answer: "B. Block diagrams use physical blocks, while SFGs use nodes and branches",
+        formula: "\\text{Block Diagram (Blocks + Junctions)} \\iff \\text{SFG (Nodes + Directed Transmittance Branches)}",
+        explanation: "Block diagrams depict functional rectangular blocks and summing circles; SFGs portray interconnected signal nodes and directed gain branches."
+      }
+    ];
+
+    // Render questions into the grid
+    function populateQuestions(questionsToRender) {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      questionsToRender.forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm hover:border-slate-700 transition flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+              <span class="text-xs font-bold text-cyan-400 font-mono">Q${q.qNum.toString().padStart(2, '0')}</span>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">${q.topic}</span>
+            </div>
+            <p class="text-xs text-slate-100 font-medium leading-relaxed">${q.question}</p>
+            <div class="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-slate-400">
+              ${q.options.map(opt => `<div class="p-1 rounded ${opt === q.answer ? 'text-emerald-300 font-semibold bg-emerald-950/30' : ''}">${opt}</div>`).join('')}
+            </div>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-slate-800/80">
+            <div class="p-2 bg-slate-950 rounded text-center font-mono text-cyan-300 text-xs mb-1.5 overflow-x-auto">
+              \\(${q.formula}\\)
+            </div>
+            <p class="text-[11px] text-slate-300"><span class="text-emerald-400 font-bold">Answer: ${q.answer}</span> — ${q.explanation}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\[', right: '\\]', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+
+    // Filter questions based on search input and dropdown
+    function filterQuestions() {
+      const searchTerm = document.getElementById('questionSearch').value.toLowerCase();
+      const topicTerm = document.getElementById('topicFilter').value;
+
+      const filtered = examQuestions.filter(q => {
+        const matchesTopic = topicTerm === 'all' || q.topic === topicTerm;
+        const matchesSearch = q.question.toLowerCase().includes(searchTerm) ||
+                              q.answer.toLowerCase().includes(searchTerm) ||
+                              q.formula.toLowerCase().includes(searchTerm) ||
+                              `q${q.qNum}`.includes(searchTerm) ||
+                              `${q.qNum}` === searchTerm;
+        return matchesTopic && matchesSearch;
+      });
+
+      populateQuestions(filtered);
+    }
+
+    // Interactive Calculator 1: Infinite Line Charge
+    function computeLineCharge() {
+      const rho_L = parseFloat(document.getElementById('calc1_rho').value) * 1e-9;
+      const r = parseFloat(document.getElementById('calc1_r').value);
+      const eps0 = 8.854187e-12;
+      if (r <= 0) return;
+      const E = rho_L / (2 * Math.PI * eps0 * r);
+      document.getElementById('calc1_res').innerText = `${E.toFixed(2)} V/m`;
+    }
+
+    // Interactive Calculator 2: Lorentz Force
+    function computeLorentzForce() {
+      const q = parseFloat(document.getElementById('calc2_q').value) * 1e-6;
+      const v = parseFloat(document.getElementById('calc2_v').value) * 1e6;
+      const B = parseFloat(document.getElementById('calc2_b').value);
+      const thetaDeg = parseFloat(document.getElementById('calc2_theta').value);
+      const thetaRad = (thetaDeg * Math.PI) / 180;
+      const F = q * v * B * Math.sin(thetaRad);
+      document.getElementById('calc2_res').innerText = `${F.toFixed(3)} N`;
+    }
+
+    // Interactive Calculator 3: Coupled Inductors
+    function computeCoupledInductors() {
+      const L1 = parseFloat(document.getElementById('calc3_l1').value);
+      const L2 = parseFloat(document.getElementById('calc3_l2').value);
+      const M = parseFloat(document.getElementById('calc3_m').value);
+      const mode = document.getElementById('calc3_mode').value;
+      let Leq = 0;
+
+      if (mode === 'parallel-aiding') {
+        Leq = (L1 * L2 - M * M) / (L1 + L2 - 2 * M);
+      } else if (mode === 'parallel-opposing') {
+        Leq = (L1 * L2 - M * M) / (L1 + L2 + 2 * M);
+      } else if (mode === 'series-aiding') {
+        Leq = L1 + L2 + 2 * M;
+      } else if (mode === 'series-opposing') {
+        Leq = L1 + L2 - 2 * M;
+      }
+      document.getElementById('calc3_res').innerText = `${Leq.toFixed(2)} mH`;
+    }
+
+    // Trigger math rendering when KaTeX script finishes loading
+    function renderMathWhenReady() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\[', right: '\\]', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // On Page Load initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      populateQuestions(examQuestions);
+      setTimeout(renderMathWhenReady, 250);
+    });
+  </script>
+</body>
+</html>
