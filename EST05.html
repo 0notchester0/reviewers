@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam Command Center — EST Dense Infographic Reviewer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for High-Fidelity Math Typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              600: '#059669',
+              dark: '#0b1120',
+              panel: '#111827',
+              border: '#1f2937'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbars for dense reference panels */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563;
+    }
+    .katex-display {
+      margin: 0.5em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2px 0;
+    }
+    .math-inline {
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0b1120] text-slate-200 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+  <header class="sticky top-0 z-50 bg-[#0f172a]/95 backdrop-blur border-b border-slate-800 px-4 lg:px-8 py-3 transition-all">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-black text-lg">
+          <i class="fa-solid fa-tower-broadcast"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">EST Module 1</span>
+            <span class="text-xs text-slate-400">ECE Board Exam Command Center</span>
+          </div>
+          <h1 class="text-lg md:text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            Radio Wave Propagation, Waveguides & Link Budgets
+          </h1>
+        </div>
+      </div>
+
+      <!-- Quick Action Navigation Tabs -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto py-1 text-xs font-semibold">
+        <a href="#overview" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition"><i class="fa-solid fa-map mr-1.5 text-emerald-400"></i>Overview</a>
+        <a href="#ionosphere" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition"><i class="fa-solid fa-cloud mr-1.5 text-blue-400"></i>Skywave</a>
+        <a href="#los-refraction" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition"><i class="fa-solid fa-arrows-split-up-and-left mr-1.5 text-cyan-400"></i>LOS & Horizons</a>
+        <a href="#fresnel" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition"><i class="fa-solid fa-bullseye mr-1.5 text-amber-400"></i>Fresnel Zones</a>
+        <a href="#power-density" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition"><i class="fa-solid fa-bolt mr-1.5 text-yellow-400"></i>Power & Fields</a>
+        <a href="#waveguides" class="px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition"><i class="fa-solid fa-cube mr-1.5 text-purple-400"></i>Waveguides</a>
+        <a href="#calculator" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 transition"><i class="fa-solid fa-calculator mr-1.5"></i>Solver</a>
+        <a href="#questions" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 transition"><i class="fa-solid fa-clipboard-question mr-1.5"></i>Q1–Q57 Bank</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 lg:px-8 py-6 space-y-10 flex-1 w-full">
+    
+    <!-- Priority Legend and High-Yield Banner -->
+    <section class="bg-gradient-to-r from-slate-900 via-[#131d33] to-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-2 text-xs font-semibold">
+          <span class="text-slate-400 uppercase tracking-widest text-[11px] mr-1">Board Exam Priority:</span>
+          <span class="px-2.5 py-1 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span> MUST MEMORIZE
+          </span>
+          <span class="px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span> HIGH-YIELD
+          </span>
+          <span class="px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/30 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span> CONCEPTUAL
+          </span>
+          <span class="px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span> ⚠️ PITFALL TRAP
+          </span>
+        </div>
+
+        <div class="text-xs text-slate-400 flex items-center gap-2">
+          <i class="fa-solid fa-graduation-cap text-emerald-400"></i>
+          <span>Covers 100% of Uploaded Notes (Questions 1 to 57 + Theoretical Corollaries)</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="overview" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold">1</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Master Overview & Propagation Classification</h2>
+            <p class="text-xs text-slate-400">The 3 foundational mechanisms governed by frequency, medium, and boundaries</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 px-2 py-1 rounded border border-emerald-800/40">HIGH-YIELD 🟠</span>
+      </div>
+
+      <!-- 3 Columns Architecture Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Ground Wave -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">VLF / LF / MF</span>
+              <span class="text-xs text-slate-400 font-mono">30 kHz – 3 MHz</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Ground Wave (Surface Wave)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              Diffracts along the Earth's curvature guided by electrical conductivity. Uses vertical polarization to prevent horizontal short-circuiting against ground.
+            </p>
+            <ul class="text-xs space-y-1.5 text-slate-300 font-mono">
+              <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span>Best on <strong>seawater</strong> & high-conductivity plains <span class="text-slate-500">[Q7]</span></span></li>
+              <li class="flex items-start gap-2"><i class="fa-solid fa-arrow-trend-down text-rose-400 mt-0.5"></i><span>Range <strong>drops sharply</strong> as freq increases <span class="text-slate-500">[Q8]</span></span></li>
+              <li class="flex items-start gap-2"><i class="fa-solid fa-shield-halved text-sky-400 mt-0.5"></i><span><strong>Completely unaffected</strong> by ionosphere changes <span class="text-slate-500">[Q9]</span></span></li>
+            </ul>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
+            <strong>Key Application:</strong> AM Broadcast (e.g., 630 kHz [Q7]), Submarine LF, Maritime distress.
+          </div>
+        </div>
+
+        <!-- Skywave -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">HF Band</span>
+              <span class="text-xs text-slate-400 font-mono">3 MHz – 30 MHz</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Skywave (Ionospheric)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              Total internal refraction/reflection from ionized gases in upper atmosphere ($60\text{ km} - 400\text{ km}$). Enables transoceanic multi-thousand km paths.
+            </p>
+            <ul class="text-xs space-y-1.5 text-slate-300 font-mono">
+              <li class="flex items-start gap-2"><i class="fa-solid fa-check text-blue-400 mt-0.5"></i><span>Much <strong>longer range</strong> than ground waves <span class="text-slate-500">[Q4]</span></span></li>
+              <li class="flex items-start gap-2"><i class="fa-solid fa-radiation text-amber-400 mt-0.5"></i><span>Reflects at 15–21 MHz over 500–3000 km <span class="text-slate-500">[Q2, Q3]</span></span></li>
+              <li class="flex items-start gap-2"><i class="fa-solid fa-circle-exclamation text-rose-400 mt-0.5"></i><span>Creates a <strong>Skip Zone</strong> (dead zone) near Tx <span class="text-slate-500">[Q11, Q12]</span></span></li>
+            </ul>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
+            <strong>Key Application:</strong> International shortwave, transoceanic HF, emergency ham radio.
+          </div>
+        </div>
+
+        <!-- Space Wave -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">VHF / UHF / SHF</span>
+              <span class="text-xs text-slate-400 font-mono">&gt; 30 MHz</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Space Wave (Tropospheric / LOS)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+              Direct ray + ground-reflected ray through the troposphere ($0 - 12\text{ km}$). Governed by radio horizon geometry, tropospheric refraction ($K$), and rain scatter.
+            </p>
+            <ul class="text-xs space-y-1.5 text-slate-300 font-mono">
+              <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i><span>Primary mode for coastal VHF marine (156 MHz) <span class="text-slate-500">[Q10]</span></span></li>
+              <li class="flex items-start gap-2"><i class="fa-solid fa-cloud-rain text-amber-400 mt-0.5"></i><span>Rain scattering & absorption severe at 12 GHz <span class="text-slate-500">[Q20]</span></span></li>
+              <li class="flex items-start gap-2"><i class="fa-solid fa-mountain text-emerald-400 mt-0.5"></i><span>Diffracts over ridges via <strong>Knife-edge diffraction</strong> <span class="text-slate-500">[Q21]</span></span></li>
+            </ul>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400">
+            <strong>Key Application:</strong> FM broadcast (88-108 MHz), Cellular 4G/5G, Satellite, Microwave links.
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Comparison Table -->
+      <div class="bg-slate-900/70 border border-slate-800 rounded-xl overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-800/80 text-slate-200 uppercase font-bold tracking-wider text-[11px]">
+            <tr>
+              <th class="p-3">Characteristic</th>
+              <th class="p-3">Ground Wave (Surface)</th>
+              <th class="p-3">Skywave (Ionospheric)</th>
+              <th class="p-3">Space Wave (Tropospheric / LOS)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800">
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-semibold text-white">Dominant Band [Q6]</td>
+              <td class="p-3 text-emerald-300">LF / MF (300 kHz – 3 MHz)</td>
+              <td class="p-3 text-blue-300">HF (3 MHz – 30 MHz)</td>
+              <td class="p-3 text-cyan-300">VHF / UHF / SHF (&gt; 30 MHz)</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-semibold text-white">Primary Medium</td>
+              <td class="p-3">Earth's surface & skin depth</td>
+              <td class="p-3">Ionosphere (60 – 400 km)</td>
+              <td class="p-3">Troposphere (0 – 12 km)</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-semibold text-white">If Freq Increases</td>
+              <td class="p-3 text-rose-300 font-semibold">Range decreases sharply [Q8]</td>
+              <td class="p-3">Penetrates/escapes if $f > \text{MUF}$ [Q23]</td>
+              <td class="p-3">Absorption & rain scatter rise [Q20]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-semibold text-white">Terrain Dependence</td>
+              <td class="p-3">High (favors high $\sigma$ seawater) [Q7]</td>
+              <td class="p-3">Negligible between reflection points</td>
+              <td class="p-3">Requires optical & Fresnel clearance [Q36]</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3 font-semibold text-white">Day / Night Behavior</td>
+              <td class="p-3">Stable day and night [Q9]</td>
+              <td class="p-3 text-amber-300 font-semibold">D-layer absorbs by day, DX open at night [Q1]</td>
+              <td class="p-3">Subject to ducting via temp inversion [Q16]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="ionosphere" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold">2</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Ionospheric Layers & Skywave Mathematics</h2>
+            <p class="text-xs text-slate-400">Critical frequency, Secant Law (MUF), FOT/OWF, and Skip Zone geometry</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-rose-400 bg-rose-950/60 px-2 py-1 rounded border border-rose-800/40">MUST MEMORIZE 🔴</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Visual Stratification Diagram -->
+        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+          <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-blue-400"></i> Atmospheric Ionization Profile
+          </h3>
+
+          <div class="space-y-2 text-xs font-mono">
+            <!-- F2 Layer -->
+            <div class="p-2.5 rounded-lg bg-blue-950/50 border border-blue-500/40">
+              <div class="flex justify-between items-center text-blue-300 font-bold">
+                <span>F2 LAYER (~250 – 400 km)</span>
+                <span class="text-[10px] bg-blue-500/20 px-1.5 py-0.5 rounded">Day & Night</span>
+              </div>
+              <p class="text-slate-300 text-[11px] mt-1 font-sans">
+                Highest altitude & maximum electron density. Reflects highest frequencies (up to ~30 MHz). Responsible for <strong>longest single hop</strong> (~3000–4000 km, e.g. Manila to Tokyo) <span class="text-blue-400 font-bold">[Q2]</span>.
+              </p>
+            </div>
+
+            <!-- F1 Layer -->
+            <div class="p-2.5 rounded-lg bg-sky-950/40 border border-sky-600/30">
+              <div class="flex justify-between items-center text-sky-300 font-bold">
+                <span>F1 LAYER (~140 – 250 km)</span>
+                <span class="text-[10px] bg-slate-700/60 px-1.5 py-0.5 rounded text-slate-300">Daytime Only</span>
+              </div>
+              <p class="text-slate-400 text-[11px] mt-1 font-sans">
+                Forms during daytime solar ionization; combines with F2 at night to form a single combined <strong>F layer</strong> (~300 km).
+              </p>
+            </div>
+
+            <!-- E Layer -->
+            <div class="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-600/30">
+              <div class="flex justify-between items-center text-emerald-300 font-bold">
+                <span>E LAYER (~90 – 140 km)</span>
+                <span class="text-[10px] text-emerald-400">Kennelly-Heaviside</span>
+              </div>
+              <p class="text-slate-400 text-[11px] mt-1 font-sans">
+                Reflects medium HF signals during daytime. Single hop range up to ~2000 km. Sporadic E ($E_s$) causes anomalous VHF propagation.
+              </p>
+            </div>
+
+            <!-- D Layer -->
+            <div class="p-2.5 rounded-lg bg-rose-950/50 border border-rose-500/40">
+              <div class="flex justify-between items-center text-rose-300 font-bold">
+                <span>D LAYER (~60 – 90 km)</span>
+                <span class="text-[10px] bg-rose-500/20 px-1.5 py-0.5 rounded text-rose-300">Primary Absorber [Q1]</span>
+              </div>
+              <p class="text-slate-300 text-[11px] mt-1 font-sans">
+                Lowest layer. High collision frequency $\implies$ <strong>absorbs HF during daylight</strong>. Disappears rapidly at night (enabling nighttime DX skywave) <span class="text-rose-400 font-bold">[Q1]</span>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulas and Derivations -->
+        <div class="lg:col-span-7 space-y-4">
+          <!-- Formula Box 1: MUF and Secant Law -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Formula Card: Secant Law & OWF</span>
+              <span class="text-[11px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">Q17, Q22, Q23, Q24</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-950/70 p-3 rounded-lg border border-slate-800/80 mb-3">
+              <div>
+                <span class="text-[11px] text-slate-400 block">Maximum Usable Frequency (MUF):</span>
+                <div class="text-lg text-emerald-400 font-mono">
+                  $$MUF = \frac{f_c}{\cos\theta_i} = f_c \sec\theta_i$$
+                </div>
+              </div>
+              <div>
+                <span class="text-[11px] text-slate-400 block">Optimum Working Frequency (OWF/FOT):</span>
+                <div class="text-lg text-cyan-400 font-mono">
+                  $$OWF = 0.85 \times MUF$$
+                </div>
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-300 space-y-1.5 font-sans">
+              <p><strong>Critical Frequency ($f_c$):</strong> Highest frequency reflected back to Earth when launched <em>vertically</em> ($\theta_i = 0^\circ$). Governed by maximum electron density $N_{\max}$: $f_c = 9\sqrt{N_{\max}}$ [Q17].</p>
+              <p><strong>Incidence Angle ($\theta_i$):</strong> Measured from the <em>vertical normal</em> to the ionosphere. If given take-off / elevation angle $\alpha$ from horizontal ground, use $\theta_i = 90^\circ - \alpha$.</p>
+              <p><strong>If $f > MUF$:</strong> Refraction index is insufficient $\implies$ radio wave <strong>passes through ionosphere into deep space</strong> [Q23].</p>
+              <p><strong>Optimum Working Frequency:</strong> Set at <strong>85% of MUF</strong> to provide a 15% buffer against ionospheric height and density fluctuations [Q22].</p>
+            </div>
+
+            <!-- Worked Example Box -->
+            <div class="mt-3 p-3 rounded-lg bg-emerald-950/20 border border-emerald-500/30 text-xs font-mono">
+              <span class="text-emerald-400 font-bold block mb-1">Direct Board Problem Solution [Q24]:</span>
+              <div class="text-slate-300 space-y-1">
+                <div>Given: $f_c = 9.5\text{ MHz}$, $\theta_i = 65^\circ$.</div>
+                <div>$$MUF = \frac{9.5\text{ MHz}}{\cos(65^\circ)} = \frac{9.5}{0.422618} = \mathbf{22.48\text{ MHz}}$$</div>
+                <div>$$OWF = 0.85 \times 22.48\text{ MHz} = \mathbf{19.11\text{ MHz}}$$</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skip Zone Mechanics -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+              <i class="fa-solid fa-ban text-rose-400"></i> Skip Distance vs Skip Zone (Dead Zone) [Q11, Q12]
+            </h4>
+            <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-xs text-slate-300 space-y-2">
+              <p>
+                <strong>Skip Distance:</strong> The minimum distance from the transmitting antenna at which a skywave of a given frequency returns to Earth.
+              </p>
+              <p>
+                <strong>Skip Zone (Quiet/Dead Zone):</strong> The annular quiet region between the outer edge of the ground wave coverage and the point where the first skywave returns to the ground. <strong>Zero signal is received in this zone!</strong>
+              </p>
+              <div class="p-2 bg-slate-900 rounded border border-slate-700/60 text-[11px] text-amber-300">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                <strong>Board Trap [Q12]:</strong> A ham in Pasig transmits 21 MHz HF. Quezon City (10 km away) hears <em>nothing</em>, while Cebu City (570 km away) hears <em>5/9 clearly</em>. 
+                <strong>Why?</strong> Quezon City lies directly inside the transmitter's <strong>skip zone</strong> (too far for ground wave, too close for skywave reflection).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="los-refraction" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center font-bold">3</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Line-of-Sight, K-Factor Refraction & Radio Horizon</h2>
+            <p class="text-xs text-slate-400">Curvature mechanics, K-factor values, Metric vs Imperial horizon formulas</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-rose-400 bg-rose-950/60 px-2 py-1 rounded border border-rose-800/40">MUST MEMORIZE 🔴</span>
+      </div>
+
+      <!-- K-Factor Breakdown Table -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div class="bg-slate-900 border border-emerald-500/40 rounded-xl p-3">
+          <div class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Standard Refraction [Q18]</div>
+          <div class="text-xl font-bold text-white my-1 font-mono">K = 4/3 ≈ 1.33</div>
+          <p class="text-[11px] text-slate-300">Atmospheric density drops with height. Rays bend <strong>downward toward Earth</strong>. Radio horizon is <strong>1/3 (~15-33%) farther</strong> than optical [Q5].</p>
+        </div>
+        <div class="bg-slate-900 border border-blue-500/40 rounded-xl p-3">
+          <div class="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Super-Refraction</div>
+          <div class="text-xl font-bold text-white my-1 font-mono">K &gt; 4/3 (e.g. K=2)</div>
+          <p class="text-[11px] text-slate-300">Strong downward bending. Ray curvature approaches Earth's radius, significantly extending microwave LOS range.</p>
+        </div>
+        <div class="bg-slate-900 border border-rose-500/40 rounded-xl p-3">
+          <div class="text-[10px] uppercase font-bold text-rose-400 tracking-wider">Sub-Refraction</div>
+          <div class="text-xl font-bold text-white my-1 font-mono">K &lt; 4/3 (e.g. K=0.7)</div>
+          <p class="text-[11px] text-slate-300">Rays bend <strong>away from Earth</strong>. Reduces clearance over obstacles, creating diffraction loss and deep fading.</p>
+        </div>
+        <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-3">
+          <div class="text-[10px] uppercase font-bold text-purple-400 tracking-wider">Tropospheric Ducting [Q16]</div>
+          <div class="text-xl font-bold text-white my-1 font-mono">K = ∞ (Trapped)</div>
+          <p class="text-[11px] text-slate-300">Caused by <strong>temperature inversion</strong>. RF trapped between thermal air boundaries like a giant natural waveguide.</p>
+        </div>
+      </div>
+
+      <!-- Formula Cards: Radio Horizon -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-ruler-combined text-cyan-400"></i> Radio & Geometrical Horizon Formulas
+          </h3>
+          <span class="text-xs text-amber-400 font-mono bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/40">Watch Units Closely!</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Metric System -->
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center text-xs font-bold text-cyan-300">
+              <span>METRIC SYSTEM</span>
+              <span class="text-[10px] font-mono bg-cyan-950 px-1.5 py-0.5 rounded text-cyan-400">h in meters [m], d in kilometers [km]</span>
+            </div>
+            
+            <div class="space-y-1 font-mono text-xs">
+              <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">Geometrical (Optical) Horizon:</span>
+                <span class="text-emerald-400">$$d_{\text{geo}} = \sqrt{2 R_0 h} \approx 3.57\sqrt{h}$$</span>
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">Radio Horizon (Standard $K = 4/3$):</span>
+                <span class="text-cyan-400">$$d_{\text{radio}} = \sqrt{2 K R_0 h} = \sqrt{17 h} \approx 4.12\sqrt{h}$$</span>
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">Total Inter-Tower LOS Range:</span>
+                <span class="text-yellow-400">$$d_{\text{total}} = \sqrt{17 h_t} + \sqrt{17 h_r}$$</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Imperial System -->
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center text-xs font-bold text-yellow-300">
+              <span>IMPERIAL / ENGLISH SYSTEM</span>
+              <span class="text-[10px] font-mono bg-yellow-950 px-1.5 py-0.5 rounded text-yellow-400">h in feet [ft], d in statute miles [mi]</span>
+            </div>
+
+            <div class="space-y-1 font-mono text-xs">
+              <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">Single Antenna Horizon (Standard Refraction):</span>
+                <span class="text-yellow-400">$$d = \sqrt{2 h} \quad [\text{miles}]$$</span>
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-800">
+                <span class="text-slate-400 block text-[10px]">Total Inter-Tower LOS Range:</span>
+                <span class="text-emerald-400">$$d_{\text{total}} = \sqrt{2 h_t} + \sqrt{2 h_r} \quad [\text{miles}]$$</span>
+              </div>
+              <div class="p-2 bg-slate-900 rounded border border-slate-800 text-[11px] font-sans text-slate-300">
+                <strong class="text-rose-400">Trap Alert [Q19, Q32]:</strong> If $K=1.0$ is assumed instead of $4/3$, calculated maximum distance is <strong>underestimated</strong> [Q19]. Doubling $h_t$ increases total range by <strong>less than a factor of two</strong> [Q32].
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Solved Problems from PDF (Q30, Q31, Q33) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+          <div class="p-3 rounded bg-slate-950 border border-slate-800">
+            <span class="text-emerald-400 font-bold block mb-1">DTTB Link [Q30]:</span>
+            <div class="text-[11px] text-slate-300 space-y-1">
+              <div>$h_t = 144\text{ m}, h_r = 49\text{ m}$</div>
+              <div>$d = \sqrt{17(144)} + \sqrt{17(49)}$</div>
+              <div>$d = 49.48 + 28.86 = \mathbf{78.34\text{ km}}$</div>
+              <div class="text-amber-300 pt-1 border-t border-slate-800">If $h_t \to 225\text{ m}$:</div>
+              <div>$d' = \sqrt{17(225)} + 28.86 = \mathbf{90.71\text{ km}}$</div>
+              <div class="text-emerald-400 font-bold">$\Delta d = 90.71 - 78.34 = \mathbf{12.37\text{ km}}$</div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded bg-slate-950 border border-slate-800">
+            <span class="text-cyan-400 font-bold block mb-1">Maritime Cliff [Q31]:</span>
+            <div class="text-[11px] text-slate-300 space-y-1">
+              <div>$h = 50\text{ m}, R_0 = 6,371\text{ km}$</div>
+              <div>$d_{\text{geo}} = \sqrt{2(6371)(0.05)}$</div>
+              <div class="text-white font-bold">$d_{\text{geo}} = \sqrt{637.1} = \mathbf{25.24\text{ km}}$</div>
+              <div class="text-amber-300 pt-1 border-t border-slate-800">With $K=4/3$:</div>
+              <div>$d_{\text{radio}} = \sqrt{17(50)} = \sqrt{850}$</div>
+              <div class="text-emerald-400 font-bold">$d_{\text{radio}} = \mathbf{29.15\text{ km}}$</div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded bg-slate-950 border border-slate-800">
+            <span class="text-yellow-400 font-bold block mb-1">Microwave Imperial [Q33]:</span>
+            <div class="text-[11px] text-slate-300 space-y-1">
+              <div>$h_t = 600\text{ ft}, h_r = 240\text{ ft}$</div>
+              <div>$d = \sqrt{2(600)} + \sqrt{2(240)}$</div>
+              <div>$d = \sqrt{1200} + \sqrt{480}$</div>
+              <div>$d = 34.64 + 21.91$</div>
+              <div class="text-emerald-400 font-bold">$d = \mathbf{56.55\text{ miles}}$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fresnel" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center font-bold">4</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Fresnel Zone Clearance & Knife-Edge Diffraction</h2>
+            <p class="text-xs text-slate-400">First Fresnel zone radius, 60% clearance threshold, and wave cancellation prevention</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-amber-400 bg-amber-950/60 px-2 py-1 rounded border border-amber-800/40">HIGH-YIELD 🟠</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Formula and Theory -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Fresnel Zone Radius Equations</h3>
+          
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 font-mono text-xs">
+            <div>
+              <span class="text-slate-400 block text-[10px]">Fundamental Equation ($n$-th Fresnel Zone):</span>
+              <span class="text-amber-300">$$R_n = \sqrt{\frac{n \lambda d_1 d_2}{d_1 + d_2}}$$</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">Practical Metric (1st Fresnel Zone, $n=1$, $d$ in km, $f$ in GHz):</span>
+              <span class="text-emerald-400 font-bold">$$R_1\text{ [m]} = 17.3 \sqrt{\frac{d_1 d_2}{f_{\text{GHz}} \cdot d_{\text{total}}}}$$</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">Required Clear Clearance [Q36]:</span>
+              <span class="text-cyan-400 font-bold">$$R_{\text{clear}} \ge 0.6 \times R_1 \quad (60\% \text{ Clearance})$$</span>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/60 rounded border border-slate-800/80 text-xs text-slate-300 space-y-1.5">
+            <p><strong>Why 60% Clearance? [Q37]:</strong> Below 0.6 $R_1$, the diffracted wave path length difference approaches $\lambda/2$ ($180^\circ$ phase shift), producing <strong>destructive interference</strong> that significantly attenuates the direct ray.</p>
+            <p><strong>Knife-Edge Diffraction [Q21]:</strong> When RF encounters a sharp obstacle (like a mountain ridge), energy bleeds into the shadow zone behind the obstacle. Lower frequencies diffract <strong>more</strong> than higher frequencies [Q13].</p>
+          </div>
+        </div>
+
+        <!-- Tagaytay - Calamba Worked Example [Q38] -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Worked Problem from Notes [Q38]</span>
+              <span class="text-[10px] font-mono text-slate-400">Tagaytay to Calamba Link</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-3">
+              $d_{\text{total}} = 20\text{ km}$, $f = 6\text{ GHz}$. Calculate $R_1$ and minimum 60% clearance for obstacle at midpoint ($10\text{ km}$) and off-center ($5\text{ km}$).
+            </p>
+
+            <div class="space-y-2 text-xs font-mono">
+              <!-- Case A: Midpoint -->
+              <div class="p-2.5 bg-slate-950 rounded border border-slate-800">
+                <span class="text-amber-400 font-bold block mb-1">Case A: Midpoint ($d_1 = 10\text{ km}, d_2 = 10\text{ km}$)</span>
+                <div class="text-slate-300">
+                  $$R_1 = 17.3 \sqrt{\frac{10 \times 10}{6 \times 20}} = 17.3 \sqrt{0.8333} = \mathbf{15.8\text{ m}}$$
+                  $$R_{\text{clear}} = 0.6 \times 15.8\text{ m} = \mathbf{9.48\text{ m}}$$
+                </div>
+              </div>
+
+              <!-- Case B: Off-Center -->
+              <div class="p-2.5 bg-slate-950 rounded border border-slate-800">
+                <span class="text-cyan-400 font-bold block mb-1">Case B: Off-Center ($d_1 = 5\text{ km}, d_2 = 15\text{ km}$)</span>
+                <div class="text-slate-300">
+                  $$R_1 = 17.3 \sqrt{\frac{5 \times 15}{6 \times 20}} = 17.3 \sqrt{0.625} = \mathbf{13.68\text{ m}}$$
+                  $$R_{\text{clear}} = 0.6 \times 13.68\text{ m} = \mathbf{8.21\text{ m}}$$
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 text-[11px] text-slate-400 italic">
+            Note: Maximum Fresnel radius always occurs at the link midpoint ($d_1 = d_2$).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="power-density" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-yellow-500/20 border border-yellow-500/30 text-yellow-400 flex items-center justify-center font-bold">5</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Electromagnetic Fields, Power Density & Radiated Power</h2>
+            <p class="text-xs text-slate-400">Power density ($P_D$), Electric field ($E$), EIRP vs ERP, and distance scaling laws</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-rose-400 bg-rose-950/60 px-2 py-1 rounded border border-rose-800/40">MUST MEMORIZE 🔴</span>
+      </div>
+
+      <!-- Core Formula Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Power Density Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-bold text-yellow-400 uppercase tracking-wider mb-2">Power Density ($P_D$ or $S$)</div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono space-y-1 mb-2">
+            <div class="text-yellow-300">$$P_D = \frac{P_t G_t}{4\pi r^2} = \frac{EIRP}{4\pi r^2} \quad [\text{W/m}^2]$$</div>
+            <div class="text-emerald-400">$$P_D = \frac{E^2}{\eta_0} = \frac{E^2}{377\ \Omega}$$</div>
+          </div>
+          <p class="text-xs text-slate-300">
+            Decreases inversely with the square of distance ($P_D \propto 1/r^2$) [Q39]. <strong>Independent of frequency!</strong> At 1 km, 300 MHz and 3 GHz have identical $P_D$ [Q42].
+          </p>
+        </div>
+
+        <!-- Electric Field Strength Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Electric Field Strength ($E$)</div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono space-y-1 mb-2">
+            <div class="text-cyan-300">$$E = \frac{\sqrt{30 P_t G_t}}{r} = \frac{\sqrt{30 \cdot EIRP}}{r} \quad [\text{V/m}]$$</div>
+            <div class="text-emerald-400">$$E = \sqrt{377 \cdot P_D}$$</div>
+          </div>
+          <p class="text-xs text-slate-300">
+            Decreases inversely with distance ($E \propto 1/r$). If distance doubles ($2d$), $E$ drops to <strong>half ($1/2$)</strong> [Q43]. If EIRP rises by $+6\text{ dB}$, $E$ <strong>doubles</strong> [Q49].
+          </p>
+        </div>
+
+        <!-- EIRP vs ERP Card -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">EIRP vs ERP Conversion</div>
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono space-y-1 mb-2">
+            <div class="text-emerald-300">$$EIRP_{\text{dBm}} = ERP_{\text{dBm}} + 2.15\text{ dB}$$</div>
+            <div class="text-yellow-400">$$EIRP_{\text{Watts}} = 1.64 \times ERP_{\text{Watts}}$$</div>
+          </div>
+          <p class="text-xs text-slate-300">
+            EIRP is referenced to an isotropic radiator (0 dBi). ERP is referenced to a half-wave dipole (2.15 dBi). Always <strong>add 2.15 dB</strong> to convert ERP to EIRP [Q50].
+          </p>
+        </div>
+      </div>
+
+      <!-- Problem Solvers and Scaling Rules -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Step-by-Step Worked Problems from PDF</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
+          <!-- Q44 -->
+          <div class="p-3 bg-slate-950 rounded border border-slate-800">
+            <span class="text-yellow-400 font-bold block mb-1">E-Field to $P_D$ [Q44]:</span>
+            <div class="text-slate-300 space-y-0.5">
+              <div>$E = 150\text{ V/m}$</div>
+              <div>$$P_D = \frac{150^2}{377} = \frac{22500}{377}$$</div>
+              <div class="text-emerald-400 font-bold">$$P_D = \mathbf{59.68\text{ W/m}^2}$$</div>
+            </div>
+          </div>
+
+          <!-- Q45 -->
+          <div class="p-3 bg-slate-950 rounded border border-slate-800">
+            <span class="text-cyan-400 font-bold block mb-1">GEO Downlink [Q45]:</span>
+            <div class="text-slate-300 space-y-0.5">
+              <div>$P_t = 50\text{ W}, r = 3.6 \times 10^7\text{ m}$</div>
+              <div>$A_{\text{eff}} = 2500\text{ m}^2$</div>
+              <div>$$P_D = \frac{50}{4\pi(3.6 \cdot 10^7)^2}$$</div>
+              <div>$P_D = 3.07 \times 10^{-15}\text{ W/m}^2$</div>
+              <div class="text-emerald-400 font-bold">$P_r = \mathbf{7.68\text{ pW}} \ (-81.15\text{ dBm})$</div>
+            </div>
+          </div>
+
+          <!-- Q51 -->
+          <div class="p-3 bg-slate-950 rounded border border-slate-800">
+            <span class="text-emerald-400 font-bold block mb-1">Transmitter EIRP [Q51]:</span>
+            <div class="text-slate-300 space-y-0.5">
+              <div>$P_t = 200\text{ W}$, Loss $= 3\text{ dB}$ (ratio $0.5$)</div>
+              <div>Gain $G_t = 15$ (linear ratio)</div>
+              <div>$$EIRP = \frac{P_t \cdot G_t}{\text{Loss}}$$</div>
+              <div class="text-emerald-400 font-bold">$$EIRP = \frac{200 \times 15}{2} = \mathbf{1500\text{ W}}$$</div>
+            </div>
+          </div>
+
+          <!-- Q52 -->
+          <div class="p-3 bg-slate-950 rounded border border-slate-800">
+            <span class="text-purple-400 font-bold block mb-1">Repeater ERP [Q52]:</span>
+            <div class="text-slate-300 space-y-0.5">
+              <div>$P_t = 450\text{ W}$, Total Loss $= 17\text{ dB}$</div>
+              <div>Antenna Gain $= 25\text{ dBd}$</div>
+              <div>$\text{Net Gain} = 25 - 17 = +8\text{ dBd}$</div>
+              <div>$ERP = 450 \times 10^{8/10}$</div>
+              <div class="text-emerald-400 font-bold">$ERP = \mathbf{2839.3\text{ W}}$</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="link-budget" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center font-bold">6</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Microwave Link Budget Analysis & Path Loss</h2>
+            <p class="text-xs text-slate-400">FSPL formulas, 6 dB/12 dB scaling rules, Fade Margin, and Banahaw-Makiling link</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-rose-400 bg-rose-950/60 px-2 py-1 rounded border border-rose-800/40">MUST MEMORIZE 🔴</span>
+      </div>
+
+      <!-- Link Architecture Flowchart -->
+      <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto text-xs font-mono">
+        <div class="flex items-center justify-between min-w-[700px] text-center gap-2">
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 flex-1">
+            <span class="text-slate-400 text-[10px] block">Transmitter</span>
+            <span class="text-white font-bold">$P_t\text{ [dBm]}$</span>
+          </div>
+          <i class="fa-solid fa-plus text-slate-600"></i>
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 flex-1">
+            <span class="text-slate-400 text-[10px] block">Tx Net Gain</span>
+            <span class="text-emerald-400 font-bold">$G_t - T_{LL,t}$</span>
+          </div>
+          <i class="fa-solid fa-equals text-slate-600"></i>
+          <div class="p-2 bg-emerald-950/40 rounded border border-emerald-500/40 flex-1">
+            <span class="text-emerald-400 text-[10px] block">Radiated Power</span>
+            <span class="text-emerald-300 font-bold">EIRP [dBm]</span>
+          </div>
+          <i class="fa-solid fa-minus text-slate-600"></i>
+          <div class="p-2 bg-rose-950/40 rounded border border-rose-500/40 flex-1">
+            <span class="text-rose-400 text-[10px] block">Path Losses</span>
+            <span class="text-rose-300 font-bold">$FSPL + L_{\text{atm}} + L_{\text{rain}}$</span>
+          </div>
+          <i class="fa-solid fa-plus text-slate-600"></i>
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 flex-1">
+            <span class="text-slate-400 text-[10px] block">Rx Net Gain</span>
+            <span class="text-cyan-400 font-bold">$G_r - T_{LL,r}$</span>
+          </div>
+          <i class="fa-solid fa-equals text-slate-600"></i>
+          <div class="p-2 bg-cyan-950/40 rounded border border-cyan-500/40 flex-1">
+            <span class="text-cyan-400 text-[10px] block">Received Signal</span>
+            <span class="text-cyan-300 font-bold">RSL [dBm]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- FSPL Formulas -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider">Free Space Path Loss (FSPL) Formulas</h3>
+          
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 text-xs font-mono">
+            <div>
+              <span class="text-slate-400 text-[10px] block">Frequency in MHz ($d$ in km):</span>
+              <div class="text-emerald-400 font-bold">
+                $$FSPL_{\text{dB}} = 32.44 + 20\log_{10}(d_{\text{km}}) + 20\log_{10}(f_{\text{MHz}})$$
+              </div>
+            </div>
+            <div>
+              <span class="text-slate-400 text-[10px] block">Frequency in GHz ($d$ in km):</span>
+              <div class="text-cyan-400 font-bold">
+                $$FSPL_{\text{dB}} = 92.44 + 20\log_{10}(d_{\text{km}}) + 20\log_{10}(f_{\text{GHz}})$$
+              </div>
+            </div>
+          </div>
+
+          <!-- Rapid Rules -->
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 text-xs space-y-1 font-mono">
+            <span class="text-amber-400 font-bold block mb-1">FSPL Golden Scaling Rules:</span>
+            <div class="text-slate-300 flex items-center justify-between">
+              <span>Double distance only ($2d$):</span>
+              <span class="text-rose-400 font-bold">+6 dB loss</span>
+            </div>
+            <div class="text-slate-300 flex items-center justify-between">
+              <span>Double frequency only ($2f$):</span>
+              <span class="text-rose-400 font-bold">+6 dB loss [Q25]</span>
+            </div>
+            <div class="text-slate-300 flex items-center justify-between">
+              <span>Double BOTH ($2d$ AND $2f$):</span>
+              <span class="text-rose-400 font-bold">+12 dB loss [Q26]</span>
+            </div>
+            <div class="text-slate-400 text-[11px] pt-1 border-t border-slate-800">
+              $FSPL = (4\pi d / \lambda)^2 \implies$ Inversely proportional to square of wavelength [Q27].
+            </div>
+          </div>
+        </div>
+
+        <!-- Fade Margin & Worked Problems -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <h3 class="text-xs font-bold text-cyan-300 uppercase tracking-wider">Fade Margin & Worked Examples</h3>
+
+          <div class="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono space-y-1">
+            <span class="text-cyan-400 font-bold">Fade Margin ($FM$) Definition [Q34]:</span>
+            <div class="text-white">$$FM_{\text{dB}} = RSL_{\text{dBm}} - C_{\text{min, dBm}}$$</div>
+            <p class="text-[11px] text-slate-400 font-sans">
+              The difference between the received carrier signal strength and the receiver threshold sensitivity ($C_{\text{min}}$).
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2 text-xs font-mono">
+            <!-- Banahaw to Makiling [Q29] -->
+            <div class="p-2.5 bg-slate-950 rounded border border-slate-800">
+              <span class="text-emerald-400 font-bold block">Mt. Banahaw to Mt. Makiling Link [Q29]:</span>
+              <div class="text-[11px] text-slate-300">
+                $d = 45\text{ km}$, $f = 6.2\text{ GHz} = 6200\text{ MHz}$.
+                <div>$FSPL = 32.44 + 20\log_{10}(45) + 20\log_{10}(6200) = \mathbf{141.35\text{ dB}}$</div>
+                <div>Total Loss $= 141.35 + 0.8\text{ (atm)} + 1.5\text{ (rain)} = \mathbf{143.65\text{ dB}}$</div>
+              </div>
+            </div>
+
+            <!-- Q28 & Q35 -->
+            <div class="p-2.5 bg-slate-950 rounded border border-slate-800 grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-yellow-400 font-bold block">5 GHz @ 100 m [Q28]:</span>
+                <div class="text-[11px] text-slate-300">
+                  $d = 0.1\text{ km}, f = 5\text{ GHz}$<br>
+                  $FSPL = 92.44 + 20\log(0.1) + 20\log(5)$<br>
+                  $= 92.44 - 20 + 13.98 = \mathbf{86.42\text{ dB}} \approx \mathbf{87\text{ dB}}$
+                </div>
+              </div>
+              <div>
+                <span class="text-purple-400 font-bold block">RSL Calculation [Q35]:</span>
+                <div class="text-[11px] text-slate-300">
+                  $P_t = 30\text{ dBm}$, Loss $= 110\text{ dB}$<br>
+                  $RSL = 30 - 110 = \mathbf{-80\text{ dBm}}$<br>
+                  $FM = 15\text{ dB} \implies C_{\text{min}} = -95\text{ dBm}$
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="waveguides" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center font-bold">7</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Rectangular Waveguides & Velocity Invariants</h2>
+            <p class="text-xs text-slate-400">Dominant $\text{TE}_{10}$ mode, cutoff frequency $f_c$, phase velocity $v_p$, group velocity $v_g$, and wave impedance $Z_{\text{TE}}$</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-rose-400 bg-rose-950/60 px-2 py-1 rounded border border-rose-800/40">MUST MEMORIZE 🔴</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <!-- Waveguide Formulas -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-purple-400 uppercase tracking-wider">TE₁₀ Dominant Mode Formula Card</h3>
+            <span class="text-[10px] font-mono text-slate-400">Broad dimension $a > b$</span>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 text-xs font-mono">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span class="text-slate-400 text-[10px] block">Cutoff Wavelength:</span>
+                <span class="text-emerald-400 font-bold">$$\lambda_c = 2a$$</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[10px] block">Cutoff Frequency ($c = 3 \cdot 10^8$ m/s):</span>
+                <span class="text-cyan-400 font-bold">$$f_c = \frac{c}{2a}$$</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+              <div>
+                <span class="text-slate-400 text-[10px] block">Group Velocity (Signal speed):</span>
+                <span class="text-amber-400 font-bold">$$v_g = c \sqrt{1 - \left(\frac{f_c}{f}\right)^2} < c$$</span>
+              </div>
+              <div>
+                <span class="text-slate-400 text-[10px] block">Phase Velocity (Wavefront):</span>
+                <span class="text-purple-400 font-bold">$$v_p = \frac{c}{\sqrt{1 - \left(\frac{f_c}{f}\right)^2}} > c$$</span>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800">
+              <span class="text-slate-400 text-[10px] block">Velocity Product Invariant [Q54]:</span>
+              <div class="text-yellow-400 font-bold text-center py-1 bg-slate-900 rounded">
+                $$v_p \cdot v_g = c^2 = 9 \times 10^{16}\text{ m}^2/\text{s}^2$$
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800">
+              <span class="text-slate-400 text-[10px] block">Characteristic TE Mode Impedance:</span>
+              <span class="text-emerald-300 font-bold">$$Z_{\text{TE}} = \frac{\eta_0}{\sqrt{1 - (f_c/f)^2}} = \frac{377\ \Omega}{\sqrt{1 - (f_c/f)^2}}$$</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Worked Waveguide Problems from Notes -->
+        <div class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 flex flex-col justify-between">
+          <div>
+            <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Direct Board Calculations [Q56, Q57]</h3>
+            
+            <!-- Problem Q56 -->
+            <div class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono mb-2">
+              <span class="text-amber-400 font-bold block mb-1">0.65-inch Guide Cutoff [Q56]:</span>
+              <div class="text-[11px] text-slate-300 space-y-0.5">
+                <div>Width $a = 0.65\text{ in} = 0.65 \times 0.0254\text{ m} = \mathbf{0.01651\text{ m}}$</div>
+                <div>$$f_c = \frac{3 \times 10^8\text{ m/s}}{2(0.01651\text{ m})} = \mathbf{9.085\text{ GHz}}$$</div>
+                <div>$$\lambda_c = 2a = 1.30\text{ in} = \mathbf{3.302\text{ cm}}$$</div>
+              </div>
+            </div>
+
+            <!-- Problem Q57 -->
+            <div class="p-2.5 bg-slate-950 rounded border border-slate-800 text-xs font-mono">
+              <span class="text-cyan-400 font-bold block mb-1">Complete Waveguide Analysis ($a = 2.5\text{ cm}, f = 10\text{ GHz}$) [Q57]:</span>
+              <div class="text-[11px] text-slate-300 space-y-1">
+                <div>$f_c = \frac{3 \times 10^8}{2(0.025)} = \mathbf{6.0\text{ GHz}} \implies \frac{f_c}{f} = \frac{6}{10} = 0.6$</div>
+                <div>$\sqrt{1 - (f_c/f)^2} = \sqrt{1 - 0.36} = \sqrt{0.64} = \mathbf{0.80}$</div>
+                <div class="grid grid-cols-2 gap-1 pt-1 border-t border-slate-800">
+                  <div>$v_g = (3 \times 10^8)(0.80) = \mathbf{2.4 \times 10^8\text{ m/s}}$</div>
+                  <div>$v_p = \frac{3 \times 10^8}{0.80} = \mathbf{3.75 \times 10^8\text{ m/s}}$</div>
+                </div>
+                <div class="text-emerald-400 font-bold pt-1 border-t border-slate-800">
+                  $$Z_{\text{TE}} = \frac{377\ \Omega}{0.80} = \mathbf{471.25\ \Omega}$$
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-purple-950/30 border border-purple-500/30 rounded text-[11px] text-purple-300">
+            <strong>Cutoff Condition [Q55]:</strong> Below $f_c$, the wave is <em>evanescent</em> (pure imaginary propagation constant $\beta$, zero real power transferred).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 flex items-center justify-center font-bold">8</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Don't Confuse These! (Board Exam Pitfall Matrix)</h2>
+            <p class="text-xs text-slate-400">Side-by-side differentiators for tricky multiple choice exam questions</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-purple-400 bg-purple-950/60 px-2 py-1 rounded border border-purple-800/40">⚠️ COMMON TRAP</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+        <!-- Power Density vs Received Power -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div class="text-rose-400 font-bold text-sm flex items-center justify-between">
+            <span>Power Density ($P_D$)</span>
+            <span class="text-slate-500 font-normal">vs</span>
+            <span>Received Power ($P_r$)</span>
+          </div>
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 space-y-1 font-mono text-[11px]">
+            <div><strong>$P_D$:</strong> $P_t / (4\pi r^2)$ [$\text{W/m}^2$] — <strong>No Frequency!</strong></div>
+            <div><strong>$P_r$:</strong> $P_D \cdot A_{\text{eff}} = EIRP \cdot G_r (\lambda / 4\pi d)^2$ [Watts/dBm]</div>
+          </div>
+          <p class="text-slate-300 text-[11px]">
+            <strong>The Trap [Q42]:</strong> 300 MHz and 3 GHz at same isotropic power produce the <em>exact same power density</em> at 1 km. Frequency only impacts received power due to effective aperture size!
+          </p>
+        </div>
+
+        <!-- Critical Frequency vs MUF -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div class="text-blue-400 font-bold text-sm flex items-center justify-between">
+            <span>Critical Freq ($f_c$)</span>
+            <span class="text-slate-500 font-normal">vs</span>
+            <span>Max Usable Freq (MUF)</span>
+          </div>
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 space-y-1 font-mono text-[11px]">
+            <div><strong>$f_c$:</strong> Launched vertically ($\theta = 0^\circ$).</div>
+            <div><strong>MUF:</strong> Launched obliquely ($\theta > 0^\circ$). $MUF = f_c \sec\theta$.</div>
+          </div>
+          <p class="text-slate-300 text-[11px]">
+            <strong>The Trap [Q17, Q23]:</strong> Critical frequency is an atmospheric state; MUF depends on the launch angle. MUF is <em>always greater than or equal to</em> $f_c$.
+          </p>
+        </div>
+
+        <!-- Phase Velocity vs Group Velocity -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div class="text-amber-400 font-bold text-sm flex items-center justify-between">
+            <span>Phase Velocity ($v_p$)</span>
+            <span class="text-slate-500 font-normal">vs</span>
+            <span>Group Velocity ($v_g$)</span>
+          </div>
+          <div class="p-2 bg-slate-950 rounded border border-slate-800 space-y-1 font-mono text-[11px]">
+            <div><strong>$v_p$:</strong> $c / \sqrt{1-(f_c/f)^2} > c$ (Phase wave)</div>
+            <div><strong>$v_g$:</strong> $c \sqrt{1-(f_c/f)^2} < c$ (Information speed)</div>
+          </div>
+          <p class="text-slate-300 text-[11px]">
+            <strong>The Trap [Q54]:</strong> $v_p > c$ does <em>not</em> violate Einstein's relativity because monochromatic phase carries zero modulation information. Invariant: $v_p \cdot v_g = c^2$.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator" class="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-5 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white tracking-tight">Interactive Board Equation Solver</h2>
+            <p class="text-xs text-slate-400">Verify your manual computations instantly with live step-by-step math</p>
+          </div>
+        </div>
+        <span class="text-xs font-mono text-emerald-400 bg-emerald-950 px-2.5 py-1 rounded-md border border-emerald-800/40">Self-Contained Solver</span>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex flex-wrap gap-2 text-xs font-semibold">
+        <button onclick="setCalcTab('horizon')" id="btn-tab-horizon" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white transition">Radio Horizon</button>
+        <button onclick="setCalcTab('fspl')" id="btn-tab-fspl" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition">FSPL & Link Budget</button>
+        <button onclick="setCalcTab('fresnel')" id="btn-tab-fresnel" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Fresnel 60% Clearance</button>
+        <button onclick="setCalcTab('waveguide')" id="btn-tab-waveguide" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Waveguide TE₁₀</button>
+      </div>
+
+      <!-- Horizon Calculator Tab -->
+      <div id="calc-horizon" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Horizon Input Parameters</h4>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Tx Antenna Height $h_t$ [meters]:</label>
+            <input type="number" id="inp-ht" value="144" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-emerald-500 outline-none">
+          </div>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Rx Antenna Height $h_r$ [meters]:</label>
+            <input type="number" id="inp-hr" value="49" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-emerald-500 outline-none">
+          </div>
+          <button onclick="calculateHorizon()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition">
+            Compute Radio Horizon
+          </button>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between font-mono text-xs">
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase tracking-wider block mb-2">Calculated Results ($K = 4/3$ Standard):</span>
+            <div id="res-horizon" class="space-y-2 text-slate-200">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 font-sans mt-3 border-t border-slate-800 pt-2">
+            Matches Board Question 30 ($144\text{ m} \to 49\text{ m} = \mathbf{78.34\text{ km}}$).
+          </div>
+        </div>
+      </div>
+
+      <!-- FSPL Calculator Tab -->
+      <div id="calc-fspl" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider">FSPL Inputs</h4>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Distance $d$ [kilometers]:</label>
+            <input type="number" id="inp-fspl-d" value="45" step="0.1" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-cyan-500 outline-none">
+          </div>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Frequency $f$ [GHz]:</label>
+            <input type="number" id="inp-fspl-f" value="6.2" step="0.1" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-cyan-500 outline-none">
+          </div>
+          <button onclick="calculateFSPL()" class="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition">
+            Calculate Path Loss
+          </button>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between font-mono text-xs">
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase tracking-wider block mb-2">FSPL Result:</span>
+            <div id="res-fspl" class="space-y-2 text-slate-200">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 font-sans mt-3 border-t border-slate-800 pt-2">
+            Matches Board Question 29 ($45\text{ km} \text{ @ } 6.2\text{ GHz} = \mathbf{141.35\text{ dB}}$).
+          </div>
+        </div>
+      </div>
+
+      <!-- Fresnel Tab -->
+      <div id="calc-fresnel" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Fresnel Zone Inputs</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">$d_1$ [km]:</label>
+              <input type="number" id="inp-fr-d1" value="10" step="0.5" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-amber-500 outline-none">
+            </div>
+            <div>
+              <label class="text-[11px] text-slate-400 block mb-1">$d_2$ [km]:</label>
+              <input type="number" id="inp-fr-d2" value="10" step="0.5" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-amber-500 outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Frequency $f$ [GHz]:</label>
+            <input type="number" id="inp-fr-f" value="6" step="0.1" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-amber-500 outline-none">
+          </div>
+          <button onclick="calculateFresnel()" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition">
+            Compute Clearance
+          </button>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between font-mono text-xs">
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase tracking-wider block mb-2">Fresnel Radius & 60% Clearance:</span>
+            <div id="res-fresnel" class="space-y-2 text-slate-200">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 font-sans mt-3 border-t border-slate-800 pt-2">
+            Matches Board Question 38 ($20\text{ km} \text{ midpoint @ } 6\text{ GHz} \implies R_1 = \mathbf{15.8\text{ m}}, R_{\text{clear}} = \mathbf{9.48\text{ m}}$).
+          </div>
+        </div>
+      </div>
+
+      <!-- Waveguide Tab -->
+      <div id="calc-waveguide" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <h4 class="text-xs font-bold text-purple-400 uppercase tracking-wider">Waveguide Dimensions</h4>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Broad Dimension $a$ [cm]:</label>
+            <input type="number" id="inp-wg-a" value="2.5" step="0.01" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-purple-500 outline-none">
+          </div>
+          <div>
+            <label class="text-[11px] text-slate-400 block mb-1">Signal Frequency $f$ [GHz]:</label>
+            <input type="number" id="inp-wg-f" value="10" step="0.1" class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm focus:border-purple-500 outline-none">
+          </div>
+          <button onclick="calculateWaveguide()" class="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-bold text-xs uppercase tracking-wider transition">
+            Analyze TE₁₀ Propagation
+          </button>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between font-mono text-xs">
+          <div>
+            <span class="text-slate-400 text-[10px] uppercase tracking-wider block mb-2">Waveguide Mode Parameters:</span>
+            <div id="res-waveguide" class="space-y-2 text-slate-200">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 font-sans mt-3 border-t border-slate-800 pt-2">
+            Matches Board Question 57 ($a = 2.5\text{ cm}, 10\text{ GHz} \implies f_c = \mathbf{6\text{ GHz}}, v_g = \mathbf{2.4\times 10^8\text{ m/s}}, Z_{\text{TE}} = \mathbf{471.25\ \Omega}$).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="questions" class="space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center font-bold">Q</div>
+          <div>
+            <h2 class="text-xl font-bold text-white tracking-tight">Complete Q1 – Q57 Question Bank & Solution Matrix</h2>
+            <p class="text-xs text-slate-400">All 57 test items with verified correct answers, explanations, and math steps</p>
+          </div>
+        </div>
+
+        <!-- Real-Time Filter & Search Input -->
+        <div class="relative w-full sm:w-72">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+          <input type="text" id="questionSearch" oninput="filterQuestions()" placeholder="Search formula, question, or keyword..." class="w-full pl-9 pr-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+        </div>
+      </div>
+
+      <!-- Question Cards Grid -->
+      <div id="questionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <!-- Rendered via JavaScript for clean code structure and instant search -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-800/80 bg-[#090d16] py-6 px-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span class="text-slate-400 font-mono">ECE Board Review Companion — EST 1</span>
+      </div>
+      <div>
+        Designed for Rapid Recall &bull; 100% Coverage of Uploaded PDF Notes
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Master data array for all 57 questions extracted from uploaded PDF
+    const questionBank = [
+      {
+        q: 1,
+        title: "Ionospheric Absorption Layer",
+        text: "Which ionospheric layer is primarily responsible for absorbing High Frequency (HF) radio signals during daylight hours and virtually disappears at night?",
+        ans: "D layer",
+        category: "Ionosphere",
+        detail: "The D layer (60–90 km) has high neutral density causing high electron-neutral collision rates. HF waves transfer energy to collisions, resulting in daytime absorption. At night, rapid recombination makes it virtually disappear [NOTES]."
+      },
+      {
+        q: 2,
+        title: "Longest Single-Hop Skywave Layer",
+        text: "For a single-hop HF radio skywave transmission from Manila to Tokyo (approx 3000 km), which ionospheric layer provides the highest altitude reflection point necessary to achieve this distance in a single hop?",
+        ans: "F2 layer",
+        category: "Ionosphere",
+        detail: "The F2 layer (~250–400 km) reaches the highest altitude and highest electron density, enabling maximum single-hop ground distances of 3,000 to 4,000 km [NOTES]."
+      },
+      {
+        q: 3,
+        title: "15 MHz 500 km Propagation Mode",
+        text: "A signal is transmitted at a frequency of 15 MHz from a transmitter to a receiver located 500 km away. The signal reaches the receiver by reflecting off the ionosphere. This propagation mode is known as:",
+        ans: "Skywave propagation",
+        category: "Ionosphere",
+        detail: "15 MHz is within the HF band (3–30 MHz) where ionospheric refraction bends the wave back toward Earth [NOTES]."
+      },
+      {
+        q: 4,
+        title: "Skywave vs Ground Wave Range",
+        text: "How does the range of sky-wave propagation compare to ground-wave propagation?",
+        ans: "It is much longer",
+        category: "Propagation",
+        detail: "Ground wave attenuation rises rapidly with distance and frequency (typically < 200–500 km), whereas skywave easily spans thousands of kilometers across oceans and continents [NOTES]."
+      },
+      {
+        q: 5,
+        title: "Radio Horizon vs Optical Horizon Ratio",
+        text: "Because space waves are refracted slightly, even when propagated through the troposphere, the radio horizon is actually about how much farther than the line-of-sight or natural horizon?",
+        ans: "1/3 (or ~15% to 33% farther)",
+        category: "LOS",
+        detail: "Standard tropospheric refraction bends radio waves downward toward Earth, modeling an effective Earth radius K = 4/3, extending the radio horizon ~33% in radius factor or ~15% in linear distance [NOTES]."
+      },
+      {
+        q: 6,
+        title: "Effective Band for Ground Wave",
+        text: "Ground wave (surface wave) propagation is most effective at which frequency band?",
+        ans: "Low and Medium Frequencies (LF/MF)",
+        category: "Propagation",
+        detail: "At LF/MF (30 kHz – 3 MHz), ground absorption losses are low enough to sustain robust surface currents along the Earth's contour [NOTES]."
+      },
+      {
+        q: 7,
+        title: "AM 630 kHz Terrain Advantage",
+        text: "An AM broadcast station operating at 630 kHz in Dagupan City needs to deliver a ground wave signal across the Central Luzon plain towards Cabanatuan. Which environmental factor gives this region superior ground wave coverage?",
+        ans: "High soil conductivity",
+        category: "Propagation",
+        detail: "Surface waves propagate with minimal tilt and attenuation over flat plains with high electrical soil conductivity and high moisture content [NOTES]."
+      },
+      {
+        q: 8,
+        title: "Ground Wave Frequency Scaling",
+        text: "As the frequency of a radio wave increases, the effective range of ground wave propagation:",
+        ans: "Decreases sharply due to increased ground absorption",
+        category: "Propagation",
+        detail: "Skin depth decreases and dielectric ground absorption spikes with increasing frequency, restricting effective ground waves to below 3 MHz [NOTES]."
+      },
+      {
+        q: 9,
+        title: "Ground Wave Immunity",
+        text: "Ground wave propagation is a highly reliable mode of communication because it is generally unaffected by which of the following?",
+        ans: "Changes in the properties of the ionosphere",
+        category: "Propagation",
+        detail: "Ground waves travel directly on the Earth-troposphere interface and never reach or interact with ionospheric layers [NOTES]."
+      },
+      {
+        q: 10,
+        title: "156 MHz Coastal VHF Beyond Horizon",
+        text: "A VHF marine radio operating at 156 MHz connects two coastal ports between Iloilo and Bacolod. What is the primary propagation mode allowing communication across this body of water beyond the optical horizon?",
+        ans: "Space wave",
+        category: "LOS",
+        detail: "VHF frequencies travel via space waves (tropospheric line-of-sight rays extended slightly past the optical horizon by K = 4/3 refraction) [NOTES]."
+      },
+      {
+        q: 11,
+        title: "Skip Zone Definition",
+        text: "The region between the furthest point reached by the ground wave and the nearest point where the skywave returns to Earth is known as the:",
+        ans: "Skip zone (Dead zone)",
+        category: "Ionosphere",
+        detail: "Inside the skip zone, ground wave energy is already completely absorbed, but the skywave angle is too steep to reflect back down. No signal can be received here [NOTES]."
+      },
+      {
+        q: 12,
+        title: "Pasig to Cebu vs Quezon City Skip Effect",
+        text: "An amateur radio operator in Pasig City transmits on 21 MHz HF. A colleague in Quezon City (10 km away) cannot hear the signal, but an operator in Cebu City (570 km away) receives it clearly. Why?",
+        ans: "Quezon City is located inside the operator's skip zone",
+        category: "Ionosphere",
+        detail: "10 km is too far for 21 MHz ground wave absorption and too close for the first ionospheric skywave bounce, placing QC in the silent skip zone [NOTES]."
+      },
+      {
+        q: 13,
+        title: "Diffraction vs Frequency",
+        text: "In wave propagation, lower frequency waves tend to diffract _____ than higher frequency waves.",
+        ans: "More",
+        category: "Diffraction",
+        detail: "Diffraction depends on the ratio of wavelength to obstacle size (λ/d). Lower frequency corresponds to longer wavelength, producing far greater bending around obstacles [NOTES]."
+      },
+      {
+        q: 14,
+        title: "Multi-Path Phase Interference",
+        text: "Fluctuations in received signal strength caused by interference between two or more paths of the same signal arriving at different times are called:",
+        ans: "Multipath fading",
+        category: "Propagation",
+        detail: "Multiple arriving wave components exhibit varying path lengths and phase differences, combining destructively to cause deep fading dips [NOTES]."
+      },
+      {
+        q: 15,
+        title: "Environment with Worst Multipath Fading",
+        text: "Multipath fading occurs when a signal arrives via multiple paths. This phenomenon is most severe in which environment?",
+        ans: "Dense areas with many tall buildings",
+        category: "Propagation",
+        detail: "Tall concrete and glass structures create countless specular and diffuse reflections that cause severe Rayleigh and Rician fading [NOTES]."
+      },
+      {
+        q: 16,
+        title: "Tropospheric Ducting",
+        text: "A phenomenon where high-frequency radio waves are trapped between two layers of air in the troposphere due to temperature inversion is called:",
+        ans: "Tropospheric ducting",
+        category: "LOS",
+        detail: "A warm dry layer over a cool moist layer forms an extreme negative refractivity gradient (K = ∞), trapping RF waves like an atmospheric dielectric waveguide [NOTES]."
+      },
+      {
+        q: 17,
+        title: "Critical Frequency Definition",
+        text: "The highest frequency that will be returned to Earth when transmitted vertically into the ionosphere is defined as the:",
+        ans: "Critical Frequency (fc)",
+        category: "Ionosphere",
+        detail: "At vertical incidence (θ = 0°), any frequency above fc penetrates through the ionospheric layer and escapes into deep space [NOTES]."
+      },
+      {
+        q: 18,
+        title: "Standard Atmospheric K-Factor",
+        text: "Standard atmospheric refraction causes radio rays in the troposphere to bend slightly toward the Earth. This phenomenon is modeled by an effective Earth radius (K-factor) equal to:",
+        ans: "4/3 (≈ 1.33)",
+        category: "LOS",
+        detail: "Standard atmosphere has a refractivity gradient of -39 N-units/km, yielding K = 1 / (1 - a·dN/dh) = 4/3 [NOTES]."
+      },
+      {
+        q: 19,
+        title: "Error Assuming K = 1.0",
+        text: "If an engineer calculates the LOS horizon between two coastal hills assuming K = 1.0 (flat ray path) instead of standard K = 4/3, the calculated maximum communication distance will be:",
+        ans: "Underestimated",
+        category: "LOS",
+        detail: "K = 1.0 neglects downward tropospheric bending. True standard rays curve with the Earth, so assuming K = 1.0 predicts a shorter distance than actual [NOTES]."
+      },
+      {
+        q: 20,
+        title: "12 GHz Rain Attenuation",
+        text: "During a typhoon, a 12 GHz maritime system experiences severe degradation. What is the primary physical cause of this excessive attenuation?",
+        ans: "Scattering and absorption of EM waves by heavy raindrops",
+        category: "Link Budget",
+        detail: "At frequencies above 10 GHz, rain droplet diameters become comparable to the wavelength (λ ≈ 2.5 cm at 12 GHz), triggering severe Mie scattering and absorption [NOTES]."
+      },
+      {
+        q: 21,
+        title: "Mountain Ridge Diffraction",
+        text: "A base station on a peak in Baguio serves a valley blocked by a high mountain ridge. Which propagation mechanism allows RF energy to bend over the ridge into the valley?",
+        ans: "Knife-edge diffraction",
+        category: "Diffraction",
+        detail: "Fresnel-Kirchhoff knife-edge diffraction allows wavefronts encountering an opaque edge to act as secondary Huygens wavelets radiating into the shadow zone [NOTES]."
+      },
+      {
+        q: 22,
+        title: "OWF Percentage of MUF",
+        text: "The Optimum Working Frequency (OWF or FOT) for skywave communication is typically chosen to be what percentage of the Maximum Usable Frequency (MUF)?",
+        ans: "85%",
+        category: "Ionosphere",
+        detail: "OWF = 0.85 × MUF. The 15% reduction ensures the frequency stays below unexpected diurnal ionospheric density drops [NOTES]."
+      },
+      {
+        q: 23,
+        title: "Transmission with Frequency > MUF",
+        text: "What happens to a radio wave that is transmitted at a frequency higher than the Maximum Usable Frequency (MUF) for a specific path?",
+        ans: "It passes through the ionosphere and escapes into space",
+        category: "Ionosphere",
+        detail: "When f > MUF, total internal refraction cannot be achieved at that launch angle, so the ray penetrates into outer space [NOTES]."
+      },
+      {
+        q: 24,
+        title: "MUF & OWF Calculation",
+        text: "HF link Manila–Tacloban: critical frequency fc = 9.5 MHz, angle of incidence θ = 65°. Calculate MUF and OWF.",
+        ans: "MUF = 22.48 MHz, OWF = 19.11 MHz",
+        category: "Ionosphere",
+        detail: "MUF = fc / cos(θ) = 9.5 / cos(65°) = 9.5 / 0.422618 = 22.48 MHz. OWF = 0.85 × 22.48 = 19.11 MHz [NOTES]."
+      },
+      {
+        q: 25,
+        title: "FSPL: Double Frequency Only",
+        text: "In the Free Space Path Loss (FSPL) formula, if the operating frequency is doubled while distance remains constant, path loss will:",
+        ans: "Increase by 6 dB",
+        category: "Link Budget",
+        detail: "FSPL ∝ f². When frequency doubles: 20·log10(2) = +6.02 dB [NOTES]."
+      },
+      {
+        q: 26,
+        title: "FSPL: Double Both Distance and Frequency",
+        text: "A wireless link operates at 1 GHz over 1 km. If distance doubles to 2 km and frequency simultaneously doubles to 2 GHz, net change in FSPL is:",
+        ans: "Increases by 12 dB",
+        category: "Link Budget",
+        detail: "ΔFSPL = 20·log10(2d) + 20·log10(2f) = 6 dB + 6 dB = +12 dB [NOTES]."
+      },
+      {
+        q: 27,
+        title: "FSPL vs Wavelength Relationship",
+        text: "The Free Space Path Loss equation expressed as a function of wavelength shows that:",
+        ans: "FSPL is inversely proportional to the square of the wavelength",
+        category: "Link Budget",
+        detail: "FSPL = (4πd / λ)². Thus FSPL ∝ 1/λ² [NOTES]."
+      },
+      {
+        q: 28,
+        title: "5 GHz over 100 m FSPL Calculation",
+        text: "An ideal communications link operates at 5 GHz over 100 meters. What is the approximate Free Space Path Loss in dB?",
+        ans: "86.42 dB ≈ 87 dB",
+        category: "Link Budget",
+        detail: "FSPL = 92.44 + 20·log10(0.1 km) + 20·log10(5 GHz) = 92.44 - 20 + 13.98 = 86.42 dB ≈ 87 dB [NOTES]."
+      },
+      {
+        q: 29,
+        title: "Banahaw to Makiling 45 km Path Loss",
+        text: "Globe microwave link: d = 45 km, f = 6.2 GHz. Compute FSPL and total loss with 0.8 dB atmospheric and 1.5 dB rain loss.",
+        ans: "FSPL = 141.35 dB, Total Loss = 143.65 dB",
+        category: "Link Budget",
+        detail: "FSPL = 32.44 + 20·log10(45) + 20·log10(6200) = 32.44 + 33.06 + 75.85 = 141.35 dB. Total = 141.35 + 0.8 + 1.5 = 143.65 dB [NOTES]."
+      },
+      {
+        q: 30,
+        title: "DTTB Antenna Height Increase",
+        text: "DTTB link: ht = 144 m, hr = 49 m. Calculate maximum LOS distance. If ht is raised to 225 m, find the increase in range.",
+        ans: "Initial d = 78.34 km; New d' = 90.71 km; Increase = 12.37 km",
+        category: "LOS",
+        detail: "d = √(17·144) + √(17·49) = 49.48 + 28.86 = 78.34 km. d' = √(17·225) + 28.86 = 61.85 + 28.86 = 90.71 km. Δd = 90.71 - 78.34 = 12.37 km [NOTES]."
+      },
+      {
+        q: 31,
+        title: "MF Maritime Cliff Geometrical vs Radio Horizon",
+        text: "Antenna on a coastal cliff at h = 50 m. Earth radius R0 = 6,371 km. Calculate geometrical horizon and radio horizon (K = 4/3).",
+        ans: "d_geo = 25.24 km, d_radio = 29.15 km",
+        category: "LOS",
+        detail: "d_geo = √(2·6371·0.05) = √637.1 = 25.24 km. d_radio = √(17·50) = √850 = 29.15 km [NOTES]."
+      },
+      {
+        q: 32,
+        title: "Doubling Tx Height Effect on LOS Range",
+        text: "In a microwave LOS link, if transmitting antenna height is doubled while receiving antenna height is fixed, the total LOS range will:",
+        ans: "Increase, but by less than a factor of two",
+        category: "LOS",
+        detail: "d_total = √(17·2ht) + √(17·hr). The Tx term increases by √2 (1.414), but adding the unchanged Rx term makes the total percentage increase much less than 2 [NOTES]."
+      },
+      {
+        q: 33,
+        title: "Imperial Microwave Range Calculation",
+        text: "A microwave transmitting antenna is 600 ft high and the receiving antenna is 240 ft high. Compute the maximum transmitting distance.",
+        ans: "56.55 miles",
+        category: "LOS",
+        detail: "d = √(2·600) + √(2·240) = √1200 + √480 = 34.64 + 21.91 = 56.55 miles [NOTES]."
+      },
+      {
+        q: 34,
+        title: "Fade Margin Definition",
+        text: "The variance between the received signal level at the receiver input and the receiver's minimum sensitivity threshold is called:",
+        ans: "Fade Margin (FM)",
+        category: "Link Budget",
+        detail: "FM = RSL - C_min. It represents the safety cushion protecting against fading dips caused by multipath or precipitation [NOTES]."
+      },
+      {
+        q: 35,
+        title: "RSL from Path Loss Calculation",
+        text: "Microwave link: Pt = 30 dBm, Total Path Loss = 110 dB, Fade Margin = 15 dB. Calculate the actual received signal strength in dBm.",
+        ans: "-80 dBm",
+        category: "Link Budget",
+        detail: "RSL = Pt - Total Loss = 30 dBm - 110 dB = -80 dBm. (Threshold C_min = -80 - 15 = -95 dBm) [NOTES]."
+      },
+      {
+        q: 36,
+        title: "First Fresnel Zone Required Clearance",
+        text: "How much clearance of the first Fresnel zone is generally required over obstacles along a microwave line-of-sight link to avoid diffraction loss?",
+        ans: "60% (0.6 R1)",
+        category: "Fresnel",
+        detail: "At 0.6 R1 clearance, the path behaves essentially like free-space propagation with negligible obstacle loss (~0 dB) [NOTES]."
+      },
+      {
+        q: 37,
+        title: "Purpose of 60% Clearance Rule",
+        text: "For a terrestrial microwave link, ensuring that at least 60% of the first Fresnel zone is clear primarily serves to:",
+        ans: "Prevent destructive interference from diffracted signals",
+        category: "Fresnel",
+        detail: "Obstacles intruding within 60% create diffracted rays whose phase cancellation causes severe signal loss [NOTES]."
+      },
+      {
+        q: 38,
+        title: "Fresnel Zone Radius at Midpoint vs Off-Center",
+        text: "Link: 20 km, 6 GHz. Calculate R1 and 60% clearance at midpoint (10 km) and off-center (5 km / 15 km).",
+        ans: "Midpoint: R1 = 15.8 m, R_clear = 9.48 m; Off-center: R1 = 13.68 m, R_clear = 8.21 m",
+        category: "Fresnel",
+        detail: "Midpoint: R1 = 17.3√(10·10 / (6·20)) = 15.8 m, 0.6·R1 = 9.48 m. Off-center: R1 = 17.3√(5·15 / (6·20)) = 13.68 m, 0.6·R1 = 8.21 m [NOTES]."
+      },
+      {
+        q: 39,
+        title: "Power Density vs Distance in Free Space",
+        text: "To evaluate compliance with RF safety thresholds, how does power density scale relative to distance from the antenna in free space?",
+        ans: "Decreases inversely with the square of the distance (1/r²)",
+        category: "Fields",
+        detail: "PD = EIRP / (4πr²). As spherical surface area expands with r², power density drops inversely with r² [NOTES]."
+      },
+      {
+        q: 40,
+        title: "E-field Halving Effect on Power Density",
+        text: "If the electric field strength drops to half (1/2) its original value, how does the corresponding power density change?",
+        ans: "Decreases to one-fourth (1/4) of original power density",
+        category: "Fields",
+        detail: "PD = E² / η0. If E' = 0.5 E, then PD' = (0.5)² PD = 0.25 PD (1/4) [NOTES]."
+      },
+      {
+        q: 41,
+        title: "Distance for 10 dB Power Density Reduction",
+        text: "Peak power density is S at distance r. At what distance r' will the power density be reduced by 10 dB?",
+        ans: "3.16 r",
+        category: "Fields",
+        detail: "-10 dB is a power ratio of 0.1. PD' / PD = (r / r')² = 0.1 ⇒ (r'/r)² = 10 ⇒ r' = √10 · r ≈ 3.162 r [NOTES]."
+      },
+      {
+        q: 42,
+        title: "300 MHz vs 3 GHz Power Density Comparison",
+        text: "Two transmitters radiate 100 W isotropic power in free space: one at 300 MHz and another at 3 GHz. At 1 km, compare their power densities.",
+        ans: "Both signals have the exact same power density",
+        category: "Fields",
+        detail: "PD = Pt / (4πr²). Frequency does not appear in the power density equation! Both produce 100 / (4π·1000²) = 7.96 μW/m² [NOTES]."
+      },
+      {
+        q: 43,
+        title: "Electric Field at Twice the Distance",
+        text: "If electric field strength E at distance d is 100 mV/m, what will field strength be at 2d in an ideal free-space environment?",
+        ans: "50 mV/m",
+        category: "Fields",
+        detail: "E = √(30·EIRP) / d. Since E ∝ 1/d, doubling distance cuts field strength in half: 100 / 2 = 50 mV/m [NOTES]."
+      },
+      {
+        q: 44,
+        title: "E-Field of 150 V/m to Power Density",
+        text: "A calibrated meter records E = 150 V/m near a broadcast tower. Calculate the corresponding power density in air.",
+        ans: "59.68 W/m²",
+        category: "Fields",
+        detail: "PD = E² / 377 = (150)² / 377 = 22,500 / 377 = 59.68 W/m² [NOTES]."
+      },
+      {
+        q: 45,
+        title: "GEO Satellite Downlink Power Received",
+        text: "GEO satellite 36,000 km away radiates 50 W isotropic. Ground dish effective area is 2,500 m². Calculate received power.",
+        ans: "7.68 pW (-81.15 dBm)",
+        category: "Fields",
+        detail: "PD = 50 / [4π(3.6·10⁷)²] = 3.07 × 10⁻¹⁵ W/m². Pr = PD · A_eff = (3.07·10⁻¹⁵)(2500) = 7.68 × 10⁻¹² W = 7.68 pW = -81.15 dBm [NOTES]."
+      },
+      {
+        q: 46,
+        title: "Fixed Wireless 200 W at 12 km Field & Power",
+        text: "Base station radiates 200 W isotropic at 3.5 GHz. At 12 km LOS, calculate power density and electric field strength.",
+        ans: "PD = 1.105 × 10⁻⁷ W/m², E = 6.455 mV/m",
+        category: "Fields",
+        detail: "PD = 200 / [4π(12000)²] = 1.105 × 10⁻⁷ W/m². E = √(30·200) / 12000 = √6000 / 12000 = 77.46 / 12000 = 6.455 mV/m [NOTES]."
+      },
+      {
+        q: 47,
+        title: "EIRP Definition",
+        text: "Effective Isotropic Radiated Power (EIRP) is defined as transmit power multiplied by:",
+        ans: "The gain of the transmitting antenna",
+        category: "Link Budget",
+        detail: "EIRP = Pt · Gt (referenced to an isotropic radiator) [NOTES]."
+      },
+      {
+        q: 48,
+        title: "Parameter NOT in EIRP",
+        text: "Which parameter is used in link budget calculations but is NOT included in the EIRP calculation?",
+        ans: "The path loss due to free-space propagation",
+        category: "Link Budget",
+        detail: "EIRP contains only transmitter properties (Pt, cable loss, Gt). FSPL belongs to the transmission medium [NOTES]."
+      },
+      {
+        q: 49,
+        title: "6 dB EIRP Increase Effect on E-field",
+        text: "If a transmitter increases its EIRP by 6 dB, what effect does this have on the electric field strength (E) at the receiving antenna?",
+        ans: "The electric field strength doubles",
+        category: "Fields",
+        detail: "+6 dB is a 4-fold increase in power. Since E ∝ √EIRP, √4 = 2, so field strength doubles [NOTES]."
+      },
+      {
+        q: 50,
+        title: "Converting ERP to EIRP",
+        text: "When calculating power density using isotropic formulas (EIRP) from a given ERP of 10 kW, what conversion factor must be applied?",
+        ans: "Add 2.15 dB to ERP (or multiply by 1.64)",
+        category: "Fields",
+        detail: "EIRP = ERP + 2.15 dB. Linear: 10^(2.15/10) = 1.64 [NOTES]."
+      },
+      {
+        q: 51,
+        title: "Transmitter with Line Loss EIRP Calculation",
+        text: "Transmitter Pt = 200 W, feed line loss = 3 dB, antenna power gain = 15 (ratio). Calculate EIRP in Watts.",
+        ans: "1500 W",
+        category: "Link Budget",
+        detail: "3 dB loss cuts power in half (100 W). EIRP = 100 W × 15 = 1500 W. Or: EIRP = (200 × 15) / 2 = 1500 W [NOTES]."
+      },
+      {
+        q: 52,
+        title: "Repeater ERP with Losses",
+        text: "Repeater Pt = 450 W; Losses: line = 4 dB, duplexer = 6 dB, circulator = 7 dB; Antenna gain = 25 dBd. Compute ERP in Watts.",
+        ans: "2839.3 W",
+        category: "Link Budget",
+        detail: "Total loss = 17 dB. Net gain = 25 - 17 = +8 dBd. ERP = 450 × 10^(8/10) = 450 × 6.30957 = 2839.3 W [NOTES]."
+      },
+      {
+        q: 53,
+        title: "Rectangular Waveguide Dominant Mode",
+        text: "For a standard rectangular waveguide with dimensions a > b, which mode is typically the dominant mode?",
+        ans: "TE10",
+        category: "Waveguide",
+        detail: "TE10 has the lowest cutoff frequency (longest cutoff wavelength λc = 2a) among all modes in rectangular waveguides [NOTES]."
+      },
+      {
+        q: 54,
+        title: "Waveguide Velocity Invariant Relationship",
+        text: "What is the mathematical relationship between phase velocity, group velocity, and the speed of light in an air-filled waveguide?",
+        ans: "vp · vg = c²",
+        category: "Waveguide",
+        detail: "vp = c / √(1 - (fc/f)²) and vg = c · √(1 - (fc/f)²). Their product cancels the radical, yielding vp · vg = c² [NOTES]."
+      },
+      {
+        q: 55,
+        title: "Waveguide Cutoff Frequency Definition",
+        text: "The cutoff frequency of a particular mode in a waveguide is defined as the frequency:",
+        ans: "Below which a mode cannot propagate",
+        category: "Waveguide",
+        detail: "Below fc, propagation constant becomes imaginary; waves are evanescent and rapidly attenuate [NOTES]."
+      },
+      {
+        q: 56,
+        title: "0.65-inch Guide Cutoff Frequency Calculation",
+        text: "Calculate the cutoff frequency of a regular waveguide with width a = 0.65 inches and height b = 0.38 inches.",
+        ans: "fc = 9.085 GHz (λc = 3.302 cm)",
+        category: "Waveguide",
+        detail: "a = 0.65 × 0.0254 = 0.01651 m. fc = c / (2a) = (3·10⁸) / (2·0.01651) = 9.085 GHz. λc = 2a = 1.3 in = 3.302 cm [NOTES]."
+      },
+      {
+        q: 57,
+        title: "Complete Waveguide Mode Analysis",
+        text: "10 GHz propagates in TE10 mode in guide with a = 2.5 cm. Calculate group velocity, phase velocity, and characteristic wave impedance.",
+        ans: "fc = 6 GHz, vg = 2.4 × 10⁸ m/s, vp = 3.75 × 10⁸ m/s, ZTE = 471.25 Ω",
+        category: "Waveguide",
+        detail: "fc = 3·10⁸ / (2·0.025) = 6 GHz. Ratio fc/f = 0.6. Factor = √(1 - 0.36) = 0.8. vg = 0.8·c = 2.4·10⁸ m/s. vp = c/0.8 = 3.75·10⁸ m/s. ZTE = 377 / 0.8 = 471.25 Ω [NOTES]."
+      }
+    ];
+
+    // Render questions into the DOM
+    function renderQuestionCards(items) {
+      const container = document.getElementById('questionGrid');
+      if (!items || items.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-500">
+            <i class="fa-solid fa-circle-question text-3xl mb-2 block"></i>
+            No questions matching your search query.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = items.map(item => `
+        <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl p-3.5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 shadow-lg">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800/50">Q${item.q}</span>
+              <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded">${item.category}</span>
+            </div>
+            <h4 class="text-xs font-bold text-white mb-1.5">${item.title}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">${item.text}</p>
+          </div>
+          <div class="mt-2 pt-2.5 border-t border-slate-800/90">
+            <div class="text-xs font-bold text-emerald-400 mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-check text-[11px]"></i>
+              <span>${item.ans}</span>
+            </div>
+            <div class="text-[11px] text-slate-400 font-sans leading-normal">
+              ${item.detail}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Trigger MathJax / KaTeX rendering on new content
+      if (window.renderMathInElement) {
+        renderMathInElement(container, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // Filter questions
+    function filterQuestions() {
+      const q = document.getElementById('questionSearch').value.toLowerCase().trim();
+      if (!q) {
+        renderQuestionCards(questionBank);
+        return;
+      }
+      const filtered = questionBank.filter(item => 
+        item.q.toString().includes(q) ||
+        item.title.toLowerCase().includes(q) ||
+        item.text.toLowerCase().includes(q) ||
+        item.ans.toLowerCase().includes(q) ||
+        item.detail.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q)
+      );
+      renderQuestionCards(filtered);
+    }
+
+    // Interactive Calculator Tabs
+    function setCalcTab(tab) {
+      const tabs = ['horizon', 'fspl', 'fresnel', 'waveguide'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`calc-${t}`);
+        const btn = document.getElementById(`btn-tab-${t}`);
+        if (t === tab) {
+          el.classList.remove('hidden');
+          btn.className = "px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold transition";
+        } else {
+          el.classList.add('hidden');
+          btn.className = "px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold transition";
+        }
+      });
+    }
+
+    // Calculator Functions
+    function calculateHorizon() {
+      const ht = parseFloat(document.getElementById('inp-ht').value) || 0;
+      const hr = parseFloat(document.getElementById('inp-hr').value) || 0;
+      
+      const d1 = Math.sqrt(17 * ht);
+      const d2 = Math.sqrt(17 * hr);
+      const total = d1 + d2;
+      const dgeo = Math.sqrt(2 * 6371 * (ht / 1000));
+
+      const container = document.getElementById('res-horizon');
+      container.innerHTML = `
+        <div class="flex justify-between border-b border-slate-800 pb-1">
+          <span class="text-slate-400">Tx Horizon (d_t):</span>
+          <span class="text-white font-bold">${d1.toFixed(2)} km</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1">
+          <span class="text-slate-400">Rx Horizon (d_r):</span>
+          <span class="text-white font-bold">${d2.toFixed(2)} km</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1 text-emerald-400 font-bold text-sm">
+          <span>Total LOS Distance:</span>
+          <span>${total.toFixed(2)} km</span>
+        </div>
+        <div class="flex justify-between text-[11px] text-slate-400 pt-1">
+          <span>Tx Optical / Geo Horizon:</span>
+          <span>${dgeo.toFixed(2)} km</span>
+        </div>
+      `;
+    }
+
+    function calculateFSPL() {
+      const d = parseFloat(document.getElementById('inp-fspl-d').value) || 0;
+      const f = parseFloat(document.getElementById('inp-fspl-f').value) || 0;
+      if (d <= 0 || f <= 0) return;
+
+      const fspl = 92.44 + 20 * Math.log10(d) + 20 * Math.log10(f);
+
+      const container = document.getElementById('res-fspl');
+      container.innerHTML = `
+        <div class="flex justify-between border-b border-slate-800 pb-1">
+          <span class="text-slate-400">Formula Used:</span>
+          <span class="text-slate-300">92.44 + 20log(d) + 20log(f)</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1 text-cyan-400 font-bold text-sm">
+          <span>Free Space Path Loss:</span>
+          <span>${fspl.toFixed(2)} dB</span>
+        </div>
+        <div class="flex justify-between text-[11px] text-slate-400 pt-1">
+          <span>Wavelength (λ = c/f):</span>
+          <span>${((3e8 / (f * 1e9)) * 100).toFixed(2)} cm</span>
+        </div>
+      `;
+    }
+
+    function calculateFresnel() {
+      const d1 = parseFloat(document.getElementById('inp-fr-d1').value) || 0;
+      const d2 = parseFloat(document.getElementById('inp-fr-d2').value) || 0;
+      const f = parseFloat(document.getElementById('inp-fr-f').value) || 0;
+      const dTotal = d1 + d2;
+      if (dTotal <= 0 || f <= 0) return;
+
+      const r1 = 17.3 * Math.sqrt((d1 * d2) / (f * dTotal));
+      const rClear = 0.6 * r1;
+
+      const container = document.getElementById('res-fresnel');
+      container.innerHTML = `
+        <div class="flex justify-between border-b border-slate-800 pb-1">
+          <span class="text-slate-400">1st Fresnel Radius (R₁):</span>
+          <span class="text-amber-400 font-bold">${r1.toFixed(2)} meters</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1 text-emerald-400 font-bold text-sm">
+          <span>60% Clearance Required:</span>
+          <span>${rClear.toFixed(2)} meters</span>
+        </div>
+        <div class="flex justify-between text-[11px] text-slate-400 pt-1">
+          <span>Midpoint Ratio (d₁·d₂ / d):</span>
+          <span>${((d1 * d2) / dTotal).toFixed(2)} km</span>
+        </div>
+      `;
+    }
+
+    function calculateWaveguide() {
+      const a_cm = parseFloat(document.getElementById('inp-wg-a').value) || 0;
+      const f_ghz = parseFloat(document.getElementById('inp-wg-f').value) || 0;
+      if (a_cm <= 0 || f_ghz <= 0) return;
+
+      const a_m = a_cm / 100;
+      const c = 3e8;
+      const fc_hz = c / (2 * a_m);
+      const fc_ghz = fc_hz / 1e9;
+      const lambda_c_cm = 2 * a_cm;
+
+      let vgStr = "Evanescent (f < fc)";
+      let vpStr = "Evanescent (f < fc)";
+      let zteStr = "Reactive (Attenuated)";
+
+      if (f_ghz > fc_ghz) {
+        const factor = Math.sqrt(1 - Math.pow(fc_ghz / f_ghz, 2));
+        const vg = c * factor;
+        const vp = c / factor;
+        const zte = 377 / factor;
+
+        vgStr = `${(vg / 1e8).toFixed(3)} × 10⁸ m/s`;
+        vpStr = `${(vp / 1e8).toFixed(3)} × 10⁸ m/s`;
+        zteStr = `${zte.toFixed(2)} Ω`;
+      }
+
+      const container = document.getElementById('res-waveguide');
+      container.innerHTML = `
+        <div class="flex justify-between border-b border-slate-800 pb-1">
+          <span class="text-slate-400">Cutoff Frequency (fc):</span>
+          <span class="text-white font-bold">${fc_ghz.toFixed(3)} GHz</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1">
+          <span class="text-slate-400">Cutoff Wavelength (λc = 2a):</span>
+          <span class="text-white font-bold">${lambda_c_cm.toFixed(2)} cm</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1 text-amber-400">
+          <span>Group Velocity (vg):</span>
+          <span class="font-bold">${vgStr}</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-1 text-purple-400">
+          <span>Phase Velocity (vp):</span>
+          <span class="font-bold">${vpStr}</span>
+        </div>
+        <div class="flex justify-between text-emerald-400 pt-1 font-bold">
+          <span>Wave Impedance (Z_TE):</span>
+          <span>${zteStr}</span>
+        </div>
+      `;
+    }
+
+    // Initialize document on window load
+    window.onload = function () {
+      renderQuestionCards(questionBank);
+      calculateHorizon();
+      calculateFSPL();
+      calculateFresnel();
+      calculateWaveguide();
+
+      // Render math tags across entire document
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    };
+  </script>
+</body>
+</html>

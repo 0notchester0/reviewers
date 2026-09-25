@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECE Board Exam Command Center — EST 2 Reviewer</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX for crisp formula rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e'
+            },
+            slate: {
+              850: '#151e2e',
+              900: '#0f172a',
+              950: '#080d1a'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'Courier New', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b1120;
+      color: #e2e8f0;
+    }
+    /* Custom refined scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+    .formula-box {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.7));
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    }
+    .card-hover {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .badge-must {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .badge-high {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .badge-trap {
+      background: rgba(220, 38, 38, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.5);
+    }
+    .badge-pec {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-sky-500 selection:text-white">
+
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-900/90 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-sky-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-sky-500/20">
+            <i class="fa-solid fa-microchip text-xl"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-lg tracking-tight text-white">ECE EST 2</span>
+              <span class="px-2 py-0.5 text-xs font-semibold rounded bg-sky-500/20 text-sky-400 border border-sky-500/30">RAPID REVIEWER</span>
+            </div>
+            <p class="text-[11px] text-slate-400 hidden sm:block">Sensors • PLCs • Smart BMS • PEC Book 2 (FDAS) • Line Coding</p>
+          </div>
+        </div>
+
+        <!-- Global Search Input -->
+        <div class="flex-1 max-w-md mx-4">
+          <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input type="text" id="globalSearch" placeholder="Search formulas, concepts, PEC rules, questions..." 
+              class="w-full pl-10 pr-4 py-1.5 bg-slate-800/80 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all">
+          </div>
+        </div>
+
+        <!-- Quick Jump Links -->
+        <nav class="hidden md:flex items-center space-x-1 text-xs font-medium">
+          <a href="#sec-transducers" class="px-2.5 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-sky-400 transition-colors">Sensors</a>
+          <a href="#sec-plc" class="px-2.5 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-sky-400 transition-colors">PLCs</a>
+          <a href="#sec-bms" class="px-2.5 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-sky-400 transition-colors">BMS</a>
+          <a href="#sec-pec" class="px-2.5 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-sky-400 transition-colors">PEC FDAS</a>
+          <a href="#sec-linecode" class="px-2.5 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-sky-400 transition-colors">Line Coding</a>
+          <a href="#sec-formulas" class="px-2.5 py-1.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-sky-400 transition-colors">Formulas</a>
+          <a href="#sec-quiz" class="px-2.5 py-1.5 rounded-md bg-sky-600 hover:bg-sky-500 text-white font-semibold transition-colors shadow-sm">50Q Drill</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+    
+    <!-- Top Alert & Topic Metrics -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center space-x-3.5">
+        <div class="p-3 bg-red-500/10 text-red-400 rounded-lg text-lg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div>
+          <div class="text-xs text-slate-400 font-medium">Critical Traps Identified</div>
+          <div class="text-lg font-bold text-slate-100">8 High-Risk Traps</div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center space-x-3.5">
+        <div class="p-3 bg-amber-500/10 text-amber-400 rounded-lg text-lg"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <div>
+          <div class="text-xs text-slate-400 font-medium">PEC Book 2 Standards</div>
+          <div class="text-lg font-bold text-slate-100">100% Verified Limits</div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center space-x-3.5">
+        <div class="p-3 bg-sky-500/10 text-sky-400 rounded-lg text-lg"><i class="fa-solid fa-wave-square"></i></div>
+        <div>
+          <div class="text-xs text-slate-400 font-medium">Digital Line Codes</div>
+          <div class="text-lg font-bold text-slate-100">6 Key Waveform Families</div>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center space-x-3.5">
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg text-lg"><i class="fa-solid fa-list-check"></i></div>
+        <div>
+          <div class="text-xs text-slate-400 font-medium">Exam Practice Bank</div>
+          <div class="text-lg font-bold text-slate-100">50 Verified Board Questions</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-transducers" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-2.5 h-6 bg-sky-500 rounded-full"></span>
+          <h2 class="text-xl font-bold tracking-tight text-white">1. TRANSDUCERS & SENSORS (INDUSTRIAL & OPTICAL)</h2>
+        </div>
+        <span class="badge-must px-2.5 py-0.5 rounded text-xs font-semibold">🔴 MUST MEMORIZE</span>
+      </div>
+
+      <!-- Active vs Passive Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-base font-bold text-sky-400 flex items-center gap-2">
+              <i class="fa-solid fa-bolt"></i> Active Transducers (Self-Generating)
+            </h3>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/40 text-sky-300 border border-sky-700/50">No External DC/AC</span>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed mb-3">
+            Converts physical energy directly into an electrical voltage or current without any external excitation power source.
+          </p>
+          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800/80 text-xs space-y-1.5">
+            <span class="font-semibold text-slate-200">Examples to recall:</span>
+            <ul class="list-disc list-inside text-slate-400 space-y-1">
+              <li><strong class="text-slate-200">Thermocouple</strong> (Seebeck thermoelectric mV)</li>
+              <li><strong class="text-slate-200">Piezoelectric crystal</strong> (Force $\to$ surface charge)</li>
+              <li><strong class="text-slate-200">Photovoltaic (Solar) cell</strong> (Photons $\to$ DC power)</li>
+              <li><strong class="text-slate-200">Dynamic microphone</strong> (Acoustic wave $\to$ induced emf)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+              <i class="fa-solid fa-plug"></i> Passive Transducers (Externally Powered)
+            </h3>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/40 text-amber-300 border border-amber-700/50">Requires Excitation</span>
+          </div>
+          <p class="text-sm text-slate-300 leading-relaxed mb-3">
+            Requires an external DC or AC excitation voltage/current. Modulates parameters ($R, L, C$) in response to physical changes.
+          </p>
+          <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-800/80 text-xs space-y-1.5">
+            <span class="font-semibold text-slate-200">Examples to recall:</span>
+            <ul class="list-disc list-inside text-slate-400 space-y-1">
+              <li><strong class="text-slate-200">RTD (Pt100)</strong> ($\Delta R$ metal, highly linear)</li>
+              <li><strong class="text-slate-200">Thermistor</strong> (NTC/PTC metal-oxide semiconductor)</li>
+              <li><strong class="text-slate-200">LVDT</strong> (Mutual AC inductance for displacement)</li>
+              <li><strong class="text-slate-200">Strain Gauge & LDR</strong> (Photoconductive CdS cell)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 shadow">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead class="bg-slate-850 text-slate-300 font-semibold border-b border-slate-700 uppercase tracking-wider">
+            <tr>
+              <th class="p-3.5">Sensor</th>
+              <th class="p-3.5">Physical Principle</th>
+              <th class="p-3.5">Output</th>
+              <th class="p-3.5">Linearity</th>
+              <th class="p-3.5">Temp. Coeff.</th>
+              <th class="p-3.5">Key Exam Traps & Characteristics</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 text-slate-300">
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3.5 font-bold text-sky-400">Thermocouple</td>
+              <td class="p-3.5">Seebeck Effect (Dissimilar metals junction)</td>
+              <td class="p-3.5 font-mono text-emerald-400">mV (Thermoelectric)</td>
+              <td class="p-3.5">Non-linear</td>
+              <td class="p-3.5">Variable</td>
+              <td class="p-3.5">Self-powered (Active); $-200^\circ\text{C}$ to $>1800^\circ\text{C}$; requires cold-junction compensation.</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3.5 font-bold text-sky-400">RTD (Pt100)</td>
+              <td class="p-3.5">Platinum wire resistance change</td>
+              <td class="p-3.5 font-mono text-emerald-400">$\Delta R$ ($100\,\Omega \text{ @ } 0^\circ\text{C}$)</td>
+              <td class="p-3.5 text-emerald-400 font-bold">Highly Linear</td>
+              <td class="p-3.5 font-bold text-sky-300">PTC (+0.385 $\Omega/^\circ\text{C}$)</td>
+              <td class="p-3.5">Conductors have PTC! Highest repeatability and stability in precision laboratory/HVAC loops.</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3.5 font-bold text-amber-400">Thermistor (NTC)</td>
+              <td class="p-3.5">Sintered metal-oxide semiconductor</td>
+              <td class="p-3.5 font-mono text-emerald-400">$\Delta R$ (Rapid)</td>
+              <td class="p-3.5 text-rose-400">Exponential non-linear</td>
+              <td class="p-3.5 font-bold text-rose-400">NTC ($R \downarrow$ as $T \uparrow$)</td>
+              <td class="p-3.5">Semiconductors have NTC! When $T$ rises $25^\circ\text{C} \to 50^\circ\text{C}$, resistance drops exponentially.</td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="p-3.5 font-bold text-slate-300">IC Sensor (LM35)</td>
+              <td class="p-3.5">Transistor $V_{be}$ forward bias</td>
+              <td class="p-3.5 font-mono text-emerald-400">$10\text{ mV}/^\circ\text{C}$</td>
+              <td class="p-3.5 text-emerald-400 font-bold">Linear</td>
+              <td class="p-3.5">PTC</td>
+              <td class="p-3.5">Directly calibrated in Celsius (0 mV at $0^\circ\text{C}$). Range: $-55^\circ\text{C}$ to $+150^\circ\text{C}$.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-2">
+          <div class="font-bold text-sm text-sky-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-eye"></i> Optical Transducers
+          </div>
+          <p><strong class="text-slate-200">Photodiode:</strong> Operates on internal <span class="text-amber-400 font-semibold">Photoelectric Effect</span>. Max switching speed & fast response achieved strictly under <span class="text-emerald-400 font-bold underline">REVERSE BIAS</span> (minimizes junction capacitance $C_j$, expands depletion zone).</p>
+          <p><strong class="text-slate-200">Laser Diode vs. LED:</strong> Laser produces <span class="text-sky-300 font-semibold">coherent, monochromatic</span> light. LED produces <span class="text-slate-400">incoherent, broad-spectrum</span> light.</p>
+          <p><strong class="text-slate-200">LDR (Photoconductive cell):</strong> Cadmium Sulfide (CdS). Incident light $\uparrow \implies R \downarrow$ non-linearly.</p>
+          <p><strong class="text-slate-200">Optocoupler:</strong> LED + Phototransistor. Delivers <span class="text-sky-400 font-semibold">Galvanic Isolation</span> between high-voltage field lines and MCU logic.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-2">
+          <div class="font-bold text-sm text-sky-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i> Displacement & Force
+          </div>
+          <p><strong class="text-slate-200">LVDT:</strong> Electromechanical transformer. Measures linear position via differential AC voltage coupling. Zero friction, infinite mechanical life, exceptional resolution.</p>
+          <p><strong class="text-slate-200">Strain Gauge:</strong> Metal foil pattern. Changes resistance with mechanical strain: $\Delta R / R = GF \cdot \epsilon$.</p>
+          <p><strong class="text-slate-200">Piezoelectric Crystal:</strong> Quartz / PZT ceramic generates voltage under mechanical stress. <span class="badge-trap px-1 rounded font-bold">TRAP</span>: Measures <span class="underline font-bold">DYNAMIC stress only</span>; cannot measure static loads because charge leaks through amplifier impedance.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-2">
+          <div class="font-bold text-sm text-sky-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-radar"></i> Proximity & Acoustic
+          </div>
+          <p><strong class="text-slate-200">Inductive Proximity:</strong> Detects <span class="text-emerald-400 font-bold">FERROUS/METALLIC</span> targets only via eddy current losses.</p>
+          <p><strong class="text-slate-200">Capacitive Proximity:</strong> Detects <span class="text-amber-400 font-bold">METALLIC & NON-METALLIC</span> materials (liquids, plastics, bulk solids) via dielectric constant changes.</p>
+          <p><strong class="text-slate-200">Microphones:</strong> Acoustic pressure waves $\to$ electrical AC signals (dynamic, condenser, MEMS).</p>
+          <p><strong class="text-slate-200">Cabling Shielding & Spacing:</strong> PEC dictates instrument signaling lines must maintain physical separation from $60\text{ Hz}$ AC power lines to stop <span class="text-rose-400 font-bold">Crosstalk & EMI</span>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-plc" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-2.5 h-6 bg-emerald-500 rounded-full"></span>
+          <h2 class="text-xl font-bold tracking-tight text-white">2. INDUSTRIAL AUTOMATION — PLCs & SCADA</h2>
+        </div>
+        <span class="badge-must px-2.5 py-0.5 rounded text-xs font-semibold">🔴 HIGH-YIELD</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Architecture Card -->
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-server"></i> PLC Hardware Architecture
+          </h3>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li><strong class="text-white">CPU Module:</strong> Executes control ladder logic, controls memory, diagnostics, and communication channels.</li>
+            <li><strong class="text-white">Input Modules:</strong> Condition external field inputs ($24\text{ V DC}, 220\text{ V AC}, 4\text{--}20\text{ mA}$) with internal optical isolation.</li>
+            <li><strong class="text-white">Output Modules:</strong> Drive field actuators (relays, triacs, transistors) from internal output image tables.</li>
+            <li><strong class="text-white">Watchdog Timer (WDT):</strong> Hardware/software fail-safe mechanism dedicated to <span class="text-rose-400 font-bold">detecting CPU freezing or program loop execution failure</span>. Forces outputs de-energized if logic scan times out.</li>
+            <li><strong class="text-white">PLC vs. MCU:</strong> PLCs provide ruggedized casing, optical isolation, high noise immunity, and modular field I/O expansion.</li>
+          </ul>
+        </div>
+
+        <!-- Scan Cycle Visual Card -->
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-arrows-spin"></i> The 4-Phase PLC Scan Cycle
+          </h3>
+          <div class="space-y-2 text-xs">
+            <div class="p-2 rounded bg-slate-950 border border-slate-800 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-[10px]">1</span>
+              <div><strong class="text-slate-200">Input Scan:</strong> Read physical inputs into Input Image Table.</div>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px]">2</span>
+              <div><strong class="text-slate-200">Logic Scan:</strong> Execute ladder logic rungs top-to-bottom.</div>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-[10px]">3</span>
+              <div><strong class="text-slate-200">Diagnostics / Comms:</strong> Self-checks, reset WDT, comms.</div>
+            </div>
+            <div class="p-2 rounded bg-slate-950 border border-slate-800 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-[10px]">4</span>
+              <div><strong class="text-slate-200">Output Scan:</strong> Write Output Image Table to physical field contacts.</div>
+            </div>
+          </div>
+          <div class="p-2.5 rounded bg-rose-950/40 border border-rose-800/40 text-[11px] text-rose-300">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>EXAM TRAP:</strong> Field outputs are <em>never</em> updated rung-by-rung during program execution! They update <strong>ONLY during the Output Scan phase</strong>.
+          </div>
+        </div>
+
+        <!-- SCADA & Languages Card -->
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-network-wired"></i> SCADA & IEC 61131-3 Languages
+          </h3>
+          <div class="text-xs space-y-2">
+            <p><strong class="text-sky-300">Ladder Diagram (LD):</strong> Most widely used in industry; mirrors electromechanical relay contacts and coils.</p>
+            <p><strong class="text-sky-300">Structured Text (ST):</strong> High-level Pascal-like text language for complex mathematics and array algorithms.</p>
+            <p><strong class="text-sky-300">Function Block Diagram (FBD):</strong> Connects functional blocks (PID, timers) like electronic circuit diagrams.</p>
+            <p><strong class="text-sky-300">Sequential Function Chart (SFC):</strong> State machine flowchart for batch processes.</p>
+            <p><strong class="text-amber-400">SCADA Field Layer:</strong> <strong class="text-white">RTU (Remote Terminal Unit)</strong> interfaces directly with field sensors/actuators to execute local control and stream telemetry to the <strong class="text-white">MTU (Master Terminal Unit)</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- BMS Section -->
+      <section id="sec-bms" class="space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-2.5 h-6 bg-amber-500 rounded-full"></span>
+            <h2 class="text-lg font-bold tracking-tight text-white">3. SMART BUILDING SYSTEMS (BMS)</h2>
+          </div>
+          <span class="badge-high px-2.5 py-0.5 rounded text-xs font-semibold">HVAC & SECURITY</span>
+        </div>
+
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-3">
+          <div>
+            <span class="font-bold text-amber-400 text-sm">Primary Goal of HVAC Integration:</span>
+            <p class="text-slate-300 mt-1">To <span class="text-emerald-400 font-semibold">automate and optimize energy consumption</span> while sustaining indoor environmental quality, temperature, and fresh-air volume.</p>
+          </div>
+
+          <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+            <span class="font-semibold text-slate-200">Peak Demand Reduction Techniques:</span>
+            <ul class="list-disc list-inside text-slate-400 space-y-1">
+              <li><strong class="text-slate-200">Load Shedding:</strong> Turn off non-essential loads (decorative lighting, secondary pumps).</li>
+              <li><strong class="text-slate-200">Staggered Equipment Startup:</strong> Start heavy chillers/AHUs sequentially to avoid aggregate inductive inrush current spikes.</li>
+              <li><strong class="text-slate-200">Chilled Water Reset:</strong> Elevate chilled water temperature setpoints during partial building load periods.</li>
+              <li><span class="text-rose-400 font-bold">FORBIDDEN:</span> Never disable life-safety fire detection loops to save energy!</li>
+            </ul>
+          </div>
+
+          <div class="space-y-2">
+            <p><strong class="text-slate-200">Fail-Safe Emergency Door Locks:</strong> In smart buildings, access control doors must be wired <span class="text-emerald-400 font-bold underline">FAIL-SAFE</span> (automatically unlock on loss of power or upon receiving a confirmed fire alarm signal) to permit unhindered emergency egress.</p>
+            <p><strong class="text-slate-200">HVAC Response to Fire Alarm:</strong> FACP commands BMS to <span class="text-rose-400 font-bold">shut down supply fans and close fire/smoke dampers</span> (prevents feeding oxygen and spreading smoke), while initiating <span class="text-sky-400 font-semibold">stairwell pressurization</span> fans.</p>
+            <p><strong class="text-slate-200">CCTV H.265 (HEVC) Compression:</strong> Delivers up to <span class="text-emerald-400 font-bold">50% bandwidth and storage reduction</span> over older H.264 (AVC) at equivalent resolution.</p>
+            <p><strong class="text-slate-200">Sub-metering:</strong> Measures power/water per floor or tenant to enable <span class="text-sky-300 font-semibold">accurate tenant billing</span> and leak identification.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PEC Book 2 FDAS Section -->
+      <section id="sec-pec" class="space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-2.5 h-6 bg-red-500 rounded-full"></span>
+            <h2 class="text-lg font-bold tracking-tight text-white">4. PEC BOOK 2: FDAS MANDATORY METRICS</h2>
+          </div>
+          <span class="badge-pec px-2.5 py-0.5 rounded text-xs font-semibold">GOVERNMENT CODE</span>
+        </div>
+
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">Smoke Detector Max Spacing</span>
+              <span class="text-xl font-bold text-sky-400 font-mono">9.0 meters</span>
+              <span class="text-[10px] text-slate-500 block">Flat ceilings $\le 4\text{ m}$ height</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">Max Distance to MFAS (Pull Box)</span>
+              <span class="text-xl font-bold text-amber-400 font-mono">30.0 meters</span>
+              <span class="text-[10px] text-slate-500 block">From any point on a floor</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">MFAS Operating Handle Height</span>
+              <span class="text-xl font-bold text-emerald-400 font-mono">1.1 to 1.4 m</span>
+              <span class="text-[10px] text-slate-500 block">Above finished floor level</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">Max Alarm Zone Floor Area</span>
+              <span class="text-xl font-bold text-purple-400 font-mono">800 sq. m</span>
+              <span class="text-[10px] text-slate-500 block">Per single detection zone</span>
+            </div>
+          </div>
+
+          <div class="p-3.5 bg-slate-950/80 rounded-lg border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-rose-400 font-bold">FDAS Battery Standby Requirement:</strong>
+              <span class="px-2 py-0.5 text-[10px] rounded bg-rose-900/40 text-rose-300 border border-rose-700">Strict Standard</span>
+            </div>
+            <p class="text-slate-300">
+              <strong class="text-white font-mono">24 Hours Standby</strong> continuous operation, followed immediately by <strong class="text-white font-mono">5 Minutes Full Alarm Notification</strong> (horns, strobes, voice evacuation).
+            </p>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-1">
+            <strong class="text-slate-200">Alarm vs. Supervisory Signals:</strong>
+            <p class="text-slate-400">
+              • <strong class="text-rose-400">Alarm:</strong> Active life emergency (smoke, heat, sprinkler waterflow, pull box).<br>
+              • <strong class="text-amber-400">Supervisory:</strong> Subsystem operational fault (closed sprinkler valve, fire pump failure, low air pressure in dry pipe).
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section id="sec-linecode" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-2.5 h-6 bg-purple-500 rounded-full"></span>
+          <h2 class="text-xl font-bold tracking-tight text-white">5. DIGITAL COMMUNICATIONS — LINE CODING SCHEMES</h2>
+        </div>
+        <span class="badge-must px-2.5 py-0.5 rounded text-xs font-semibold">🔴 MUST MEMORIZE</span>
+      </div>
+
+      <!-- Core Line Coding Concept & SVG Waveforms -->
+      <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-base font-bold text-purple-400">Line Coding Definition & Bit Mapping</h3>
+            <p class="text-xs text-slate-400">The process of converting digital data (binary bit stream) into discrete digital signals (voltage pulses) over a transmission link.</p>
+          </div>
+          <div class="text-xs font-mono bg-slate-950 px-3 py-1.5 rounded border border-slate-800 text-sky-300">
+            Average Baud: $S_{\text{avg}} = c \cdot N \cdot \frac{1}{r}$ &nbsp;|&nbsp; ($c = 0.5$ typically)
+          </div>
+        </div>
+
+        <!-- SVG Timing Diagram Visualizer -->
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 overflow-x-auto">
+          <div class="min-w-[680px]">
+            <div class="flex items-center justify-between mb-2 text-xs text-slate-400 font-mono">
+              <span>Bit Stream: [ 1 ] [ 0 ] [ 1 ] [ 1 ] [ 0 ] [ 0 ] [ 1 ]</span>
+              <span>Normalized Clock Cycles</span>
+            </div>
+
+            <!-- SVG Diagram -->
+            <svg viewBox="0 0 700 240" class="w-full h-auto text-xs">
+              <!-- Grid Lines -->
+              <defs>
+                <pattern id="grid" width="100" height="240" patternUnits="userSpaceOnUse">
+                  <line x1="100" y1="0" x2="100" y2="240" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 3"/>
+                </pattern>
+              </defs>
+              <rect width="700" height="240" fill="url(#grid)" />
+
+              <!-- Bit Headers -->
+              <text x="50" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 1</text>
+              <text x="150" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 0</text>
+              <text x="250" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 1</text>
+              <text x="350" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 1</text>
+              <text x="450" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 0</text>
+              <text x="550" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 0</text>
+              <text x="650" y="16" fill="#94a3b8" text-anchor="middle" font-weight="bold">Bit 1</text>
+
+              <!-- Track 1: Polar NRZ-L (0 = +V, 1 = -V) -->
+              <text x="5" y="45" fill="#38bdf8" font-size="11" font-weight="bold">NRZ-L</text>
+              <line x1="50" y1="52" x2="700" y2="52" stroke="#334155" stroke-width="0.5"/>
+              <path d="M 50 60 L 100 60 L 100 40 L 200 40 L 200 60 L 400 60 L 400 40 L 600 40 L 600 60 L 700 60" 
+                    fill="none" stroke="#38bdf8" stroke-width="2.5" />
+
+              <!-- Track 2: Polar NRZ-I (Invert on 1) -->
+              <text x="5" y="95" fill="#fbbf24" font-size="11" font-weight="bold">NRZ-I</text>
+              <line x1="50" y1="102" x2="700" y2="102" stroke="#334155" stroke-width="0.5"/>
+              <path d="M 50 90 L 100 90 L 100 90 L 200 90 L 200 110 L 300 110 L 300 90 L 400 90 L 400 90 L 600 90 L 600 110 L 700 110" 
+                    fill="none" stroke="#fbbf24" stroke-width="2.5" />
+
+              <!-- Track 3: Manchester (0: Hi-Lo, 1: Lo-Hi) -->
+              <text x="5" y="145" fill="#f43f5e" font-size="11" font-weight="bold">Manchester</text>
+              <line x1="50" y1="152" x2="700" y2="152" stroke="#334155" stroke-width="0.5"/>
+              <path d="M 50 160 L 75 160 L 75 140 L 100 140 L 100 140 L 125 140 L 125 160 L 200 160 L 200 160 L 225 160 L 225 140 L 300 140 L 300 160 L 325 160 L 325 140 L 400 140 L 400 140 L 425 140 L 425 160 L 500 160 L 500 140 L 525 140 L 525 160 L 600 160 L 600 160 L 625 160 L 625 140 L 700 140" 
+                    fill="none" stroke="#f43f5e" stroke-width="2.2" />
+
+              <!-- Track 4: Bipolar AMI (1 alternates, 0 is 0V) -->
+              <text x="5" y="200" fill="#34d399" font-size="11" font-weight="bold">Bipolar AMI</text>
+              <line x1="50" y1="202" x2="700" y2="202" stroke="#334155" stroke-width="0.5"/>
+              <path d="M 50 190 L 100 190 L 100 202 L 200 202 L 200 214 L 300 214 L 300 190 L 400 190 L 400 202 L 600 202 L 600 214 L 700 214" 
+                    fill="none" stroke="#34d399" stroke-width="2.5" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Line Coding Characteristics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+            <span class="font-bold text-sky-400 block mb-1">Polar NRZ-L vs. NRZ-I</span>
+            <ul class="text-slate-300 space-y-1">
+              <li>• <strong class="text-white">NRZ-L:</strong> The voltage level directly corresponds to the bit value. Subject to baseline wander & DC bias.</li>
+              <li>• <strong class="text-white">NRZ-I:</strong> Inverts signal at start of bit for <strong class="text-amber-400">Logic 1</strong>; keeps level for <strong class="text-amber-400">Logic 0</strong>. Immune to polarity inversion.</li>
+              <li>• Baud Rate: $S_{\text{avg}} = \frac{1}{2}N$.</li>
+            </ul>
+          </div>
+
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+            <span class="font-bold text-rose-400 block mb-1">Manchester & Differential</span>
+            <ul class="text-slate-300 space-y-1">
+              <li>• <strong class="text-white">Manchester:</strong> Mid-bit transition always ($0 = \text{Hi}\to\text{Lo}$, $1 = \text{Lo}\to\text{Hi}$). <span class="text-emerald-400 font-semibold">Zero DC bias, self-clocking</span>.</li>
+              <li>• <strong class="text-rose-400 font-bold">EXAM TRAP:</strong> Manchester requires <span class="underline font-bold">2× the bandwidth</span> of NRZ ($S_{\text{avg}} = N$).</li>
+              <li>• <strong class="text-white">Differential Manchester:</strong> Transition at start of bit $= 0$; no start transition $= 1$.</li>
+            </ul>
+          </div>
+
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800">
+            <span class="font-bold text-emerald-400 block mb-1">Bipolar AMI & 2B1Q</span>
+            <ul class="text-slate-300 space-y-1">
+              <li>• <strong class="text-white">Bipolar AMI:</strong> 3 levels ($+V, 0, -V$). Bit $0 = 0\text{ V}$. Bit $1 = \text{alternating } +V \text{ and } -V$. Zero DC component.</li>
+              <li>• <strong class="text-purple-400 font-bold">2B1Q Scheme:</strong> Encodes 2 bits into 1 quaternary element ($-3, -1, +1, +3\text{ V}$).</li>
+              <li>• <span class="text-emerald-400 font-semibold">Halves the bandwidth</span> requirement ($r = 2$ bits/signal, $S_{\text{avg}} = N/4$).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-formulas" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-2.5 h-6 bg-cyan-400 rounded-full"></span>
+          <h2 class="text-xl font-bold tracking-tight text-white">6. FORMULA REFERENCE CARDS & EXAM CALCULATORS</h2>
+        </div>
+        <span class="badge-high px-2.5 py-0.5 rounded text-xs font-semibold">🟠 HIGH-YIELD COMPUTATIONS</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Formula 1: Photodiode Responsivity -->
+        <div class="formula-box p-5 rounded-xl space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-700/60 pb-2">
+            <h3 class="font-bold text-sm text-sky-400">FORMULA CARD 1: PHOTODIODE RESPONSIVITY</h3>
+            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">Exam Q12</span>
+          </div>
+
+          <div class="text-center py-2 bg-slate-950/80 rounded-lg border border-slate-800">
+            <div class="text-lg font-bold text-sky-300 font-mono">
+              $$R = \frac{I_p}{P} = \frac{\eta \cdot q}{h \cdot \nu} = \frac{\eta \cdot q \cdot \lambda}{h \cdot c}$$
+            </div>
+            <div class="text-[11px] text-slate-400 mt-1 font-mono">Photocurrent: $I_p = R \cdot P$</div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1">
+            <p><strong>Variables:</strong> $R = \text{Responsivity [A/W]}$, $I_p = \text{Photocurrent [A]}$, $P = \text{Optical Power [W]}$, $\eta = \text{Quantum Efficiency}$, $\lambda = \text{Wavelength [m]}$.</p>
+            <p><strong>Constants:</strong> $q = 1.602 \times 10^{-19}\text{ C}$, $h = 6.626 \times 10^{-34}\text{ J}\cdot\text{s}$, $c = 3.0 \times 10^8\text{ m/s}$.</p>
+          </div>
+
+          <!-- Interactive Calculator -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+            <span class="font-bold text-slate-200">Interactive Solver (Verify Exam Q12):</span>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[11px] text-slate-400 block">Responsivity (A/W)</label>
+                <input type="number" id="calcR" value="0.85" step="0.01" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+              </div>
+              <div>
+                <label class="text-[11px] text-slate-400 block">Optical Power ($\mu\text{W}$)</label>
+                <input type="number" id="calcP" value="20" step="1" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+              </div>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <button onclick="calculatePhotocurrent()" class="px-3 py-1 bg-sky-600 hover:bg-sky-500 text-white rounded font-medium transition-colors">Compute $I_p$</button>
+              <span id="calcResultIp" class="font-mono font-bold text-emerald-400 text-sm">Ip = 17.00 µA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formula 2: ADC Quantization Resolution -->
+        <div class="formula-box p-5 rounded-xl space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-700/60 pb-2">
+            <h3 class="font-bold text-sm text-amber-400">FORMULA CARD 2: ADC VOLTAGE RESOLUTION</h3>
+            <span class="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">Exam Q18</span>
+          </div>
+
+          <div class="text-center py-2 bg-slate-950/80 rounded-lg border border-slate-800">
+            <div class="text-lg font-bold text-amber-300 font-mono">
+              $$\text{Voltage Resolution (LSB)} = \frac{V_{\max} - V_{\min}}{2^n}$$
+            </div>
+            <div class="text-[11px] text-slate-400 mt-1 font-mono">Dynamic Range: $DR \approx 2^n$</div>
+          </div>
+
+          <div class="text-xs text-slate-300 space-y-1">
+            <p><strong>Variables:</strong> $\text{FSR} = V_{\max} - V_{\min} = \text{Full Scale Range [V]}$, $n = \text{ADC Resolution [bits]}$, $2^n = \text{Quantization Levels}$.</p>
+            <p><strong>Trap Alert:</strong> Do not divide by $2^n - 1$ for standard industrial step sizing unless code transition spans are specifically requested.</p>
+          </div>
+
+          <!-- Interactive Calculator -->
+          <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 space-y-2 text-xs">
+            <span class="font-bold text-slate-200">Interactive Solver (Verify Exam Q18):</span>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[11px] text-slate-400 block">Full Scale Voltage (V)</label>
+                <input type="number" id="calcVfs" value="10" step="1" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+              </div>
+              <div>
+                <label class="text-[11px] text-slate-400 block">ADC Bits ($n$)</label>
+                <input type="number" id="calcBits" value="12" step="1" class="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200">
+              </div>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <button onclick="calculateADCResolution()" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded font-medium transition-colors">Compute Step</button>
+              <span id="calcResultADC" class="font-mono font-bold text-emerald-400 text-sm">Res = 2.44 mV</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="sec-quiz" class="space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <span class="w-2.5 h-6 bg-emerald-400 rounded-full"></span>
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-white">7. COMPLETE 50-QUESTION BOARD EXAM DRILL BANK</h2>
+            <p class="text-xs text-slate-400">All questions extracted directly from your review test notes with highlighted verified answers and rationales.</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="filterQuestions('all')" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">All (50)</button>
+          <button onclick="filterQuestions('transducer')" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">Sensors</button>
+          <button onclick="filterQuestions('plc')" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">PLCs</button>
+          <button onclick="filterQuestions('bms')" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">BMS/PEC</button>
+          <button onclick="filterQuestions('line')" class="px-2.5 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">Line Coding</button>
+        </div>
+      </div>
+
+      <!-- Question Cards Grid Container -->
+      <div id="quizContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-12 border-t border-slate-800 bg-slate-900/60 py-6 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="font-medium text-slate-300">ECE Board Exam Rapid Reviewer &mdash; Electronics Systems and Technologies (EST 2)</p>
+      <p>Compiled from authentic board review questionnaires • Verified against Philippine Electronics Code (PEC Book 2) & IEC 61131-3 Standards</p>
+    </div>
+  </footer>
+
+  <script>
+    // 50 Questions Database directly matching the source test paper
+    const examQuestions = [
+      {
+        id: 1,
+        cat: 'transducer',
+        q: 'A transducer that generates an electrical signal directly from a physical quantity without requiring an external DC power source is known as an:',
+        options: ['Active transducer', 'Inductive transducer', 'Passive transducer', 'Resistive transducer'],
+        ans: 0,
+        explanation: 'Active transducers (e.g. thermocouples, piezoelectric crystals, photovoltaics) generate an electrical signal directly without an external excitation voltage.'
+      },
+      {
+        id: 2,
+        cat: 'bms',
+        q: 'According to the Philippine Electronics Code (PEC), sensor and transducer cabling installed in industrial and commercial buildings for instrumentation and signaling must maintain a minimum distance from high-voltage AC power lines primarily to prevent:',
+        options: ['Line resistance drops', 'Thermal heating of sensor cables', 'Crosstalk and electromagnetic interference (EMI)', 'Corona discharge'],
+        ans: 2,
+        explanation: 'Physical separation from 60 Hz AC power mains is mandatory to prevent inductive and capacitive crosstalk/EMI in sensitive low-voltage analog instrument lines.'
+      },
+      {
+        id: 3,
+        cat: 'transducer',
+        q: 'In a Resistance Temperature Detector (RTD) constructed from platinum (e.g., Pt100), the relationship between temperature and resistance exhibits:',
+        options: ['An inverse exponential decay over its entire operating range', 'A step-function threshold change at its Curie temperature', 'A highly linear positive temperature coefficient (PTC)', 'A negative temperature coefficient (NTC) similar to metal-oxide thermistors'],
+        ans: 2,
+        explanation: 'RTDs made of platinum are conductors that feature a highly linear positive temperature coefficient (PTC = +0.385 Ω/°C for Pt100).'
+      },
+      {
+        id: 4,
+        cat: 'transducer',
+        q: 'Which sensor uses the Seebeck effect to generate a thermoelectric voltage proportional to the temperature difference between two dissimilar metal junctions?',
+        options: ['Resistance Temperature Detector (RTD)', 'Thermocouple', 'Thermistor', 'Semiconductor LM35'],
+        ans: 1,
+        explanation: 'The Seebeck effect occurs at the joined ends of two dissimilar metals, producing a voltage proportional to temperature difference.'
+      },
+      {
+        id: 5,
+        cat: 'transducer',
+        q: 'A Negative Temperature Coefficient (NTC) thermistor is used in an HVAC control system in a commercial building in Pasig City. If the temperature rises from 25°C to 50°C, the thermistor resistance will:',
+        options: ['Increase linearly', 'Remain constant', 'Decrease exponentially', 'Increase exponentially'],
+        ans: 2,
+        explanation: 'NTC thermistors are metal-oxide semiconductors governed by the exponential equation R = R0 * exp[beta*(1/T1 - 1/T0)], causing resistance to drop exponentially.'
+      },
+      {
+        id: 6,
+        cat: 'transducer',
+        q: 'What is the working principle of a thermocouple?',
+        options: ['Electromagnetic Induction', 'Seebeck Effect', 'Piezoelectric Effect', 'Faraday\'s Law'],
+        ans: 1,
+        explanation: 'Thermocouples operate strictly on the Seebeck thermoelectric effect.'
+      },
+      {
+        id: 7,
+        cat: 'transducer',
+        q: 'Which physical effect is the primary operating principle behind a photodiode?',
+        options: ['The Seebeck Effect', 'The Photoelectric Effect', 'The Hall effect', 'The Piezoelectric Effect'],
+        ans: 1,
+        explanation: 'Incident light photons excite electron-hole pairs across the pn-junction via the internal photoelectric effect.'
+      },
+      {
+        id: 8,
+        cat: 'transducer',
+        q: 'Which optoelectronic device is designed specifically to emit a coherent, monochromatic beam of light?',
+        options: ['Laser diode', 'Photovoltaic cell', 'Light Emitting Diode (LED)', 'Phototransistor'],
+        ans: 0,
+        explanation: 'Laser diodes emit stimulated, coherent, monochromatic light, whereas standard LEDs emit spontaneous, incoherent light.'
+      },
+      {
+        id: 9,
+        cat: 'transducer',
+        q: 'A semiconductor light sensor whose internal electrical resistance decreases as the intensity of incident light increases is classified as a:',
+        options: ['Phototransistor', 'Photoconductive cell (LDR)', 'Light Emitting Diode (LED)', 'APD'],
+        ans: 1,
+        explanation: 'Light Dependent Resistors (LDRs) or photoconductive CdS cells drop resistance when illuminated.'
+      },
+      {
+        id: 10,
+        cat: 'transducer',
+        q: 'In a photodiode, maximum response speed and fast switching times are achieved when the diode is operated under which bias condition?',
+        options: ['Forward bias', 'Reverse bias', 'Unbiased (Zero bias)', 'Alternating current (AC) bias'],
+        ans: 1,
+        explanation: 'Reverse biasing widens the depletion region, minimizes junction capacitance (Cj), and maximizes carrier drift velocity, allowing fast high-bandwidth response.'
+      },
+      {
+        id: 11,
+        cat: 'transducer',
+        q: 'What is the definition of photodiode responsivity R?',
+        options: ['Ratio of output current to input optical power: R = Ip / P', 'Ratio of optical power to output current', 'Voltage divided by resistance', 'Dark current divided by saturation current'],
+        ans: 0,
+        explanation: 'Responsivity R = Ip / P (measured in A/W), which equals (eta * q * lambda) / (h * c).'
+      },
+      {
+        id: 12,
+        cat: 'transducer',
+        q: 'A PIN photodiode deployed in an optical sensing node in Clark Freeport Zone has a responsivity of 0.85 A/W at 1310 nm. If an incident optical power of 20 µW strikes the active area, what is the resulting photocurrent?',
+        options: ['8.5 µA', '17 µA', '23.5 µA', '40 µA'],
+        ans: 1,
+        explanation: 'Ip = R * P = (0.85 A/W) * (20 * 10^-6 W) = 17 * 10^-6 A = 17 µA.'
+      },
+      {
+        id: 13,
+        cat: 'transducer',
+        q: 'In a Piezoelectric transducer, what happens when a mechanical force is applied to the crystal?',
+        options: ['The resistance of the crystal drops to zero', 'The crystal becomes magnetic', 'A voltage/charge is generated across the faces of the crystal', 'The crystal changes color based on temperature'],
+        ans: 2,
+        explanation: 'Mechanical stress distorts the crystal lattice dipole moments, creating surface charge and voltage.'
+      },
+      {
+        id: 14,
+        cat: 'plc',
+        q: 'In a PLC, which component is responsible for executing the logic based on the input conditions?',
+        options: ['Input Module', 'Central Processing Unit (CPU)', 'Output Module', 'Power Supply'],
+        ans: 1,
+        explanation: 'The CPU microprocessor scans user-programmed logic stored in memory and determines output states.'
+      },
+      {
+        id: 15,
+        cat: 'plc',
+        q: 'A key difference between a PLC and a general-purpose microcontroller is that a PLC is designed for industrial environments. What is a specific design feature reflecting this?',
+        options: ['Ruggedized hardware, built-in optical isolation, and modular design for field I/O', 'Higher clock speeds for complex mathematical calculations', 'Lower operating voltage for energy efficiency', 'An operating system that allows for multitasking and complex graphical user interfaces'],
+        ans: 0,
+        explanation: 'PLCs feature hardened EMC/EMI enclosures, optical electrical isolation on I/O ports, and modular field expandability.'
+      },
+      {
+        id: 16,
+        cat: 'plc',
+        q: 'In a PLC system, the term "watchdog timer" refers to a hardware or software mechanism used to:',
+        options: ['Measure the time delay of input field contacts', 'Schedule regular preventative maintenance alerts', 'Detect CPU freezing or program loop execution failure', 'Synchronize real-time clocks between network nodes'],
+        ans: 2,
+        explanation: 'A watchdog timer (WDT) trips and de-energizes field outputs if the PLC program cycle fails to complete within a specified preset time.'
+      },
+      {
+        id: 17,
+        cat: 'plc',
+        q: 'In industrial PLC interfacing, an input module designed to detect discrete field devices such as pushbuttons, limit switches, and proximity sensors operating at 24 V DC or 220 V AC is classified as a:',
+        options: ['Analog Input Module', 'Pulse Width Modulation (PWM) Module', 'Digital (Discrete) Input Module', 'Thermocouple Input Module'],
+        ans: 2,
+        explanation: 'Discrete/digital input modules detect binary ON/OFF signals at standard industrial voltage ratings.'
+      },
+      {
+        id: 18,
+        cat: 'plc',
+        q: 'An analog input module of a PLC installed in a water treatment facility in Maynilad, Manila accepts a 0 - 10 V DC voltage input and uses a 12-bit ADC. What is the voltage resolution (Voltage per LSB) of this module?',
+        options: ['1.22 mV', '2.44 mV', '4.88 mV', '9.76 mV'],
+        ans: 1,
+        explanation: 'Resolution = V_fs / (2^n) = 10 V / (2^12) = 10 V / 4096 = 0.0024414 V = 2.44 mV.'
+      },
+      {
+        id: 19,
+        cat: 'plc',
+        q: 'Which of the following describes the correct order of a standard PLC scan cycle?',
+        options: ['Read inputs, execute program, diagnostics/comms, write outputs', 'Read inputs, diagnostics, execute program, write outputs', 'Diagnostics, write outputs, execute program, read inputs', 'Read inputs, write outputs, diagnostics, execute program'],
+        ans: 0,
+        explanation: 'Standard order: 1. Input Scan (Read Inputs) -> 2. Program Execution (Logic Scan) -> 3. Diagnostics & Communications -> 4. Output Scan (Write Outputs).'
+      },
+      {
+        id: 20,
+        cat: 'plc',
+        q: 'In a PLC scan cycle, updating physical output field devices occurs during the:',
+        options: ['Input scan phase', 'Logic execution phase', 'Output scan phase', 'Housekeeping diagnostic phase'],
+        ans: 2,
+        explanation: 'Physical output terminals are only updated at the end during the dedicated Output Scan phase from the internal output image table.'
+      },
+      {
+        id: 21,
+        cat: 'transducer',
+        q: 'What is the primary role of an Linear Variable Differential Transformer (LVDT)?',
+        options: ['Measures temperature differences', 'Measures linear displacement via differential AC induction', 'Generates optical pulses', 'Converts AC directly into DC power'],
+        ans: 1,
+        explanation: 'LVDTs measure precise linear displacement with high resolution and frictionless magnetic core motion.'
+      },
+      {
+        id: 22,
+        cat: 'plc',
+        q: 'Which IEC 61131-3 standard programming language uses graphical contacts and coils arranged in horizontal rungs?',
+        options: ['Function Block Diagram (FBD)', 'Structured Text (ST)', 'Ladder Diagram (LD)', 'Sequential Function Chart (SFC)'],
+        ans: 2,
+        explanation: 'Ladder Diagram (LD) uses horizontal rungs between power rails with contacts and coils.'
+      },
+      {
+        id: 23,
+        cat: 'plc',
+        q: 'Which PLC programming language is most widely used in the industry because it resembles traditional hard-wired relay logic schematics?',
+        options: ['Sequential Function Chart', 'Structured Text', 'Ladder Diagram', 'Instruction List'],
+        ans: 2,
+        explanation: 'Ladder Diagram (LD) remains dominant because electricians and technicians can easily understand it.'
+      },
+      {
+        id: 24,
+        cat: 'bms',
+        q: 'Which of the following actions is NOT typically performed by a BMS energy management module to reduce peak demand charges?',
+        options: ['Load shedding of non-essential equipment', 'Modulating chilled water setpoints during high-demand periods', 'Staggering the startup times of heavy HVAC equipment', 'Disabling fire detection loops during office hours'],
+        ans: 3,
+        explanation: 'Disabling fire detection loops is strictly illegal and violates all life-safety codes.'
+      },
+      {
+        id: 25,
+        cat: 'bms',
+        q: 'Which of the following is a key advantage of deploying cloud-based BMS over traditional on-premise BMS architectures?',
+        options: ['Complete elimination of field sensor wiring', 'Direct physical control without local Direct Digital Controllers (DDCs)', 'Remote access and centralized multi-site management', 'Zero vulnerability to internet connectivity disruptions'],
+        ans: 2,
+        explanation: 'Cloud BMS allows real-time global monitoring, multi-facility aggregation, and remote mobile access.'
+      },
+      {
+        id: 26,
+        cat: 'bms',
+        q: 'The integration of sub-metering systems into a BMS enables building managers to:',
+        options: ['Bill individual tenants accurately based on actual consumption', 'Increase the operating frequency of electric motors beyond rating', 'Bypass utility electricity meters during peak hours', 'Measure outdoor atmospheric pressure continuously'],
+        ans: 0,
+        explanation: 'Sub-metering allocates real energy/water costs to respective individual department or tenant spaces.'
+      },
+      {
+        id: 27,
+        cat: 'bms',
+        q: 'Which of the following building systems is NOT typically controlled by a BMS (Building Management System)?',
+        options: ['Heating, Ventilation, and Air Conditioning (HVAC)', 'Structural Foundation Design', 'Lighting and Energy Management', 'Fire Alarm and Security Systems'],
+        ans: 1,
+        explanation: 'Structural foundation design is civil engineering, not an automated active electromechanical building service.'
+      },
+      {
+        id: 28,
+        cat: 'bms',
+        q: 'What is the primary goal of integrating a Building Management System (BMS) with an HVAC system?',
+        options: ['To make the building as cold as possible', 'To replace all mechanical components with electronic ones', 'To automate and optimize energy consumption while maintaining comfort', 'To manually control all HVAC devices from a central location'],
+        ans: 2,
+        explanation: 'HVAC integration delivers optimal comfort and IAQ at minimum energy footprint.'
+      },
+      {
+        id: 29,
+        cat: 'bms',
+        q: 'In BMS design, why is "Fail-Safe" logic used for electronic door locks in fire emergencies?',
+        options: ['To save energy by turning off locks during an evacuation', 'To keep doors locked even when power fails for maximum security', 'To prevent the BMS from being hacked during an alarm', 'To ensure doors automatically unlock when power is lost or a fire signal is received'],
+        ans: 3,
+        explanation: 'Fail-Safe means doors unlatch immediately upon power loss or alarm receipt so occupants are not trapped inside during fires.'
+      },
+      {
+        id: 30,
+        cat: 'bms',
+        q: 'When integrating FDAS into a BMS for a Smart Building, what is the purpose of "Supervisory" signals compared to "Alarm" signals?',
+        options: ['Supervisory signals are for the BMS, while alarm signals are for the fire department', 'There is no difference; terms are interchangeable', 'Supervisory signals indicate a problem with a safety subsystem while alarms indicate an active emergency', 'Supervisory signals indicate the battery is low while alarms indicate smoke'],
+        ans: 2,
+        explanation: 'Alarms represent life-threatening fire events; supervisory signals indicate subsystem trouble (e.g., closed sprinkler gate valves).'
+      },
+      {
+        id: 31,
+        cat: 'bms',
+        q: 'When a fire alarm condition is confirmed by the Fire Alarm Control Panel (FACP) integrated with a BMS, the HVAC system is usually commanded to:',
+        options: ['Maximize outdoor air intake across all floors', 'Shut down supply fans and close fire/smoke dampers', 'Switch to full heating mode to exhaust smoke', 'Increase duct static pressure to purge air from stairwells'],
+        ans: 1,
+        explanation: 'Supply air fans must stop and dampers must shut to deny oxygen and isolate toxic smoke propagation.'
+      },
+      {
+        id: 32,
+        cat: 'bms',
+        q: 'As recommended by PEC Book 2, for flat ceilings with a height of not more than 4 m, smoke detector spacing shall not be more than:',
+        options: ['6 m', '7 m', '8 m', '9 m'],
+        ans: 3,
+        explanation: 'Under Philippine Electronics Code Book 2, maximum smoke detector spacing on flat ceilings $\\le 4\\text{ m}$ is exactly 9.0 meters.'
+      },
+      {
+        id: 33,
+        cat: 'bms',
+        q: 'Under PEC Book 2 (FDAS), what is the maximum allowable horizontal distance between any point on a floor area and the nearest manual fire alarm pull station (MFAS)?',
+        options: ['15.0 m', '30.0 m', '45.0 m', '60.0 m'],
+        ans: 1,
+        explanation: 'The maximum allowable horizontal travel distance to the nearest MFAS pull station is 30.0 meters.'
+      },
+      {
+        id: 34,
+        cat: 'transducer',
+        q: 'Which temperature sensor is best suited for extreme temperature measurements up to 1800°C?',
+        options: ['Thermocouple', 'Pt100 RTD', 'LM35', 'NTC Thermistor'],
+        ans: 0,
+        explanation: 'Thermocouples (such as Type B, R, S) handle high-temperature industrial furnaces up to and above 1800°C.'
+      },
+      {
+        id: 35,
+        cat: 'bms',
+        q: 'In an intelligent addressable Fire Detection and Alarm System (FDAS) integrated with a BMS, what is the minimum primary backup battery operating requirement specified by PEC Book 2?',
+        options: ['12 hours standby, followed by 5 minutes of full alarm', '24 hours standby, followed by 5 minutes of full alarm', '48 hours standby, followed by 30 minutes of full alarm', '72 hours standby, followed by 1 hour of full alarm'],
+        ans: 1,
+        explanation: 'PEC Book 2 specifies a minimum battery reserve of 24 hours of normal supervisory/standby operation, followed by 5 minutes of full evacuation alarm.'
+      },
+      {
+        id: 36,
+        cat: 'bms',
+        q: 'According to PEC Book 2, what is the required mounting height for a Manual Fire Alarm Station (MFAS) measured from finished floor level to the center of the handle?',
+        options: ['0.6 to 0.8 meters', '1.1 to 1.4 meters', '1.8 to 2.1 meters', '2.5 to 3.0 meters'],
+        ans: 1,
+        explanation: 'PEC Book 2 sets the MFAS operating handle mounting height at 1.1 to 1.4 meters above finished floor level for accessibility.'
+      },
+      {
+        id: 37,
+        cat: 'bms',
+        q: 'According to Book 2 of the Philippine Electronics Code, an alarm zone should have a maximum floor area of:',
+        options: ['400 sq. m', '600 sq. m', '800 sq. m', '1000 sq. m'],
+        ans: 2,
+        explanation: 'The maximum floor area allowable for a single fire alarm detection zone under PEC Book 2 is 800 sq. meters.'
+      },
+      {
+        id: 38,
+        cat: 'bms',
+        q: 'In IP video surveillance design, what video compression standard reduces network bandwidth and storage requirements by up to 50% compared to H.264?',
+        options: ['MJPEG', 'H.265 (HEVC)', 'MPEG 2', 'GIF'],
+        ans: 1,
+        explanation: 'H.265 (High-Efficiency Video Coding) delivers up to 50% bitrate reduction compared to H.264 at equivalent visual clarity.'
+      },
+      {
+        id: 39,
+        cat: 'plc',
+        q: 'In a SCADA network operating a water distribution plant, what field device directly interfaces with physical sensors and actuators to execute local control and send telemetry to the MTU?',
+        options: ['Human-Machine Interface (HMI)', 'Remote Terminal Unit (RTU) / PLC', 'Historian Server', 'Engineering Workstation'],
+        ans: 1,
+        explanation: 'The RTU (or local PLC) directly links to field instrumentation, performing local automated sequences and reporting telemetry to the central MTU.'
+      },
+      {
+        id: 40,
+        cat: 'line',
+        q: 'The process of converting digital data into digital signals for transmission is called:',
+        options: ['Line Coding', 'Serial Coding', 'Parallel Coding', 'Source Demodulation'],
+        ans: 0,
+        explanation: 'Line coding transforms a sequence of bits into discrete voltage waveforms suited for transmission media.'
+      },
+      {
+        id: 41,
+        cat: 'line',
+        q: 'In digital communications, what is the defining characteristic of a Non-Return-to-Zero (NRZ) line code?',
+        options: ['The signal level returns to 0 V at the midpoint of every bit period', 'The signal level remains constant throughout the entire duration of the bit period', 'The signal pulses alternate polarity on every logic 1 bit', 'The signal uses three discrete voltage levels'],
+        ans: 1,
+        explanation: 'NRZ schemes do not return to zero during the bit interval; the voltage holds steady across the entire bit duration.'
+      },
+      {
+        id: 42,
+        cat: 'line',
+        q: 'In line coding schemes, which scheme family uses voltage levels that oscillate between positive and negative values (bipolarity with zero baseline)?',
+        options: ['Polar Schemes', 'Unipolar Schemes', 'Bipolar Schemes', 'Nonpolar Schemes'],
+        ans: 2,
+        explanation: 'Bipolar schemes (e.g. AMI, Pseudoternary) employ three discrete levels: positive (+V), zero (0V), and negative (-V).'
+      },
+      {
+        id: 43,
+        cat: 'line',
+        q: 'Which line coding technique inverts the voltage level at the beginning of a bit period when a logic 1 is transmitted, but maintains current voltage for logic 0?',
+        options: ['NRZ-L', 'NRZ-I', 'Manchester Code', 'Bipolar AMI'],
+        ans: 1,
+        explanation: 'NRZ-I (Non-Return-to-Zero Invert on 1) triggers a level transition only at the start of a bit that represents binary 1.'
+      },
+      {
+        id: 44,
+        cat: 'line',
+        q: 'In which line coding scheme does the voltage level directly determine the binary value of the bit?',
+        options: ['NRZ-I', 'NRZ-L', 'Manchester', '2B1Q'],
+        ans: 1,
+        explanation: 'NRZ-L (Level) uses voltage levels directly (e.g., positive for 0, negative for 1).'
+      },
+      {
+        id: 45,
+        cat: 'line',
+        q: 'Which line coding scheme represents binary "0" as a transition from high to low and binary "1" as a transition from low to high in the middle of each bit interval?',
+        options: ['Polar NRZ-L', 'Bipolar AMI', 'Manchester Coding', 'Differential NRZ'],
+        ans: 2,
+        explanation: 'Manchester coding uses a mid-bit transition for synchronization and data: 0 = High-to-Low; 1 = Low-to-High.'
+      },
+      {
+        id: 46,
+        cat: 'line',
+        q: 'In Differential Manchester encoding, what triggers a transition at the beginning of a bit interval?',
+        options: ['Binary 0', 'Binary 1', 'Either 0 or 1', 'No transition occurs at the boundary'],
+        ans: 0,
+        explanation: 'In Differential Manchester, a transition at the beginning of the bit signifies a binary 0; absence of transition signifies a binary 1.'
+      },
+      {
+        id: 47,
+        cat: 'line',
+        q: 'What is the main trade-off/disadvantage of Manchester line coding compared to NRZ coding for a given data rate?',
+        options: ['Manchester coding introduces a heavy DC bias', 'Manchester coding cannot be used over optical fiber', 'Manchester coding requires twice (2x) the bandwidth of NRZ', 'Manchester coding is highly vulnerable to baseline wander'],
+        ans: 2,
+        explanation: 'Because Manchester forces a transition at every mid-bit interval, its baud rate equals the bit rate (S = N), requiring double the Nyquist bandwidth of NRZ (where S = N/2).'
+      },
+      {
+        id: 48,
+        cat: 'line',
+        q: 'In which line coding family do we use three signal levels: positive, zero, and negative?',
+        options: ['Polar', 'Bipolar', 'Unipolar', 'Nonpolar'],
+        ans: 1,
+        explanation: 'Bipolar line coding (e.g. AMI) utilizes +V, 0V, and -V.'
+      },
+      {
+        id: 49,
+        cat: 'line',
+        q: 'The line coding scheme that uses 2-bit patterns and encodes them as one signal element belonging to a four-level signal is known as:',
+        options: ['4B5B', 'B8ZS', '2B1Q', 'HDB3'],
+        ans: 2,
+        explanation: '2B1Q (2 Binary, 1 Quaternary) encodes pairs of bits into 4 voltage levels (-3V, -1V, +1V, +3V), effectively cutting the transmission signal rate in half.'
+      },
+      {
+        id: 50,
+        cat: 'line',
+        q: 'In Bipolar Alternate Mark Inversion (AMI), how are binary 1s transmitted?',
+        options: ['As a constant positive voltage', 'By alternating between positive (+V) and negative (-V) pulses', 'Using a zero-level voltage', 'As a transition in the middle of the bit'],
+        ans: 1,
+        explanation: 'In AMI, binary 0 is represented by zero volts (0V), while binary 1s (marks) strictly alternate polarity between positive and negative.'
+      }
+    ];
+
+    function renderQuestions(items) {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
+
+      items.forEach(q => {
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3';
+        card.id = `q-card-${q.id}`;
+
+        let optionsHtml = '';
+        q.options.forEach((opt, idx) => {
+          const isCorrect = idx === q.ans;
+          optionsHtml += `
+            <div class="p-2.5 rounded-lg border text-xs flex items-start gap-2.5 transition-colors ${
+              isCorrect ? 'bg-emerald-950/40 border-emerald-700/60 text-emerald-200 font-medium' : 'bg-slate-950/60 border-slate-800/80 text-slate-400'
+            }">
+              <span class="w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                isCorrect ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+              }">${String.fromCharCode(65 + idx)}</span>
+              <span>${opt} ${isCorrect ? '<i class="fa-solid fa-check ml-1 text-emerald-400"></i>' : ''}</span>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+            <span class="font-mono text-xs font-bold text-sky-400">QUESTION ${q.id.toString().padStart(2, '0')}</span>
+            <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-300">${q.cat}</span>
+          </div>
+          <p class="text-xs font-medium text-slate-200 leading-relaxed">${q.q}</p>
+          <div class="space-y-1.5">${optionsHtml}</div>
+          <div class="p-2.5 bg-slate-950/90 rounded-lg border border-slate-800/90 text-[11px] text-slate-400 leading-normal">
+            <span class="font-semibold text-slate-300"><i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> Rationale:</span> ${q.explanation}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Render math formulas inside newly added DOM
+      if (window.renderMathInElement) {
+        renderMathInElement(container, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    // Filter questions by topic
+    function filterQuestions(category) {
+      if (category === 'all') {
+        renderQuestions(examQuestions);
+      } else {
+        const filtered = examQuestions.filter(q => q.cat === category);
+        renderQuestions(filtered);
+      }
+    }
+
+    // Global real-time search
+    document.getElementById('globalSearch').addEventListener('input', function(e) {
+      const term = e.target.value.toLowerCase().trim();
+      if (!term) {
+        renderQuestions(examQuestions);
+        return;
+      }
+      const matches = examQuestions.filter(item => 
+        item.q.toLowerCase().includes(term) ||
+        item.explanation.toLowerCase().includes(term) ||
+        item.options.some(opt => opt.toLowerCase().includes(term))
+      );
+      renderQuestions(matches);
+    });
+
+    function calculatePhotocurrent() {
+      const r = parseFloat(document.getElementById('calcR').value) || 0;
+      const pMicro = parseFloat(document.getElementById('calcP').value) || 0;
+      const pWatts = pMicro * 1e-6;
+      const ipAmps = r * pWatts;
+      const ipMicro = ipAmps * 1e6;
+      document.getElementById('calcResultIp').innerText = `Ip = ${ipMicro.toFixed(2)} µA`;
+    }
+
+    function calculateADCResolution() {
+      const vfs = parseFloat(document.getElementById('calcVfs').value) || 0;
+      const bits = parseInt(document.getElementById('calcBits').value) || 0;
+      const levels = Math.pow(2, bits);
+      const resVolts = vfs / levels;
+      const resMilliVolts = resVolts * 1000;
+      document.getElementById('calcResultADC').innerText = `Res = ${resMilliVolts.toFixed(2)} mV`;
+    }
+
+    // Initialization on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions(examQuestions);
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    });
+  </script>
+</body>
+</html>
